@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Project.Components.Scripts
 {
+    [DisallowMultipleComponent]
     public class EnemyManager : MonoBehaviour
     {
         public List<EnemyBase> enemies = new List<EnemyBase>();

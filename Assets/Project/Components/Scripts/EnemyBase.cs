@@ -2,6 +2,7 @@
 
 namespace Project.Components.Scripts
 {
+    [DisallowMultipleComponent]
     [RequireComponent(typeof(Collider2D), typeof(Rigidbody2D))]
     public abstract class EnemyBase : MonoBehaviour
     {
@@ -19,7 +20,7 @@ namespace Project.Components.Scripts
             Rb2D = GetComponent<Rigidbody2D>(); // Получение компонента Rigidbody2D
             ObjectCollider = GetComponent<Collider2D>(); // Получение компонента Collider2D
         }
-        
+
         protected virtual void Start()
         {
             CollectCameraParameters(Camera.main);
@@ -36,13 +37,12 @@ namespace Project.Components.Scripts
             ScreenWidth = _camera.orthographicSize * _camera.aspect * 2f; // Получение ширины экрана
             ScreenHeight = _camera.orthographicSize * 2f; // Получение высоты экрана
         }
-        
+
         public abstract void Move();
-        
+
         protected Vector2 GetRandomDirection()
         {
             return Random.insideUnitCircle.normalized;
         }
-        
     }
 }
