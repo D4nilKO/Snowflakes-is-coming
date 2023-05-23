@@ -4,9 +4,6 @@ namespace Project.Components.Scripts
 {
     public class StandardEnemy : EnemyBase
     {
-        private float objectHeight;
-        private float objectWidth;
-
         protected override void Start()
         {
             base.Start();
@@ -17,18 +14,15 @@ namespace Project.Components.Scripts
         {
             Vector2 currentPosition = Rb2D.position;
             Vector2 newPosition = currentPosition + Direction * (speed * Time.fixedDeltaTime);
-            var bounds = ObjectCollider.bounds;
-            objectWidth = bounds.size.x;
-            objectHeight = bounds.size.y;
 
-            if (newPosition.x < -ScreenWidth / 2f + objectWidth / 2f ||
-                newPosition.x > ScreenWidth / 2f - objectWidth / 2f)
+            if (newPosition.x < -ScreenWidth / 2f + ObjectWidth / 2f ||
+                newPosition.x > ScreenWidth / 2f - ObjectWidth / 2f)
             {
                 ReflectHorizontal(ref newPosition);
             }
 
-            if (newPosition.y < -ScreenHeight / 2f + objectHeight / 2f ||
-                newPosition.y > ScreenHeight / 2f - objectHeight / 2f)
+            if (newPosition.y < -ScreenHeight / 2f + ObjectHeight / 2f ||
+                newPosition.y > ScreenHeight / 2f - ObjectHeight / 2f)
             {
                 ReflectVertical(ref newPosition);
             }
