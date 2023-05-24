@@ -43,7 +43,8 @@ namespace VavilichevGD.Utils.Timing
 #if DEBUG
 				Debug.LogError("TIMER: You are trying start timer with remaining seconds equal 0.");
 #endif
-				TimerFinished?.Invoke();
+				//TimerFinished?.Invoke();
+				return;
 			}
 
 			isActive = true;

@@ -5,9 +5,9 @@ using UnityEngine;
 namespace Project.Components.Scripts
 {
     [DisallowMultipleComponent]
-    public class EnemyManager : MonoBehaviour
+    public class EnemyMover : MonoBehaviour
     {
-        static public List<EnemyBase> enemies = new List<EnemyBase>();
+        public List<EnemyBase> enemies;
 
         private void Start()
         {
@@ -20,7 +20,10 @@ namespace Project.Components.Scripts
             for (var index = 0; index < enemies.Count; index++)
             {
                 var enemy = enemies[index];
-                enemy.Move();
+                if (enemy.isActiveAndEnabled)
+                {
+                    enemy.Move();
+                }
             }
         }
     }

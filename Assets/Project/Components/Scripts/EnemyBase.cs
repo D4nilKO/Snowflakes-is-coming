@@ -19,6 +19,7 @@ namespace Project.Components.Scripts
             {
                 gameObject.transform.localScale = new Vector3(value, value, 1f);
                 _size = value;
+                TakeObjectSize();
             }
         }
         
@@ -58,7 +59,7 @@ namespace Project.Components.Scripts
             Rb2D.velocity = Direction * speed; // Установка начальной скорости
         }
 
-        protected void TakeObjectSize()
+        private void TakeObjectSize()
         {
             var bounds = ObjectCollider.bounds;
             ObjectWidth = bounds.size.x;
