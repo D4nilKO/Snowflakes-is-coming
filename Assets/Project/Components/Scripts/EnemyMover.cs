@@ -23,6 +23,7 @@ namespace Project.Components.Scripts
                 if (enemy.isActiveAndEnabled)
                 {
                     enemy.Move();
+                    enemy.Rotate();
                 }
             }
         }

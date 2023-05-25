@@ -8,8 +8,17 @@ namespace Project.Components.Scripts
     [RequireComponent(typeof(Collider2D), typeof(Rigidbody2D))]
     public abstract class EnemyBase : MonoBehaviour
     {
-        [Range(0f, 20f)] public float speed = 5f; // Скорость движения объекта
-
+        [Range(0f, 20f)] public float speed = 5f;
+        
+        [Header("Вращение")]
+        [SerializeField] 
+        private bool rotateEnabled;
+        
+        [SerializeField] [Range(1f, 500f)] 
+        
+        private float rotationSpeed = 10f;
+        private Quaternion targetRotation;
+        
         private const float StandardSize = 0.2f;
         private float _size;
         public float Size
@@ -23,9 +32,9 @@ namespace Project.Components.Scripts
             }
         }
         
-        private protected Vector2 Direction; // Направление движения
-        private protected Rigidbody2D Rb2D; // Компонент Rigidbody2D
-        private protected Collider2D ObjectCollider; // Компонент Collider2D
+        private protected Vector2 Direction;
+        private protected Rigidbody2D Rb2D;
+        private protected Collider2D ObjectCollider;
 
         protected static float ScreenWidth;
         protected static float ScreenHeight;
@@ -35,8 +44,8 @@ namespace Project.Components.Scripts
 
         protected virtual void Awake()
         {
-            Rb2D = GetComponent<Rigidbody2D>(); // Получение компонента Rigidbody2D
-            ObjectCollider = GetComponent<Collider2D>(); // Получение компонента Collider2D
+            Rb2D = GetComponent<Rigidbody2D>();
+            ObjectCollider = GetComponent<Collider2D>();
             Size = StandardSize;
         }
 
@@ -44,6 +53,7 @@ namespace Project.Components.Scripts
         {
             TakeObjectSize();
             UpdateRbVelocity();
+            targetRotation = transform.rotation;
         }
 
         private void OnEnable()
@@ -53,6 +63,17 @@ namespace Project.Components.Scripts
         }
 
         public abstract void Move();
+        
+        public virtual void Rotate()
+        {
+            if (!rotateEnabled) return;
+            var newRotation = targetRotation.eulerAngles.z + (rotationSpeed * Time.fixedDeltaTime);
+
+            targetRotation = Quaternion.Euler(0f, 0f, newRotation);
+
+            transform.rotation =
+                Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
+        }
 
         protected virtual void UpdateRbVelocity()
         {
