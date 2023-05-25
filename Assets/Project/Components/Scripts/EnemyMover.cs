@@ -12,7 +12,6 @@ namespace Project.Components.Scripts
         private void Start()
         {
             enemies = FindObjectsOfType<EnemyBase>().ToList();
-            EnemyBase.TakeCameraSize(Camera.main);
         }
 
         private void FixedUpdate()
