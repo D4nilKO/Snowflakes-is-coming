@@ -17,14 +17,10 @@ namespace Project.Components.Scripts
 
         private void FixedUpdate()
         {
-            for (var index = 0; index < enemies.Count; index++)
+            foreach (var enemy in enemies.Where(enemy => enemy.isActiveAndEnabled))
             {
-                var enemy = enemies[index];
-                if (enemy.isActiveAndEnabled)
-                {
-                    enemy.Move();
-                    enemy.Rotate();
-                }
+                enemy.Move();
+                enemy.Rotate();
             }
         }
     }

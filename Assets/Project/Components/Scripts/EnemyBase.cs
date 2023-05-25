@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Project.Components.Scripts
@@ -8,19 +7,20 @@ namespace Project.Components.Scripts
     [RequireComponent(typeof(Collider2D), typeof(Rigidbody2D))]
     public abstract class EnemyBase : MonoBehaviour
     {
-        [Range(0f, 20f)] public float speed = 5f;
-        
-        [Header("Вращение")]
-        [SerializeField] 
+        [Header("Скорость")] [SerializeField] [Range(0f, 20f)]
+        protected float speed = 5f;
+
+        [Header("Вращение")] [SerializeField] 
         private bool rotateEnabled;
-        
-        [SerializeField] [Range(1f, 500f)] 
-        
+
+        [Header("Скорость вращения")] [SerializeField] [Range(1f, 500f)]
         private float rotationSpeed = 10f;
+
         private Quaternion targetRotation;
-        
+
         private const float StandardSize = 0.2f;
         private float _size;
+
         public float Size
         {
             get => _size;
@@ -31,21 +31,21 @@ namespace Project.Components.Scripts
                 TakeObjectSize();
             }
         }
-        
+
         private protected Vector2 Direction;
         private protected Rigidbody2D Rb2D;
-        private protected Collider2D ObjectCollider;
+        private Collider2D objectCollider;
 
         protected static float ScreenWidth;
         protected static float ScreenHeight;
-        
+
         private protected float ObjectHeight;
         private protected float ObjectWidth;
 
         protected virtual void Awake()
         {
             Rb2D = GetComponent<Rigidbody2D>();
-            ObjectCollider = GetComponent<Collider2D>();
+            objectCollider = GetComponent<Collider2D>();
             Size = StandardSize;
         }
 
@@ -63,6 +63,22 @@ namespace Project.Components.Scripts
         }
 
         public abstract void Move();
+
+        protected virtual void ReflectHorizontal(ref Vector2 position)
+        {
+            Direction = new Vector2(-Direction.x, Direction.y);
+            var bounds = objectCollider.bounds;
+            position.x = Mathf.Clamp(position.x, -ScreenWidth / 2f + bounds.extents.x,
+                ScreenWidth / 2f - bounds.extents.x);
+        }
+
+        protected virtual void ReflectVertical(ref Vector2 position)
+        {
+            Direction = new Vector2(Direction.x, -Direction.y);
+            var bounds = objectCollider.bounds;
+            position.y = Mathf.Clamp(position.y, -ScreenHeight / 2f + bounds.extents.y,
+                ScreenHeight / 2f - bounds.extents.y);
+        }
         
         public virtual void Rotate()
         {
@@ -82,7 +98,7 @@ namespace Project.Components.Scripts
 
         private void TakeObjectSize()
         {
-            var bounds = ObjectCollider.bounds;
+            var bounds = objectCollider.bounds;
             ObjectWidth = bounds.size.x;
             ObjectHeight = bounds.size.y;
         }

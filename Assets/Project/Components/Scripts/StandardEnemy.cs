@@ -15,35 +15,26 @@ namespace Project.Components.Scripts
             Vector2 currentPosition = Rb2D.position;
             Vector2 newPosition = currentPosition + Direction * (speed * Time.fixedDeltaTime);
 
-            if (newPosition.x < -ScreenWidth / 2f + ObjectWidth / 2f ||
-                newPosition.x > ScreenWidth / 2f - ObjectWidth / 2f)
-            {
-                ReflectHorizontal(ref newPosition);
-            }
-
-            if (newPosition.y < -ScreenHeight / 2f + ObjectHeight / 2f ||
-                newPosition.y > ScreenHeight / 2f - ObjectHeight / 2f)
-            {
-                ReflectVertical(ref newPosition);
-            }
-
+            CheckOutOfBounds(ref newPosition);
+            
             Rb2D.MovePosition(newPosition);
         }
 
-        private void ReflectHorizontal(ref Vector2 position)
+        private void CheckOutOfBounds(ref Vector2 _newPosition)
         {
-            Direction = new Vector2(-Direction.x, Direction.y);
-            var bounds = ObjectCollider.bounds;
-            position.x = Mathf.Clamp(position.x, -ScreenWidth / 2f + bounds.extents.x,
-                ScreenWidth / 2f - bounds.extents.x);
+            if (_newPosition.x < -ScreenWidth / 2f + ObjectWidth / 2f ||
+                _newPosition.x > ScreenWidth / 2f - ObjectWidth / 2f)
+            {
+                ReflectHorizontal(ref _newPosition);
+            }
+
+            if (_newPosition.y < -ScreenHeight / 2f + ObjectHeight / 2f ||
+                _newPosition.y > ScreenHeight / 2f - ObjectHeight / 2f)
+            {
+                ReflectVertical(ref _newPosition);
+            }
         }
 
-        private void ReflectVertical(ref Vector2 position)
-        {
-            Direction = new Vector2(Direction.x, -Direction.y);
-            var bounds = ObjectCollider.bounds;
-            position.y = Mathf.Clamp(position.y, -ScreenHeight / 2f + bounds.extents.y,
-                ScreenHeight / 2f - bounds.extents.y);
-        }
+        
     }
 }
