@@ -17,8 +17,7 @@ namespace Project.Components.Scripts
 
         protected float ObjectHeight;
         protected float ObjectWidth;
-
-        [SerializeField] protected float standardSize = 0.2f;
+        
         private float _size;
 
         public float Size
@@ -38,7 +37,7 @@ namespace Project.Components.Scripts
             objectCollider = GetComponent<Collider2D>();
             mainCamera = Camera.main;
             TakeCameraSize(mainCamera);
-            Size = standardSize;
+            Size = gameObject.transform.localScale.x;
         }
 
         protected void TakeObjectSize()

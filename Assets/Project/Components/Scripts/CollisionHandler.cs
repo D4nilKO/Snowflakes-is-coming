@@ -1,40 +1,21 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Project.Components.Scripts
 {
+    [DisallowMultipleComponent]
+    [RequireComponent(typeof(Collider2D), typeof(Rigidbody2D))]
     public class CollisionHandler : MonoBehaviour
     {
-        public GameObject canvasPanel;
-    
-        private bool gamePaused = false;
+        [SerializeField] private ButtonHandler buttonHandler;
 
-        private void OnCollisionEnter2D(Collision2D collision)
+        private void OnTriggerEnter2D(Collider2D col)
         {
-            if (collision.gameObject.GetComponent<Rigidbody2D>() != null && collision.gameObject.GetComponent<Collider2D>().isTrigger)
+            EnemyBase enemyBase;
+            
+            if (col.gameObject.TryGetComponent(out enemyBase))
             {
-                ShowCanvasPanel();
-                PauseGame();
-            }
-        }
-
-        private void ShowCanvasPanel()
-        {
-            canvasPanel.SetActive(true); // Показываем панель на canvas
-        }
-
-        private void PauseGame()
-        {
-            Time.timeScale = 0f; // Останавливаем игру
-            gamePaused = true;
-        }
-
-        public void ResumeGame()
-        {
-            if (gamePaused)
-            {
-                Time.timeScale = 1f; // Возобновляем игру
-                canvasPanel.SetActive(false); // Скрываем панель на canvas
-                gamePaused = false;
+                buttonHandler.LostGame();
             }
         }
     }

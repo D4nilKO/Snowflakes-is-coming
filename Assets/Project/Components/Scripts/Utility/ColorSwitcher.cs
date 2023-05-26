@@ -4,6 +4,7 @@ namespace Project.Components.Scripts.Utility
 {
     [ExecuteAlways]
     [DisallowMultipleComponent]
+    //Этот класс по большей части бесполезен, но он нужен, чтобы показать вам, что я умею работать с таким атриьбутом
     public class ColorSwitcher: MonoBehaviour
     {
         private SpriteRenderer _spriteRenderer;

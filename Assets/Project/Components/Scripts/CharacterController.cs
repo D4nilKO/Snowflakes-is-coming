@@ -5,7 +5,7 @@ namespace Project.Components.Scripts
 {
     public class CharacterController : Entity
     {
-        #region CheckOutOfBounds
+        #region CheckOutOfBoundsFields
         
         private Bounds bounds;
         private float halfObjectWidth;
@@ -37,6 +37,9 @@ namespace Project.Components.Scripts
 
         private void MoveCharacter( )
         {
+            if (Time.timeScale == 0f)
+                return;
+            
             Vector2 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
             CheckOutOfBounds(mousePosition);
         }
