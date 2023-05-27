@@ -7,9 +7,11 @@ namespace Project.Components.Scripts
     {
         [SerializeField] private GameObject gameOverCanvas;
         [SerializeField] private GameObject wonLevelCanvas;
+        private bool gameIsWon;
+
 
         private TimeManager timeManager;
-        
+
         private bool gamePaused;
 
         public void LostGame()
@@ -26,7 +28,7 @@ namespace Project.Components.Scripts
             gamePaused = false;
         }
 
-        public void PauseGame(GameObject canvasToSetActive)
+        void PauseGame(GameObject canvasToSetActive)
         {
             Time.timeScale = 0f;
             canvasToSetActive.SetActive(true);
@@ -41,7 +43,8 @@ namespace Project.Components.Scripts
 
         public void WonLevel()
         {
-            
+            gameIsWon = true;
+            PauseGame(wonLevelCanvas);
         }
     }
 }

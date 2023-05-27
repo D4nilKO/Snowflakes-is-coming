@@ -1,9 +1,7 @@
 ﻿using System.Collections;
 using Project.Components.Scripts;
 using Project.Components.Scripts.Utility;
-using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class TimeManager : MonoBehaviour
 {
@@ -15,10 +13,18 @@ public class TimeManager : MonoBehaviour
 
     [HideInInspector] public int secondCounter;
     [HideInInspector] public int minuteCounter;
+    
+    [HideInInspector][Range(1, 59)] public int secondsToWin;
+    [HideInInspector][Min(0)] public int minutesToWin;
 
     private SurviveTimer gameTime = new();
     private TimerViewer timerViewer;
+    private GameStateMachine gameStateMachine;
 
+    private void Awake()
+    {
+        gameStateMachine = FindObjectOfType<GameStateMachine>();
+    }
 
     private void Start()
     {
@@ -41,8 +47,15 @@ public class TimeManager : MonoBehaviour
         if (secondCounter == gameTime.Second) return;
         secondCounter = gameTime.Second;
 
+        CheckLevelWon();
         
         timerViewer.UpdateMainTimerText(gameTime.FormattedTime());
+    }
+
+    private void CheckLevelWon()
+    {
+        if ((secondsToWin != secondCounter) || (minutesToWin != minuteCounter)) return;
+        gameStateMachine.WonLevel();
     }
 
     public void ApplyWaitBeforeContinueTime()

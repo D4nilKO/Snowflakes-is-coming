@@ -1,6 +1,4 @@
-﻿using System;
-using System.Globalization;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 namespace Project.Components.Scripts

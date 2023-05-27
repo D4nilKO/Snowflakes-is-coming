@@ -12,7 +12,7 @@ namespace Project.Components.Scripts
         private TimerType _type;
 
         [Header("Время спавна врагов")] [SerializeField]
-        private float timerSeconds;
+        public float timerSeconds;
 
         private SyncedTimer enemyTimer;
         private TimerViewer timerViewer;
