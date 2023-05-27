@@ -14,7 +14,8 @@ namespace Project.Components.Scripts
         [Header("Время спавна врагов")] [SerializeField]
         private float timerSeconds;
 
-        private SyncedTimer _timer;
+        private SyncedTimer enemyTimer;
+        private TimerViewer timerViewer;
 
         [Space(20)] [SerializeField] private EnemyMover _enemyMover;
         [SerializeField] private Transform enemyContainer;
@@ -30,17 +31,16 @@ namespace Project.Components.Scripts
 
         private Dictionary<GameObject, int> availableEnemyCounts; // Словарь с количеством доступных врагов каждого типа
         private int currentEnemyTypeIndex;
-        
-        
 
         private void Awake()
         {
-            _timer = new SyncedTimer(_type, timerSeconds);
-            _timer.TimerFinished += OnTimerFinished;
+            timerViewer = FindObjectOfType<TimerViewer>();
+            enemyTimer = new SyncedTimer(_type, timerSeconds);
+            enemyTimer.TimerFinished += OnTimerFinished;
 
-            //_timer.TimerValueChanged += OnTimerValueChanged(timerSeconds);
+            enemyTimer.TimerValueChanged += TimerValueChanged;
 
-            _timer.Start();
+            enemyTimer.Start();
 
             //Debug.Log(_timer.remainingSeconds);
         }
@@ -53,16 +53,22 @@ namespace Project.Components.Scripts
 
         private void OnDestroy()
         {
-            _timer.TimerFinished -= OnTimerFinished;
+            enemyTimer.TimerFinished -= OnTimerFinished;
 
-            //_timer.TimerValueChanged -= OnTimerValueChanged();
+            enemyTimer.TimerValueChanged -= TimerValueChanged;
         }
 
         private void OnTimerFinished()
         {
             SpawnNextEnemy();
-
-            _timer.Start(timerSeconds);
+            
+            if (currentEnemyTypeIndex >= enemyTypes.Count)
+            {
+                Debug.Log("Нет доступных врагов!");
+                return;
+            }
+            
+            enemyTimer.Start(timerSeconds);
         }
 
         private void InitializeAvailableEnemyCounts()
@@ -76,13 +82,6 @@ namespace Project.Components.Scripts
 
         private void SpawnNextEnemy()
         {
-            if (currentEnemyTypeIndex >= enemyTypes.Count)
-            {
-                // Если все доступные враги закончились
-                Debug.Log("Нет доступных врагов!");
-                return;
-            }
-
             var currentEnemyType = enemyTypes[currentEnemyTypeIndex];
 
             if (availableEnemyCounts[currentEnemyType.enemyPrefab] > 0)
@@ -104,10 +103,10 @@ namespace Project.Components.Scripts
             _enemyMover.enemies.Add(enemyComponent);
         }
 
-        // private TimerValueChangedHandler OnTimerValueChanged(float remainingTime)
-        // {
-        //     // Обновить число на таймере
-        //     return 
-        // }
+
+        private void TimerValueChanged(float remainingSeconds, TimeChangingSource timeChangingSource)
+        {
+            timerViewer.UpdateEnemyTimerText(remainingSeconds);
+        }
     }
 }

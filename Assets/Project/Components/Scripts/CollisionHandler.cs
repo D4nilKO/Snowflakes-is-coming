@@ -7,15 +7,20 @@ namespace Project.Components.Scripts
     [RequireComponent(typeof(Collider2D), typeof(Rigidbody2D))]
     public class CollisionHandler : MonoBehaviour
     {
-        [SerializeField] private ButtonHandler buttonHandler;
+        private GameStateMachine gameStateMachine;
+
+        private void Awake()
+        {
+            gameStateMachine = FindObjectOfType<GameStateMachine>();
+        }
 
         private void OnTriggerEnter2D(Collider2D col)
         {
             EnemyBase enemyBase;
-            
+
             if (col.gameObject.TryGetComponent(out enemyBase))
             {
-                buttonHandler.LostGame();
+                gameStateMachine.LostGame();
             }
         }
     }
