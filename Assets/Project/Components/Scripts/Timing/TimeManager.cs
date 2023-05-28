@@ -24,10 +24,6 @@ public class TimeManager : MonoBehaviour
     private void Awake()
     {
         gameStateMachine = FindObjectOfType<GameStateMachine>();
-    }
-
-    private void Start()
-    {
         timerViewer = FindObjectOfType<TimerViewer>();
         Time.timeScale = startTimeScale;
 

@@ -30,8 +30,8 @@ namespace Project.Components.Scripts
                 TakeObjectSize();
             }
         }
-        
-        protected virtual void Awake()
+
+        public virtual void Awake()
         {
             Rb2D = GetComponent<Rigidbody2D>();
             objectCollider = GetComponent<Collider2D>();

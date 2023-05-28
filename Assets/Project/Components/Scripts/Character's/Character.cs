@@ -27,16 +27,9 @@ namespace Project.Components.Scripts.Character_s
             maxX = ScreenWidth * 0.5f - halfObjectWidth;
             minY = -ScreenHeight * 0.5f + halfObjectHeight;
             maxY = ScreenHeight * 0.5f - halfObjectHeight;
+            
+            DontDestroyOnLoad(gameObject);
         }
-        // Другая версия движения
-        // public void Move()
-        // {
-        //     if (Time.timeScale == 0f)
-        //         return;
-        //
-        //     Vector2 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        //     CheckOutOfBounds(mousePosition);
-        // }
 
         public void Move()
         {

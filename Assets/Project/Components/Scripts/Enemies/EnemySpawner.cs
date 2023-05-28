@@ -1,18 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NTC.Global.Pool;
 using UnityEngine;
 using VavilichevGD.Utils.Timing;
 
 namespace Project.Components.Scripts.Enemies
 {
+    
     [DisallowMultipleComponent]
     public class EnemySpawner : MonoBehaviour
     {
         [Header("Тип таймера")] [SerializeField]
         private TimerType _type;
 
-        [Header("Время спавна врагов")] [SerializeField]
-        public float timerSeconds;
+        [NonSerialized] public float timerSeconds;
 
         private SyncedTimer enemyTimer;
         private TimerViewer timerViewer;
@@ -20,9 +21,9 @@ namespace Project.Components.Scripts.Enemies
         private EntityMover entityMover;
         [SerializeField] private Transform enemyContainer;
 
-        public List<EnemyTypeInfo> enemyTypes; // Лист с информацией о врагах
+        [NonSerialized] public List<EnemyTypeInfo> enemyTypes;
 
-        private Dictionary<GameObject, int> availableEnemyCounts; // Словарь с количеством доступных врагов каждого типа
+        private Dictionary<GameObject, int> availableEnemyCounts;
         private int currentEnemyTypeIndex;
 
         private void Awake()
@@ -40,7 +41,6 @@ namespace Project.Components.Scripts.Enemies
         private void Start()
         {
             InitializeAvailableEnemyCounts();
-            currentEnemyTypeIndex = 0;
         }
 
         private void OnDestroy()

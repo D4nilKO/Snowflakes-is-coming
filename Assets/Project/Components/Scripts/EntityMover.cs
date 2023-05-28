@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Project.Components.Scripts.Character_s;
 using UnityEngine;
@@ -9,12 +10,31 @@ namespace Project.Components.Scripts
     public class EntityMover : MonoBehaviour
     {
         [HideInInspector] public List<EnemyBase> enemies;
+        public GameObject characterPrefab;
+        private GameObject currentCharacter;
         private Character character;
+
+        private void Awake()
+        {
+            if (DataHolder.characterIsSpawned == false)
+            {
+                DataHolder.characterIsSpawned = true;
+                currentCharacter = Instantiate(characterPrefab);
+            }
+            else
+            {
+                character = FindObjectOfType<Character>();
+            }
+
+            currentCharacter = FindObjectOfType<Character>().gameObject;
+            character = currentCharacter.GetComponent<Character>();
+            currentCharacter.GetComponent<CharacterCollisionHandler>().Awake();
+            character.Awake();
+        }
 
         private void Start()
         {
             enemies = FindObjectsOfType<EnemyBase>().ToList();
-            character = FindObjectOfType<Character>();
         }
 
         private void FixedUpdate()

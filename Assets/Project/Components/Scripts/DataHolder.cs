@@ -2,9 +2,8 @@
 
 namespace Project.Components.Scripts
 {
-    [DisallowMultipleComponent]
     public static class DataHolder
     {
-        
+        public static bool characterIsSpawned;
     }
 }

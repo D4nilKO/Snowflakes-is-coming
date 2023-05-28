@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Project.Components.Scripts
@@ -14,17 +15,23 @@ namespace Project.Components.Scripts
 
         private bool gamePaused;
 
+        private void Awake()
+        {
+            timeManager = GetComponent<TimeManager>();
+        }
+
         public void LostGame()
         {
             PauseGame(gameOverCanvas);
         }
 
-        public void ResumeGame(GameObject canvasToSetActive)
+        public void ResumeGame()
         {
             if (!gamePaused) return;
 
+            gamePaused = false;
             timeManager.ApplyWaitBeforeContinueTime();
-            canvasToSetActive.SetActive(true);
+
             gamePaused = false;
         }
 
@@ -38,7 +45,6 @@ namespace Project.Components.Scripts
         public void RestartLevel()
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
-            Time.timeScale = 1f;
         }
 
         public void WonLevel()

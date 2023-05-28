@@ -8,7 +8,7 @@ namespace Project.Components.Scripts
     {
         private GameStateMachine gameStateMachine;
 
-        private void Awake()
+        public void Awake()
         {
             gameStateMachine = FindObjectOfType<GameStateMachine>();
         }
