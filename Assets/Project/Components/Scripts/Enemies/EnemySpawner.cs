@@ -3,7 +3,7 @@ using NTC.Global.Pool;
 using UnityEngine;
 using VavilichevGD.Utils.Timing;
 
-namespace Project.Components.Scripts
+namespace Project.Components.Scripts.Enemies
 {
     [DisallowMultipleComponent]
     public class EnemySpawner : MonoBehaviour
@@ -17,7 +17,7 @@ namespace Project.Components.Scripts
         private SyncedTimer enemyTimer;
         private TimerViewer timerViewer;
 
-        [Space(20)] [SerializeField] private EnemyMover _enemyMover;
+        private EntityMover entityMover;
         [SerializeField] private Transform enemyContainer;
 
         public List<EnemyTypeInfo> enemyTypes; // Лист с информацией о врагах
@@ -27,6 +27,7 @@ namespace Project.Components.Scripts
 
         private void Awake()
         {
+            entityMover = FindObjectOfType<EntityMover>();
             timerViewer = FindObjectOfType<TimerViewer>();
             enemyTimer = new SyncedTimer(_type, timerSeconds);
             enemyTimer.TimerFinished += OnTimerFinished;
@@ -92,7 +93,7 @@ namespace Project.Components.Scripts
         {
             var enemy = NightPool.Spawn(enemyPrefab, enemyContainer);
             var enemyComponent = enemy.GetComponent<EnemyBase>();
-            _enemyMover.enemies.Add(enemyComponent);
+            entityMover.enemies.Add(enemyComponent);
         }
 
 

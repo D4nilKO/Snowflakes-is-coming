@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Project.Components.Scripts.Character_s;
 using UnityEngine;
 
 namespace Project.Components.Scripts
 {
     [DisallowMultipleComponent]
-    public class EnemyMover : MonoBehaviour
+    public class EntityMover : MonoBehaviour
     {
         [HideInInspector] public List<EnemyBase> enemies;
         private Character character;
