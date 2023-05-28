@@ -7,6 +7,9 @@ namespace Project.Components.Scripts
     [DisallowMultipleComponent]
     public class LevelSettings : MonoBehaviour
     {
+        [Header("Номер уровня")] [SerializeField]
+        private int numberOfLevel;
+
         [Header("Период спавна врагов")] [SerializeField]
         private int timeToSpawn;
 
@@ -15,9 +18,8 @@ namespace Project.Components.Scripts
 
         [Min(0)]  [SerializeField] private int minutesToWin;
 
-        [Space (10)] public List<EnemySpawner.EnemyTypeInfo> enemyTypesInfo;
-
-
+        [Space (10)] public List<EnemyTypeInfo> enemyTypesInfo;
+        
         private TimeManager timeManager;
         private EnemySpawner enemySpawner;
         private const int SecondsInMinute = 60;

@@ -2408,7 +2408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9037d51c34fb4e798e7d907625727336, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _type: 2
+  _type: 0
   timerSeconds: 2
   _enemyMover: {fileID: 1864595117}
   enemyContainer: {fileID: 2091822254}

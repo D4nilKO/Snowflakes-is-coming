@@ -7,11 +7,13 @@ namespace Project.Components.Scripts
     [DisallowMultipleComponent]
     public class EnemyMover : MonoBehaviour
     {
-        public List<EnemyBase> enemies;
+        [HideInInspector] public List<EnemyBase> enemies;
+        private Character character;
 
         private void Start()
         {
             enemies = FindObjectsOfType<EnemyBase>().ToList();
+            character = FindObjectOfType<Character>();
         }
 
         private void FixedUpdate()
@@ -21,6 +23,8 @@ namespace Project.Components.Scripts
                 enemy.Move();
                 enemy.Rotate();
             }
+
+            character.Move();
         }
     }
 }

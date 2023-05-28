@@ -1,12 +1,11 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Project.Components.Scripts
 {
-    public class CharacterController : Entity
+    public class Character : Entity
     {
         #region CheckOutOfBoundsFields
-        
+
         private Bounds bounds;
         private float halfObjectWidth;
         private float halfObjectHeight;
@@ -30,16 +29,11 @@ namespace Project.Components.Scripts
             maxY = ScreenHeight * 0.5f - halfObjectHeight;
         }
 
-        private void Update()
-        {
-            MoveCharacter();
-        }
-
-        private void MoveCharacter( )
+        public void Move()
         {
             if (Time.timeScale == 0f)
                 return;
-            
+
             Vector2 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
             CheckOutOfBounds(mousePosition);
         }
@@ -48,7 +42,7 @@ namespace Project.Components.Scripts
         {
             newPosition.x = Mathf.Clamp(newPosition.x, minX, maxX);
             newPosition.y = Mathf.Clamp(newPosition.y, minY, maxY);
-            
+
             transform.position = newPosition;
         }
 

@@ -20,13 +20,6 @@ namespace Project.Components.Scripts
         [Space(20)] [SerializeField] private EnemyMover _enemyMover;
         [SerializeField] private Transform enemyContainer;
 
-        [System.Serializable]
-        public class EnemyTypeInfo
-        {
-            public GameObject enemyPrefab;
-            public int maxSpawnCount;
-        }
-
         public List<EnemyTypeInfo> enemyTypes; // Лист с информацией о врагах
 
         private Dictionary<GameObject, int> availableEnemyCounts; // Словарь с количеством доступных врагов каждого типа
@@ -41,8 +34,6 @@ namespace Project.Components.Scripts
             enemyTimer.TimerValueChanged += TimerValueChanged;
 
             enemyTimer.Start();
-
-            //Debug.Log(_timer.remainingSeconds);
         }
 
         private void Start()
@@ -65,6 +56,7 @@ namespace Project.Components.Scripts
             if (currentEnemyTypeIndex >= enemyTypes.Count)
             {
                 Debug.Log("Нет доступных врагов!");
+                gameObject.SetActive(false);
                 return;
             }
             
