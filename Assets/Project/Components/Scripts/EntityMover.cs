@@ -16,6 +16,11 @@ namespace Project.Components.Scripts
 
         private void Awake()
         {
+            InitializeCharacter();
+        }
+
+        private void InitializeCharacter()
+        {
             if (DataHolder.characterIsSpawned == false)
             {
                 DataHolder.characterIsSpawned = true;

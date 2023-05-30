@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Project.Components.Scripts
+namespace Project.Components.Scripts.Enemies
 {
     [Serializable]
     public class EnemyTypeInfo

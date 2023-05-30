@@ -8,7 +8,7 @@ namespace Project.Components.Scripts
     {
         [SerializeField] private GameObject gameOverCanvas;
         [SerializeField] private GameObject wonLevelCanvas;
-        private bool gameIsWon;
+        //private bool gameIsWon;
 
 
         private TimeManager timeManager;
@@ -49,7 +49,7 @@ namespace Project.Components.Scripts
 
         public void WonLevel()
         {
-            gameIsWon = true;
+            //gameIsWon = true;
             PauseGame(wonLevelCanvas);
         }
     }

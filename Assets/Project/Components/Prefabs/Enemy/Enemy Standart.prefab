@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 2961839307611831256}
   - component: {fileID: 8162280535206617209}
   - component: {fileID: 7850825602063701778}
-  - component: {fileID: 1466308314}
   m_Layer: 0
   m_Name: Enemy Standart
   m_TagString: Untagged
@@ -165,16 +164,3 @@ MonoBehaviour:
   speed: 5
   rotateEnabled: 1
   rotationSpeed: 50
---- !u!114 &1466308314
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5064293743675624431}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bcfb0ae5d6d4deebd8dc91f0414f1ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentColor: {r: 0, g: 5.5908804, b: 5.5030656, a: 1}
