@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Project.Components.Scripts;
 using Project.Components.Scripts.Utility;
 using UnityEngine;
@@ -8,16 +9,15 @@ public class TimeManager : MonoBehaviour
     [SerializeField] private float startTimeScale = 1;
 
     [SerializeField] private float startTimePauseBeforeContinueTime = 0.5f;
-
     private float timePauseBeforeContinueTime;
 
     [HideInInspector] public int secondCounter;
     [HideInInspector] public int minuteCounter;
-    
-    [HideInInspector][Range(1, 59)] public int secondsToWin;
-    [HideInInspector][Min(0)] public int minutesToWin;
 
-    private SurviveTimer gameTime = new();
+    [HideInInspector] [Range(1, 59)] public int secondsToWin;
+    [HideInInspector] [Min(0)] public int minutesToWin;
+
+    private SurviveTimer gameTimer = new();
     private TimerViewer timerViewer;
     private GameStateMachine gameStateMachine;
 
@@ -27,8 +27,14 @@ public class TimeManager : MonoBehaviour
         timerViewer = FindObjectOfType<TimerViewer>();
         Time.timeScale = startTimeScale;
 
-        minuteCounter = gameTime.Minute;
-        secondCounter = gameTime.Second;
+        minuteCounter = gameTimer.Minute;
+        secondCounter = gameTimer.Second;
+    }
+
+    private void Start()
+    {
+        Time.timeScale = 0;
+        ApplyWaitBeforeContinueTime();
     }
 
     private void FixedUpdate()
@@ -38,14 +44,14 @@ public class TimeManager : MonoBehaviour
 
     private void MainTimer()
     {
-        gameTime.AddTime(Time.fixedDeltaTime);
+        gameTimer.AddTime(Time.fixedDeltaTime);
 
-        if (secondCounter == gameTime.Second) return;
-        secondCounter = gameTime.Second;
+        if (secondCounter == gameTimer.Second) return;
+        secondCounter = gameTimer.Second;
 
         CheckLevelWon();
-        
-        timerViewer.UpdateMainTimerText(gameTime.FormattedTime());
+
+        timerViewer.UpdateMainTimerText(gameTimer.FormattedTime());
     }
 
     private void CheckLevelWon()

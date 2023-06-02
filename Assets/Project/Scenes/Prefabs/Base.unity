@@ -306,7 +306,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startTimeScale: 1
-  startTimePauseBeforeContinueTime: 0.5
+  startTimePauseBeforeContinueTime: 1
   secondCounter: 0
   minuteCounter: 0
   secondsToWin: 0
