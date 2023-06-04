@@ -13,17 +13,14 @@ namespace Project.Components.Scripts
     {
         public string jsonFileName;
 
-        [Header("Период спавна врагов")]
-        [SerializeField] private int timeToSpawn;
+        [Header("Период спавна врагов")] [SerializeField]
+        private int timeToSpawn;
 
-        [Header("Время, которое нужно ДОПОЛНИТЕЛЬНО продержаться")]
-        [Range(0, 59)]
-        [SerializeField]
-        [Space(5)]
+        [Header("Время, которое нужно ДОПОЛНИТЕЛЬНО продержаться")] [SerializeField]
         private int secondsToWin;
 
-        [Range(0, 2)]
-        [SerializeField] private int minutesToWin;
+        [SerializeField] 
+        private int minutesToWin;
 
         [Space(10)] public List<EnemyTypeInfo> enemyTypesInfo;
 
@@ -39,7 +36,7 @@ namespace Project.Components.Scripts
             enemySpawner = FindObjectOfType<EnemySpawner>();
             LoadLevelSettings();
         }
-        
+
         private void CalculateTimeToSurvive()
         {
             mainTimeToSurvive = enemyTypesInfo.Sum(t => t.maxSpawnCount * timeToSpawn);
@@ -49,19 +46,19 @@ namespace Project.Components.Scripts
 
         private void LoadLevelSettings()
         {
-            string filePath = Path.Combine(Application.dataPath, jsonFileName);
+            var filePath = Path.Combine(Application.dataPath, jsonFileName);
 
             if (File.Exists(filePath))
             {
-                string json = File.ReadAllText(filePath);
-                LevelDataList levelDataList = JsonUtility.FromJson<LevelDataList>(json);
+                var json = File.ReadAllText(filePath);
+                var levelDataList = JsonUtility.FromJson<LevelDataList>(json);
 
-                print("Текущий уровень = "+ GameData.currentLevelNumber);
-                print("кол-во уровней в JSON = "+ levelDataList.levels.Count);
-                
+                print("Уровень : " + GameData.currentLevelNumber);
+                GameData.maxLevelscount = levelDataList.levels.Count;
+
                 if (GameData.currentLevelNumber <= levelDataList.levels.Count)
                 {
-                    LevelData levelData = levelDataList.levels[GameData.currentLevelNumber - 1];
+                    var levelData = levelDataList.levels[GameData.currentLevelNumber - 1];
 
                     timeToSpawn = levelData.timeToSpawn;
                     secondsToWin = levelData.secondsToWin;
@@ -72,12 +69,6 @@ namespace Project.Components.Scripts
 
                     timeManager.secondsToWin = (mainTimeToSurvive % SecondsInMinute);
                     timeManager.minutesToWin = (mainTimeToSurvive / SecondsInMinute);
-
-                    foreach (EnemyTypeInfo enemyTypeInfo in enemyTypesInfo)
-                    {
-                        string path = Path.Combine("Prefabs/Enemies", enemyTypeInfo.enemyPrefabName);
-                        GameObject enemyPrefab = Resources.Load<GameObject>(path);
-                    }
 
                     enemySpawner.enemyTypes = enemyTypesInfo;
                     enemySpawner.timerSeconds = timeToSpawn;

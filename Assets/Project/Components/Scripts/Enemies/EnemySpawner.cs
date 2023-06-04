@@ -80,7 +80,7 @@ namespace Project.Components.Scripts.Enemies
 
             if (availableEnemyCounts.TryGetValue(enemyPrefabName, out var availableCount) && availableCount > 0)
             {
-                var path = Path.Combine("Prefabs/Enemies", enemyPrefabName);
+                var path = Path.Combine("Enemies", enemyPrefabName);
                 var enemyPrefab = Resources.Load<GameObject>(path);
 
                 if (enemyPrefab != null)

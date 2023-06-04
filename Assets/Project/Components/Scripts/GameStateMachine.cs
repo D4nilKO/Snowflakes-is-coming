@@ -9,15 +9,19 @@ namespace Project.Components.Scripts
         [SerializeField] private GameObject gameOverCanvas;
         [SerializeField] private GameObject wonLevelCanvas;
         private bool gameIsWon;
-
-
+        
         private TimeManager timeManager;
 
         public static bool GamePaused;
 
         private void Awake()
         {
-            LoadData();
+            if (!dataIsLoaded)
+            {
+                LoadData();
+                dataIsLoaded = true;
+            }
+
             timeManager = GetComponent<TimeManager>();
             GamePaused = true;
         }
@@ -26,13 +30,13 @@ namespace Project.Components.Scripts
         {
             PauseGame(gameOverCanvas);
         }
-        
+
         public void ResumeGame(GameObject canvasToSetActive)
         {
             if (!GamePaused) return;
-            
+
             canvasToSetActive.SetActive(false);
-            
+
             timeManager.ApplyWaitBeforeContinueTime();
 
             GamePaused = true;
@@ -41,7 +45,7 @@ namespace Project.Components.Scripts
         public void ResumeGame()
         {
             if (!GamePaused) return;
-            
+
             timeManager.ApplyWaitBeforeContinueTime();
 
             GamePaused = true;
@@ -53,7 +57,7 @@ namespace Project.Components.Scripts
             canvasToSetActive.SetActive(true);
             GamePaused = true;
         }
-        
+
         public void PauseGame()
         {
             Time.timeScale = 0f;
@@ -69,14 +73,25 @@ namespace Project.Components.Scripts
         {
             gameIsWon = true;
             PauseGame(wonLevelCanvas);
-            unlockedLevelNumber++;
+
+            if (currentLevelNumber != maxLevelscount)
+            {
+                unlockedLevelNumber++;
+            }
         }
 
         public void NextLevel()
         {
-            currentLevelNumber++;
+            if (currentLevelNumber != maxLevelscount)
+            {
+                currentLevelNumber++;
+            }
+            else
+            {
+                currentLevelNumber = 1;
+            }
+
             RestartLevel();
-            print(currentLevelNumber);
         }
 
         // Расскоментить для релиза

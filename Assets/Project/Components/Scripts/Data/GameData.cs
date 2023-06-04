@@ -7,6 +7,10 @@ namespace Project.Components.Scripts.Data
         public static int currentLevelNumber = 1;
         public static int unlockedLevelNumber;
         public static int coinCount;
+
+        public static int maxLevelscount;
+        
+        public static bool dataIsLoaded;
         
         public static bool characterIsSpawned;
 
