@@ -1,0 +1,52 @@
+﻿{
+  "levels": [
+    {
+      "numberOfLevel": 1,
+      "timeToSpawn": 4,
+      "secondsToWin": 5,
+      "minutesToWin": 0,
+      "enemyTypesInfo": [
+        {
+          "enemyPrefab": "Enemy 1",
+          "maxSpawnCount": 2
+        },
+        {
+          "enemyPrefab": "Enemy 2",
+          "maxSpawnCount": 1
+        }
+      ]
+    },
+    {
+      "numberOfLevel": 2,
+      "timeToSpawn": 4,
+      "secondsToWin": 10,
+      "minutesToWin": 0,
+      "enemyTypesInfo": [
+        {
+          "enemyPrefab": "Enemy 1",
+          "maxSpawnCount": 2
+        },
+        {
+          "enemyPrefab": "Enemy 2",
+          "maxSpawnCount": 2
+        }
+      ]
+    },
+    {
+      "numberOfLevel": 3,
+      "timeToSpawn": 5,
+      "secondsToWin": 6,
+      "minutesToWin": 0,
+      "enemyTypesInfo": [
+        {
+          "enemyPrefab": "Enemy 1",
+          "maxSpawnCount": 3
+        },
+        {
+          "enemyPrefab": "Enemy 2",
+          "maxSpawnCount": 2
+        }
+      ]
+    }
+  ]
+}

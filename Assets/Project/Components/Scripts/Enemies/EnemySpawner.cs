@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using NTC.Global.Pool;
 using UnityEngine;
+using UnityEngine.Serialization;
 using VavilichevGD.Utils.Timing;
 
 namespace Project.Components.Scripts.Enemies
@@ -10,8 +11,8 @@ namespace Project.Components.Scripts.Enemies
     [DisallowMultipleComponent]
     public class EnemySpawner : MonoBehaviour
     {
-        [Header("Тип таймера")] [SerializeField]
-        private TimerType _type;
+        [FormerlySerializedAs("_type")] [Header("Тип таймера")] [SerializeField]
+        private TimerType timerType;
 
         [NonSerialized] public float timerSeconds;
 
@@ -30,7 +31,7 @@ namespace Project.Components.Scripts.Enemies
         {
             entityMover = FindObjectOfType<EntityMover>();
             timerViewer = FindObjectOfType<TimerViewer>();
-            enemyTimer = new SyncedTimer(_type, timerSeconds);
+            enemyTimer = new SyncedTimer(timerType, timerSeconds);
             enemyTimer.TimerFinished += OnTimerFinished;
 
             enemyTimer.TimerValueChanged += TimerValueChanged;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Project.Components.Scripts.Character_s;
+using Project.Components.Scripts.Data;
 using UnityEngine;
 
 namespace Project.Components.Scripts
@@ -21,9 +22,9 @@ namespace Project.Components.Scripts
 
         private void InitializeCharacter()
         {
-            if (DataHolder.characterIsSpawned == false)
+            if (GameData.characterIsSpawned == false)
             {
-                DataHolder.characterIsSpawned = true;
+                GameData.characterIsSpawned = true;
                 currentCharacter = Instantiate(characterPrefab);
             }
             else
