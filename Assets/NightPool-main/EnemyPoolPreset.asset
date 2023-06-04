@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   poolName: Enemy
   poolItems:
-  - prefab: {fileID: 5064293743675624431, guid: 0ea80e3bfb4d21c4a8889db09af0731b, type: 3}
-    size: 20
+  - prefab: {fileID: 6329751790586338194, guid: 7a496d983cefe5442bd298d1c1f958d1, type: 3}
+    size: 10
   - prefab: {fileID: 8331830385630280651, guid: 35496f11b85c7fc4c9dff7349fea6e5e, type: 3}
-    size: 15
+    size: 5
+  - prefab: {fileID: 5288950461557604750, guid: 72f49c8a4559f734388acccbdd3e4fa3, type: 3}
+    size: 5

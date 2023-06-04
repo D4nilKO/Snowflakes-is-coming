@@ -21,12 +21,12 @@ namespace Project.Components.Scripts
 
         [SerializeField] 
         private int minutesToWin;
-
-        [Space(10)] public List<EnemyTypeInfo> enemyTypesInfo;
+        
+        [Space(10)] 
+        public List<EnemyTypeInfo> enemyTypesInfo;
 
         private TimeManager timeManager;
         private EnemySpawner enemySpawner;
-
         private int mainTimeToSurvive;
         private const int SecondsInMinute = 60;
 
@@ -40,7 +40,6 @@ namespace Project.Components.Scripts
         private void CalculateTimeToSurvive()
         {
             mainTimeToSurvive = enemyTypesInfo.Sum(t => t.maxSpawnCount * timeToSpawn);
-
             mainTimeToSurvive += secondsToWin + (minutesToWin * SecondsInMinute);
         }
 
@@ -53,12 +52,13 @@ namespace Project.Components.Scripts
                 var json = File.ReadAllText(filePath);
                 var levelDataList = JsonUtility.FromJson<LevelDataList>(json);
 
-                print("Уровень : " + GameData.currentLevelNumber);
-                GameData.maxLevelscount = levelDataList.levels.Count;
+                int maxLevelsCount = levelDataList.levels.Count;
+                GameData.maxLevelscount = maxLevelsCount;
+                int currentLevelNumber = GameData.currentLevelNumber;
 
-                if (GameData.currentLevelNumber <= levelDataList.levels.Count)
+                if (currentLevelNumber <= maxLevelsCount)
                 {
-                    var levelData = levelDataList.levels[GameData.currentLevelNumber - 1];
+                    var levelData = levelDataList.levels[currentLevelNumber - 1];
 
                     timeToSpawn = levelData.timeToSpawn;
                     secondsToWin = levelData.secondsToWin;
@@ -67,8 +67,8 @@ namespace Project.Components.Scripts
 
                     CalculateTimeToSurvive();
 
-                    timeManager.secondsToWin = (mainTimeToSurvive % SecondsInMinute);
-                    timeManager.minutesToWin = (mainTimeToSurvive / SecondsInMinute);
+                    timeManager.secondsToWin = mainTimeToSurvive % SecondsInMinute;
+                    timeManager.minutesToWin = mainTimeToSurvive / SecondsInMinute;
 
                     enemySpawner.enemyTypes = enemyTypesInfo;
                     enemySpawner.timerSeconds = timeToSpawn;
