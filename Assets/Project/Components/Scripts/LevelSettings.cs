@@ -37,13 +37,9 @@ namespace Project.Components.Scripts
         {
             timeManager = FindObjectOfType<TimeManager>();
             enemySpawner = FindObjectOfType<EnemySpawner>();
-        }
-
-        private void Start()
-        {
             LoadLevelSettings();
         }
-
+        
         private void CalculateTimeToSurvive()
         {
             mainTimeToSurvive = enemyTypesInfo.Sum(t => t.maxSpawnCount * timeToSpawn);
@@ -76,6 +72,12 @@ namespace Project.Components.Scripts
 
                     timeManager.secondsToWin = (mainTimeToSurvive % SecondsInMinute);
                     timeManager.minutesToWin = (mainTimeToSurvive / SecondsInMinute);
+
+                    foreach (EnemyTypeInfo enemyTypeInfo in enemyTypesInfo)
+                    {
+                        string path = Path.Combine("Prefabs/Enemies", enemyTypeInfo.enemyPrefabName);
+                        GameObject enemyPrefab = Resources.Load<GameObject>(path);
+                    }
 
                     enemySpawner.enemyTypes = enemyTypesInfo;
                     enemySpawner.timerSeconds = timeToSpawn;

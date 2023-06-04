@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using NTC.Global.Pool;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -7,24 +8,24 @@ using VavilichevGD.Utils.Timing;
 
 namespace Project.Components.Scripts.Enemies
 {
-    
     [DisallowMultipleComponent]
     public class EnemySpawner : MonoBehaviour
     {
-        [FormerlySerializedAs("_type")] [Header("Тип таймера")] [SerializeField]
+        [Header("Тип таймера")] [SerializeField]
         private TimerType timerType;
 
-        [NonSerialized] public float timerSeconds;
+        [HideInInspector] public float timerSeconds;
 
         private SyncedTimer enemyTimer;
         private TimerViewer timerViewer;
 
         private EntityMover entityMover;
+
         [SerializeField] private Transform enemyContainer;
 
-        [NonSerialized] public List<EnemyTypeInfo> enemyTypes;
+        [HideInInspector] public List<EnemyTypeInfo> enemyTypes;
 
-        private Dictionary<GameObject, int> availableEnemyCounts;
+        private Dictionary<string, int> availableEnemyCounts;
         private int currentEnemyTypeIndex;
 
         private void Awake()
@@ -33,58 +34,67 @@ namespace Project.Components.Scripts.Enemies
             timerViewer = FindObjectOfType<TimerViewer>();
             enemyTimer = new SyncedTimer(timerType, timerSeconds);
             enemyTimer.TimerFinished += OnTimerFinished;
-
             enemyTimer.TimerValueChanged += TimerValueChanged;
-
-            enemyTimer.Start();
         }
 
         private void Start()
         {
             InitializeAvailableEnemyCounts();
+            enemyTimer.Start();
         }
 
         private void OnDestroy()
         {
             enemyTimer.TimerFinished -= OnTimerFinished;
-
             enemyTimer.TimerValueChanged -= TimerValueChanged;
         }
 
         private void OnTimerFinished()
         {
             SpawnNextEnemy();
-            
+
             if (currentEnemyTypeIndex >= enemyTypes.Count)
             {
                 Debug.Log("Нет доступных врагов!");
                 gameObject.SetActive(false);
                 return;
             }
-            
+
             enemyTimer.Start(timerSeconds);
         }
 
         private void InitializeAvailableEnemyCounts()
         {
-            availableEnemyCounts = new Dictionary<GameObject, int>();
+            availableEnemyCounts = new Dictionary<string, int>();
+
             foreach (EnemyTypeInfo enemyType in enemyTypes)
             {
-                availableEnemyCounts[enemyType.enemyPrefab] = enemyType.maxSpawnCount;
+                availableEnemyCounts[enemyType.enemyPrefabName] = enemyType.maxSpawnCount;
             }
         }
 
         private void SpawnNextEnemy()
         {
             var currentEnemyType = enemyTypes[currentEnemyTypeIndex];
+            var enemyPrefabName = currentEnemyType.enemyPrefabName;
 
-            if (availableEnemyCounts[currentEnemyType.enemyPrefab] > 0)
+            if (availableEnemyCounts.TryGetValue(enemyPrefabName, out var availableCount) && availableCount > 0)
             {
-                SpawnEnemy(currentEnemyType.enemyPrefab);
-                availableEnemyCounts[currentEnemyType.enemyPrefab]--;
+                var path = Path.Combine("Prefabs/Enemies", enemyPrefabName);
+                var enemyPrefab = Resources.Load<GameObject>(path);
+
+                if (enemyPrefab != null)
+                {
+                    SpawnEnemy(enemyPrefab);
+                    availableEnemyCounts[enemyPrefabName]--;
+                }
+                else
+                {
+                    Debug.LogError("Не удалось загрузить префаб врага: " + path);
+                }
             }
 
-            if (availableEnemyCounts[currentEnemyType.enemyPrefab] == 0)
+            if (availableEnemyCounts.TryGetValue(enemyPrefabName, out var remainingCount) && remainingCount == 0)
             {
                 currentEnemyTypeIndex++;
             }
@@ -96,7 +106,6 @@ namespace Project.Components.Scripts.Enemies
             var enemyComponent = enemy.GetComponent<EnemyBase>();
             entityMover.enemies.Add(enemyComponent);
         }
-
 
         private void TimerValueChanged(float remainingSeconds, TimeChangingSource timeChangingSource)
         {

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using static Project.Components.Scripts.Data.GameData;
 
 namespace Project.Components.Scripts
 {
@@ -7,7 +8,7 @@ namespace Project.Components.Scripts
     {
         [SerializeField] private GameObject gameOverCanvas;
         [SerializeField] private GameObject wonLevelCanvas;
-        //private bool gameIsWon;
+        private bool gameIsWon;
 
 
         private TimeManager timeManager;
@@ -16,6 +17,7 @@ namespace Project.Components.Scripts
 
         private void Awake()
         {
+            LoadData();
             timeManager = GetComponent<TimeManager>();
             GamePaused = true;
         }
@@ -65,8 +67,22 @@ namespace Project.Components.Scripts
 
         public void WonLevel()
         {
-            //gameIsWon = true;
+            gameIsWon = true;
             PauseGame(wonLevelCanvas);
+            unlockedLevelNumber++;
         }
+
+        public void NextLevel()
+        {
+            currentLevelNumber++;
+            RestartLevel();
+            print(currentLevelNumber);
+        }
+
+        // Расскоментить для релиза
+        // private void OnApplicationQuit()
+        // {
+        //     SaveData();
+        // }
     }
 }

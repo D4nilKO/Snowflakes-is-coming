@@ -6,7 +6,7 @@ namespace Project.Components.Scripts.Enemies
     [Serializable]
     public class EnemyTypeInfo
     {
-        public GameObject enemyPrefab;
+        public string enemyPrefabName;
         public int maxSpawnCount;
     }
 }
