@@ -33,8 +33,8 @@ public class TimeManager : MonoBehaviour
 
     private void Start()
     {
-        Time.timeScale = 0;
-        ApplyWaitBeforeContinueTime();
+        gameStateMachine.PauseGame();
+        gameStateMachine.ResumeGame();
     }
 
     private void FixedUpdate()

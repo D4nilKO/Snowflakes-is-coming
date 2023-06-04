@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Project.Components.Scripts.Enemies;
 using UnityEngine;
@@ -24,34 +23,37 @@ namespace Project.Components.Scripts
 
         private TimeManager timeManager;
         private EnemySpawner enemySpawner;
+        
+        private int mainTimeToSurvive;
         private const int SecondsInMinute = 60;
 
         private void Awake()
         {
-            
             timeManager = FindObjectOfType<TimeManager>();
             enemySpawner = FindObjectOfType<EnemySpawner>();
-            
-
-            CalculateTimeToSurvive();
-
-            enemySpawner.enemyTypes = enemyTypesInfo;
-            enemySpawner.timerSeconds = timeToSpawn;
         }
 
         private void Start()
         {
-            
+            LoadSceneSettings();
         }
 
         private void CalculateTimeToSurvive()
         {
-            var mainTimeToSurvive = enemyTypesInfo.Sum(t => t.maxSpawnCount * timeToSpawn);
+            mainTimeToSurvive = enemyTypesInfo.Sum(t => t.maxSpawnCount * timeToSpawn);
 
             mainTimeToSurvive += secondsToWin + (minutesToWin * SecondsInMinute);
+        }
+
+        private void LoadSceneSettings()
+        {
+            CalculateTimeToSurvive();
 
             timeManager.secondsToWin = (mainTimeToSurvive % SecondsInMinute);
             timeManager.minutesToWin = (mainTimeToSurvive / SecondsInMinute);
+            
+            enemySpawner.enemyTypes = enemyTypesInfo;
+            enemySpawner.timerSeconds = timeToSpawn;
         }
     }
 }
