@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Project.Components.Scripts.Data;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using static Project.Components.Scripts.Data.GameData;
 
@@ -9,12 +10,18 @@ namespace Project.Components.Scripts
         [SerializeField] private GameObject gameOverCanvas;
         [SerializeField] private GameObject wonLevelCanvas;
         private bool gameIsWon;
-        
+
         private TimeManager timeManager;
 
         public static bool GamePaused;
 
         private void Awake()
+        {
+            timeManager = GetComponent<TimeManager>();
+            FirstLoadData();
+        }
+
+        private void FirstLoadData()
         {
             if (!dataIsLoaded)
             {
@@ -22,7 +29,6 @@ namespace Project.Components.Scripts
                 dataIsLoaded = true;
             }
 
-            timeManager = GetComponent<TimeManager>();
             GamePaused = true;
         }
 
@@ -74,15 +80,12 @@ namespace Project.Components.Scripts
             gameIsWon = true;
             PauseGame(wonLevelCanvas);
 
-            if (currentLevelNumber != maxLevelscount)
-            {
-                unlockedLevelNumber++;
-            }
+            GameData.IncreaseCurrentLevel();
         }
 
         public void NextLevel()
         {
-            if (currentLevelNumber != maxLevelscount)
+            if (currentLevelNumber != maxLevelsCount)
             {
                 currentLevelNumber++;
             }

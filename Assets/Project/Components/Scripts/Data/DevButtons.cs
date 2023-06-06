@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Project.Components.Scripts.Data
 {
@@ -8,7 +9,7 @@ namespace Project.Components.Scripts.Data
         {
             GameData.currentLevelNumber = 1;
             GameData.unlockedLevelNumber = 3;
-            GameData.coinCount = 100;
+            GameData.coinCount = 0;
             GameData.SaveData();
         }
 
@@ -25,6 +26,11 @@ namespace Project.Components.Scripts.Data
         public void LoadPlayerPrefs()
         {
             GameData.LoadData();
+        }
+
+        public void RestartLevel()
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
         }
     }
 }

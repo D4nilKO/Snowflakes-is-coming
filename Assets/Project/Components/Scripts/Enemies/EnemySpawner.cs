@@ -14,15 +14,16 @@ namespace Project.Components.Scripts.Enemies
         [Header("Тип таймера")] [SerializeField]
         private TimerType timerType;
 
+        [SerializeField] private Transform enemyContainer;
+        [SerializeField] private string folder;
+        
         [HideInInspector] public float timerSeconds;
 
         private SyncedTimer enemyTimer;
         private TimerViewer timerViewer;
 
         private EntityMover entityMover;
-
-        [SerializeField] private Transform enemyContainer;
-
+        
         [HideInInspector] public List<EnemyTypeInfo> enemyTypes;
 
         private Dictionary<string, int> availableEnemyCounts;
@@ -32,7 +33,9 @@ namespace Project.Components.Scripts.Enemies
         {
             entityMover = FindObjectOfType<EntityMover>();
             timerViewer = FindObjectOfType<TimerViewer>();
+
             enemyTimer = new SyncedTimer(timerType, timerSeconds);
+
             enemyTimer.TimerFinished += OnTimerFinished;
             enemyTimer.TimerValueChanged += TimerValueChanged;
         }
@@ -40,7 +43,7 @@ namespace Project.Components.Scripts.Enemies
         private void Start()
         {
             InitializeAvailableEnemyCounts();
-            enemyTimer.Start();
+            enemyTimer.Start(0.5f);
         }
 
         private void OnDestroy()
@@ -80,7 +83,7 @@ namespace Project.Components.Scripts.Enemies
 
             if (availableEnemyCounts.TryGetValue(enemyPrefabName, out var availableCount) && availableCount > 0)
             {
-                var path = Path.Combine("Enemies", enemyPrefabName);
+                var path = Path.Combine(folder, enemyPrefabName);
                 var enemyPrefab = Resources.Load<GameObject>(path);
 
                 if (enemyPrefab != null)

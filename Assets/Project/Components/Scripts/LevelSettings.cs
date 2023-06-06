@@ -19,11 +19,9 @@ namespace Project.Components.Scripts
         [Header("Время, которое нужно ДОПОЛНИТЕЛЬНО продержаться")] [SerializeField]
         private int secondsToWin;
 
-        [SerializeField] 
-        private int minutesToWin;
-        
-        [Space(10)] 
-        public List<EnemyTypeInfo> enemyTypesInfo;
+        [SerializeField] private int minutesToWin;
+
+        [Space(10)] public List<EnemyTypeInfo> enemyTypesInfo;
 
         private TimeManager timeManager;
         private EnemySpawner enemySpawner;
@@ -45,15 +43,14 @@ namespace Project.Components.Scripts
 
         private void LoadLevelSettings()
         {
-            var filePath = Path.Combine(Application.dataPath, jsonFileName);
+            var json = Resources.Load<TextAsset>(jsonFileName);
 
-            if (File.Exists(filePath))
+            if (json != null)
             {
-                var json = File.ReadAllText(filePath);
-                var levelDataList = JsonUtility.FromJson<LevelDataList>(json);
+                var levelDataList = JsonUtility.FromJson<LevelDataList>(json.text);
 
                 int maxLevelsCount = levelDataList.levels.Count;
-                GameData.maxLevelscount = maxLevelsCount;
+                GameData.maxLevelsCount = maxLevelsCount;
                 int currentLevelNumber = GameData.currentLevelNumber;
 
                 if (currentLevelNumber <= maxLevelsCount)
@@ -80,7 +77,7 @@ namespace Project.Components.Scripts
             }
             else
             {
-                Debug.LogError("Указанный JSON файл не найден: " + filePath);
+                Debug.LogError("Указанный JSON файл не найден: " + jsonFileName);
             }
         }
     }

@@ -8,11 +8,19 @@ namespace Project.Components.Scripts.Data
         public static int unlockedLevelNumber;
         public static int coinCount;
 
-        public static int maxLevelscount;
+        public static int maxLevelsCount;
         
         public static bool dataIsLoaded;
         
         public static bool characterIsSpawned;
+
+        public static void IncreaseCurrentLevel()
+        {
+            if (currentLevelNumber != maxLevelsCount)
+            {
+                unlockedLevelNumber++;
+            }
+        }
 
         public static void SaveData()
         {
