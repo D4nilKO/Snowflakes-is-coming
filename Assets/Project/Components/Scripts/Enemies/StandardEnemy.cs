@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Project.Components.Scripts
+namespace Project.Components.Scripts.Enemies
 {
     public class StandardEnemy : EnemyBase
     {

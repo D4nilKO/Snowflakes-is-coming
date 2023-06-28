@@ -1,14 +1,15 @@
 ﻿using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Project.Components.Scripts
+namespace Project.Components.Scripts.Enemies
 {
     public abstract class EnemyBase : Entity
     {
         [Header("Скорость")] [SerializeField] [Range(0f, 20f)]
         protected float speed = 5f;
 
-        [Header("Вращение")] [SerializeField] private bool rotateEnabled;
+        [Header("Вращение")] [SerializeField] 
+        private bool rotateEnabled;
 
         [Header("Скорость вращения")] [SerializeField] [Range(1f, 500f)]
         private float rotationSpeed = 10f;
@@ -20,14 +21,14 @@ namespace Project.Components.Scripts
         protected virtual void Start()
         {
             TakeObjectSize();
-            UpdateRbVelocity();
+            SetRbVelocity();
             targetRotation = transform.rotation;
         }
 
         private void OnEnable()
         {
             TakeObjectSize();
-            UpdateRbVelocity();
+            SetRbVelocity();
         }
 
         public abstract void Move();
@@ -74,7 +75,7 @@ namespace Project.Components.Scripts
                 Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
         }
 
-        protected virtual void UpdateRbVelocity()
+        protected virtual void SetRbVelocity()
         {
             Rb2D.velocity = Direction * speed; // Установка начальной скорости
         }

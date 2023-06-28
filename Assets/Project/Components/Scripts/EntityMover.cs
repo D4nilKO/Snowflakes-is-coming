@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Project.Components.Scripts.Character_s;
 using Project.Components.Scripts.Data;
+using Project.Components.Scripts.Enemies;
 using UnityEngine;
 
 namespace Project.Components.Scripts

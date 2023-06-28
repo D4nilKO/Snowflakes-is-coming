@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JsonSchemaMappingsProjectConfiguration">
+    <state>
+      <map>
+        <entry key="jsdoc">
+          <value>
+            <SchemaInfo>
+              <option name="name" value="jsdoc" />
+              <option name="relativePathToSchema" value="https://json.schemastore.org/jsdoc-1.0.0.json" />
+              <option name="applicationDefined" value="true" />
+              <option name="patterns">
+                <list>
+                  <Item>
+                    <option name="path" value="Assets/Project/Scenes/Resources/Levels.json" />
+                  </Item>
+                </list>
+              </option>
+            </SchemaInfo>
+          </value>
+        </entry>
+      </map>
+    </state>
+  </component>
+</project>
