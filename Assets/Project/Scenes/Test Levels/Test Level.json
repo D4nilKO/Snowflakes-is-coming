@@ -1,0 +1,204 @@
+{
+  "levels": [
+    {
+      "numberOfLevel": 1,
+      "timeToSpawn": 1,
+      "secondsToWin": 0,
+      "minutesToWin": 0,
+      "enemyTypesInfo": [
+        {
+          "enemyPrefabName": "Enemy1",
+          "maxSpawnCount": 0
+        },
+        {
+          "enemyPrefabName": "Enemy2",
+          "maxSpawnCount": 0
+        },
+        {
+          "enemyPrefabName": "Enemy3",
+          "maxSpawnCount": 0
+        }
+      ]
+    },
+    {
+      "numberOfLevel": 2,
+      "timeToSpawn": 1,
+      "secondsToWin": 0,
+      "minutesToWin": 0,
+      "enemyTypesInfo": [
+        {
+          "enemyPrefabName": "Enemy1",
+          "maxSpawnCount": 1
+        },
+        {
+          "enemyPrefabName": "Enemy2",
+          "maxSpawnCount": 1
+        },
+        {
+          "enemyPrefabName": "Enemy3",
+          "maxSpawnCount": 1
+        }
+      ]
+    },
+    {
+      "numberOfLevel": 3,
+      "timeToSpawn": 1,
+      "secondsToWin": 0,
+      "minutesToWin": 0,
+      "enemyTypesInfo": [
+        {
+          "enemyPrefabName": "Enemy1",
+          "maxSpawnCount": 1
+        },
+        {
+          "enemyPrefabName": "Enemy2",
+          "maxSpawnCount": 1
+        },
+        {
+          "enemyPrefabName": "Enemy3",
+          "maxSpawnCount": 1
+        }
+      ]
+    },
+    {
+      "numberOfLevel": 4,
+      "timeToSpawn": 1,
+      "secondsToWin": 0,
+      "minutesToWin": 0,
+      "enemyTypesInfo": [
+        {
+          "enemyPrefabName": "Enemy1",
+          "maxSpawnCount": 1
+        },
+        {
+          "enemyPrefabName": "Enemy2",
+          "maxSpawnCount": 1
+        },
+        {
+          "enemyPrefabName": "Enemy3",
+          "maxSpawnCount": 1
+        }
+      ]
+    },
+    {
+      "numberOfLevel": 5,
+      "timeToSpawn": 2,
+      "secondsToWin": 0,
+      "minutesToWin": 0,
+      "enemyTypesInfo": [
+        {
+          "enemyPrefabName": "Enemy1",
+          "maxSpawnCount": 1
+        },
+        {
+          "enemyPrefabName": "Enemy2",
+          "maxSpawnCount": 1
+        },
+        {
+          "enemyPrefabName": "Enemy3",
+          "maxSpawnCount": 1
+        }
+      ]
+    },
+    {
+      "numberOfLevel": 6,
+      "timeToSpawn": 2,
+      "secondsToWin": 0,
+      "minutesToWin": 0,
+      "enemyTypesInfo": [
+        {
+          "enemyPrefabName": "Enemy1",
+          "maxSpawnCount": 2
+        },
+        {
+          "enemyPrefabName": "Enemy2",
+          "maxSpawnCount": 2
+        },
+        {
+          "enemyPrefabName": "Enemy3",
+          "maxSpawnCount": 2
+        }
+      ]
+    },
+    {
+      "numberOfLevel": 7,
+      "timeToSpawn": 2,
+      "secondsToWin": 0,
+      "minutesToWin": 0,
+      "enemyTypesInfo": [
+        {
+          "enemyPrefabName": "Enemy1",
+          "maxSpawnCount": 2
+        },
+        {
+          "enemyPrefabName": "Enemy2",
+          "maxSpawnCount": 2
+        },
+        {
+          "enemyPrefabName": "Enemy3",
+          "maxSpawnCount": 2
+        }
+      ]
+    },
+    {
+      "numberOfLevel": 8,
+      "timeToSpawn": 3,
+      "secondsToWin": 0,
+      "minutesToWin": 0,
+      "enemyTypesInfo": [
+        {
+          "enemyPrefabName": "Enemy1",
+          "maxSpawnCount": 2
+        },
+        {
+          "enemyPrefabName": "Enemy2",
+          "maxSpawnCount": 2
+        },
+        {
+          "enemyPrefabName": "Enemy3",
+          "maxSpawnCount": 2
+        }
+      ]
+    },
+    {
+      "numberOfLevel": 9,
+      "timeToSpawn": 3,
+      "secondsToWin": 0,
+      "minutesToWin": 0,
+      "enemyTypesInfo": [
+        {
+          "enemyPrefabName": "Enemy1",
+          "maxSpawnCount": 2
+        },
+        {
+          "enemyPrefabName": "Enemy2",
+          "maxSpawnCount": 2
+        },
+        {
+          "enemyPrefabName": "Enemy3",
+          "maxSpawnCount": 2
+        }
+      ]
+    },
+    {
+      "numberOfLevel": 10,
+      "timeToSpawn": 3,
+      "secondsToWin": 0,
+      "minutesToWin": 0,
+      "enemyTypesInfo": [
+        {
+          "enemyPrefabName": "Enemy1",
+          "maxSpawnCount": 3
+        },
+        {
+          "enemyPrefabName": "Enemy2",
+          "maxSpawnCount": 3
+        },
+        {
+          "enemyPrefabName": "Enemy3",
+          "maxSpawnCount": 3
+        }
+      ]
+    }
+  ]
+}

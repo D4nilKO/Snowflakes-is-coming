@@ -152,16 +152,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4a0435452b54c13824426f990dc7f5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberOfLevels: 10
-  initialSpawnCount: 1
-  spawnCountIncrement: 1
-  timeToSpawn: 2
-  secondsToWin: 4
-  minutesToWin: 0
-  maxEnemiesPerLevel: 10
-  numberOfEnemyTypes: 2
-  extraSecondsToWin: 10
-  outputFilePath: Test Levels.json
+  NumberOfLevels: 10
+  NumberOfEnemyTypes: 3
+  MinEnemiesPerLevel: 2
+  MaxEnemiesPerLevel: 10
+  MinSpawnTime: 1
+  MaxSpawnTime: 4
+  SavePath: E:\Projects\Snowflakes is coming\Assets\Project\Scenes\Test Levels
+  FileName: Test Level.json
 --- !u!4 &223015985
 Transform:
   m_ObjectHideFlags: 0

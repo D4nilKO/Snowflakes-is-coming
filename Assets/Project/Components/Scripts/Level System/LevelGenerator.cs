@@ -1,115 +1,76 @@
-﻿// using UnityEngine;
-// using System.Collections.Generic;
-// using System.IO;
+﻿// using System.Collections.Generic;
 // using Newtonsoft.Json;
 // using Project.Components.Scripts.Enemies;
+// using UnityEngine;
 //
-// #if UNITY_EDITOR
-// using UnityEditor;
-// #endif
-//
-// public class LevelGenerator : MonoBehaviour
+// namespace Project.Components.Scripts.Level_System
 // {
-//     public int numberOfLevels;
-//     public int startingLevel;
-//     public int maxEnemiesPerLevel;
-//     public int initialSpawnCount;
-//     public int spawnCountIncrement;
-//     public float timeToSpawn;
-//     public int secondsToWin;
-//     public int minutesToWin;
-//     public List<EnemyTypeInfo> enemyTypes;
-//
-//     private List<LevelData> levels;
-//
-//     private void Start()
+//     public class LevelGenerator : MonoBehaviour
 //     {
-//         GenerateLevels();
-//         SaveLevelsToFile();
-//     }
+//         public int NumberOfLevels;
+//         public int NumberOfEnemyTypes;
+//         public int MinEnemiesPerLevel;
+//         public int MaxEnemiesPerLevel;
+//         public float MinSpawnTime;
+//         public float MaxSpawnTime;
+//         public string SavePath;
+//         public string FileName;
 //
-//     private void GenerateLevels()
-//     {
-//         levels = new List<LevelData>();
+//         private System.Random random;
 //
-//         int enemyTypeIndex = 0;
-//         int totalSpawnCount = 0;
-//
-//         for (int i = 0; i < numberOfLevels; i++)
+//         private void Start()
 //         {
-//             LevelData levelData = new LevelData();
-//             levelData.numberOfLevel = startingLevel + i;
-//             levelData.timeToSpawn = timeToSpawn;
-//             levelData.secondsToWin = secondsToWin;
-//             levelData.minutesToWin = minutesToWin;
+//             random = new System.Random();
+//             GenerateLevels();
+//         }
 //
-//             levelData.enemyTypesInfo = new List<EnemyTypeInfo>();
+//         private void GenerateLevels()
+//         {
+//             LevelDataList levelDataList = new LevelDataList();
+//             levelDataList.levels = new List<LevelData>();
 //
-//             int maxEnemiesRemaining = maxEnemiesPerLevel - totalSpawnCount;
+//             float currentSpawnTime = MinSpawnTime;
+//             int currentEnemyCount = MinEnemiesPerLevel;
 //
-//             while (maxEnemiesRemaining > 0)
+//             for (int i = 1; i <= NumberOfLevels; i++)
 //             {
-//                 EnemyTypeInfo enemyTypeInfo = enemyTypes[enemyTypeIndex];
+//                 LevelData levelData = new LevelData();
+//                 levelData.numberOfLevel = i;
+//                 levelData.timeToSpawn = (int)currentSpawnTime;
+//                 levelData.enemyTypesInfo = GenerateEnemyTypesInfo(currentEnemyCount);
 //
-//                 int maxSpawnCountForType = Mathf.Min(enemyTypeInfo.maxSpawnCount, maxEnemiesRemaining);
-//                 int spawnCountForType = Mathf.Min(maxSpawnCountForTyp);
+//                 levelDataList.levels.Add(levelData);
 //
-//                 if (spawnCountForType > 0)
-//                 {
-//                     EnemyTypeInfo newEnemyTypeInfo = new EnemyTypeInfo();
-//                     newEnemyTypeInfo.enemyPrefabName = enemyTypeInfo.enemyPrefabName;
-//                     newEnemyTypeInfo.maxSpawnCount = spawnCountForType;
-//
-//                     levelData.enemyTypesInfo.Add(newEnemyTypeInfo);
-//
-//                     totalSpawnCount += spawnCountForType;
-//                     maxEnemiesRemaining -= spawnCountForType;
-//
-//                     if (maxEnemiesRemaining == 0)
-//                         break;
-//                 }
-//
-//                 enemyTypeIndex++;
-//                 if (enemyTypeIndex >= enemyTypes.Count)
-//                     enemyTypeIndex = 0;
+//                 currentSpawnTime = Mathf.Lerp(MinSpawnTime, MaxSpawnTime, (float)i / NumberOfLevels);
+//                 currentEnemyCount =
+//                     Mathf.RoundToInt(Mathf.Lerp(MinEnemiesPerLevel, MaxEnemiesPerLevel, (float)i / NumberOfLevels));
 //             }
 //
-//             levels.Add(levelData);
+//             string jsonData = JsonConvert.SerializeObject(levelDataList, Formatting.Indented);
+//             System.IO.File.WriteAllText(SavePath + "/" + FileName, jsonData);
 //
-//             if (totalSpawnCount >= maxEnemiesPerLevel)
-//                 break;
+//             Debug.Log("Level data saved to: " + SavePath + "/" + FileName);
+//         }
+//
+//         private List<EnemyTypeInfo> GenerateEnemyTypesInfo()
+//         {
+//             List<EnemyTypeInfo> enemyTypesInfo = new List<EnemyTypeInfo>();
+//
+//             for (int i = 1; i <= NumberOfEnemyTypes; i++)
+//             {
+//                 EnemyTypeInfo enemyTypeInfo = new EnemyTypeInfo();
+//                 enemyTypeInfo.enemyPrefabName = "Enemy" + i;
+//                 enemyTypeInfo.maxSpawnCount = random.Next(MinEnemiesPerLevel, MaxEnemiesPerLevel + 1);
+//
+//                 if (enemyTypeInfo.maxSpawnCount < MinEnemiesPerLevel)
+//                 {
+//                     enemyTypeInfo.maxSpawnCount = MinEnemiesPerLevel;
+//                 }
+//
+//                 enemyTypesInfo.Add(enemyTypeInfo);
+//             }
+//
+//             return enemyTypesInfo;
 //         }
 //     }
-//
-//     private void SaveLevelsToFile()
-//     {
-//         LevelCollectionData collectionData = new LevelCollectionData();
-//         collectionData.levels = levels;
-//
-//         string jsonData = JsonConvert.SerializeObject(collectionData, Formatting.Indented);
-//         string filePath = Application.dataPath + "/Levels/level_data.json";
-//         File.WriteAllText(filePath, jsonData);
-//
-// #if UNITY_EDITOR
-//         AssetDatabase.Refresh();
-// #endif
-//
-//         Debug.Log("Levels saved to: " + filePath);
-//     }
-// }
-//
-// [System.Serializable]
-// public class LevelData
-// {
-//     public int numberOfLevel;
-//     public float timeToSpawn;
-//     public int secondsToWin;
-//     public int minutesToWin;
-//     public List<EnemyTypeInfo> enemyTypesInfo;
-// }
-//
-// [System.Serializable]
-// public class LevelCollectionData
-// {
-//     public List<LevelData> levels;
 // }
