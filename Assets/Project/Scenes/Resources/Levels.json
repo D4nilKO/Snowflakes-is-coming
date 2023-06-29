@@ -30,7 +30,7 @@
     },
     {
       "numberOfLevel": 3,
-      "timeToSpawn": 5,
+      "timeToSpawn": 3,
       "secondsToWin": 3,
       "minutesToWin": 0,
       "enemyTypesInfo": [
@@ -63,7 +63,7 @@
     {
       "numberOfLevel": 5,
       "timeToSpawn": 3,
-      "secondsToWin": 12,
+      "secondsToWin": 8,
       "minutesToWin": 0,
       "enemyTypesInfo": [
         {
