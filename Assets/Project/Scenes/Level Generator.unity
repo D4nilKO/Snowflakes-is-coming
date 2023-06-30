@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 223015985}
   - component: {fileID: 223015986}
+  - component: {fileID: 223015987}
   m_Layer: 0
   m_Name: Level
   m_TagString: Untagged
@@ -171,6 +172,26 @@ MonoBehaviour:
   levelDataCollection:
     levels: []
   difficultyCoefficient: 0.6
+--- !u!114 &223015987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 223015983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4a0435452b54c13824426f990dc7f5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelCount: 10
+  enemyTypeCount: 2
+  maxEnemiesPerLevel: 10
+  minEnemiesOnFirstLevel: 2
+  minSpawnTime: 1
+  maxSpawnTime: 5
+  savePath: Assets\Project\Scenes\Test Levels\
+  fileName: Test level1.json
 --- !u!1 &1606331887
 GameObject:
   m_ObjectHideFlags: 0

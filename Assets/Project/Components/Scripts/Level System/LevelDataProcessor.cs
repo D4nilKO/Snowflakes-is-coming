@@ -55,20 +55,42 @@ public class LevelDataProcessor : MonoBehaviour
         float levelDifficulty = 0f;
         int enemyTypesCount = levelData.enemyTypesInfo.Count;
 
-        // Iterate over enemy types
+        // Итерируемся по типам врагов
         for (int i = 0; i < enemyTypesCount; i++)
         {
             EnemyTypeInfo enemyTypeInfo = levelData.enemyTypesInfo[i];
             int enemyType = i + 1;
             float enemyDifficulty = 1 + (enemyType - 1) * difficultyCoefficient;
 
-            // Add contribution to level difficulty
-            levelDifficulty += enemyTypeInfo.maxSpawnCount * enemyDifficulty;
+            // Рассчитываем время, проведенное с каждым врагом
+            float timeSpent = 0f;
+            if (i == 0)
+            {
+                // Первый враг тратит timeToSpawn
+                timeSpent = levelData.timeToSpawn;
+            }
+            else if (i == enemyTypesCount - 1)
+            {
+                // Последний враг тратит secondsToWin и minutesToWin
+                timeSpent = levelData.minutesToWin * 60 + levelData.secondsToWin;
+            }
+            else
+            {
+                // Промежуточные враги тратят суммарное время до них
+                for (int j = 0; j < i; j++)
+                {
+                    timeSpent += levelData.enemyTypesInfo[j].maxSpawnCount * levelData.timeToSpawn;
+                }
+            }
+
+            // Добавляем вклад в сложность уровня
+            levelDifficulty += enemyTypeInfo.maxSpawnCount * enemyDifficulty * timeSpent;
         }
 
-        levelDifficulty *= (1 + (enemyTypesCount - 1) * difficultyCoefficient);
-        levelDifficulty *= levelData.timeToSpawn;
-        levelDifficulty += (levelData.minutesToWin * 60 + levelData.secondsToWin) * difficultyCoefficient;
+        // Добавляем вклад последнего врага в сложность уровня
+        EnemyTypeInfo lastEnemyTypeInfo = levelData.enemyTypesInfo[enemyTypesCount - 1];
+        levelDifficulty += lastEnemyTypeInfo.maxSpawnCount * (1 + (enemyTypesCount - 1) * difficultyCoefficient) *
+                           (levelData.minutesToWin * 60 + levelData.secondsToWin);
 
         return levelDifficulty;
     }
