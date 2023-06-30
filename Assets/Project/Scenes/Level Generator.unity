@@ -168,10 +168,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c72ae5ef101242feafac37c29fb5c802, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelDataJson: {fileID: 4900000, guid: 448f5eabd2dd4d0e84b5954640b4c10c, type: 3}
+  levelDataJson: {fileID: 4900000, guid: 40684a05a35e6fb4a8102cd4e057efa2, type: 3}
   levelDataCollection:
     levels: []
-  difficultyCoefficient: 0.6
+  difficultyCoefficient: 0.9
 --- !u!114 &223015987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,14 +184,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4a0435452b54c13824426f990dc7f5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelCount: 10
-  enemyTypeCount: 2
-  maxEnemiesPerLevel: 10
-  minEnemiesOnFirstLevel: 2
-  minSpawnTime: 1
+  numberOfLevels: 20
+  numberOfEnemyTypes: 5
+  maxSpawnCount: 12
+  minSpawnCount: 2
   maxSpawnTime: 5
+  minSpawnTime: 1
   savePath: Assets\Project\Scenes\Test Levels\
-  fileName: Test level1.json
+  fileName: Test level2.json
 --- !u!1 &1606331887
 GameObject:
   m_ObjectHideFlags: 0
