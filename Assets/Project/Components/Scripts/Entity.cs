@@ -12,7 +12,7 @@ namespace Project.Components.Scripts
         protected static float ScreenWidth;
         protected static float ScreenHeight;
         
-        private protected Rigidbody2D Rb2D;
+        private protected Rigidbody2D Rigidbody2D;
         protected Collider2D objectCollider;
 
         protected float ObjectHeight;
@@ -27,30 +27,30 @@ namespace Project.Components.Scripts
             {
                 gameObject.transform.localScale = new Vector3(value, value, 1f);
                 _size = value;
-                TakeObjectSize();
+                GetObjectSize();
             }
         }
 
         public virtual void Awake()
         {
-            Rb2D = GetComponent<Rigidbody2D>();
+            Rigidbody2D = GetComponent<Rigidbody2D>();
             objectCollider = GetComponent<Collider2D>();
             mainCamera = Camera.main;
-            TakeCameraSize(mainCamera);
+            GetCameraSize(mainCamera);
             Size = gameObject.transform.localScale.x;
         }
 
-        protected void TakeObjectSize()
+        protected void GetObjectSize()
         {
-            var bounds = objectCollider.bounds;
+            Bounds bounds = objectCollider.bounds;
             ObjectWidth = bounds.size.x;
             ObjectHeight = bounds.size.y;
         }
-        
-        public static void TakeCameraSize(Camera _camera)
+
+        private static void GetCameraSize(Camera camera)
         {
-            ScreenWidth = _camera.orthographicSize * _camera.aspect * 2f; // Получение ширины экрана
-            ScreenHeight = _camera.orthographicSize * 2f; // Получение высоты экрана
+            ScreenWidth = camera.orthographicSize * camera.aspect * 2f; // Получение ширины экрана
+            ScreenHeight = camera.orthographicSize * 2f; // Получение высоты экрана
         }
     }
 }

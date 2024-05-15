@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using NTC.Global.Pool;
 using UnityEngine;
@@ -11,30 +10,34 @@ namespace Project.Components.Scripts.Enemies
     [DisallowMultipleComponent]
     public class EnemySpawner : MonoBehaviour
     {
-        [Header("Тип таймера")] [SerializeField]
-        private TimerType timerType;
+        [FormerlySerializedAs("timerType")] [Header("Тип таймера")] [SerializeField]
+        private TimerType _timerType;
 
-        [SerializeField] private Transform enemyContainer;
-        [SerializeField] private string folder;
-        
-        [HideInInspector] public float timerSeconds;
+        [FormerlySerializedAs("enemyContainer")] [SerializeField]
+        private Transform _enemyContainer;
+
+        [FormerlySerializedAs("folder")] [SerializeField]
+        private string _folder;
+
+        public float timerSeconds; // поменять на private
+        [SerializeField] private float _timeToSpawnFirstEnemy = 0.5f; 
 
         private SyncedTimer enemyTimer;
-        private TimerViewer timerViewer;
+        [SerializeField] private TimerViewer timerViewer;
 
-        private EntityMover entityMover;
-        
-        [HideInInspector] public List<EnemyTypeInfo> enemyTypes;
+        [SerializeField] private EntityMover entityMover;
+
+        [HideInInspector] public List<EnemyTypeInfo> enemyTypes; // тоже на private
 
         private Dictionary<string, int> availableEnemyCounts;
         private int currentEnemyTypeIndex;
 
         private void Awake()
         {
-            entityMover = FindObjectOfType<EntityMover>();
+            entityMover = FindObjectOfType<EntityMover>();// эти две строчки тоже убрать по возможности
             timerViewer = FindObjectOfType<TimerViewer>();
 
-            enemyTimer = new SyncedTimer(timerType, timerSeconds);
+            enemyTimer = new SyncedTimer(_timerType, timerSeconds);
 
             enemyTimer.TimerFinished += OnTimerFinished;
             enemyTimer.TimerValueChanged += TimerValueChanged;
@@ -78,13 +81,13 @@ namespace Project.Components.Scripts.Enemies
 
         private void SpawnNextEnemy()
         {
-            var currentEnemyType = enemyTypes[currentEnemyTypeIndex];
-            var enemyPrefabName = currentEnemyType.enemyPrefabName;
+            EnemyTypeInfo currentEnemyType = enemyTypes[currentEnemyTypeIndex];
+            string enemyPrefabName = currentEnemyType.enemyPrefabName;
 
             if (availableEnemyCounts.TryGetValue(enemyPrefabName, out var availableCount) && availableCount > 0)
             {
-                var path = Path.Combine(folder, enemyPrefabName);
-                var enemyPrefab = Resources.Load<GameObject>(path);
+                string path = Path.Combine(_folder, enemyPrefabName);
+                GameObject enemyPrefab = Resources.Load<GameObject>(path);
 
                 if (enemyPrefab != null)
                 {
@@ -103,10 +106,10 @@ namespace Project.Components.Scripts.Enemies
             }
         }
 
-        private void SpawnEnemy(GameObject enemyPrefab)
+        private void SpawnEnemy(GameObject enemyPrefab) // тут еще попробовать строчку убрать
         {
-            var enemy = NightPool.Spawn(enemyPrefab, enemyContainer);
-            var enemyComponent = enemy.GetComponent<EnemyBase>();
+            GameObject enemy = NightPool.Spawn(enemyPrefab, _enemyContainer);
+            EnemyBase enemyComponent = enemy.GetComponent<EnemyBase>();
             entityMover.enemies.Add(enemyComponent);
         }
 

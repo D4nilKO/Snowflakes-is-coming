@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Project.Components.Scripts.Enemies
@@ -8,11 +9,11 @@ namespace Project.Components.Scripts.Enemies
         [Header("Скорость")] [SerializeField] [Range(0f, 20f)]
         protected float speed = 5f;
 
-        [Header("Вращение")] [SerializeField] 
-        private bool rotateEnabled;
+        [FormerlySerializedAs("rotateEnabled")] [Header("Вращение")] [SerializeField]
+        private bool _rotateEnabled;
 
-        [Header("Скорость вращения")] [SerializeField] [Range(1f, 500f)]
-        private float rotationSpeed = 10f;
+        [FormerlySerializedAs("rotationSpeed")] [Header("Скорость вращения")] [SerializeField] [Range(1f, 500f)]
+        private float _rotationSpeed = 10f;
 
         private Quaternion targetRotation;
 
@@ -20,38 +21,38 @@ namespace Project.Components.Scripts.Enemies
 
         protected virtual void Start()
         {
-            TakeObjectSize();
-            SetRbVelocity();
+            GetObjectSize();
+            SetRigidbodyVelocity();
             targetRotation = transform.rotation;
         }
 
         private void OnEnable()
         {
-            TakeObjectSize();
-            SetRbVelocity();
+            GetObjectSize();
+            SetRigidbodyVelocity();
         }
 
         public abstract void Move();
-        
-        protected void CheckOutOfBounds(ref Vector2 _newPosition)
+
+        protected void CheckOutOfBounds(ref Vector2 newPosition) // переписать красивее через локальные переменные
         {
-            if (_newPosition.x < -ScreenWidth / 2f + ObjectWidth / 2f ||
-                _newPosition.x > ScreenWidth / 2f - ObjectWidth / 2f)
+            if (newPosition.x < -ScreenWidth / 2f + ObjectWidth / 2f ||
+                newPosition.x > ScreenWidth / 2f - ObjectWidth / 2f)
             {
-                ReflectHorizontal(ref _newPosition);
+                ReflectHorizontal(ref newPosition);
             }
-        
-            if (_newPosition.y < -ScreenHeight / 2f + ObjectHeight / 2f ||
-                _newPosition.y > ScreenHeight / 2f - ObjectHeight / 2f)
+
+            if (newPosition.y < -ScreenHeight / 2f + ObjectHeight / 2f ||
+                newPosition.y > ScreenHeight / 2f - ObjectHeight / 2f)
             {
-                ReflectVertical(ref _newPosition);
+                ReflectVertical(ref newPosition);
             }
         }
 
         protected virtual void ReflectHorizontal(ref Vector2 position)
         {
             Direction = new Vector2(-Direction.x, Direction.y);
-            var bounds = objectCollider.bounds;
+            Bounds bounds = objectCollider.bounds;
             position.x = Mathf.Clamp(position.x, -ScreenWidth / 2f + bounds.extents.x,
                 ScreenWidth / 2f - bounds.extents.x);
         }
@@ -59,25 +60,25 @@ namespace Project.Components.Scripts.Enemies
         protected virtual void ReflectVertical(ref Vector2 position)
         {
             Direction = new Vector2(Direction.x, -Direction.y);
-            var bounds = objectCollider.bounds;
+            Bounds bounds = objectCollider.bounds;
             position.y = Mathf.Clamp(position.y, -ScreenHeight / 2f + bounds.extents.y,
                 ScreenHeight / 2f - bounds.extents.y);
         }
 
         public virtual void Rotate()
         {
-            if (!rotateEnabled) return;
-            var newRotation = targetRotation.eulerAngles.z + (rotationSpeed * Time.fixedDeltaTime);
+            if (_rotateEnabled == false) return;
+            float newRotation = targetRotation.eulerAngles.z + (_rotationSpeed * Time.fixedDeltaTime);
 
             targetRotation = Quaternion.Euler(0f, 0f, newRotation);
 
             transform.rotation =
-                Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
+                Quaternion.RotateTowards(transform.rotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime);
         }
 
-        protected virtual void SetRbVelocity()
+        protected virtual void SetRigidbodyVelocity()
         {
-            Rb2D.velocity = Direction * speed; // Установка начальной скорости
+            Rigidbody2D.velocity = Direction * speed;
         }
 
         protected Vector2 GetRandomDirection()
