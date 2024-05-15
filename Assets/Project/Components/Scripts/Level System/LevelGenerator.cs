@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
-using Project.Components.Scripts.Enemies;
+using Project.Components.Scripts.Entities.Enemies;
 using Project.Components.Scripts.Level_System;
 
 public class LevelGenerator : MonoBehaviour
@@ -27,31 +27,31 @@ public class LevelGenerator : MonoBehaviour
     private void GenerateLevels()
     {
         levelDataList = new LevelDataList();
-        levelDataList.levels = new List<LevelData>();
+        levelDataList.Levels = new List<LevelData>();
 
         for (int i = 1; i <= numberOfLevels; i++)
         {
             LevelData levelData = GenerateLevel(i);
-            levelDataList.levels.Add(levelData);
+            levelDataList.Levels.Add(levelData);
         }
     }
 
     private LevelData GenerateLevel(int levelNumber)
     {
         LevelData levelData = new LevelData();
-        levelData.numberOfLevel = levelNumber;
-        levelData.timeToSpawn = (int)Random.Range(minSpawnTime, maxSpawnTime);
-        levelData.secondsToWin = CalculateSecondsToWin(levelNumber);
-        levelData.minutesToWin = CalculateMinutesToWin(levelData.secondsToWin);
+        levelData.NumberOfLevel = levelNumber;
+        levelData.TimeToSpawn = (int)Random.Range(minSpawnTime, maxSpawnTime);
+        levelData.SecondsToWin = CalculateSecondsToWin(levelNumber);
+        levelData.MinutesToWin = CalculateMinutesToWin(levelData.SecondsToWin);
 
-        levelData.enemyTypesInfo = new List<EnemyTypeInfo>();
+        levelData.EnemyTypesInfo = new List<EnemyTypeInfo>();
         int remainingSpawnCount = Random.Range(minSpawnCount, maxSpawnCount);
 
         for (int i = 1; i <= numberOfEnemyTypes; i++)
         {
             EnemyTypeInfo enemyTypeInfo = GenerateEnemyTypeInfo(i, remainingSpawnCount);
-            levelData.enemyTypesInfo.Add(enemyTypeInfo);
-            remainingSpawnCount -= enemyTypeInfo.maxSpawnCount;
+            levelData.EnemyTypesInfo.Add(enemyTypeInfo);
+            remainingSpawnCount -= enemyTypeInfo.MaxSpawnCount;
 
             if (remainingSpawnCount <= 0)
                 break;
@@ -74,8 +74,8 @@ public class LevelGenerator : MonoBehaviour
     private EnemyTypeInfo GenerateEnemyTypeInfo(int enemyType, int remainingSpawnCount)
     {
         EnemyTypeInfo enemyTypeInfo = new EnemyTypeInfo();
-        enemyTypeInfo.enemyPrefabName = "Enemy " + enemyType;
-        enemyTypeInfo.maxSpawnCount = Random.Range(1, Mathf.Min(remainingSpawnCount, maxSpawnCount));
+        enemyTypeInfo.EnemyPrefabName = "Enemy " + enemyType;
+        enemyTypeInfo.MaxSpawnCount = Random.Range(1, Mathf.Min(remainingSpawnCount, maxSpawnCount));
 
         return enemyTypeInfo;
     }

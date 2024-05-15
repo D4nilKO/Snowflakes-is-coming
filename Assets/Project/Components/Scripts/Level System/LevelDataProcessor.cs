@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Text;
-using Project.Components.Scripts.Enemies;
+using Project.Components.Scripts.Entities.Enemies;
 using Project.Components.Scripts.Level_System;
 
 public class LevelDataProcessor : MonoBehaviour
@@ -33,14 +33,14 @@ public class LevelDataProcessor : MonoBehaviour
         // Deserialize JSON data
         levelDataCollection = JsonUtility.FromJson<LevelDataList>(levelDataJson.text);
 
-        if (levelDataCollection != null && levelDataCollection.levels != null)
+        if (levelDataCollection != null && levelDataCollection.Levels != null)
         {
             // Output difficulty for each level
-            foreach (LevelData levelData in levelDataCollection.levels)
+            foreach (LevelData levelData in levelDataCollection.Levels)
             {
                 float levelDifficulty = CalculateLevelDifficulty(levelData);
                 StringBuilder sb = new StringBuilder();
-                sb.AppendFormat("Level {0} difficulty: {1}", levelData.numberOfLevel, levelDifficulty);
+                sb.AppendFormat("Level {0} difficulty: {1}", levelData.NumberOfLevel, levelDifficulty);
                 Debug.Log(sb.ToString());
             }
         }
@@ -53,12 +53,12 @@ public class LevelDataProcessor : MonoBehaviour
     private float CalculateLevelDifficulty(LevelData levelData)
     {
         float levelDifficulty = 0f;
-        int enemyTypesCount = levelData.enemyTypesInfo.Count;
+        int enemyTypesCount = levelData.EnemyTypesInfo.Count;
 
         // Итерируемся по типам врагов
         for (int i = 0; i < enemyTypesCount; i++)
         {
-            EnemyTypeInfo enemyTypeInfo = levelData.enemyTypesInfo[i];
+            EnemyTypeInfo enemyTypeInfo = levelData.EnemyTypesInfo[i];
             int enemyType = i + 1;
             float enemyDifficulty = 1 + (enemyType - 1) * difficultyCoefficient;
 
@@ -67,30 +67,30 @@ public class LevelDataProcessor : MonoBehaviour
             if (i == 0)
             {
                 // Первый враг тратит timeToSpawn
-                timeSpent = levelData.timeToSpawn;
+                timeSpent = levelData.TimeToSpawn;
             }
             else if (i == enemyTypesCount - 1)
             {
                 // Последний враг тратит secondsToWin и minutesToWin
-                timeSpent = levelData.minutesToWin * 60 + levelData.secondsToWin;
+                timeSpent = levelData.MinutesToWin * 60 + levelData.SecondsToWin;
             }
             else
             {
                 // Промежуточные враги тратят суммарное время до них
                 for (int j = 0; j < i; j++)
                 {
-                    timeSpent += levelData.enemyTypesInfo[j].maxSpawnCount * levelData.timeToSpawn;
+                    timeSpent += levelData.EnemyTypesInfo[j].MaxSpawnCount * levelData.TimeToSpawn;
                 }
             }
 
             // Добавляем вклад в сложность уровня
-            levelDifficulty += enemyTypeInfo.maxSpawnCount * enemyDifficulty * timeSpent;
+            levelDifficulty += enemyTypeInfo.MaxSpawnCount * enemyDifficulty * timeSpent;
         }
 
         // Добавляем вклад последнего врага в сложность уровня
-        EnemyTypeInfo lastEnemyTypeInfo = levelData.enemyTypesInfo[enemyTypesCount - 1];
-        levelDifficulty += lastEnemyTypeInfo.maxSpawnCount * (1 + (enemyTypesCount - 1) * difficultyCoefficient) *
-                           (levelData.minutesToWin * 60 + levelData.secondsToWin);
+        EnemyTypeInfo lastEnemyTypeInfo = levelData.EnemyTypesInfo[enemyTypesCount - 1];
+        levelDifficulty += lastEnemyTypeInfo.MaxSpawnCount * (1 + (enemyTypesCount - 1) * difficultyCoefficient) *
+                           (levelData.MinutesToWin * 60 + levelData.SecondsToWin);
 
         return levelDifficulty;
     }

@@ -7,9 +7,9 @@ namespace Project.Components.Scripts.Data
     {
         public void InitStartValues()
         {
-            GameData.currentLevelNumber = 1;
-            GameData.unlockedLevelNumber = 3;
-            GameData.coinCount = 0;
+            GameData.CurrentLevelNumber = 1;
+            GameData.UnlockedLevelNumber = 3;
+            GameData.CoinCount = 0;
             GameData.SaveData();
         }
 

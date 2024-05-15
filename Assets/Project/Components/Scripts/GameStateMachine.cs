@@ -1,19 +1,21 @@
-﻿using Project.Components.Scripts.Data;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using static Project.Components.Scripts.Data.GameData;
 
 namespace Project.Components.Scripts
 {
+    [RequireComponent(typeof(TimeManager))]
     public class GameStateMachine : MonoBehaviour
     {
-        [SerializeField] private GameObject gameOverCanvas;
-        [SerializeField] private GameObject wonLevelCanvas;
-        private bool gameIsWon;
+        [FormerlySerializedAs("gameOverCanvas")] [SerializeField] private GameObject _gameOverCanvas;
+        [FormerlySerializedAs("wonLevelCanvas")] [SerializeField] private GameObject _wonLevelCanvas;
+
+        private bool _isWonGame;
 
         private TimeManager timeManager;
 
-        public static bool GamePaused;
+        private static bool s_gamePaused;
 
         private void Awake()
         {
@@ -23,51 +25,51 @@ namespace Project.Components.Scripts
 
         private void FirstLoadData()
         {
-            if (!dataIsLoaded)
+            if (IsDataLoaded == false)
             {
                 LoadData();
-                dataIsLoaded = true;
+                IsDataLoaded = true;
             }
 
-            GamePaused = true;
+            s_gamePaused = true;
         }
 
         public void LostGame()
         {
-            PauseGame(gameOverCanvas);
+            PauseGame(_gameOverCanvas);
         }
 
         public void ResumeGame(GameObject canvasToSetActive)
         {
-            if (!GamePaused) return;
+            if (s_gamePaused == false) return;
 
             canvasToSetActive.SetActive(false);
 
             timeManager.ApplyWaitBeforeContinueTime();
 
-            GamePaused = true;
+            s_gamePaused = true;
         }
 
         public void ResumeGame()
         {
-            if (!GamePaused) return;
+            if (s_gamePaused == false) return;
 
             timeManager.ApplyWaitBeforeContinueTime();
 
-            GamePaused = true;
+            s_gamePaused = true;
         }
 
         private void PauseGame(GameObject canvasToSetActive)
         {
             Time.timeScale = 0f;
             canvasToSetActive.SetActive(true);
-            GamePaused = true;
+            s_gamePaused = true;
         }
 
         public void PauseGame()
         {
             Time.timeScale = 0f;
-            GamePaused = true;
+            s_gamePaused = true;
         }
 
         public void RestartLevel()
@@ -77,30 +79,28 @@ namespace Project.Components.Scripts
 
         public void WonLevel()
         {
-            gameIsWon = true;
-            PauseGame(wonLevelCanvas);
+            _isWonGame = true;
+            PauseGame(_wonLevelCanvas);
 
-            GameData.IncreaseCurrentLevel();
+            IncreaseCurrentLevel();
         }
 
         public void NextLevel()
         {
-            if (currentLevelNumber != maxLevelsCount)
-            {
-                currentLevelNumber++;
-            }
+            if (CurrentLevelNumber != MaxLevelsCount)
+                CurrentLevelNumber++;
             else
-            {
-                currentLevelNumber = 1;
-            }
+                CurrentLevelNumber = 1;
 
             RestartLevel();
         }
-
-        // Расскоментить для релиза
-        // private void OnApplicationQuit()
-        // {
-        //     SaveData();
-        // }
+        
+        private void OnApplicationQuit()
+        {
+            if (Application.isEditor == false)
+            {
+                SaveData();
+            }
+        }
     }
 }
