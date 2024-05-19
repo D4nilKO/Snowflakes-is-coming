@@ -11,7 +11,7 @@ namespace Project.Components.Scripts
 
         private void Awake()
         {
-            UpdateUIText(levelTMPText,levelText + currentLevelNumber);
+            UpdateUIText(levelTMPText, $"{levelText}{currentLevelNumber}");
         }
 
         private void UpdateUIText(TMP_Text tmpText, string value)
