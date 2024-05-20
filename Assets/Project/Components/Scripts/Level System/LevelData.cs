@@ -1,22 +1,23 @@
 ﻿using System;
-using Project.Components.Scripts.Enemies;
 using System.Collections.Generic;
+using Project.Components.Scripts.Entities.Enemies;
+using UnityEngine.Serialization;
 
 namespace Project.Components.Scripts.Level_System
 {
     [Serializable]
     public class LevelData
     {
-        public int numberOfLevel;
-        public int timeToSpawn;
-        public int secondsToWin;
-        public int minutesToWin;
-        public List<EnemyTypeInfo> enemyTypesInfo;
+        [FormerlySerializedAs("numberOfLevel")] public int NumberOfLevel;
+        [FormerlySerializedAs("timeToSpawn")] public int TimeToSpawn;
+        [FormerlySerializedAs("secondsToWin")] public int SecondsToWin;
+        [FormerlySerializedAs("minutesToWin")] public int MinutesToWin;
+        [FormerlySerializedAs("enemyTypesInfo")] public List<EnemyTypeInfo> EnemyTypesInfo;
     }
 
     [Serializable]
     public class LevelDataList
     {
-        public List<LevelData> levels;
+        [FormerlySerializedAs("levels")] public List<LevelData> Levels;
     }
 }

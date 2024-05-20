@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Project.Components.Scripts.Data;
-using Project.Components.Scripts.Enemies;
+using Project.Components.Scripts.Entities.Enemies;
 using Project.Components.Scripts.Level_System;
 using UnityEngine;
 
@@ -36,7 +36,7 @@ namespace Project.Components.Scripts
 
         private void CalculateTimeToSurvive()
         {
-            mainTimeToSurvive = enemyTypesInfo.Sum(t => t.maxSpawnCount * timeToSpawn);
+            mainTimeToSurvive = enemyTypesInfo.Sum(t => t.MaxSpawnCount * timeToSpawn);
             mainTimeToSurvive += secondsToWin + (minutesToWin * SecondsInMinute);
         }
 
@@ -48,18 +48,18 @@ namespace Project.Components.Scripts
             {
                 var levelDataList = JsonUtility.FromJson<LevelDataList>(json.text);
 
-                int maxLevelsCount = levelDataList.levels.Count;
+                int maxLevelsCount = levelDataList.Levels.Count;
                 GameData.maxLevelsCount = maxLevelsCount;
                 int currentLevelNumber = GameData.currentLevelNumber;
 
                 if (currentLevelNumber <= maxLevelsCount)
                 {
-                    var levelData = levelDataList.levels[currentLevelNumber - 1];
+                    var levelData = levelDataList.Levels[currentLevelNumber - 1];
 
-                    timeToSpawn = levelData.timeToSpawn;
-                    secondsToWin = levelData.secondsToWin;
-                    minutesToWin = levelData.minutesToWin;
-                    enemyTypesInfo = levelData.enemyTypesInfo;
+                    timeToSpawn = levelData.TimeToSpawn;
+                    secondsToWin = levelData.SecondsToWin;
+                    minutesToWin = levelData.MinutesToWin;
+                    enemyTypesInfo = levelData.EnemyTypesInfo;
 
                     CalculateTimeToSurvive();
 

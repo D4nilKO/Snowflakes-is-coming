@@ -1,4 +1,4 @@
-﻿using Project.Components.Scripts.Enemies;
+﻿using Project.Components.Scripts.Entities.Enemies;
 using UnityEngine;
 
 namespace Project.Components.Scripts

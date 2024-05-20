@@ -2,7 +2,7 @@
 using System.Linq;
 using Project.Components.Scripts.Character_s;
 using Project.Components.Scripts.Data;
-using Project.Components.Scripts.Enemies;
+using Project.Components.Scripts.Entities.Enemies;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -11,10 +11,10 @@ namespace Project.Components.Scripts
     [DisallowMultipleComponent]
     public class EntityMover : MonoBehaviour
     {
-        [HideInInspector] public List<EnemyBase> enemies; // Переделать в private
         [FormerlySerializedAs("characterPrefab")] [SerializeField] private GameObject _characterPrefab;
-        private GameObject currentCharacter;
-        private Character character;
+        
+        private List<EnemyBase> _enemies;
+        private Character _character;
 
         private void Awake()
         {
@@ -23,36 +23,41 @@ namespace Project.Components.Scripts
 
         private void Start()
         {
-            enemies = FindObjectsOfType<EnemyBase>().ToList();
+            _enemies = FindObjectsOfType<EnemyBase>().ToList();
         }
 
         private void FixedUpdate()
         {
-            foreach (EnemyBase enemy in enemies.Where(enemy => enemy.isActiveAndEnabled))
+            foreach (EnemyBase enemy in _enemies.Where(enemy => enemy.isActiveAndEnabled))
             {
                 enemy.Move();
                 enemy.Rotate();
             }
 
-            character.Move();
+            _character.Move();
         }
 
         private void InitializeCharacter()
         {
-            if (GameData.characterIsSpawned == false)
+            if (GameData.IsCharacterSpawned == false)
             {
-                GameData.characterIsSpawned = true;
-                currentCharacter = Instantiate(_characterPrefab);
+                GameObject characterObject = Instantiate(_characterPrefab);
+                GameData.IsCharacterSpawned = true;
+                
+                _character = characterObject.GetComponent<Character>();
+                CharacterCollisionHandler collisionHandler = characterObject.GetComponent<CharacterCollisionHandler>();
+                collisionHandler.Awake();
             }
             else
             {
-                character = FindObjectOfType<Character>();
+                _character = FindObjectOfType<Character>();
             }
 
-            currentCharacter = FindObjectOfType<Character>().gameObject;
-            character = currentCharacter.GetComponent<Character>();
-            currentCharacter.GetComponent<CharacterCollisionHandler>().Awake();
-            character.Awake();
+            _character.Awake();
+        }
+        public void AddEnemy(EnemyBase enemy)
+        {
+            _enemies.Add(enemy);
         }
     }
 }

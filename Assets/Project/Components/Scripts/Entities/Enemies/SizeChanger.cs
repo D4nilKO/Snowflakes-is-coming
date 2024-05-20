@@ -1,21 +1,22 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
-namespace Project.Components.Scripts.Enemies
+namespace Project.Components.Scripts.Entities.Enemies
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(Entity))]
     public class SizeChanger : MonoBehaviour
     {
-        [SerializeField] private float changeRate;
+        [FormerlySerializedAs("changeRate")] [SerializeField] private float _changeRate;
 
-        [SerializeField] private float minSize;
-        [SerializeField] private float maxSize;
+        [FormerlySerializedAs("minSize")] [SerializeField] private float _minSize;
+        [FormerlySerializedAs("maxSize")] [SerializeField] private float _maxSize;
 
-        private Entity entity;
+        private Entity _entity;
 
         private void Awake()
         {
-            entity = GetComponent<Entity>();
+            _entity = GetComponent<Entity>();
         }
 
         private void Update()
@@ -25,9 +26,10 @@ namespace Project.Components.Scripts.Enemies
 
         private void ChangeSize()
         {
-            float t = Mathf.PingPong(Time.time * changeRate, 1f);
-            float newSize = Mathf.Lerp(minSize, maxSize, t);
-            entity.Size = newSize;
+            float value = Mathf.PingPong(Time.time * _changeRate, 1f);
+            float newSize = Mathf.Lerp(_minSize, _maxSize, value);
+            
+            _entity.Size = newSize;
         }
     }
 }

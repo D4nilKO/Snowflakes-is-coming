@@ -4,8 +4,6 @@ namespace Project.Components.Scripts.Character_s
 {
     public class Character : Entity
     {
-        #region CheckOutOfBoundsFields
-
         private Bounds bounds;
         private float halfObjectWidth;
         private float halfObjectHeight;
@@ -15,11 +13,9 @@ namespace Project.Components.Scripts.Character_s
         private float minY;
         private float maxY;
 
-        #endregion
-
         private void Start()
         {
-            bounds = objectCollider.bounds;
+            bounds = ObjectCollider.bounds;
             halfObjectWidth = bounds.extents.x;
             halfObjectHeight = bounds.extents.y;
 
@@ -33,41 +29,11 @@ namespace Project.Components.Scripts.Character_s
 
         public void Move()
         {
-            Vector2 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 mousePosition = MainCamera.ScreenToWorldPoint(Input.mousePosition);
             CheckOutOfBounds(mousePosition);
         }
-        // public void Move()
-        // {
-        //     print(GameStateMachine.GamePaused);
-        //     
-        //     if (!GameStateMachine.GamePaused)
-        //         return;
-        //
-        //     Vector3 mousePosition = Input.mousePosition;
-        //     Vector3 worldPosition = GetWorldPosition(mousePosition);
-        //
-        //     ClampAndSetPosition(worldPosition);
-        // }
-        
-        
 
-        private Vector2 GetWorldPosition(Vector2 screenPosition)
-        {
-            Vector2 worldPosition = mainCamera.ScreenToWorldPoint(screenPosition);
-            RaycastHit2D hit = Physics2D.Raycast(worldPosition, Vector2.zero);
-
-            return hit.collider != null ? hit.point : transform.position;
-        }
-        
         private void CheckOutOfBounds(Vector2 newPosition)
-        {
-            newPosition.x = Mathf.Clamp(newPosition.x, minX, maxX);
-            newPosition.y = Mathf.Clamp(newPosition.y, minY, maxY);
-            
-            transform.position = Vector2.MoveTowards(transform.position, newPosition, 2.5f);
-        }
-
-        private void ClampAndSetPosition(Vector2 newPosition)
         {
             newPosition.x = Mathf.Clamp(newPosition.x, minX, maxX);
             newPosition.y = Mathf.Clamp(newPosition.y, minY, maxY);

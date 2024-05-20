@@ -12,7 +12,7 @@ namespace Project.Components.Scripts.Data
         
         public static bool dataIsLoaded;
         
-        public static bool characterIsSpawned;
+        public static bool IsCharacterSpawned;
 
         public static void IncreaseCurrentLevel()
         {

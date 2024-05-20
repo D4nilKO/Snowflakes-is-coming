@@ -1,36 +1,32 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using NTC.Global.Pool;
 using UnityEngine;
 using UnityEngine.Serialization;
 using VavilichevGD.Utils.Timing;
+using static NTC.Global.Pool.NightPool;
 
-namespace Project.Components.Scripts.Enemies
+namespace Project.Components.Scripts.Entities.Enemies
 {
     [DisallowMultipleComponent]
     public class EnemySpawner : MonoBehaviour
     {
-        [FormerlySerializedAs("timerType")] [Header("Тип таймера")] [SerializeField]
-        private TimerType _timerType;
+        [FormerlySerializedAs("timerType")] [Header("Тип таймера")] [SerializeField] private TimerType _timerType;
+        [FormerlySerializedAs("enemyContainer")] [SerializeField] private Transform _enemyContainer;
+        [FormerlySerializedAs("folder")] [SerializeField] private string _folder;
 
-        [FormerlySerializedAs("enemyContainer")] [SerializeField]
-        private Transform _enemyContainer;
+        [SerializeField] private float _timeToSpawnFirstEnemy = 0.5f;
 
-        [FormerlySerializedAs("folder")] [SerializeField]
-        private string _folder;
-
-        public float timerSeconds; // поменять на private
-        [SerializeField] private float _timeToSpawnFirstEnemy = 0.5f; 
-
-        private SyncedTimer enemyTimer;
         [SerializeField] private TimerViewer timerViewer;
 
         [SerializeField] private EntityMover entityMover;
-
+        
+        private SyncedTimer enemyTimer;
+        public float timerSeconds; // поменять на private
+        
         [HideInInspector] public List<EnemyTypeInfo> enemyTypes; // тоже на private
-
-        private Dictionary<string, int> availableEnemyCounts;
-        private int currentEnemyTypeIndex;
+        private Dictionary<string, int> _availableEnemyCounts;
+        
+        private int _currentEnemyTypeIndex;
 
         private void Awake()
         {
@@ -39,17 +35,27 @@ namespace Project.Components.Scripts.Enemies
 
             enemyTimer = new SyncedTimer(_timerType, timerSeconds);
 
-            enemyTimer.TimerFinished += OnTimerFinished;
-            enemyTimer.TimerValueChanged += TimerValueChanged;
+            SubscribeEvents();
         }
 
         private void Start()
         {
             InitializeAvailableEnemyCounts();
-            enemyTimer.Start(0.5f);
+            enemyTimer.Start(_timeToSpawnFirstEnemy);
+        }
+
+        private void SubscribeEvents()
+        {
+            enemyTimer.TimerFinished += OnTimerFinished;
+            enemyTimer.TimerValueChanged += TimerValueChanged;
         }
 
         private void OnDestroy()
+        {
+            UnsubscribeEvents();
+        }
+
+        private void UnsubscribeEvents()
         {
             enemyTimer.TimerFinished -= OnTimerFinished;
             enemyTimer.TimerValueChanged -= TimerValueChanged;
@@ -59,7 +65,7 @@ namespace Project.Components.Scripts.Enemies
         {
             SpawnNextEnemy();
 
-            if (currentEnemyTypeIndex >= enemyTypes.Count)
+            if (_currentEnemyTypeIndex >= enemyTypes.Count)
             {
                 Debug.Log("Нет доступных врагов!");
                 gameObject.SetActive(false);
@@ -71,20 +77,20 @@ namespace Project.Components.Scripts.Enemies
 
         private void InitializeAvailableEnemyCounts()
         {
-            availableEnemyCounts = new Dictionary<string, int>();
+            _availableEnemyCounts = new Dictionary<string, int>();
 
             foreach (EnemyTypeInfo enemyType in enemyTypes)
             {
-                availableEnemyCounts[enemyType.enemyPrefabName] = enemyType.maxSpawnCount;
+                _availableEnemyCounts[enemyType.EnemyPrefabName] = enemyType.MaxSpawnCount;
             }
         }
 
         private void SpawnNextEnemy()
         {
-            EnemyTypeInfo currentEnemyType = enemyTypes[currentEnemyTypeIndex];
-            string enemyPrefabName = currentEnemyType.enemyPrefabName;
+            EnemyTypeInfo currentEnemyType = enemyTypes[_currentEnemyTypeIndex];
+            string enemyPrefabName = currentEnemyType.EnemyPrefabName;
 
-            if (availableEnemyCounts.TryGetValue(enemyPrefabName, out var availableCount) && availableCount > 0)
+            if (_availableEnemyCounts.TryGetValue(enemyPrefabName, out int availableCount) && availableCount > 0)
             {
                 string path = Path.Combine(_folder, enemyPrefabName);
                 GameObject enemyPrefab = Resources.Load<GameObject>(path);
@@ -92,7 +98,7 @@ namespace Project.Components.Scripts.Enemies
                 if (enemyPrefab != null)
                 {
                     SpawnEnemy(enemyPrefab);
-                    availableEnemyCounts[enemyPrefabName]--;
+                    _availableEnemyCounts[enemyPrefabName]--;
                 }
                 else
                 {
@@ -100,17 +106,15 @@ namespace Project.Components.Scripts.Enemies
                 }
             }
 
-            if (availableEnemyCounts.TryGetValue(enemyPrefabName, out var remainingCount) && remainingCount == 0)
-            {
-                currentEnemyTypeIndex++;
-            }
+            if (_availableEnemyCounts.TryGetValue(enemyPrefabName, out int remainingCount) && remainingCount == 0)
+                _currentEnemyTypeIndex++;
         }
 
-        private void SpawnEnemy(GameObject enemyPrefab) // тут еще попробовать строчку убрать
+        private void SpawnEnemy(GameObject enemyPrefab)
         {
-            GameObject enemy = NightPool.Spawn(enemyPrefab, _enemyContainer);
+            GameObject enemy = Spawn(enemyPrefab, _enemyContainer);
             EnemyBase enemyComponent = enemy.GetComponent<EnemyBase>();
-            entityMover.enemies.Add(enemyComponent);
+            entityMover.AddEnemy(enemyComponent);
         }
 
         private void TimerValueChanged(float remainingSeconds, TimeChangingSource timeChangingSource)

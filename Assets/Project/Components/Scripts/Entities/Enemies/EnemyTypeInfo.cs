@@ -1,11 +1,12 @@
 ﻿using System;
+using UnityEngine.Serialization;
 
-namespace Project.Components.Scripts.Enemies
+namespace Project.Components.Scripts.Entities.Enemies
 {
     [Serializable]
     public class EnemyTypeInfo
     {
-        public string enemyPrefabName;
-        public int maxSpawnCount;
+        [FormerlySerializedAs("enemyPrefabName")] public string EnemyPrefabName;
+        [FormerlySerializedAs("maxSpawnCount")] public int MaxSpawnCount;
     }
 }
