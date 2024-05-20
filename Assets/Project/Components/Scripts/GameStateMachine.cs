@@ -8,8 +8,8 @@ namespace Project.Components.Scripts
     [RequireComponent(typeof(TimeManager))]
     public class GameStateMachine : MonoBehaviour
     {
-        [FormerlySerializedAs("gameOverCanvas")] [SerializeField] private GameObject _gameOverCanvas;
-        [FormerlySerializedAs("wonLevelCanvas")] [SerializeField] private GameObject _wonLevelCanvas;
+        [SerializeField] private GameObject _gameOverCanvas;
+        [SerializeField] private GameObject _wonLevelCanvas;
 
         private bool _isWonGame;
 
