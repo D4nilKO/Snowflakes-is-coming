@@ -4,14 +4,13 @@ using Project.Components.Scripts.Character_s;
 using Project.Components.Scripts.Data;
 using Project.Components.Scripts.Entities.Enemies;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Project.Components.Scripts
 {
     [DisallowMultipleComponent]
     public class EntityMover : MonoBehaviour
     {
-        [FormerlySerializedAs("characterPrefab")] [SerializeField] private GameObject _characterPrefab;
+        [SerializeField] private GameObject _characterPrefab;
         
         private List<EnemyBase> _enemies;
         private Character _character;

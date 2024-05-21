@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Project.Components.Scripts.Entities.Enemies
 {
@@ -7,10 +6,10 @@ namespace Project.Components.Scripts.Entities.Enemies
     [RequireComponent(typeof(Entity))]
     public class SizeChanger : MonoBehaviour
     {
-        [FormerlySerializedAs("changeRate")] [SerializeField] private float _changeRate;
+        [SerializeField] private float _changeRate;
 
-        [FormerlySerializedAs("minSize")] [SerializeField] private float _minSize;
-        [FormerlySerializedAs("maxSize")] [SerializeField] private float _maxSize;
+        [SerializeField] private float _minSize;
+        [SerializeField] private float _maxSize;
 
         private Entity _entity;
 

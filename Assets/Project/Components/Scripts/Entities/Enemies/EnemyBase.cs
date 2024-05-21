@@ -1,23 +1,22 @@
 ﻿using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Project.Components.Scripts.Entities.Enemies
 {
     public abstract class EnemyBase : Entity
     {
-        [FormerlySerializedAs("speed")] [Header("Скорость")] [SerializeField] [Range(0f, 20f)]
+        [Header("Скорость")] [SerializeField] [Range(0f, 20f)]
         protected float _speed = 5f;
 
-        [FormerlySerializedAs("rotateEnabled")] [Header("Вращение")] [SerializeField]
+        [Header("Вращение")] [SerializeField]
         private bool _rotateEnabled;
 
-        [FormerlySerializedAs("rotationSpeed")] [Header("Скорость вращения")] [SerializeField] [Range(1f, 500f)]
+        [Header("Скорость вращения")] [SerializeField] [Range(1f, 500f)]
         private float _rotationSpeed = 10f;
 
         private Quaternion _targetRotation;
 
-        protected Vector2 Direction; // решить как быть с protected
+        protected Vector2 Direction;
 
         protected virtual void Start()
         {

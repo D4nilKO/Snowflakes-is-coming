@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Project.Components.Scripts.Entities.Enemies;
-using UnityEngine.Serialization;
 
 namespace Project.Components.Scripts.Level_System
 {

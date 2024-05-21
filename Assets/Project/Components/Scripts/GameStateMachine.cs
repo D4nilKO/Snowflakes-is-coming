@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 using static Project.Components.Scripts.Data.GameData;
 
 namespace Project.Components.Scripts
@@ -13,13 +12,13 @@ namespace Project.Components.Scripts
 
         private bool _isWonGame;
 
-        private TimeManager timeManager;
+        private TimeManager _timeManager;
 
         private static bool s_gamePaused;
 
         private void Awake()
         {
-            timeManager = GetComponent<TimeManager>();
+            _timeManager = GetComponent<TimeManager>();
             FirstLoadData();
         }
 
@@ -41,28 +40,28 @@ namespace Project.Components.Scripts
 
         public void ResumeGame(GameObject canvasToSetActive)
         {
-            if (s_gamePaused == false) return;
+            if (s_gamePaused == false) 
+                return;
 
             canvasToSetActive.SetActive(false);
-
-            timeManager.ApplyWaitBeforeContinueTime();
+            _timeManager.ApplyWaitBeforeContinueTime();
 
             s_gamePaused = true;
         }
 
         public void ResumeGame()
         {
-            if (s_gamePaused == false) return;
+            if (s_gamePaused == false) 
+                return;
 
-            timeManager.ApplyWaitBeforeContinueTime();
-
+            _timeManager.ApplyWaitBeforeContinueTime();
             s_gamePaused = true;
         }
 
         private void PauseGame(GameObject canvasToSetActive)
         {
-            Time.timeScale = 0f;
             canvasToSetActive.SetActive(true);
+            Time.timeScale = 0f;
             s_gamePaused = true;
         }
 
@@ -74,7 +73,7 @@ namespace Project.Components.Scripts
 
         public void RestartLevel()
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single); // переписать
         }
 
         public void WonLevel()

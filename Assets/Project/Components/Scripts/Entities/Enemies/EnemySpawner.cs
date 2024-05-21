@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.Serialization;
 using VavilichevGD.Utils.Timing;
 using static NTC.Global.Pool.NightPool;
 
@@ -11,14 +9,14 @@ namespace Project.Components.Scripts.Entities.Enemies
     [DisallowMultipleComponent]
     public class EnemySpawner : MonoBehaviour
     {
-        [FormerlySerializedAs("timerType")] [Header("Тип таймера")] [SerializeField] private TimerType _timerType;
-        [FormerlySerializedAs("enemyContainer")] [SerializeField] private Transform _enemyContainer;
-        [FormerlySerializedAs("folder")] [SerializeField] private string _folder;
+        [Header("Тип таймера")] [SerializeField] private TimerType _timerType;
+        [SerializeField] private Transform _enemyContainer;
+        [SerializeField] private string _folder;
 
         [SerializeField] private float _timeToSpawnFirstEnemy = 0.5f;
 
-        [FormerlySerializedAs("timerViewer")] [SerializeField] private TimerViewer _timerViewer;
-        [FormerlySerializedAs("entityMover")] [SerializeField] private EntityMover _entityMover;
+        [SerializeField] private TimerViewer _timerViewer;
+        [SerializeField] private EntityMover _entityMover;
         
         [SerializeField] private List<EnemyTypeInfo> _enemyTypes;
 

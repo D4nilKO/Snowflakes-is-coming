@@ -7,18 +7,18 @@ namespace Project.Components.Scripts
     [RequireComponent(typeof(Collider2D), typeof(Rigidbody2D))]
     public class CharacterCollisionHandler : MonoBehaviour
     {
-        private GameStateMachine gameStateMachine;
+        private GameStateMachine _gameStateMachine;
 
         public void Awake()
         {
-            gameStateMachine = FindObjectOfType<GameStateMachine>();
+            _gameStateMachine = FindObjectOfType<GameStateMachine>();
         }
 
         private void OnTriggerEnter2D(Collider2D col)
         {
             if (col.gameObject.TryGetComponent(out EnemyBase _))
             {
-                gameStateMachine.LostGame();
+                _gameStateMachine.LostGame();
             }
         }
     }
