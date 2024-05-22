@@ -6,22 +6,15 @@ namespace Project.Components.Scripts.Utility
     [Serializable]
     public class SurviveTimer
     {
-        public int Minute => minute;
+        private StringBuilder _formattedMinute = new();
+        private StringBuilder _formattedSecond = new();
 
-        public int Second => second;
+        private int _millisecond;
+        private float _time;
 
-        public int Millisecond => millisecond;
-
-        public float CompareValue => compareValue;
-
-        private int minute;
-        private int second;
-        private int millisecond;
-        private float time;
-        private float compareValue;
-        private StringBuilder formattedMinute = new();
-        private StringBuilder formattedSecond = new();
-        private StringBuilder formattedMillisecond = new();
+        public int Minute { get; private set; }
+        public int Second { get; private set; }
+        public float CompareValue { get; private set; }
 
         public static SurviveTimer Compare(SurviveTimer a, SurviveTimer b)
         {
@@ -30,40 +23,43 @@ namespace Project.Components.Scripts.Utility
 
         public void AddTime(float deltaTime)
         {
-            compareValue += deltaTime;
-            time += deltaTime;
-            if (time >= 0.01f)
+            CompareValue += deltaTime;
+            _time += deltaTime;
+
+            if (_time >= 0.01f)
             {
-                while (time >= 0.01f)
+                while (_time >= 0.01f)
                 {
-                    time -= 0.01f;
-                    millisecond++;
+                    _time -= 0.01f;
+                    _millisecond++;
                 }
             }
 
-            if (millisecond >= 100)
+            if (_millisecond >= 100)
             {
-                millisecond = 0;
-                second++;
+                _millisecond = 0;
+                Second++;
             }
 
-            if (second < 60) return;
-            second = 0;
-            minute++;
+            if (Second < 60)
+                return;
+
+            Second = 0;
+            Minute++;
         }
 
         public string FormattedTime()
         {
-            return String.Format("{0}:{1}",
-                ZeroAdder(ref formattedMinute, Minute),
-                ZeroAdder(ref formattedSecond, Second));
-            //ZeroAdder(ref formattedMillisecond, Millisecond));
+            return $"{ZeroAdder(ref _formattedMinute, Minute)}:{ZeroAdder(ref _formattedSecond, Second)}";
         }
 
         private StringBuilder ZeroAdder(ref StringBuilder builder, int value)
         {
             builder.Remove(0, builder.Length);
-            return (value >= 10) ? builder.Append(value) : builder.Append("0" + value);
+
+            return (value >= 10)
+                ? builder.Append(value)
+                : builder.Append("0" + value);
         }
     }
 }

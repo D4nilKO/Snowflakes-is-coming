@@ -42,7 +42,6 @@ public class LevelGenerator : MonoBehaviour
         levelData.NumberOfLevel = levelNumber;
         levelData.TimeToSpawn = (int)Random.Range(minSpawnTime, maxSpawnTime);
         levelData.SecondsToWin = CalculateSecondsToWin(levelNumber);
-        levelData.MinutesToWin = CalculateMinutesToWin(levelData.SecondsToWin);
 
         levelData.EnemyTypesInfo = new List<EnemyTypeInfo>();
         int remainingSpawnCount = Random.Range(minSpawnCount, maxSpawnCount);
@@ -64,11 +63,6 @@ public class LevelGenerator : MonoBehaviour
     {
         // You can adjust the formula to fit your desired difficulty progression
         return Mathf.RoundToInt(10 - levelNumber * 0.5f);
-    }
-
-    private int CalculateMinutesToWin(int secondsToWin)
-    {
-        return secondsToWin / 60;
     }
 
     private EnemyTypeInfo GenerateEnemyTypeInfo(int enemyType, int remainingSpawnCount)

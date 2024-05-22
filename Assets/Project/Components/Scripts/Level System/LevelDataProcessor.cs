@@ -72,7 +72,7 @@ public class LevelDataProcessor : MonoBehaviour
             else if (i == enemyTypesCount - 1)
             {
                 // Последний враг тратит secondsToWin и minutesToWin
-                timeSpent = levelData.MinutesToWin * 60 + levelData.SecondsToWin;
+                timeSpent += levelData.SecondsToWin;
             }
             else
             {
@@ -90,7 +90,7 @@ public class LevelDataProcessor : MonoBehaviour
         // Добавляем вклад последнего врага в сложность уровня
         EnemyTypeInfo lastEnemyTypeInfo = levelData.EnemyTypesInfo[enemyTypesCount - 1];
         levelDifficulty += lastEnemyTypeInfo.MaxSpawnCount * (1 + (enemyTypesCount - 1) * difficultyCoefficient) *
-                           (levelData.MinutesToWin * 60 + levelData.SecondsToWin);
+                           +levelData.SecondsToWin;
 
         return levelDifficulty;
     }

@@ -4,7 +4,6 @@
       "NumberOfLevel": 1,
       "TimeToSpawn": 1,
       "SecondsToWin": 4,
-      "MinutesToWin": 0,
       "EnemyTypesInfo": [
         {
           "EnemyPrefabName": "Enemy 1",
@@ -16,7 +15,6 @@
       "NumberOfLevel": 2,
       "TimeToSpawn": 2,
       "SecondsToWin": 6,
-      "MinutesToWin": 0,
       "EnemyTypesInfo": [
         {
           "EnemyPrefabName": "Enemy 1",
@@ -32,7 +30,6 @@
       "NumberOfLevel": 3,
       "TimeToSpawn": 3,
       "SecondsToWin": 3,
-      "MinutesToWin": 0,
       "EnemyTypesInfo": [
         {
           "EnemyPrefabName": "Enemy 1",
@@ -48,7 +45,6 @@
       "NumberOfLevel": 4,
       "TimeToSpawn": 3,
       "SecondsToWin": 6,
-      "MinutesToWin": 0,
       "EnemyTypesInfo": [
         {
           "EnemyPrefabName": "Enemy 1",
@@ -64,7 +60,6 @@
       "NumberOfLevel": 5,
       "TimeToSpawn": 3,
       "SecondsToWin": 8,
-      "MinutesToWin": 0,
       "EnemyTypesInfo": [
         {
           "EnemyPrefabName": "Enemy 1",
@@ -84,7 +79,6 @@
       "NumberOfLevel": 6,
       "TimeToSpawn": 3,
       "SecondsToWin": 8,
-      "MinutesToWin": 0,
       "EnemyTypesInfo": [
         {
           "EnemyPrefabName": "Enemy 1",
@@ -104,7 +98,6 @@
       "NumberOfLevel": 7,
       "TimeToSpawn": 2.5,
       "SecondsToWin": 8,
-      "MinutesToWin": 0,
       "EnemyTypesInfo": [
         {
           "EnemyPrefabName": "Enemy 1",
@@ -124,7 +117,6 @@
       "NumberOfLevel": 8,
       "TimeToSpawn": 2,
       "SecondsToWin": 10,
-      "MinutesToWin": 0,
       "EnemyTypesInfo": [
         {
           "EnemyPrefabName": "Enemy 1",
@@ -148,7 +140,6 @@
       "NumberOfLevel": 9,
       "TimeToSpawn": 2,
       "SecondsToWin": 15,
-      "MinutesToWin": 0,
       "EnemyTypesInfo": [
         {
           "EnemyPrefabName": "Enemy 1",
@@ -172,7 +163,6 @@
       "NumberOfLevel": 10,
       "TimeToSpawn": 1.5,
       "SecondsToWin": 20,
-      "MinutesToWin": 0,
       "EnemyTypesInfo": [
         {
           "EnemyPrefabName": "Enemy 1",
@@ -192,7 +182,6 @@
       "NumberOfLevel": 11,
       "TimeToSpawn": 1.5,
       "SecondsToWin": 18,
-      "MinutesToWin": 0,
       "EnemyTypesInfo": [
         {
           "EnemyPrefabName": "Enemy 1",
@@ -212,7 +201,6 @@
       "NumberOfLevel": 12,
       "TimeToSpawn": 1.5,
       "SecondsToWin": 16,
-      "MinutesToWin": 0,
       "EnemyTypesInfo": [
         {
           "EnemyPrefabName": "Enemy 1",
@@ -232,7 +220,6 @@
       "NumberOfLevel": 13,
       "TimeToSpawn": 1.5,
       "SecondsToWin": 15,
-      "MinutesToWin": 0,
       "EnemyTypesInfo": [
         {
           "EnemyPrefabName": "Enemy 1",

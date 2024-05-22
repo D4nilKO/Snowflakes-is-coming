@@ -6,7 +6,6 @@ namespace Project.Components.Scripts
     [RequireComponent(typeof(Collider2D), typeof(Rigidbody2D),typeof(SpriteRenderer))]
     public abstract class Entity : MonoBehaviour
     {
-        protected SpriteRenderer SpriteRenderer;
         protected Camera MainCamera;
 
         protected static float ScreenWidth;
@@ -17,7 +16,7 @@ namespace Project.Components.Scripts
 
         protected float ObjectHeight;
         protected float ObjectWidth;
-        
+
         private float _size;
 
         public float Size
@@ -26,7 +25,8 @@ namespace Project.Components.Scripts
             {
                 gameObject.transform.localScale = new Vector3(value, value, 1f);
                 _size = value;
-                GetObjectSize();
+                
+                FetchObjectSize();
             }
         }
 
@@ -36,11 +36,11 @@ namespace Project.Components.Scripts
             ObjectCollider = GetComponent<Collider2D>();
             
             MainCamera = Camera.main;
-            GetCameraSize(MainCamera);
+            FetchCameraSize(MainCamera);
             Size = gameObject.transform.localScale.x;
         }
 
-        protected void GetObjectSize()
+        protected void FetchObjectSize()
         {
             Bounds bounds = ObjectCollider.bounds;
             
@@ -48,10 +48,15 @@ namespace Project.Components.Scripts
             ObjectHeight = bounds.size.y;
         }
 
-        private static void GetCameraSize(Camera camera)
+        private static void FetchCameraSize(Camera camera)
         {
             ScreenWidth = camera.orthographicSize * camera.aspect * 2f;
             ScreenHeight = camera.orthographicSize * 2f;
+        }
+        
+        private void SetSize(float newSize)
+        {
+            Size = newSize;
         }
     }
 }

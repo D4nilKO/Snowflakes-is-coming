@@ -7,11 +7,11 @@ namespace Project.Components.Scripts
     [RequireComponent(typeof(Collider2D), typeof(Rigidbody2D))]
     public class CharacterCollisionHandler : MonoBehaviour
     {
-        private GameStateMachine _gameStateMachine;
+        [SerializeField] private GameStateMachine _gameStateMachine;
 
         public void Awake()
         {
-            _gameStateMachine = FindObjectOfType<GameStateMachine>();
+            _gameStateMachine = FindObjectOfType<GameStateMachine>();// убрать 
         }
 
         private void OnTriggerEnter2D(Collider2D col)

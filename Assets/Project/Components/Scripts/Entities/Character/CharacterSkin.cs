@@ -7,6 +7,10 @@ namespace Project.Components.Scripts.Character_s
     public class CharacterSkin
     {
         [SerializeField] private string skinName;
+        [SerializeField] private Sprite skinSprite;
+        [SerializeField] private PolygonCollider2D skinCollider;
+
+        private bool isUnlocked;
 
         public string SkinName
         {
@@ -14,23 +18,17 @@ namespace Project.Components.Scripts.Character_s
             set => skinName = value;
         }
 
-        [SerializeField] private Sprite skinSprite;
-
         public Sprite SkinSprite
         {
             get => skinSprite;
             set => skinSprite = value;
         }
 
-        [SerializeField] private PolygonCollider2D skinCollider;
-
         public PolygonCollider2D SkinCollider
         {
             get => skinCollider;
             set => skinCollider = value;
         }
-
-        private bool isUnlocked;
 
         public bool IsUnlocked
         {

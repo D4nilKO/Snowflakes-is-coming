@@ -3,12 +3,11 @@ using Project.Components.Scripts;
 using Project.Components.Scripts.Utility;
 using UnityEngine;
 
-public class TimeManager : MonoBehaviour
+public class TimeManager : MonoBehaviour // переписать
 {
     [SerializeField] private float startTimeScale = 1;
 
     [SerializeField] private float startTimePauseBeforeContinueTime = 0.5f;
-    private float timePauseBeforeContinueTime;
 
     [HideInInspector] public int secondCounter;
     [HideInInspector] public int minuteCounter;
@@ -45,7 +44,9 @@ public class TimeManager : MonoBehaviour
     {
         gameTimer.AddTime(Time.fixedDeltaTime);
 
-        if (secondCounter == gameTimer.Second) return;
+        if (secondCounter == gameTimer.Second) 
+            return;
+        
         secondCounter = gameTimer.Second;
 
         CheckLevelWon();
@@ -55,7 +56,9 @@ public class TimeManager : MonoBehaviour
 
     private void CheckLevelWon()
     {
-        if ((secondsToWin != secondCounter) || (minutesToWin != minuteCounter)) return;
+        if ((secondsToWin != secondCounter) || (minutesToWin != minuteCounter)) 
+            return;
+        
         gameStateMachine.WonLevel();
     }
 
@@ -67,7 +70,7 @@ public class TimeManager : MonoBehaviour
 
     private IEnumerator WaitBeforeContinueTime()
     {
-        timePauseBeforeContinueTime = startTimePauseBeforeContinueTime;
+        float timePauseBeforeContinueTime = startTimePauseBeforeContinueTime;
         while (timePauseBeforeContinueTime > 0)
         {
             timePauseBeforeContinueTime -= Time.unscaledDeltaTime;

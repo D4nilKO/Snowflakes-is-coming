@@ -10,7 +10,6 @@ namespace Project.Components.Scripts.Level_System
         public int NumberOfLevel;
         public int TimeToSpawn;
         public int SecondsToWin;
-        public int MinutesToWin;
         public List<EnemyTypeInfo> EnemyTypesInfo;
     }
 

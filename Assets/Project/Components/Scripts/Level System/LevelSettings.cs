@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Project.Components.Scripts.Data;
 using Project.Components.Scripts.Entities.Enemies;
@@ -11,6 +12,8 @@ namespace Project.Components.Scripts.Level_System
     {
         [SerializeField] private string _jsonFileName;
 
+        [SerializeField] private LevelData _currentLevelData;
+        
         [Header("Период спавна врагов")] [SerializeField]
         private int _timeToSpawn;
         
@@ -18,16 +21,16 @@ namespace Project.Components.Scripts.Level_System
         [SerializeField]
         private int _secondsToWin;
 
-        [SerializeField]
-        private int _minutesToWin; // Упразнить
-
         [SerializeField] [Space(10)]
         private List<EnemyTypeInfo> _enemyTypesInfo;
 
         private TimeManager _timeManager;
         private EnemySpawner _enemySpawner;
+        
         private int _mainTimeToSurvive;
         private int _secondsInMinute = 60;
+        
+        public event Action<LevelData> LevelSettingsReady;
 
         private void Awake()
         {
@@ -40,7 +43,7 @@ namespace Project.Components.Scripts.Level_System
         private void CalculateTimeToSurvive()
         {
             _mainTimeToSurvive = _enemyTypesInfo.Sum(t => t.MaxSpawnCount * _timeToSpawn);
-            _mainTimeToSurvive += _secondsToWin + (_minutesToWin * _secondsInMinute);
+            _mainTimeToSurvive += _secondsToWin;
         }
 
         private void LoadLevelSettings()
@@ -72,16 +75,16 @@ namespace Project.Components.Scripts.Level_System
             }
 
             LevelData levelData = levelDataList.Levels[currentLevelNumber - 1];
+            _currentLevelData = levelData;
+            LevelSettingsReady?.Invoke(levelData);
 
             _timeToSpawn = levelData.TimeToSpawn;
             _secondsToWin = levelData.SecondsToWin;
-            _minutesToWin = levelData.MinutesToWin;
             _enemyTypesInfo = levelData.EnemyTypesInfo;
 
             CalculateTimeToSurvive();
 
             _timeManager.secondsToWin = _mainTimeToSurvive % _secondsInMinute;
-            _timeManager.minutesToWin = _mainTimeToSurvive / _secondsInMinute;
 
             _enemySpawner.SetStartedParameters(_enemyTypesInfo, _timeToSpawn);
         }

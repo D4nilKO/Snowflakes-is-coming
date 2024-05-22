@@ -20,7 +20,7 @@ namespace Project.Components.Scripts.Entities.Enemies
 
         protected virtual void Start()
         {
-            GetObjectSize();
+            FetchObjectSize();
             SetRigidbodyVelocity();
 
             _targetRotation = transform.rotation;
@@ -28,7 +28,7 @@ namespace Project.Components.Scripts.Entities.Enemies
 
         private void OnEnable() // посмотреть зачем тут дублируется код
         {
-            GetObjectSize();
+            FetchObjectSize();
             SetRigidbodyVelocity();
         }
 
