@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Project.Components.Scripts.Character_s
+namespace Project.Components.Scripts.Entities.Character
 {
     public class Character : Entity
     {
@@ -12,12 +12,6 @@ namespace Project.Components.Scripts.Character_s
         private float _maxX;
         private float _minY;
         private float _maxY;
-
-        private void Start()
-        {
-            SetBounds();
-            DontDestroyOnLoad(gameObject);
-        }
 
         private void SetBounds()
         {
@@ -31,18 +25,23 @@ namespace Project.Components.Scripts.Character_s
             _maxY = ScreenHeight * 0.5f - _halfObjectHeight;
         }
 
+        private void CheckOutOfBounds(Vector2 newPosition)
+        {
+            newPosition.x = Mathf.Clamp(newPosition.x, _minX, _maxX);
+            newPosition.y = Mathf.Clamp(newPosition.y, _minY, _maxY);
+
+            transform.position = Vector2.MoveTowards(transform.position, newPosition, 2.5f);
+        }
+
         public void Move()
         {
             Vector2 mousePosition = MainCamera.ScreenToWorldPoint(Input.mousePosition);
             CheckOutOfBounds(mousePosition);
         }
 
-        private void CheckOutOfBounds(Vector2 newPosition)
+        public void Init()
         {
-            newPosition.x = Mathf.Clamp(newPosition.x, _minX, _maxX);
-            newPosition.y = Mathf.Clamp(newPosition.y, _minY, _maxY);
-            
-            transform.position = Vector2.MoveTowards(transform.position, newPosition, 2.5f);
+            SetBounds();
         }
     }
 }

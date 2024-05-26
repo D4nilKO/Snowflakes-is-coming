@@ -10,35 +10,35 @@ namespace VavilichevGD.Utils.Timing
 		public event TimerValueChangedHandler TimerValueChanged;
 		public event Action TimerFinished;
 
-		public TimerType type { get; }
-		public bool isActive { get; private set; }
-		public bool isPaused { get; private set; }
-		public float remainingSeconds { get; private set; }
+		public TimerType Type { get; }
+		public bool IsActive { get; private set; }
+		public bool IsPaused { get; private set; }
+		public float RemainingSeconds { get; private set; }
 
 		public SyncedTimer(TimerType type)
 		{
-			this.type = type;
+			this.Type = type;
 		}
 
 		public SyncedTimer(TimerType type, float seconds)
 		{
-			this.type = type;
+			this.Type = type;
 
 			SetTime(seconds);
 		}
 
 		public void SetTime(float seconds)
 		{
-			remainingSeconds = seconds;
-			TimerValueChanged?.Invoke(remainingSeconds, TimeChangingSource.TimeForceChanged);
+			RemainingSeconds = seconds;
+			TimerValueChanged?.Invoke(RemainingSeconds, TimeChangingSource.TimeForceChanged);
 		}
 
 		public void Start()
 		{
-			if (isActive)
+			if (IsActive)
 				return;
 
-			if (System.Math.Abs(remainingSeconds) < Mathf.Epsilon)
+			if (Math.Abs(RemainingSeconds) < Mathf.Epsilon)
 			{
 #if DEBUG
 				Debug.LogError("TIMER: You are trying start timer with remaining seconds equal 0.");
@@ -47,16 +47,16 @@ namespace VavilichevGD.Utils.Timing
 				return;
 			}
 
-			isActive = true;
-			isPaused = false;
+			IsActive = true;
+			IsPaused = false;
 			SubscribeOnTimeInvokerEvents();
 
-			TimerValueChanged?.Invoke(remainingSeconds, TimeChangingSource.TimerStarted);
+			TimerValueChanged?.Invoke(RemainingSeconds, TimeChangingSource.TimerStarted);
 		}
 
 		public void Start(float seconds)
 		{
-			if (isActive)
+			if (IsActive)
 				return;
 
 			SetTime(seconds);
@@ -65,44 +65,58 @@ namespace VavilichevGD.Utils.Timing
 
 		public void Pause()
 		{
-			if (isPaused || !isActive)
+			if (IsPaused || !IsActive)
 				return;
 
-			isPaused = true;
+			IsPaused = true;
 			UnsubscribeFromTimeInvokerEvents();
 
-			TimerValueChanged?.Invoke(remainingSeconds, TimeChangingSource.TimerPaused);
+			TimerValueChanged?.Invoke(RemainingSeconds, TimeChangingSource.TimerPaused);
 		}
 
 		public void Unpause()
 		{
-			if (!isPaused || !isActive)
+			if (!IsPaused || !IsActive)
 				return;
 
-			isPaused = false;
+			IsPaused = false;
 			SubscribeOnTimeInvokerEvents();
 
-			TimerValueChanged?.Invoke(remainingSeconds, TimeChangingSource.TimerUnpaused);
+			TimerValueChanged?.Invoke(RemainingSeconds, TimeChangingSource.TimerUnpaused);
 		}
 
 		public void Stop()
 		{
-			if (isActive)
+			if (IsActive)
 			{
 				UnsubscribeFromTimeInvokerEvents();
 				
-				remainingSeconds = 0f;
-				isActive = false;
-				isPaused = false;
+				RemainingSeconds = 0f;
+				IsActive = false;
+				IsPaused = false;
 
-				TimerValueChanged?.Invoke(remainingSeconds, TimeChangingSource.TimerFinished);
+				TimerValueChanged?.Invoke(RemainingSeconds, TimeChangingSource.TimerFinished);
 				TimerFinished?.Invoke();
+			}
+		}
+
+		public void ForceStop()
+		{
+			if (IsActive)
+			{
+				UnsubscribeFromTimeInvokerEvents();
+				
+				RemainingSeconds = 0f;
+				IsActive = false;
+				IsPaused = false;
+
+				TimerValueChanged?.Invoke(RemainingSeconds, TimeChangingSource.TimerFinished);
 			}
 		}
 
 		private void SubscribeOnTimeInvokerEvents()
 		{
-			switch (type)
+			switch (Type)
 			{
 				case TimerType.UpdateTick:
 					TimeInvoker.instance.OnUpdateTimeTickedEvent += OnTicked;
@@ -123,7 +137,7 @@ namespace VavilichevGD.Utils.Timing
 
 		private void UnsubscribeFromTimeInvokerEvents()
 		{
-			switch (type)
+			switch (Type)
 			{
 				case TimerType.UpdateTick:
 					TimeInvoker.instance.OnUpdateTimeTickedEvent -= OnTicked;
@@ -144,7 +158,7 @@ namespace VavilichevGD.Utils.Timing
 
 		private void CheckFinish()
 		{
-			if (remainingSeconds <= 0f)
+			if (RemainingSeconds <= 0f)
 			{
 				Stop();
 			}
@@ -152,15 +166,15 @@ namespace VavilichevGD.Utils.Timing
 
 		private void NotifyAboutTimePassed()
 		{
-			if (remainingSeconds >= 0f)
+			if (RemainingSeconds >= 0f)
 			{
-				TimerValueChanged?.Invoke(remainingSeconds, TimeChangingSource.TimePassed);
+				TimerValueChanged?.Invoke(RemainingSeconds, TimeChangingSource.TimePassed);
 			}
 		}
 
 		private void OnTicked(float deltaTime)
 		{
-			remainingSeconds -= deltaTime;
+			RemainingSeconds -= deltaTime;
 			
 			NotifyAboutTimePassed();
 			CheckFinish();
@@ -168,7 +182,7 @@ namespace VavilichevGD.Utils.Timing
 
 		private void OnSyncedSecondTicked()
 		{
-			remainingSeconds -= 1;
+			RemainingSeconds -= 1;
 			
 			NotifyAboutTimePassed();
 			CheckFinish();

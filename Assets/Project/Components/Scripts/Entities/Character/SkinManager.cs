@@ -1,42 +1,42 @@
 ﻿using UnityEngine;
 
-namespace Project.Components.Scripts.Character_s
+namespace Project.Components.Scripts.Entities.Character
 {
     [DisallowMultipleComponent]
     public class SkinManager : MonoBehaviour
     {
-        [SerializeField] private int numberOfDefaultSkin;
-        [SerializeField] [Space(10)] private CharacterSkin[] skins;
+        [SerializeField] private int _numberOfDefaultSkin;
+        [SerializeField] [Space(10)] private CharacterSkin[] _skins;
 
-        [SerializeField] private CharacterSkin currentCharacterSkin;
-        private SpriteRenderer characterRenderer;
-        private PolygonCollider2D characterCollider;
+        [SerializeField] private CharacterSkin _currentCharacterSkin;
+        
+        private SpriteRenderer _characterRenderer;
+        private PolygonCollider2D _characterCollider;
+
+        private void Awake()
+        {
+            _skins[_numberOfDefaultSkin].IsUnlocked = true;
+            
+            _characterRenderer = GetComponent<SpriteRenderer>();
+            _characterCollider = GetComponent<PolygonCollider2D>();
+
+            if (_currentCharacterSkin != GetDefaultSkin()) 
+                ChangeSkin(GetDefaultSkin());
+        }
 
         public CharacterSkin GetDefaultSkin()
         {
-            return skins[numberOfDefaultSkin];
+            return _skins[_numberOfDefaultSkin];
         }
 
         public void ChangeSkin(CharacterSkin newSkin)
         {
-            currentCharacterSkin = newSkin;
+            _currentCharacterSkin = newSkin;
 
-            characterCollider.points = newSkin.SkinCollider.points;
-            characterCollider = newSkin.SkinCollider;
+            _characterCollider.points = newSkin.SkinCollider.points;
+            _characterCollider = newSkin.SkinCollider;
 
-            characterRenderer.sprite = newSkin.SkinSprite;
-        }
-
-        private void Awake()
-        {
-            skins[numberOfDefaultSkin].IsUnlocked = true;
-            characterRenderer = GetComponent<SpriteRenderer>();
-            characterCollider = GetComponent<PolygonCollider2D>();
-
-            if (currentCharacterSkin != GetDefaultSkin())
-            {
-                ChangeSkin(GetDefaultSkin());
-            }
+            _characterRenderer.sprite = newSkin.SkinSprite;
         }
     }
 }

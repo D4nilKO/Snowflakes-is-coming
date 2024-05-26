@@ -9,55 +9,44 @@ namespace Project.Components.Scripts.Entities.Enemies
     [DisallowMultipleComponent]
     public class EnemySpawner : MonoBehaviour
     {
-        [Header("Тип таймера")] [SerializeField] private TimerType _timerType;
+        [Header("Тип таймера")] [SerializeField]
+        private TimerType _timerType;
+
         [SerializeField] private Transform _enemyContainer;
         [SerializeField] private string _folder;
 
         [SerializeField] private float _timeToSpawnFirstEnemy = 0.5f;
-
-        [SerializeField] private TimerViewer _timerViewer;
-        [SerializeField] private EntityMover _entityMover;
         
-        [SerializeField] private List<EnemyTypeInfo> _enemyTypes;
+        [SerializeField] private EntityMover _entityMover;
 
-        private SyncedTimer _enemyTimer;
+        [SerializeField] private List<EnemyTypeInfo> _enemyTypes;
+        
+        private Dictionary<string, int> _availableEnemyCounts;
+        public SyncedTimer Timer { get; private set; }
         private int _timerSeconds;
 
-        private Dictionary<string, int> _availableEnemyCounts;
-        
         private int _currentEnemyTypeIndex;
+        
+        [SerializeField] private bool _isInitialized;
 
-        private void Awake()
+        public void Init(List<EnemyTypeInfo> enemyTypeInfos, int timeToSpawn)
         {
-            _entityMover = FindObjectOfType<EntityMover>();// эти две строчки тоже убрать
-            _timerViewer = FindObjectOfType<TimerViewer>();
-
-            _enemyTimer = new SyncedTimer(_timerType, _timerSeconds);
-
-            SubscribeEvents();
-        }
-
-        private void Start()
-        {
+            Debug.Log("init enemy spawner");
+            
+            SetStartedParameters(enemyTypeInfos, timeToSpawn);
+            _currentEnemyTypeIndex = 0;
+            
             InitializeAvailableEnemyCounts();
-            _enemyTimer.Start(_timeToSpawnFirstEnemy);
+            
+            Timer = new SyncedTimer(_timerType, _timerSeconds);
+            Timer.Start(_timeToSpawnFirstEnemy);
+            
+            SubscribeEvents();
         }
 
         private void OnDestroy()
         {
             UnsubscribeEvents();
-        }
-
-        private void SubscribeEvents()
-        {
-            _enemyTimer.TimerFinished += OnTimerFinished;
-            _enemyTimer.TimerValueChanged += TimerValueChanged;
-        }
-
-        private void UnsubscribeEvents()
-        {
-            _enemyTimer.TimerFinished -= OnTimerFinished;
-            _enemyTimer.TimerValueChanged -= TimerValueChanged;
         }
 
         private void OnTimerFinished()
@@ -66,12 +55,12 @@ namespace Project.Components.Scripts.Entities.Enemies
 
             if (_currentEnemyTypeIndex >= _enemyTypes.Count)
             {
-                Debug.Log("Нет доступных врагов!");
+                Debug.Log("Нет доступных врагов");
                 gameObject.SetActive(false);
                 return;
             }
 
-            _enemyTimer.Start(_timerSeconds);
+            Timer.Start(_timerSeconds);
         }
 
         private void InitializeAvailableEnemyCounts()
@@ -109,6 +98,17 @@ namespace Project.Components.Scripts.Entities.Enemies
                 _currentEnemyTypeIndex++;
         }
 
+        private void SubscribeEvents()
+        {
+            Timer.TimerFinished += OnTimerFinished;
+        }
+
+        private void UnsubscribeEvents()
+        {
+            if (_isInitialized) 
+                Timer.TimerFinished -= OnTimerFinished;
+        }
+
         private void SpawnEnemy(GameObject enemyPrefab)
         {
             GameObject enemy = Spawn(enemyPrefab, _enemyContainer);
@@ -116,12 +116,7 @@ namespace Project.Components.Scripts.Entities.Enemies
             _entityMover.AddEnemy(enemyComponent);
         }
 
-        private void TimerValueChanged(float remainingSeconds, TimeChangingSource timeChangingSource)
-        {
-            _timerViewer.UpdateEnemyTimerText(remainingSeconds);
-        }
-
-        public void SetStartedParameters(List<EnemyTypeInfo> enemyTypeInfos, int timeToSpawn)
+        private void SetStartedParameters(List<EnemyTypeInfo> enemyTypeInfos, int timeToSpawn)
         {
             _enemyTypes = enemyTypeInfos;
             _timerSeconds = timeToSpawn;
