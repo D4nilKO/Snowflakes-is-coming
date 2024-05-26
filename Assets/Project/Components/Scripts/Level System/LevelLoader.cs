@@ -14,6 +14,9 @@ namespace Project.Components.Scripts.Level_System
         [SerializeField] private Character _player;
         [SerializeField] private LevelSettings _levelSettings;
         [SerializeField] private TimersView _timersView;
+        [SerializeField] private EnemyContainer _enemyContainer;
+        
+        private LevelData _levelData;
 
         private void Awake()
         {
@@ -42,14 +45,25 @@ namespace Project.Components.Scripts.Level_System
 
             _enemySpawner.Init(levelData.EnemyTypesInfo, levelData.TimeToSpawn);
             _gameOutcome.Init(levelData.TimeToSurvive);
-            _timersView.Init();
+            _timersView.Init(levelData.TimeToSurvive);
+            _player.Init();
+            
+            _levelData = levelData;
+        }
+
+        public void RestartLevel()
+        {
+            _enemyContainer.ClearActiveEnemies();
+            _enemySpawner.Init(_levelData.EnemyTypesInfo, _levelData.TimeToSpawn);
+            _gameOutcome.Init(_levelData.TimeToSurvive);
+            _timersView.Init(_levelData.TimeToSurvive);
             _player.Init();
         }
 
         public void LoadNextLevel()
         {
             ProgressData.IncreaseCurrentLevel();
-
+            _enemyContainer.ClearActiveEnemies();
             _levelSettings.SetLevelSettings();
         }
     }

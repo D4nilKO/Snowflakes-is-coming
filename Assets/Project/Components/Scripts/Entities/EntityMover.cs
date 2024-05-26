@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Project.Components.Scripts.Entities.Character;
 using Project.Components.Scripts.Entities.Enemies;
 using UnityEngine;
 
-namespace Project.Components.Scripts
+namespace Project.Components.Scripts.Entities
 {
     [DisallowMultipleComponent]
     public class EntityMover : MonoBehaviour
     {
-        [SerializeField] private Character _character;
+        [SerializeField] private Character.Character _character;
 
         [SerializeField] private List<EnemyBase> _enemies;
 
@@ -28,7 +27,7 @@ namespace Project.Components.Scripts
 
         private void FixedUpdate()
         {
-            foreach (EnemyBase enemy in _enemies.Where(enemy => enemy.isActiveAndEnabled))
+            foreach (IMovable enemy in _enemies.Where(enemy => enemy.isActiveAndEnabled))
             {
                 enemy.Move();
             }

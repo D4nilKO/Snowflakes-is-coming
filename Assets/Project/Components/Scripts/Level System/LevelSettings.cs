@@ -12,6 +12,8 @@ namespace Project.Components.Scripts.Level_System
         [SerializeField] [Header("Для ознакомления, загружается в начале игры")]
         private LevelData _currentLevelData;
 
+        public LevelData GetLevelData => _currentLevelData;
+        
         public event Action<LevelData> LevelSettingsReady;
 
         private void Start()

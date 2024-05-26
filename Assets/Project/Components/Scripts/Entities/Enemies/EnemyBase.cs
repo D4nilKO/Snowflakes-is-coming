@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using NTC.Global.Pool;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Project.Components.Scripts.Entities.Enemies
 {
-    public abstract class EnemyBase : Entity, IMovable
+    public abstract class EnemyBase : Entity, IMovable, IPoolItem
     {
         [SerializeField] [Range(0f, 20f)] protected float _speed = 5f;
 
@@ -14,6 +15,8 @@ namespace Project.Components.Scripts.Entities.Enemies
         private Quaternion _targetRotation;
 
         protected Vector2 Direction;
+
+        public abstract void Move();
 
         protected virtual void Start()
         {
@@ -78,14 +81,22 @@ namespace Project.Components.Scripts.Entities.Enemies
             if (_rotateEnabled == false)
                 return;
 
-            float newRotation = _targetRotation.eulerAngles.z + (_rotationSpeed * Time.fixedDeltaTime);
+            float newRotation = _targetRotation.eulerAngles.z + (_rotationSpeed * Time.deltaTime);
 
             _targetRotation = Quaternion.Euler(0f, 0f, newRotation);
 
             transform.rotation = Quaternion.RotateTowards(transform.rotation, _targetRotation,
-                _rotationSpeed * Time.fixedDeltaTime);
+                _rotationSpeed * Time.deltaTime);
         }
 
-        public abstract void Move();
+        public void OnSpawn()
+        {
+            
+        }
+
+        public void OnDespawn()
+        {
+            
+        }
     }
 }

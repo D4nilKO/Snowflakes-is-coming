@@ -68,9 +68,14 @@ namespace Project.Components.Scripts.Timing
             _enemySpawner.Timer.TimerValueChanged -= UpdateEnemyTimerDisplay;
         }
 
-        public void Init()
+        public void Init(float timeToSurvive)
         {
+            Debug.Log("timers view init");
+            
+            UnsubscribeEvents();
             SubscribeEvents();
+            
+            UpdateMainTimerText(timeToSurvive, default);
         }
     }
 }

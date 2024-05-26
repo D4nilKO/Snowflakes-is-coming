@@ -2,7 +2,7 @@
 
 namespace Project.Components.Scripts.Entities.Character
 {
-    public class Character : Entity
+    public class Character : Entity, IMovable
     {
         private Bounds _bounds;
         private float _halfObjectWidth;
@@ -41,6 +41,8 @@ namespace Project.Components.Scripts.Entities.Character
 
         public void Init()
         {
+            Debug.Log("character init");
+            
             SetBounds();
         }
     }

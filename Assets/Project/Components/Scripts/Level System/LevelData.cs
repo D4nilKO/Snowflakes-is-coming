@@ -14,6 +14,17 @@ namespace Project.Components.Scripts.Level_System
         public List<EnemyTypeInfo> EnemyTypesInfo;
 
         public float TimeToSurvive => EnemyTypesInfo.Sum(t => t.MaxSpawnCount * TimeToSpawn) + SecondsToWin;
+
+        public LevelData Clone()
+        {
+            return new LevelData
+            {
+                NumberOfLevel = this.NumberOfLevel,
+                TimeToSpawn = this.TimeToSpawn,
+                SecondsToWin = this.SecondsToWin,
+                EnemyTypesInfo = new List<EnemyTypeInfo>(this.EnemyTypesInfo)
+            };
+        }
     }
 
     [Serializable]

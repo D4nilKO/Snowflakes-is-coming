@@ -2,20 +2,22 @@
 {
     public static class ProgressData // инкапсуляция говорит пока...
     {
-        public static int CurrentLevelNumber = 1;
+        public static int CurrentLevelNumber { get; private set; } = 1;
         public static int UnlockedLevelNumber;
         public static int CoinCount;
 
         public static int MaxLevelsCount;
-        
+
         public static bool IsDataLoaded;
-        
-        public static bool IsCharacterSpawned;
+
 
         public static void IncreaseCurrentLevel()
         {
-            if (CurrentLevelNumber != MaxLevelsCount) 
+            if (CurrentLevelNumber != MaxLevelsCount)
+            {
+                CurrentLevelNumber++;
                 UnlockedLevelNumber++;
+            }
         }
 
         /*

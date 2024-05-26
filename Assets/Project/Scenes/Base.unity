@@ -290,6 +290,7 @@ MonoBehaviour:
   _player: {fileID: 1538021602}
   _levelSettings: {fileID: 320985114}
   _timersView: {fileID: 1926654809}
+  _enemyContainer: {fileID: 2091822255}
 --- !u!4 &50388108
 Transform:
   m_ObjectHideFlags: 0
@@ -1736,42 +1737,10 @@ PrefabInstance:
     - target: {fileID: 1232662313, guid: 00ad8649d0d864840966b9472cf7e3dc, type: 3}
       propertyPath: _gameOutcome
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4900651501536250258, guid: 00ad8649d0d864840966b9472cf7e3dc, type: 3}
-      propertyPath: _skins.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4900651501536250258, guid: 00ad8649d0d864840966b9472cf7e3dc, type: 3}
-      propertyPath: _skins.Array.data[0]._skinName
-      value: Sun 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4900651501536250258, guid: 00ad8649d0d864840966b9472cf7e3dc, type: 3}
-      propertyPath: _currentCharacterSkin._skinName
-      value: Sun 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4900651501536250258, guid: 00ad8649d0d864840966b9472cf7e3dc, type: 3}
-      propertyPath: _skins.Array.data[0]._skinSprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 863b895e2a5df4b48bc57ca1436d8108, type: 3}
-    - target: {fileID: 4900651501536250258, guid: 00ad8649d0d864840966b9472cf7e3dc, type: 3}
-      propertyPath: _currentCharacterSkin._skinSprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 863b895e2a5df4b48bc57ca1436d8108, type: 3}
-    - target: {fileID: 4900651501536250258, guid: 00ad8649d0d864840966b9472cf7e3dc, type: 3}
-      propertyPath: _skins.Array.data[0]._skinCollider
-      value: 
-      objectReference: {fileID: 454269979}
-    - target: {fileID: 4900651501536250258, guid: 00ad8649d0d864840966b9472cf7e3dc, type: 3}
-      propertyPath: _currentCharacterSkin._skinCollider
-      value: 
-      objectReference: {fileID: 454269979}
+      objectReference: {fileID: 1410697578}
     - target: {fileID: 5490961874798397312, guid: 00ad8649d0d864840966b9472cf7e3dc, type: 3}
       propertyPath: m_Name
       value: Character
-      objectReference: {fileID: 0}
-    - target: {fileID: 5490961874798397312, guid: 00ad8649d0d864840966b9472cf7e3dc, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5490961874798397314, guid: 00ad8649d0d864840966b9472cf7e3dc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1818,11 +1787,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 00ad8649d0d864840966b9472cf7e3dc, type: 3}
---- !u!60 &454269979 stripped
-PolygonCollider2D:
-  m_CorrespondingSourceObject: {fileID: 1956306343781181159, guid: 00ad8649d0d864840966b9472cf7e3dc, type: 3}
-  m_PrefabInstance: {fileID: 454269978}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -3571,13 +3535,27 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Project.Components.Scripts.ButtonHandler, Assembly-CSharp
+      - m_Target: {fileID: 50388107}
+        m_TargetAssemblyTypeName: Project.Components.Scripts.Level_System.LevelLoader,
+          Assembly-CSharp
         m_MethodName: RestartLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 174531507}
+        m_TargetAssemblyTypeName: Project.Components.Scripts.Timing.PauseHandler,
+          Assembly-CSharp
+        m_MethodName: Resume
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1623270477}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -5068,6 +5046,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2091822254}
+  - component: {fileID: 2091822255}
   m_Layer: 0
   m_Name: Enemy Container
   m_TagString: Untagged
@@ -5090,6 +5069,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2091822255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2091822253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d313b2ee02a142119ad5b38c1ec043ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2105618209
 GameObject:
   m_ObjectHideFlags: 0
