@@ -1,6 +1,5 @@
 ﻿using TMPro;
 using UnityEngine;
-using static Project.Components.Scripts.Data.ProgressData;
 
 namespace Project.Components.Scripts
 {
@@ -9,9 +8,9 @@ namespace Project.Components.Scripts
         [SerializeField] private TMP_Text _levelTMPText;
         [SerializeField] private string _levelText;
 
-        private void Awake()
+        public void Init(int currentLevelNumber)
         {
-            UpdateUIText(_levelTMPText, $"{_levelText}{CurrentLevelNumber}");
+            UpdateUIText(_levelTMPText, $"{_levelText}{currentLevelNumber}");
         }
 
         private void UpdateUIText(TMP_Text tmpText, string value)

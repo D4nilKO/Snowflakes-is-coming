@@ -12,9 +12,11 @@ namespace Project.Components.Scripts.Level_System
         [SerializeField] private EnemySpawner _enemySpawner;
         [SerializeField] private GameOutcome _gameOutcome;
         [SerializeField] private Character _player;
-        [SerializeField] private LevelSettings _levelSettings;
+        [SerializeField] private JsonLevelParser _jsonLevelParser;
         [SerializeField] private TimersView _timersView;
         [SerializeField] private EnemyContainer _enemyContainer;
+        [SerializeField] private LevelTextView _levelTextView;
+        [SerializeField] private ProgressData _progressData;
         
         private LevelData _levelData;
 
@@ -31,40 +33,42 @@ namespace Project.Components.Scripts.Level_System
 
         private void SubscribeEvents()
         {
-            _levelSettings.LevelSettingsReady += LoadLevelAfterSetSettings;
+            _jsonLevelParser.LevelSettingsReady += SetLevelData;
         }
 
         private void UnsubscribeEvents()
         {
-            _levelSettings.LevelSettingsReady -= LoadLevelAfterSetSettings;
+            _jsonLevelParser.LevelSettingsReady -= SetLevelData;
         }
 
-        private void LoadLevelAfterSetSettings(LevelData levelData)
+        private void SetLevelData(LevelData levelData)
         {
-            Debug.Log("load level");
-
-            _enemySpawner.Init(levelData.EnemyTypesInfo, levelData.TimeToSpawn);
-            _gameOutcome.Init(levelData.TimeToSurvive);
-            _timersView.Init(levelData.TimeToSurvive);
-            _player.Init();
-            
             _levelData = levelData;
+            
+            InitAll();
+        }
+
+        private void InitAll()
+        {
+            _enemySpawner.Init(_levelData.EnemyTypesInfo, _levelData.TimeToSpawn);
+            _gameOutcome.Init(_levelData.TimeToSurvive);
+            _timersView.Init(_levelData.TimeToSurvive);
+            _levelTextView.Init(_levelData.NumberOfLevel);
+            _player.Init();
         }
 
         public void RestartLevel()
         {
             _enemyContainer.ClearActiveEnemies();
-            _enemySpawner.Init(_levelData.EnemyTypesInfo, _levelData.TimeToSpawn);
-            _gameOutcome.Init(_levelData.TimeToSurvive);
-            _timersView.Init(_levelData.TimeToSurvive);
-            _player.Init();
+            
+            InitAll();
         }
 
         public void LoadNextLevel()
         {
-            ProgressData.IncreaseCurrentLevel();
+            _progressData.IncreaseCurrentLevel();
             _enemyContainer.ClearActiveEnemies();
-            _levelSettings.SetLevelSettings();
+            _jsonLevelParser.FetchLevelSettings();
         }
     }
 }

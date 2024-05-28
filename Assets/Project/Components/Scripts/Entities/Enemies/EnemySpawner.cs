@@ -29,21 +29,6 @@ namespace Project.Components.Scripts.Entities.Enemies
         
         [SerializeField] private bool _isInitialized;
 
-        public void Init(List<EnemyTypeInfo> enemyTypeInfos, int timeToSpawn)
-        {
-            Debug.Log("init enemy spawner");
-            
-            SetStartedParameters(enemyTypeInfos, timeToSpawn);
-            _currentEnemyTypeIndex = 0;
-            
-            InitializeAvailableEnemyCounts();
-            
-            Timer = new SyncedTimer(_timerType, _timerSeconds);
-            Timer.Start(_timeToSpawnFirstEnemy);
-            
-            SubscribeEvents();
-        }
-
         private void OnDestroy()
         {
             UnsubscribeEvents();
@@ -120,6 +105,23 @@ namespace Project.Components.Scripts.Entities.Enemies
         {
             _enemyTypes = enemyTypeInfos;
             _timerSeconds = timeToSpawn;
+        }
+
+        public void Init(List<EnemyTypeInfo> enemyTypeInfos, int timeToSpawn)
+        {
+            Debug.Log("init enemy spawner");
+            
+            gameObject.SetActive(true);
+            
+            SetStartedParameters(enemyTypeInfos, timeToSpawn);
+            _currentEnemyTypeIndex = 0;
+            
+            InitializeAvailableEnemyCounts();
+            
+            Timer = new SyncedTimer(_timerType, _timerSeconds);
+            Timer.Start(_timeToSpawnFirstEnemy);
+            
+            SubscribeEvents();
         }
     }
 }

@@ -1,51 +1,31 @@
-﻿namespace Project.Components.Scripts.Data
+﻿using UnityEngine;
+
+namespace Project.Components.Scripts.Data
 {
-    public static class ProgressData // инкапсуляция говорит пока...
+    public class ProgressData : MonoBehaviour
     {
-        public static int CurrentLevelNumber { get; private set; } = 1;
-        public static int UnlockedLevelNumber;
-        public static int CoinCount;
+        private int _maxLevelsCount;
+        
+        public int CurrentLevelNumber { get; private set; } = 1;
+        public int UnlockedLevelNumber { get; private set; }
 
-        public static int MaxLevelsCount;
-
-        public static bool IsDataLoaded;
-
-
-        public static void IncreaseCurrentLevel()
+        public void IncreaseCurrentLevel()
         {
-            if (CurrentLevelNumber != MaxLevelsCount)
+            if (CurrentLevelNumber != _maxLevelsCount)
             {
-                CurrentLevelNumber++;
-                UnlockedLevelNumber++;
+                UnlockedLevelNumber = ++CurrentLevelNumber;
             }
         }
 
-        /*
-        public static void SaveData() // переписать
+        public void SetMaxLevelsCount(int maxLevelsCount)
         {
-            // PlayerPrefs.SetInt(nameof(CurrentLevelNumber), CurrentLevelNumber);
-            // PlayerPrefs.SetInt(nameof(UnlockedLevelNumber), UnlockedLevelNumber);
-            // PlayerPrefs.SetInt(nameof(CoinCount), CoinCount);
-            //
-            // PlayerPrefs.Save();
-        }
+            if (maxLevelsCount <= 0)
+            {
+                Debug.LogError("Максимальное количество уровней должно быть больше нуля");
+                return;
+            }
 
-        public static void LoadData() // переписать
-        {
-            // if (PlayerPrefs.HasKey("CurrentLevelNumber"))
-            //     CurrentLevelNumber = PlayerPrefs.GetInt("CurrentLevelNumber");
-            //
-            // if (PlayerPrefs.HasKey("UnlockedLevelNumber"))
-            //     UnlockedLevelNumber = PlayerPrefs.GetInt("UnlockedLevelNumber");
-            //
-            // if (PlayerPrefs.HasKey("CoinCount"))
-            //     CoinCount = PlayerPrefs.GetInt("CoinCount");
+            _maxLevelsCount = maxLevelsCount;
         }
-
-        public static void ClearData()
-        {
-            // PlayerPrefs.DeleteAll();
-        }
-        */
     }
 }

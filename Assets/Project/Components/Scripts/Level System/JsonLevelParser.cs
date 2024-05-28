@@ -5,24 +5,26 @@ using UnityEngine;
 namespace Project.Components.Scripts.Level_System
 {
     [DisallowMultipleComponent]
-    public class LevelSettings : MonoBehaviour
+    public class JsonLevelParser : MonoBehaviour
     {
         [SerializeField] private string _jsonFileName;
+        [SerializeField] private ProgressData _progressData;
 
         [SerializeField] [Header("Для ознакомления, загружается в начале игры")]
         private LevelData _currentLevelData;
 
-        public LevelData GetLevelData => _currentLevelData;
-        
+        private LevelDataList _levelDataList;
+
         public event Action<LevelData> LevelSettingsReady;
 
         private void Start()
         {
-            SetLevelSettings();
+            ParseJsonFile();
+            FetchLevelSettings();
             Debug.Log("level settings start");
         }
 
-        public void SetLevelSettings()
+        private void ParseJsonFile()
         {
             TextAsset json = Resources.Load<TextAsset>(_jsonFileName);
 
@@ -32,17 +34,21 @@ namespace Project.Components.Scripts.Level_System
                 return;
             }
 
-            LevelDataList levelDataList = JsonUtility.FromJson<LevelDataList>(json.text);
-            int maxLevelsCount = levelDataList.Levels.Count;
+            _levelDataList = JsonUtility.FromJson<LevelDataList>(json.text);
+        }
 
-            if (maxLevelsCount == 0)
+        public void FetchLevelSettings()
+        {
+            int maxLevelsCount = _levelDataList.Levels.Count;
+
+            if (maxLevelsCount <= 0)
             {
-                Debug.LogError("Уровень не загрузился, проверьте нейминг переменных внутри JSON и pure класов.");
+                Debug.LogError("Уровень не загрузился, проверьте названия переменных внутри JSON и pure класов.");
                 return;
             }
 
-            ProgressData.MaxLevelsCount = maxLevelsCount;
-            int currentLevelNumber = ProgressData.CurrentLevelNumber;
+            _progressData.SetMaxLevelsCount(maxLevelsCount);
+            int currentLevelNumber = _progressData.CurrentLevelNumber;
 
             if (currentLevelNumber > maxLevelsCount)
             {
@@ -52,10 +58,8 @@ namespace Project.Components.Scripts.Level_System
 
             Debug.Log("Данные уровня загружены: " + currentLevelNumber);
 
-            LevelData levelData = levelDataList.Levels[currentLevelNumber - 1];
-            LevelSettingsReady?.Invoke(levelData);
-
-            _currentLevelData = levelData;
+            _currentLevelData = _levelDataList.Levels[currentLevelNumber - 1];
+            LevelSettingsReady?.Invoke(_currentLevelData);
         }
     }
 }

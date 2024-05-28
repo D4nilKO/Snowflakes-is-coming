@@ -64,6 +64,8 @@ namespace Project.Components.Scripts.Timing
             if (_isInitialized == false)
                 return;
             
+            _isInitialized = false;
+            
             _gameOutcome.Timer.TimerValueChanged -= UpdateMainTimerText;
             _enemySpawner.Timer.TimerValueChanged -= UpdateEnemyTimerDisplay;
         }

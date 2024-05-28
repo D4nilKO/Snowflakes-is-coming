@@ -31,14 +31,20 @@ namespace Project.Components.Scripts.GameState
             _isInitialized = true;
 
             Timer.TimerFinished += WonGame;
+            
+            Debug.Log("subscribe events");
         }
 
         private void UnsubscribeEvents()
         {
             if (_isInitialized == false)
                 return;
+            
+            _isInitialized = false;
 
             Timer.TimerFinished -= WonGame;
+            
+            Debug.Log("unsubscribe events");
         }
 
         private void WonGame()
@@ -58,10 +64,12 @@ namespace Project.Components.Scripts.GameState
         public void Init(float timeToSurvive)
         {
             Debug.Log("init game outcome");
+
+            UnsubscribeEvents();
             
             Timer = new SyncedTimer(TimerType.OneSecTick, timeToSurvive);
             Timer.Start();
-            
+
             SubscribeEvents();
         }
     }
