@@ -2,6 +2,7 @@
 using Project.Components.Scripts.Entities.Character;
 using Project.Components.Scripts.Entities.Enemies;
 using Project.Components.Scripts.GameState;
+using Project.Components.Scripts.GameState.View;
 using Project.Components.Scripts.Timing;
 using UnityEngine;
 

@@ -6,6 +6,7 @@ namespace Project.Components.Scripts.Utility
     [DisallowMultipleComponent]
     public class ColorSwitcher : MonoBehaviour
     {
+        // Подправить
         private SpriteRenderer _spriteRenderer;
 
         [Header("Цвет")] [SerializeField] [ColorUsage(true, true)]

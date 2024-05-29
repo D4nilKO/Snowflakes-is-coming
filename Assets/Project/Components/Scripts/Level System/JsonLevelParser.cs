@@ -7,6 +7,7 @@ namespace Project.Components.Scripts.Level_System
     [DisallowMultipleComponent]
     public class JsonLevelParser : MonoBehaviour
     {
+        // Разделить отвественности
         [SerializeField] private string _jsonFileName;
         [SerializeField] private ProgressData _progressData;
 

@@ -51,14 +51,8 @@ namespace Project.Components.Scripts.GameState
         {
             _isWonGame = true;
             _pauseHandler.Pause();
+            
             GameIsWon?.Invoke();
-        }
-
-        public void LostGame()
-        {
-            _isWonGame = false;
-            _pauseHandler.Pause();
-            GameIsOver?.Invoke();
         }
 
         public void Initialize(float timeToSurvive)
@@ -71,6 +65,14 @@ namespace Project.Components.Scripts.GameState
             Timer.Start();
 
             SubscribeEvents();
+        }
+
+        public void LostGame()
+        {
+            _isWonGame = false;
+            _pauseHandler.Pause();
+            
+            GameIsOver?.Invoke();
         }
     }
 }

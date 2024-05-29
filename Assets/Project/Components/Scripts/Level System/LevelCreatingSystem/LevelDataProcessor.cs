@@ -5,6 +5,7 @@ using Project.Components.Scripts.Level_System;
 
 public class LevelDataProcessor : MonoBehaviour
 {
+    // это пока не трогали, пока с самой игрой надо разобраться
     public TextAsset levelDataJson;
     public LevelDataList levelDataCollection;
     public float difficultyCoefficient;

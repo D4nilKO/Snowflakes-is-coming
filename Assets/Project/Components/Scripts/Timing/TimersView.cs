@@ -8,6 +8,7 @@ namespace Project.Components.Scripts.Timing
 {
     public class TimersView : MonoBehaviour
     {
+        // Подправить
         [SerializeField] private EnemySpawner _enemySpawner;
         [SerializeField] private GameOutcome _gameOutcome;
         

@@ -1,7 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 
-namespace Project.Components.Scripts
+namespace Project.Components.Scripts.GameState.View
 {
     public class LevelTextView : MonoBehaviour
     {
