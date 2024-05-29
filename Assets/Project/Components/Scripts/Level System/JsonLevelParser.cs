@@ -56,7 +56,7 @@ namespace Project.Components.Scripts.Level_System
                 return;
             }
 
-            Debug.Log("Данные уровня загружены: " + currentLevelNumber);
+            Debug.Log($"Данные уровня №{currentLevelNumber} загружены");
 
             _currentLevelData = _levelDataList.Levels[currentLevelNumber - 1];
             LevelSettingsReady?.Invoke(_currentLevelData);

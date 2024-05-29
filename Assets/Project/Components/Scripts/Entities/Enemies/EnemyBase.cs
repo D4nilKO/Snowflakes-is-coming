@@ -14,7 +14,7 @@ namespace Project.Components.Scripts.Entities.Enemies
 
         private Quaternion _targetRotation;
 
-        protected Vector2 Direction;
+        protected Vector2 Direction { get; private set; }
 
         public abstract void Move();
 
@@ -25,8 +25,13 @@ namespace Project.Components.Scripts.Entities.Enemies
 
         private void OnEnable()
         {
-            FetchObjectSize();
+            UpdateBoundsValue();
             SetRigidbodyVelocity();
+        }
+
+        private void SetRigidbodyVelocity()
+        {
+            Rigidbody2D.velocity = Direction * _speed;
         }
 
         protected void CheckOutOfBounds(ref Vector2 newPosition)
@@ -66,14 +71,9 @@ namespace Project.Components.Scripts.Entities.Enemies
                 ScreenHeight / 2f - bounds.extents.y);
         }
 
-        protected virtual void SetRigidbodyVelocity()
+        protected void SetRandomDirection()
         {
-            Rigidbody2D.velocity = Direction * _speed;
-        }
-
-        protected Vector2 GetRandomDirection()
-        {
-            return Random.insideUnitCircle.normalized;
+            Direction = Random.insideUnitCircle.normalized;
         }
 
         public virtual void Rotate()
@@ -89,14 +89,8 @@ namespace Project.Components.Scripts.Entities.Enemies
                 _rotationSpeed * Time.deltaTime);
         }
 
-        public void OnSpawn()
-        {
-            
-        }
+        public abstract void OnSpawn();
 
-        public void OnDespawn()
-        {
-            
-        }
+        public abstract void OnDespawn();
     }
 }

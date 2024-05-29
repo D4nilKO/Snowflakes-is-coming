@@ -4,20 +4,22 @@ namespace Project.Components.Scripts.Entities.Enemies
 {
     public class StandardEnemy : EnemyBase
     {
-        protected override void Start()
+        public override void OnSpawn()
         {
-            base.Start();
-            
-            Direction = GetRandomDirection();
+            SetRandomDirection();
+        }
+
+        public override void OnDespawn()
+        {
         }
 
         public override void Move()
         {
             Vector2 currentPosition = Rigidbody2D.position;
             Vector2 newPosition = currentPosition + Direction * (_speed * Time.fixedDeltaTime);
-            
+
             CheckOutOfBounds(ref newPosition);
-            
+
             Rigidbody2D.MovePosition(newPosition);
         }
     }

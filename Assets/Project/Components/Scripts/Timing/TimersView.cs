@@ -70,7 +70,7 @@ namespace Project.Components.Scripts.Timing
             _enemySpawner.Timer.TimerValueChanged -= UpdateEnemyTimerDisplay;
         }
 
-        public void Init(float timeToSurvive)
+        public void Initialize(float timeToSurvive)
         {
             Debug.Log("timers view init");
             

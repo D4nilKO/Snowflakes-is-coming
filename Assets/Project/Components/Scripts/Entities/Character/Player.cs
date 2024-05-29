@@ -2,7 +2,7 @@
 
 namespace Project.Components.Scripts.Entities.Character
 {
-    public class Character : Entity, IMovable
+    public class Player : Entity, IMovable
     {
         private Bounds _bounds;
         private float _halfObjectWidth;
@@ -39,7 +39,7 @@ namespace Project.Components.Scripts.Entities.Character
             CheckOutOfBounds(mousePosition);
         }
 
-        public void Init()
+        public void Initialize()
         {
             Debug.Log("character init");
             

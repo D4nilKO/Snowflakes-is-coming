@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Project.Components.Scripts.Entities.Enemies;
 
+// С этим файлом нужно быть аккуартнее, так как названия полей и классов
+// внутри JSON и pure класов должны быть одинаковыми
 namespace Project.Components.Scripts.Level_System
 {
     [Serializable]
@@ -14,17 +16,6 @@ namespace Project.Components.Scripts.Level_System
         public List<EnemyTypeInfo> EnemyTypesInfo;
 
         public float TimeToSurvive => EnemyTypesInfo.Sum(t => t.MaxSpawnCount * TimeToSpawn) + SecondsToWin;
-
-        public LevelData Clone()
-        {
-            return new LevelData
-            {
-                NumberOfLevel = this.NumberOfLevel,
-                TimeToSpawn = this.TimeToSpawn,
-                SecondsToWin = this.SecondsToWin,
-                EnemyTypesInfo = new List<EnemyTypeInfo>(this.EnemyTypesInfo)
-            };
-        }
     }
 
     [Serializable]

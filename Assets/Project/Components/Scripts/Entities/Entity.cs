@@ -3,16 +3,17 @@
 namespace Project.Components.Scripts
 {
     [DisallowMultipleComponent]
-    [RequireComponent(typeof(Collider2D), typeof(Rigidbody2D),typeof(SpriteRenderer))]
+    [RequireComponent(typeof(Collider2D), typeof(Rigidbody2D), typeof(SpriteRenderer))]
     public abstract class Entity : MonoBehaviour
     {
+        private protected Rigidbody2D Rigidbody2D;
+
         protected Camera MainCamera;
 
-        protected static float ScreenWidth;
-        protected static float ScreenHeight;
-        
-        private protected Rigidbody2D Rigidbody2D;
         protected Collider2D ObjectCollider;
+
+        protected float ScreenWidth;
+        protected float ScreenHeight;
 
         protected float ObjectHeight;
         protected float ObjectWidth;
@@ -21,12 +22,19 @@ namespace Project.Components.Scripts
 
         public float Size
         {
+            get => _size;
             set
             {
+                if (value <= 0f)
+                {
+                    Debug.LogError("Entity size must be greater than zero.");
+                    return;
+                }
+
                 gameObject.transform.localScale = new Vector3(value, value, 1f);
                 _size = value;
-                
-                FetchObjectSize();
+
+                UpdateBoundsValue();
             }
         }
 
@@ -34,29 +42,24 @@ namespace Project.Components.Scripts
         {
             Rigidbody2D = GetComponent<Rigidbody2D>();
             ObjectCollider = GetComponent<Collider2D>();
-            
+
             MainCamera = Camera.main;
-            FetchCameraSize(MainCamera);
+            FetchCameraSize(MainCamera, out ScreenWidth, out ScreenHeight);
+
             Size = gameObject.transform.localScale.x;
         }
 
-        protected void FetchObjectSize()
+        protected void UpdateBoundsValue()
         {
             Bounds bounds = ObjectCollider.bounds;
-            
             ObjectWidth = bounds.size.x;
             ObjectHeight = bounds.size.y;
         }
 
-        private static void FetchCameraSize(Camera camera)
+        private static void FetchCameraSize(Camera camera, out float screenWidth, out float screenHeight)
         {
-            ScreenWidth = camera.orthographicSize * camera.aspect * 2f;
-            ScreenHeight = camera.orthographicSize * 2f;
-        }
-        
-        private void SetSize(float newSize)
-        {
-            Size = newSize;
+            screenWidth = camera.orthographicSize * camera.aspect * 2f;
+            screenHeight = camera.orthographicSize * 2f;
         }
     }
 }

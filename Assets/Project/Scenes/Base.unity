@@ -566,7 +566,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &109767526
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1744,6 +1744,10 @@ PrefabInstance:
     - target: {fileID: 5490961874798397312, guid: 00ad8649d0d864840966b9472cf7e3dc, type: 3}
       propertyPath: m_Name
       value: Character
+      objectReference: {fileID: 0}
+    - target: {fileID: 5490961874798397312, guid: 00ad8649d0d864840966b9472cf7e3dc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5490961874798397314, guid: 00ad8649d0d864840966b9472cf7e3dc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3483,7 +3487,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pauseHandler: {fileID: 174531507}
   _isWonGame: 0
-  _isInitialized: 0
 --- !u!4 &1410697579
 Transform:
   m_ObjectHideFlags: 0
@@ -3812,11 +3815,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _timerType: 0
   _enemyContainer: {fileID: 2091822254}
-  _folder: Enemies
-  _timeToSpawnFirstEnemy: 0.5
+  _enemyPrefabFolder: Enemies
+  _initialSpawnDelay: 0.5
   _entityMover: {fileID: 1864595117}
   _enemyTypes: []
-  _isInitialized: 0
 --- !u!4 &1503742593
 Transform:
   m_ObjectHideFlags: 0
@@ -4482,7 +4484,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96f492efadda46b29e363a59cf63743b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _character: {fileID: 1538021602}
+  _player: {fileID: 1538021602}
   _enemies: []
 --- !u!4 &1864595118
 Transform:

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 6329751790586338192, guid: 7a496d983cefe5442bd298d1c1f958d1, type: 3}
@@ -53,13 +54,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6329751790586338194, guid: 7a496d983cefe5442bd298d1c1f958d1, type: 3}
       propertyPath: m_Name
-      value: Enemy 4_1
+      value: Enemy 4
       objectReference: {fileID: 0}
     - target: {fileID: 9035218858096641903, guid: 7a496d983cefe5442bd298d1c1f958d1, type: 3}
       propertyPath: rotationSpeed
       value: 250
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6329751790586338194, guid: 7a496d983cefe5442bd298d1c1f958d1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -7551288443525218373}
   m_SourcePrefab: {fileID: 100100000, guid: 7a496d983cefe5442bd298d1c1f958d1, type: 3}
 --- !u!1 &2312015023831910244 stripped
 GameObject:
@@ -78,6 +85,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f2aaead72bb4e37bb56b0b7a35fd6db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  changeRate: 0.25
-  minSize: 0.15
-  maxSize: 0.4
+  _changeRate: 1
+  _minSize: 0.1
+  _maxSize: 0.35

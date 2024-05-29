@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 using static NTC.Global.Pool.NightPool;
 
 namespace Project.Components.Scripts.Entities.Enemies
@@ -9,8 +8,8 @@ namespace Project.Components.Scripts.Entities.Enemies
         public void ClearActiveEnemies()
         {
             EnemyBase[] enemies = GetComponentsInChildren<EnemyBase>();
-            
-            foreach (EnemyBase enemy in enemies.Where(enemy => enemy.isActiveAndEnabled))
+
+            foreach (EnemyBase enemy in enemies)
             {
                 Despawn(enemy);
             }

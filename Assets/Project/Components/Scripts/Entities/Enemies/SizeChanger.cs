@@ -12,14 +12,40 @@ namespace Project.Components.Scripts.Entities.Enemies
         [SerializeField] private float _maxSize;
 
         private Entity _entity;
+        
+        private bool _isWorking;
 
         private void Awake()
         {
             _entity = GetComponent<Entity>();
+
+            CheckFields();
+        }
+
+        private void CheckFields()
+        {
+            if (_changeRate <= 0)
+            {
+                _isWorking = false;
+                Debug.LogError($"Задан некорректный коэффициент изменения размера: {_changeRate}");
+                return;
+            }
+
+            if (_minSize >= _maxSize)
+            {
+                _isWorking = false;
+                Debug.LogError($"Задан некорректный диапазон изменения размера: {_minSize} - {_maxSize}");
+                return;
+            }
+            
+            _isWorking = true;
         }
 
         private void Update()
         {
+            if (_isWorking == false) 
+                return;
+            
             ChangeSize();
         }
 

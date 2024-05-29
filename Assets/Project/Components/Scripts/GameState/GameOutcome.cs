@@ -11,7 +11,7 @@ namespace Project.Components.Scripts.GameState
 
         [SerializeField] private bool _isWonGame;
 
-        [SerializeField] private bool _isInitialized;
+        private bool _isSubscribed;
 
         public SyncedTimer Timer { get; private set; }
 
@@ -25,10 +25,10 @@ namespace Project.Components.Scripts.GameState
 
         private void SubscribeEvents()
         {
-            if (_isInitialized)
+            if (_isSubscribed)
                 return;
 
-            _isInitialized = true;
+            _isSubscribed = true;
 
             Timer.TimerFinished += WonGame;
             
@@ -37,10 +37,10 @@ namespace Project.Components.Scripts.GameState
 
         private void UnsubscribeEvents()
         {
-            if (_isInitialized == false)
+            if (_isSubscribed == false)
                 return;
             
-            _isInitialized = false;
+            _isSubscribed = false;
 
             Timer.TimerFinished -= WonGame;
             
@@ -61,7 +61,7 @@ namespace Project.Components.Scripts.GameState
             GameIsOver?.Invoke();
         }
 
-        public void Init(float timeToSurvive)
+        public void Initialize(float timeToSurvive)
         {
             Debug.Log("init game outcome");
 

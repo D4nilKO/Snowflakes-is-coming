@@ -8,7 +8,7 @@ namespace Project.Components.Scripts
         [SerializeField] private TMP_Text _levelTMPText;
         [SerializeField] private string _levelText;
 
-        public void Init(int currentLevelNumber)
+        public void Initialize(int currentLevelNumber)
         {
             UpdateUIText(_levelTMPText, $"{_levelText}{currentLevelNumber}");
         }

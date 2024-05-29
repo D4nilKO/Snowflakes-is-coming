@@ -11,7 +11,7 @@ namespace Project.Components.Scripts.Level_System
     {
         [SerializeField] private EnemySpawner _enemySpawner;
         [SerializeField] private GameOutcome _gameOutcome;
-        [SerializeField] private Character _player;
+        [SerializeField] private Player _player;
         [SerializeField] private JsonLevelParser _jsonLevelParser;
         [SerializeField] private TimersView _timersView;
         [SerializeField] private EnemyContainer _enemyContainer;
@@ -45,23 +45,23 @@ namespace Project.Components.Scripts.Level_System
         {
             _levelData = levelData;
             
-            InitAll();
+            InitializeLevel();
         }
 
-        private void InitAll()
+        private void InitializeLevel()
         {
-            _enemySpawner.Init(_levelData.EnemyTypesInfo, _levelData.TimeToSpawn);
-            _gameOutcome.Init(_levelData.TimeToSurvive);
-            _timersView.Init(_levelData.TimeToSurvive);
-            _levelTextView.Init(_levelData.NumberOfLevel);
-            _player.Init();
+            _enemySpawner.Initialize(_levelData.EnemyTypesInfo, _levelData.TimeToSpawn);
+            _gameOutcome.Initialize(_levelData.TimeToSurvive);
+            _timersView.Initialize(_levelData.TimeToSurvive);
+            _levelTextView.Initialize(_levelData.NumberOfLevel);
+            _player.Initialize();
         }
 
         public void RestartLevel()
         {
             _enemyContainer.ClearActiveEnemies();
             
-            InitAll();
+            InitializeLevel();
         }
 
         public void LoadNextLevel()
