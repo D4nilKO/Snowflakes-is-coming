@@ -13,7 +13,8 @@ namespace Project.Components.Scripts.Entities.Enemies
         [SerializeField] [Range(1f, 359f)] private float _rotationSpeed = 10f;
 
         private Quaternion _targetRotation;
-
+        
+        // сделать условие в свойстве
         protected Vector2 Direction { get; private set; }
 
         public abstract void Move();
@@ -74,6 +75,11 @@ namespace Project.Components.Scripts.Entities.Enemies
         protected void SetRandomDirection()
         {
             Direction = Random.insideUnitCircle.normalized;
+        }
+
+        protected void SetDirection(Vector2 direction)
+        {
+            Direction = direction;
         }
 
         public virtual void Rotate()
