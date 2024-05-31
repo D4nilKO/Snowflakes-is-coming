@@ -9,30 +9,44 @@ namespace Project.Components.Scripts.Entities.Enemies
         [SerializeField] [Range(0f, 20f)] protected float _speed = 5f;
 
         [SerializeField] private bool _rotateEnabled;
-
         [SerializeField] [Range(1f, 359f)] private float _rotationSpeed = 10f;
-
+        
         private Quaternion _targetRotation;
         
-        // сделать условие в свойстве
-        protected Vector2 Direction { get; private set; }
+        private Vector2 _direction;
+
+        protected Vector2 Direction
+        {
+            get => _direction;
+            private set
+            {
+                if (value == Vector2.zero)
+                    return;
+
+                _direction = value.normalized;
+            }
+        }
 
         public abstract void Move();
+        public abstract void OnSpawn();
+        public abstract void OnDespawn();
+        
+        public virtual void Rotate()
+        {
+            if (_rotateEnabled == false)
+                return;
+
+            float newRotation = _targetRotation.eulerAngles.z + (_rotationSpeed * Time.deltaTime);
+
+            _targetRotation = Quaternion.Euler(0f, 0f, newRotation);
+
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, _targetRotation,
+                _rotationSpeed * Time.deltaTime);
+        }
 
         protected virtual void Start()
         {
             _targetRotation = transform.rotation;
-        }
-
-        private void OnEnable()
-        {
-            UpdateBoundsValue();
-            SetRigidbodyVelocity();
-        }
-
-        private void SetRigidbodyVelocity()
-        {
-            Rigidbody2D.velocity = Direction * _speed;
         }
 
         protected void CheckOutOfBounds(ref Vector2 newPosition)
@@ -82,21 +96,15 @@ namespace Project.Components.Scripts.Entities.Enemies
             Direction = direction;
         }
 
-        public virtual void Rotate()
+        private void OnEnable()
         {
-            if (_rotateEnabled == false)
-                return;
-
-            float newRotation = _targetRotation.eulerAngles.z + (_rotationSpeed * Time.deltaTime);
-
-            _targetRotation = Quaternion.Euler(0f, 0f, newRotation);
-
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, _targetRotation,
-                _rotationSpeed * Time.deltaTime);
+            UpdateBoundsValue();
+            SetRigidbodyVelocity();
         }
 
-        public abstract void OnSpawn();
-
-        public abstract void OnDespawn();
+        private void SetRigidbodyVelocity()
+        {
+            Rigidbody2D.velocity = Direction * _speed;
+        }
     }
 }
