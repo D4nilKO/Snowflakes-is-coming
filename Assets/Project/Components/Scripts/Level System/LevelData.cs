@@ -1,23 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Project.Components.Scripts.Entities.Enemies;
-using UnityEngine.Serialization;
 
+// С этим файлом нужно быть аккуартнее, так как названия полей и классов
+// внутри JSON и pure класов должны быть одинаковыми
 namespace Project.Components.Scripts.Level_System
 {
     [Serializable]
     public class LevelData
     {
-        [FormerlySerializedAs("numberOfLevel")] public int NumberOfLevel;
-        [FormerlySerializedAs("timeToSpawn")] public int TimeToSpawn;
-        [FormerlySerializedAs("secondsToWin")] public int SecondsToWin;
-        [FormerlySerializedAs("minutesToWin")] public int MinutesToWin;
-        [FormerlySerializedAs("enemyTypesInfo")] public List<EnemyTypeInfo> EnemyTypesInfo;
+        public int NumberOfLevel;
+        public int TimeToSpawn;
+        public int SecondsToWin;
+        public List<EnemyTypeInfo> EnemyTypesInfo;
+
+        public float TimeToSurvive => EnemyTypesInfo.Sum(t => t.MaxSpawnCount * TimeToSpawn) + SecondsToWin;
     }
 
     [Serializable]
     public class LevelDataList
     {
-        [FormerlySerializedAs("levels")] public List<LevelData> Levels;
+        public List<LevelData> Levels;
     }
 }

@@ -1,41 +1,39 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Project.Components.Scripts.Character_s
+namespace Project.Components.Scripts.Entities.Character
 {
     [Serializable]
     public class CharacterSkin
     {
-        [SerializeField] private string skinName;
+        [SerializeField] private string _skinName;
+        [SerializeField] private Sprite _skinSprite;
+        [SerializeField] private PolygonCollider2D _skinCollider;
+
+        private bool _isUnlocked;
 
         public string SkinName
         {
-            get => skinName;
-            set => skinName = value;
+            get => _skinName;
+            set => _skinName = value;
         }
-
-        [SerializeField] private Sprite skinSprite;
 
         public Sprite SkinSprite
         {
-            get => skinSprite;
-            set => skinSprite = value;
+            get => _skinSprite;
+            set => _skinSprite = value;
         }
-
-        [SerializeField] private PolygonCollider2D skinCollider;
 
         public PolygonCollider2D SkinCollider
         {
-            get => skinCollider;
-            set => skinCollider = value;
+            get => _skinCollider;
+            set => _skinCollider = value;
         }
-
-        private bool isUnlocked;
 
         public bool IsUnlocked
         {
-            get => isUnlocked;
-            set => isUnlocked = value;
+            get => _isUnlocked;
+            set => _isUnlocked = value;
         }
     }
 }

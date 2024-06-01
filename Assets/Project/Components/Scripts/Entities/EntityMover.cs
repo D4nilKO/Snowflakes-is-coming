@@ -1,63 +1,62 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Project.Components.Scripts.Character_s;
-using Project.Components.Scripts.Data;
-using Project.Components.Scripts.Entities.Enemies;
 using UnityEngine;
-using UnityEngine.Serialization;
+using Project.Components.Scripts.Entities.Enemies;
+using Project.Components.Scripts.Entities.Character;
 
-namespace Project.Components.Scripts
+namespace Project.Components.Scripts.Entities
 {
     [DisallowMultipleComponent]
     public class EntityMover : MonoBehaviour
     {
-        [FormerlySerializedAs("characterPrefab")] [SerializeField] private GameObject _characterPrefab;
-        
-        private List<EnemyBase> _enemies;
-        private Character _character;
+        [SerializeField] private Player _player;
 
-        private void Awake()
-        {
-            InitializeCharacter();
-        }
+        private List<IMovable> _movableEntities = new();
 
         private void Start()
         {
-            _enemies = FindObjectsOfType<EnemyBase>().ToList();
+            FindAndAddMovableEntities();
         }
 
         private void FixedUpdate()
         {
-            foreach (EnemyBase enemy in _enemies.Where(enemy => enemy.isActiveAndEnabled))
+            MoveEntities();
+        }
+
+        private void Update()
+        {
+            RotateEntities();
+        }
+
+        private void FindAndAddMovableEntities()
+        {
+            _movableEntities.AddRange(FindObjectsOfType<EnemyBase>().Where(enemy => enemy.isActiveAndEnabled));
+        }
+
+        private void RotateEntities()
+        {
+            foreach (EnemyBase enemy in _movableEntities.OfType<EnemyBase>())
             {
-                enemy.Move();
                 enemy.Rotate();
             }
-
-            _character.Move();
         }
 
-        private void InitializeCharacter()
+        private void MoveEntities()
         {
-            if (GameData.IsCharacterSpawned == false)
+            foreach (IMovable movableEntity in _movableEntities.Where(entity => entity != null))
             {
-                GameObject characterObject = Instantiate(_characterPrefab);
-                GameData.IsCharacterSpawned = true;
-                
-                _character = characterObject.GetComponent<Character>();
-                CharacterCollisionHandler collisionHandler = characterObject.GetComponent<CharacterCollisionHandler>();
-                collisionHandler.Awake();
+                movableEntity.Move();
             }
-            else
+            
+            if (_player != null)
             {
-                _character = FindObjectOfType<Character>();
+                _player.Move();
             }
-
-            _character.Awake();
         }
-        public void AddEnemy(EnemyBase enemy)
+
+        public void AddMovableEntity(IMovable movableEntity)
         {
-            _enemies.Add(enemy);
+            _movableEntities.Add(movableEntity);
         }
     }
 }

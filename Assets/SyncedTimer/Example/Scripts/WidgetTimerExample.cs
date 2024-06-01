@@ -59,10 +59,10 @@ namespace VavilichevGD.Utils.Timing.Example
 				return;
 			}
 
-			var color = _timer.isPaused ? _colorPaused : _colorUnpaused;
+			var color = _timer.IsPaused ? _colorPaused : _colorUnpaused;
 			_buttonPause.image.color = color;
 
-			var text = _timer.isPaused ? "Unpause" : "Pause";
+			var text = _timer.IsPaused ? "Unpause" : "Pause";
 			var textField = _buttonPause.GetComponentInChildren<Text>();
 			textField.text = text;
 		}
@@ -90,7 +90,7 @@ namespace VavilichevGD.Utils.Timing.Example
 			if (_timer == null)
 				return;
 
-			if (_timer.isPaused)
+			if (_timer.IsPaused)
 				_timer.Unpause();
 			else
 				_timer.Pause();
