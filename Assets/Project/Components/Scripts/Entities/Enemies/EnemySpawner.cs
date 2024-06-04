@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using Project.Components.Scripts.Level_System.LevelStructure;
 using UnityEngine;
 using VavilichevGD.Utils.Timing;
 using static NTC.Global.Pool.NightPool;

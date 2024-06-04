@@ -31,7 +31,7 @@ namespace Project.Components.Scripts.Entities.Enemies
         public abstract void Move();
         public abstract void OnSpawn();
         public abstract void OnDespawn();
-
+        
         public void Rotate()
         {
             if (_rotateEnabled == false)

@@ -1,7 +1,7 @@
 ﻿using System;
 using Project.Components.Scripts.Data;
+using Project.Components.Scripts.Level_System.LevelStructure;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Project.Components.Scripts.Level_System
 {
@@ -51,7 +51,7 @@ namespace Project.Components.Scripts.Level_System
 
             Debug.Log($"Данные уровня №{levelNumber} загружены");
 
-            // _currentLevelData = _levelDataList.Levels[levelNumber - 1];
+            _currentLevelData = levelDataList.GetLevel(levelNumber - 1);
             LevelSettingsReady?.Invoke(_currentLevelData);
         }
 

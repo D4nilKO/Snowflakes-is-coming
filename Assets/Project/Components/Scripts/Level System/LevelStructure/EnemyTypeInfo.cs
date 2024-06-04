@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Project.Components.Scripts.Entities.Enemies
+namespace Project.Components.Scripts.Level_System.LevelStructure
 {
     [Serializable]
     public class EnemyTypeInfo

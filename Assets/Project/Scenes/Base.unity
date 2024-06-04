@@ -288,7 +288,7 @@ MonoBehaviour:
   _enemySpawner: {fileID: 1503742592}
   _gameOutcome: {fileID: 1410697578}
   _player: {fileID: 1538021602}
-  _jsonLevelParser: {fileID: 320985114}
+  _game: {fileID: 320985114}
   _timersView: {fileID: 1926654809}
   _enemyContainer: {fileID: 2091822255}
   _levelTextView: {fileID: 203998157}
@@ -1466,7 +1466,7 @@ GameObject:
   - component: {fileID: 320985115}
   - component: {fileID: 320985114}
   m_Layer: 0
-  m_Name: Level Setings
+  m_Name: Game
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1484,13 +1484,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03cf5b50fcd8437783457d3e0eaaeda9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _jsonFileName: Levels
+  _jsonLevelParser: {fileID: 1995029507}
   _progressData: {fileID: 490470428}
-  _currentLevelData:
-    NumberOfLevel: 0
-    TimeToSpawn: 0
-    SecondsToWin: 0
-    EnemyTypesInfo: []
 --- !u!4 &320985115
 Transform:
   m_ObjectHideFlags: 0
@@ -3818,7 +3813,6 @@ MonoBehaviour:
   _enemyPrefabFolder: Enemies
   _initialSpawnDelay: 0.5
   _entityMover: {fileID: 1864595117}
-  _enemyTypes: []
 --- !u!4 &1503742593
 Transform:
   m_ObjectHideFlags: 0
@@ -4951,6 +4945,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1980698922}
   m_CullTransparentMesh: 1
+--- !u!1 &1995029506
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1995029508}
+  - component: {fileID: 1995029507}
+  m_Layer: 0
+  m_Name: JsonLevelParser
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1995029507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1995029506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2624d6866e644941b2bb03e38d6e666a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _jsonFileName: Levels
+--- !u!4 &1995029508
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1995029506}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2008157972
 GameObject:
   m_ObjectHideFlags: 0
@@ -5314,6 +5353,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 519420032}
   - {fileID: 320985115}
+  - {fileID: 1995029508}
   - {fileID: 490470429}
   - {fileID: 50388108}
   - {fileID: 174531505}
