@@ -6,14 +6,15 @@ namespace Project.Components.Scripts.Entities.Enemies
 {
     public abstract class EnemyBase : Entity, IMovable, IPoolItem
     {
-        [SerializeField] [Range(0f, 20f)] protected float _speed = 5f;
+        [SerializeField] [Range(0f, 20f)] private float _speed = 5f;
 
-        [SerializeField] private bool _rotateEnabled;
         [SerializeField] [Range(1f, 359f)] private float _rotationSpeed = 10f;
-        
+        [SerializeField] private bool _rotateEnabled;
+
         private Quaternion _targetRotation;
-        
+
         private Vector2 _direction;
+        protected float Speed => _speed;
 
         protected Vector2 Direction
         {
@@ -30,8 +31,8 @@ namespace Project.Components.Scripts.Entities.Enemies
         public abstract void Move();
         public abstract void OnSpawn();
         public abstract void OnDespawn();
-        
-        public virtual void Rotate()
+
+        public void Rotate()
         {
             if (_rotateEnabled == false)
                 return;
@@ -40,13 +41,20 @@ namespace Project.Components.Scripts.Entities.Enemies
 
             _targetRotation = Quaternion.Euler(0f, 0f, newRotation);
 
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, _targetRotation,
+            transform.rotation = Quaternion.RotateTowards(
+                transform.rotation,
+                _targetRotation,
                 _rotationSpeed * Time.deltaTime);
         }
 
         protected virtual void Start()
         {
             _targetRotation = transform.rotation;
+        }
+
+        protected void SetRandomDirection()
+        {
+            Direction = Random.insideUnitCircle.normalized;
         }
 
         protected void CheckOutOfBounds(ref Vector2 newPosition)
@@ -70,30 +78,24 @@ namespace Project.Components.Scripts.Entities.Enemies
                 ReflectVertical(ref newPosition);
         }
 
-        protected virtual void ReflectHorizontal(ref Vector2 position)
+        private void ReflectHorizontal(ref Vector2 position)
         {
             Direction = new Vector2(-Direction.x, Direction.y);
             Bounds bounds = ObjectCollider.bounds;
-            position.x = Mathf.Clamp(position.x, -ScreenWidth / 2f + bounds.extents.x,
-                ScreenWidth / 2f - bounds.extents.x);
+            position.x = Mathf.Clamp(
+                position.x,
+                (-ScreenWidth / 2f) + bounds.extents.x,
+                (ScreenWidth / 2f) - bounds.extents.x);
         }
 
-        protected virtual void ReflectVertical(ref Vector2 position)
+        private void ReflectVertical(ref Vector2 position)
         {
             Direction = new Vector2(Direction.x, -Direction.y);
             Bounds bounds = ObjectCollider.bounds;
-            position.y = Mathf.Clamp(position.y, -ScreenHeight / 2f + bounds.extents.y,
-                ScreenHeight / 2f - bounds.extents.y);
-        }
-
-        protected void SetRandomDirection()
-        {
-            Direction = Random.insideUnitCircle.normalized;
-        }
-
-        protected void SetDirection(Vector2 direction)
-        {
-            Direction = direction;
+            position.y = Mathf.Clamp(
+                position.y,
+                (-ScreenHeight / 2f) + bounds.extents.y,
+                (ScreenHeight / 2f) - bounds.extents.y);
         }
 
         private void OnEnable()

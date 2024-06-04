@@ -12,7 +12,7 @@ namespace Project.Components.Scripts.Entities.Enemies
         [SerializeField] private float _maxSize;
 
         private Entity _entity;
-        
+
         private bool _isWorking;
 
         private void Awake()
@@ -37,15 +37,15 @@ namespace Project.Components.Scripts.Entities.Enemies
                 Debug.LogError($"Задан некорректный диапазон изменения размера: {_minSize} - {_maxSize}");
                 return;
             }
-            
+
             _isWorking = true;
         }
 
         private void Update()
         {
-            if (_isWorking == false) 
+            if (_isWorking == false)
                 return;
-            
+
             ChangeSize();
         }
 
@@ -53,7 +53,7 @@ namespace Project.Components.Scripts.Entities.Enemies
         {
             float value = Mathf.PingPong(Time.time * _changeRate, 1f);
             float newSize = Mathf.Lerp(_minSize, _maxSize, value);
-            
+
             _entity.Size = newSize;
         }
     }

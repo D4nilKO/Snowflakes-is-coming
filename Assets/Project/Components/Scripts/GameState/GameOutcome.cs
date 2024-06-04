@@ -13,10 +13,30 @@ namespace Project.Components.Scripts.GameState
 
         private bool _isSubscribed;
 
-        public SyncedTimer Timer { get; private set; }
-
         public event Action GameIsWon;
         public event Action GameIsOver;
+
+        public SyncedTimer Timer { get; private set; }
+
+        public void Initialize(float timeToSurvive)
+        {
+            Debug.Log("init game outcome");
+
+            UnsubscribeEvents();
+
+            Timer = new SyncedTimer(TimerType.OneSecTick, timeToSurvive);
+            Timer.Start();
+
+            SubscribeEvents();
+        }
+
+        public void LostGame()
+        {
+            _isWonGame = false;
+            _pauseHandler.Pause();
+
+            GameIsOver?.Invoke();
+        }
 
         private void OnDestroy()
         {
@@ -31,7 +51,7 @@ namespace Project.Components.Scripts.GameState
             _isSubscribed = true;
 
             Timer.TimerFinished += WonGame;
-            
+
             Debug.Log("subscribe events");
         }
 
@@ -39,11 +59,11 @@ namespace Project.Components.Scripts.GameState
         {
             if (_isSubscribed == false)
                 return;
-            
+
             _isSubscribed = false;
 
             Timer.TimerFinished -= WonGame;
-            
+
             Debug.Log("unsubscribe events");
         }
 
@@ -51,28 +71,8 @@ namespace Project.Components.Scripts.GameState
         {
             _isWonGame = true;
             _pauseHandler.Pause();
-            
+
             GameIsWon?.Invoke();
-        }
-
-        public void Initialize(float timeToSurvive)
-        {
-            Debug.Log("init game outcome");
-
-            UnsubscribeEvents();
-            
-            Timer = new SyncedTimer(TimerType.OneSecTick, timeToSurvive);
-            Timer.Start();
-
-            SubscribeEvents();
-        }
-
-        public void LostGame()
-        {
-            _isWonGame = false;
-            _pauseHandler.Pause();
-            
-            GameIsOver?.Invoke();
         }
     }
 }

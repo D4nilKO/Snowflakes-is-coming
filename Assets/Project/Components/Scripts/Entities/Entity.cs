@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 
-namespace Project.Components.Scripts
+namespace Project.Components.Scripts.Entities
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(Collider2D), typeof(Rigidbody2D), typeof(SpriteRenderer))]
     public abstract class Entity : MonoBehaviour
     {
-        private protected Rigidbody2D Rigidbody2D;
+        protected Rigidbody2D Rigidbody2D;
 
         protected Camera MainCamera;
 
