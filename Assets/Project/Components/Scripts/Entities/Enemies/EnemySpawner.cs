@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using Project.Components.Scripts.Level_System;
 using Project.Components.Scripts.Level_System.LevelStructure;
 using UnityEngine;
 using VavilichevGD.Utils.Timing;
@@ -9,19 +10,17 @@ namespace Project.Components.Scripts.Entities.Enemies
 {
     public class EnemySpawner : MonoBehaviour
     {
-        [SerializeField] private TimerType _timerType;
-
-        [SerializeField] private Transform _enemyContainer;
         [SerializeField] private string _enemyPrefabFolder;
 
-        [SerializeField] private float _initialSpawnDelay = 0.5f;
-
+        [SerializeField] private Game _game;
         [SerializeField] private EntityMover _entityMover;
+        [SerializeField] private Transform _enemyContainer;
 
         private IReadOnlyList<EnemyTypeInfo> _enemyTypes;
-
         private Dictionary<string, int> _availableEnemyCounts;
 
+        private TimerType _timerType = TimerType.UpdateTick;
+        private float _initialSpawnDelay;
         private int _spawnDelaySeconds;
 
         private int _currentEnemyTypeIndex;
@@ -45,6 +44,11 @@ namespace Project.Components.Scripts.Entities.Enemies
             Timer.Start(_initialSpawnDelay);
 
             SubscribeToTimer();
+        }
+
+        private void Awake()
+        {
+            _initialSpawnDelay = _game.InitialSpawnDelay;
         }
 
         private void OnDestroy()

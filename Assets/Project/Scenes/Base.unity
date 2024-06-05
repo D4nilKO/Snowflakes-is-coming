@@ -1486,6 +1486,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _jsonLevelParser: {fileID: 1995029507}
   _progressData: {fileID: 490470428}
+  _currentLevelData:
+    NumberOfLevel: 0
+    TimeToSpawn: 0
+    SecondsToWin: 0
+    EnemyTypesInfo: []
 --- !u!4 &320985115
 Transform:
   m_ObjectHideFlags: 0
@@ -3811,7 +3816,7 @@ MonoBehaviour:
   _timerType: 0
   _enemyContainer: {fileID: 2091822254}
   _enemyPrefabFolder: Enemies
-  _initialSpawnDelay: 0.5
+  _initialSpawnDelay: 1.5
   _entityMover: {fileID: 1864595117}
 --- !u!4 &1503742593
 Transform:

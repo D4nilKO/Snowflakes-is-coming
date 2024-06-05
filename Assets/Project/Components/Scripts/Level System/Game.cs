@@ -13,10 +13,12 @@ namespace Project.Components.Scripts.Level_System
 
         [SerializeField] [Header("Данные для ознакомления, загружаются в начале игры")]
         private LevelData _currentLevelData;
-        
+
         private LevelDataList _levelDataList;
 
         public event Action<LevelData> LevelSettingsReady;
+
+        [field: SerializeField] public float InitialSpawnDelay { get; private set; } = 1.5f;
 
         public void FetchCurrentLevelSettings()
         {
