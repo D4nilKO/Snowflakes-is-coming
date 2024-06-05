@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
-using Project.Components.Scripts.Entities.Enemies;
 using Project.Components.Scripts.Entities.Character;
+using Project.Components.Scripts.Entities.Enemies;
+using UnityEngine;
 
 namespace Project.Components.Scripts.Entities
 {
@@ -12,6 +12,11 @@ namespace Project.Components.Scripts.Entities
         [SerializeField] private Player _player;
 
         private List<IMovable> _movableEntities = new();
+
+        public void AddMovableEntity(IMovable movableEntity)
+        {
+            _movableEntities.Add(movableEntity);
+        }
 
         private void Start()
         {
@@ -47,16 +52,11 @@ namespace Project.Components.Scripts.Entities
             {
                 movableEntity.Move();
             }
-            
+
             if (_player != null)
             {
                 _player.Move();
             }
-        }
-
-        public void AddMovableEntity(IMovable movableEntity)
-        {
-            _movableEntities.Add(movableEntity);
         }
     }
 }

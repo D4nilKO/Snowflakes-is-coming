@@ -8,7 +8,7 @@ namespace Project.Components.Scripts.GameState.View
         [SerializeField] private GameObject _wonPanel;
 
         [SerializeField] private GameOutcome _gameOutcome;
-        
+
         private void Awake()
         {
             SubscribeEvents();
@@ -24,7 +24,7 @@ namespace Project.Components.Scripts.GameState.View
             _gameOutcome.GameIsWon += ShowWon;
             _gameOutcome.GameIsOver += ShowLose;
         }
-        
+
         private void UnsubscribeEvents()
         {
             _gameOutcome.GameIsWon -= ShowWon;
@@ -35,7 +35,7 @@ namespace Project.Components.Scripts.GameState.View
         {
             _wonPanel.SetActive(true);
         }
-        
+
         private void ShowLose()
         {
             _losePanel.SetActive(true);

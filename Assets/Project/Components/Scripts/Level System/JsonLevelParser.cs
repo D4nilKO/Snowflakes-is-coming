@@ -1,66 +1,63 @@
 ﻿using System;
-using Project.Components.Scripts.Data;
+using Project.Components.Scripts.Level_System.LevelStructure;
 using UnityEngine;
 
 namespace Project.Components.Scripts.Level_System
 {
-    [DisallowMultipleComponent]
     public class JsonLevelParser : MonoBehaviour
     {
-        // Разделить отвественности
         [SerializeField] private string _jsonFileName;
-        [SerializeField] private ProgressData _progressData;
-
-        [SerializeField] [Header("Для ознакомления, загружается в начале игры")]
-        private LevelData _currentLevelData;
 
         private LevelDataList _levelDataList;
 
-        public event Action<LevelData> LevelSettingsReady;
-
-        private void Start()
+        public LevelDataList GetLevelDataList()
         {
-            ParseJsonFile();
-            FetchLevelSettings();
-            Debug.Log("level settings start");
+            if (_levelDataList != null)
+            {
+                return _levelDataList;
+            }
+
+            if (!TryParseJsonFile())
+            {
+                throw new InvalidOperationException("Failed to load levels from JSON file");
+            }
+
+            return _levelDataList;
         }
 
-        private void ParseJsonFile()
+        private bool TryParseJsonFile()
         {
+            if (_jsonFileName == string.Empty)
+            {
+                Debug.LogError("Пустое имя JSON файла");
+                return false;
+            }
+
             TextAsset json = Resources.Load<TextAsset>(_jsonFileName);
 
             if (json == null)
             {
                 Debug.LogError($"Указанный JSON файл не найден: {_jsonFileName}");
-                return;
+                return false;
+            }
+            
+            _levelDataList = JsonUtility.FromJson<LevelDataList>(json.text);
+
+            if (_levelDataList == null)
+            {
+                Debug.LogError($"Не удалось загрузить JSON файл: {_jsonFileName}");
+                return false;
             }
 
-            _levelDataList = JsonUtility.FromJson<LevelDataList>(json.text);
-        }
-
-        public void FetchLevelSettings()
-        {
-            int maxLevelsCount = _levelDataList.Levels.Count;
+            int maxLevelsCount = _levelDataList.LevelsCount;
 
             if (maxLevelsCount <= 0)
             {
-                Debug.LogError("Уровень не загрузился, проверьте названия переменных внутри JSON и pure класов.");
-                return;
+                Debug.LogError("Уровни не загрузились, проверьте названия переменных внутри JSON и pure класов.");
+                return false;
             }
 
-            _progressData.SetMaxLevelsCount(maxLevelsCount);
-            int currentLevelNumber = _progressData.CurrentLevelNumber;
-
-            if (currentLevelNumber > maxLevelsCount)
-            {
-                Debug.LogError($"Уровень {currentLevelNumber} не найден в JSON файле: {_jsonFileName}");
-                return;
-            }
-
-            Debug.Log($"Данные уровня №{currentLevelNumber} загружены");
-
-            _currentLevelData = _levelDataList.Levels[currentLevelNumber - 1];
-            LevelSettingsReady?.Invoke(_currentLevelData);
+            return true;
         }
     }
 }

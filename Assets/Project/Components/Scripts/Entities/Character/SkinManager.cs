@@ -9,27 +9,27 @@ namespace Project.Components.Scripts.Entities.Character
         [SerializeField] [Space(10)] private CharacterSkin[] _skins;
 
         [SerializeField] private CharacterSkin _currentCharacterSkin;
-        
+
         private SpriteRenderer _characterRenderer;
         private PolygonCollider2D _characterCollider;
 
         private void Awake()
         {
             _skins[_numberOfDefaultSkin].IsUnlocked = true;
-            
+
             _characterRenderer = GetComponent<SpriteRenderer>();
             _characterCollider = GetComponent<PolygonCollider2D>();
 
-            if (_currentCharacterSkin != GetDefaultSkin()) 
+            if (_currentCharacterSkin != GetDefaultSkin())
                 ChangeSkin(GetDefaultSkin());
         }
 
-        public CharacterSkin GetDefaultSkin()
+        private CharacterSkin GetDefaultSkin()
         {
             return _skins[_numberOfDefaultSkin];
         }
 
-        public void ChangeSkin(CharacterSkin newSkin)
+        private void ChangeSkin(CharacterSkin newSkin)
         {
             _currentCharacterSkin = newSkin;
 

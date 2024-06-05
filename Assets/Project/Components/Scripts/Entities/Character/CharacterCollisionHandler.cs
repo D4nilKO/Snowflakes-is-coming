@@ -9,7 +9,7 @@ namespace Project.Components.Scripts.Entities.Character
     public class CharacterCollisionHandler : MonoBehaviour
     {
         [SerializeField] private GameOutcome _gameOutcome;
-        
+
         private void OnTriggerEnter2D(Collider2D col)
         {
             if (col.gameObject.TryGetComponent(out EnemyBase _))

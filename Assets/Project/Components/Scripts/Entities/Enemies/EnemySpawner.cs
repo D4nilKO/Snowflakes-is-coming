@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using Project.Components.Scripts.Level_System;
+using Project.Components.Scripts.Level_System.LevelStructure;
 using UnityEngine;
 using VavilichevGD.Utils.Timing;
 using static NTC.Global.Pool.NightPool;
@@ -8,26 +10,46 @@ namespace Project.Components.Scripts.Entities.Enemies
 {
     public class EnemySpawner : MonoBehaviour
     {
-        [SerializeField] private TimerType _timerType;
-
-        [SerializeField] private Transform _enemyContainer;
         [SerializeField] private string _enemyPrefabFolder;
 
-        [SerializeField] private float _initialSpawnDelay = 0.5f;
-        
+        [SerializeField] private Game _game;
         [SerializeField] private EntityMover _entityMover;
+        [SerializeField] private Transform _enemyContainer;
 
-        [SerializeField] private List<EnemyTypeInfo> _enemyTypes;
-        
+        private IReadOnlyList<EnemyTypeInfo> _enemyTypes;
         private Dictionary<string, int> _availableEnemyCounts;
-        
+
+        private TimerType _timerType = TimerType.UpdateTick;
+        private float _initialSpawnDelay;
         private int _spawnDelaySeconds;
 
         private int _currentEnemyTypeIndex;
 
         private bool _isSubscribed;
-        
+
         public SyncedTimer Timer { get; private set; }
+
+        public void Initialize(IReadOnlyList<EnemyTypeInfo> enemyTypeInfos, int timeToSpawn)
+        {
+            Debug.Log("init enemy spawner");
+
+            gameObject.SetActive(true);
+
+            SetStartedParameters(enemyTypeInfos, timeToSpawn);
+            _currentEnemyTypeIndex = 0;
+
+            InitializeAvailableEnemyCounts();
+
+            Timer = new SyncedTimer(_timerType, _spawnDelaySeconds);
+            Timer.Start(_initialSpawnDelay);
+
+            SubscribeToTimer();
+        }
+
+        private void Awake()
+        {
+            _initialSpawnDelay = _game.InitialSpawnDelay;
+        }
 
         private void OnDestroy()
         {
@@ -91,7 +113,7 @@ namespace Project.Components.Scripts.Entities.Enemies
 
         private void UnsubscribeFromTimer()
         {
-            if (_isSubscribed) 
+            if (_isSubscribed)
                 Timer.TimerFinished -= OnTimerFinished;
         }
 
@@ -102,27 +124,10 @@ namespace Project.Components.Scripts.Entities.Enemies
             _entityMover.AddMovableEntity(enemyComponent);
         }
 
-        private void SetStartedParameters(List<EnemyTypeInfo> enemyTypeInfos, int timeToSpawn)
+        private void SetStartedParameters(IReadOnlyList<EnemyTypeInfo> enemyTypeInfos, int timeToSpawn)
         {
             _enemyTypes = enemyTypeInfos;
             _spawnDelaySeconds = timeToSpawn;
-        }
-
-        public void Initialize(List<EnemyTypeInfo> enemyTypeInfos, int timeToSpawn)
-        {
-            Debug.Log("init enemy spawner");
-            
-            gameObject.SetActive(true);
-            
-            SetStartedParameters(enemyTypeInfos, timeToSpawn);
-            _currentEnemyTypeIndex = 0;
-            
-            InitializeAvailableEnemyCounts();
-            
-            Timer = new SyncedTimer(_timerType, _spawnDelaySeconds);
-            Timer.Start(_initialSpawnDelay);
-            
-            SubscribeToTimer();
         }
     }
 }
