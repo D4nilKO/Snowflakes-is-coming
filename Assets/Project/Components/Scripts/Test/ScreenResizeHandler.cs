@@ -1,13 +1,12 @@
-﻿
-using System;
+﻿using System;
 using UnityEngine;
 
 public class ScreenResizeHandler : MonoBehaviour
 {
     private int _lastScreenWidth;
     private int _lastScreenHeight;
-    
-    public event Action OnScreenResize;
+
+    public event Action ScreenResized;
 
     private void Start()
     {
@@ -15,14 +14,22 @@ public class ScreenResizeHandler : MonoBehaviour
         _lastScreenHeight = Screen.height;
     }
 
-    private void Update()
+    private void LateUpdate()
+    {
+        if (CheckResizeScreen())
+            ScreenResized?.Invoke();
+    }
+
+    private bool CheckResizeScreen()
     {
         if (Screen.width != _lastScreenWidth || Screen.height != _lastScreenHeight)
         {
             _lastScreenWidth = Screen.width;
             _lastScreenHeight = Screen.height;
 
-            OnScreenResize();
+            return true;
         }
+
+        return false;
     }
 }

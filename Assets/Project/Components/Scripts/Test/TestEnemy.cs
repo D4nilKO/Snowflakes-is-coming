@@ -1,6 +1,4 @@
-﻿using System;
-using Project.Components.Scripts.Entities.Enemies;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Project.Components.Scripts.Test
 {

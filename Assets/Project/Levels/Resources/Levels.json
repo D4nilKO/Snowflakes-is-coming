@@ -44,7 +44,7 @@
     {
       "NumberOfLevel": 4,
       "TimeToSpawn": 3,
-      "SecondsToWin": 6,
+      "SecondsToWin": 4,
       "EnemyTypesInfo": [
         {
           "EnemyPrefabName": "Enemy 1",
@@ -59,7 +59,7 @@
     {
       "NumberOfLevel": 5,
       "TimeToSpawn": 3,
-      "SecondsToWin": 8,
+      "SecondsToWin": 4,
       "EnemyTypesInfo": [
         {
           "EnemyPrefabName": "Enemy 1",
@@ -212,7 +212,7 @@
         },
         {
           "EnemyPrefabName": "Enemy 3",
-          "MaxSpawnCount": 2
+          "MaxSpawnCount": 1
         }
       ]
     },

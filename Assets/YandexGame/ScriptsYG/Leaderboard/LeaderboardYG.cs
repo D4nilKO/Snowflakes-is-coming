@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine.Events;
+﻿using UnityEngine.Events;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityToolbag;

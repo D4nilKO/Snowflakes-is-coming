@@ -7,6 +7,7 @@ namespace Project.Components.Scripts.Level_System
     public class JsonLevelParser : MonoBehaviour
     {
         [SerializeField] private string _jsonFileName;
+        [SerializeField] private TextAsset _levelDataJson;
 
         private LevelDataList _levelDataList;
 
@@ -17,7 +18,15 @@ namespace Project.Components.Scripts.Level_System
                 return _levelDataList;
             }
 
-            if (!TryParseJsonFile())
+            if (_levelDataJson == null)
+            {
+                if (!TryGetJsonTextFile(out _levelDataJson))
+                {
+                    throw new InvalidOperationException("Failed to load levels from resources");
+                }
+            }
+
+            if (!TryParseJsonFile(_levelDataJson))
             {
                 throw new InvalidOperationException("Failed to load levels from JSON file");
             }
@@ -25,22 +34,29 @@ namespace Project.Components.Scripts.Level_System
             return _levelDataList;
         }
 
-        private bool TryParseJsonFile()
+        private bool TryGetJsonTextFile(out TextAsset json)
         {
+            json = null;
+
             if (_jsonFileName == string.Empty)
             {
                 Debug.LogError("Пустое имя JSON файла");
                 return false;
             }
 
-            TextAsset json = Resources.Load<TextAsset>(_jsonFileName);
+            json = Resources.Load<TextAsset>(_jsonFileName);
 
             if (json == null)
             {
                 Debug.LogError($"Указанный JSON файл не найден: {_jsonFileName}");
                 return false;
             }
-            
+
+            return true;
+        }
+
+        private bool TryParseJsonFile(TextAsset json)
+        {
             _levelDataList = JsonUtility.FromJson<LevelDataList>(json.text);
 
             if (_levelDataList == null)

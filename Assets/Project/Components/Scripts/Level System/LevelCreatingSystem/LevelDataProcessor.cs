@@ -1,98 +1,88 @@
-﻿// using UnityEngine;
-// using System.Text;
-// using Project.Components.Scripts.Entities.Enemies;
-// using Project.Components.Scripts.Level_System;
-//
-// public class LevelDataProcessor : MonoBehaviour
-// {
-//     // это пока не трогали, пока с самой игрой надо разобраться
-//     public TextAsset levelDataJson;
-//     public LevelDataList levelDataCollection;
-//     public float difficultyCoefficient;
-//
-//     private void Start()
-//     {
-//         if (levelDataJson != null)
-//         {
-//             ProcessLevelData();
-//         }
-//         else
-//         {
-//             Debug.LogError("JSON file not assigned!");
-//         }
-//     }
-//
-//     private void ProcessLevelData()
-//     {
-//         // Check if JSON data is available
-//         if (string.IsNullOrEmpty(levelDataJson.text))
-//         {
-//             Debug.LogError("No JSON data found!");
-//             return;
-//         }
-//
-//         // Deserialize JSON data
-//         levelDataCollection = JsonUtility.FromJson<LevelDataList>(levelDataJson.text);
-//
-//         if (levelDataCollection != null && levelDataCollection.Levels != null)
-//         {
-//             // Output difficulty for each level
-//             foreach (LevelData levelData in levelDataCollection.Levels)
-//             {
-//                 float levelDifficulty = CalculateLevelDifficulty(levelData);
-//                 StringBuilder sb = new StringBuilder();
-//                 sb.AppendFormat("Level {0} difficulty: {1}", levelData.NumberOfLevel, levelDifficulty);
-//                 Debug.Log(sb.ToString());
-//             }
-//         }
-//         else
-//         {
-//             Debug.LogError("Failed to parse JSON data!");
-//         }
-//     }
-//
-//     private float CalculateLevelDifficulty(LevelData levelData)
-//     {
-//         float levelDifficulty = 0f;
-//         int enemyTypesCount = levelData.EnemyTypesInfo.Count;
-//
-//         // Итерируемся по типам врагов
-//         for (int i = 0; i < enemyTypesCount; i++)
-//         {
-//             EnemyTypeInfo enemyTypeInfo = levelData.EnemyTypesInfo[i];
-//             int enemyType = i + 1;
-//             float enemyDifficulty = 1 + (enemyType - 1) * difficultyCoefficient;
-//
-//             // Рассчитываем время, проведенное с каждым врагом
-//             float timeSpent = 0f;
-//             if (i == 0)
-//             {
-//                 // Первый враг тратит timeToSpawn
-//                 timeSpent = levelData.TimeToSpawn;
-//             }
-//             else if (i == enemyTypesCount - 1)
-//             {
-//                 // Последний враг тратит secondsToWin и minutesToWin
-//                 timeSpent += levelData.SecondsToWin;
-//             }
-//             else
-//             {
-//                 // Промежуточные враги тратят суммарное время до них
-//                 for (int j = 0; j < i; j++)
-//                 {
-//                     timeSpent += levelData.EnemyTypesInfo[j].MaxSpawnCount * levelData.TimeToSpawn;
-//                 }
-//             }
-//
-//             // Добавляем вклад в сложность уровня
-//             levelDifficulty += enemyTypeInfo.MaxSpawnCount * enemyDifficulty * timeSpent;
-//         }
-//
-//         // Добавляем вклад последнего врага в сложность уровня
-//         EnemyTypeInfo lastEnemyTypeInfo = levelData.EnemyTypesInfo[enemyTypesCount - 1];
-//         levelDifficulty += lastEnemyTypeInfo.MaxSpawnCount * (1 + (enemyTypesCount - 1) * difficultyCoefficient) *
-//                            +levelData.SecondsToWin;
-//
-//         return levelDifficulty;
-//     }
-// }
+﻿using System;
+using System.IO;
+using System.Text;
+using Newtonsoft.Json;
+using Project.Components.Scripts.Level_System;
+using Project.Components.Scripts.Level_System.LevelStructure;
+using UnityEngine;
+
+public class LevelDataProcessor : MonoBehaviour
+{
+    [SerializeField] private JsonLevelParser _jsonLevelParser;
+    [SerializeField] private float _difficultyCoefficient;
+
+    [SerializeField] private LevelDataList _levelDataCollection;
+
+    public void Calculate()
+    {
+        ProcessLevelData(_jsonLevelParser.GetLevelDataList());
+    }
+
+    public void CalculateModifiedLevel()
+    {
+        ProcessLevelData(_levelDataCollection);
+        SaveLevelsToFile();
+    }
+    
+    private void SaveLevelsToFile()
+    {
+        string json = JsonConvert.SerializeObject(_levelDataCollection, Formatting.Indented);
+        string filePath = Path.Combine(Application.streamingAssetsPath, "TestLevels");
+
+        File.WriteAllText(filePath, json);
+        Debug.Log("Levels saved to: " + filePath);
+    }
+
+    private void ProcessLevelData(LevelDataList levelDataList)
+    {
+        if (levelDataList != null && levelDataList.Levels != null)
+        {
+            _levelDataCollection = levelDataList;
+
+            // Output difficulty for each level
+            foreach (LevelData levelData in levelDataList.Levels)
+            {
+                float levelDifficulty = CalculateLevelDifficulty(levelData);
+                StringBuilder sb = new();
+                sb.Append($"Level {levelData.NumberOfLevel} difficulty: {levelDifficulty}");
+                Debug.Log(sb.ToString());
+            }
+        }
+        else
+        {
+            Debug.LogError("Failed to process level data");
+        }
+    }
+
+    private float CalculateLevelDifficulty(LevelData levelData)
+    {
+        float levelDifficulty = 0f;
+        int enemyTypesCount = levelData.EnemyTypesInfo.Count;
+        float timeToWin = levelData.TimeToSurvive;
+        float timeLeft = timeToWin;
+
+        // Итерируемся по типам врагов
+        for (int i = 0; i < enemyTypesCount; i++)
+        {
+            EnemyTypeInfo enemyTypeInfo = levelData.EnemyTypesInfo[i];
+
+            int enemyTypeLevel = int.Parse(enemyTypeInfo.EnemyPrefabName[^1].ToString());
+            float enemyDifficulty = enemyTypeLevel * _difficultyCoefficient;
+
+            // Итерируемся по каждому врагу в данном типе
+            for (int j = 0; j < enemyTypeInfo.MaxSpawnCount; j++)
+            {
+                levelDifficulty += enemyDifficulty * timeLeft;
+                timeLeft -= levelData.TimeToSpawn;
+
+                if (timeLeft < 0)
+                {
+                    Debug.LogError("Time left less than 0");
+                    break;
+                }
+            }
+        }
+
+        return levelDifficulty;
+    }
+}
