@@ -17,7 +17,9 @@ public class ScreenResizeHandler : MonoBehaviour
     private void LateUpdate()
     {
         if (CheckResizeScreen())
+        {
             ScreenResized?.Invoke();
+        }
     }
 
     private bool CheckResizeScreen()
