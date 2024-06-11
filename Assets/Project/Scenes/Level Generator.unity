@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 223015986}
   - component: {fileID: 223015988}
   - component: {fileID: 223015989}
+  - component: {fileID: 223015990}
   m_Layer: 0
   m_Name: Level
   m_TagString: Untagged
@@ -185,8 +186,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2624d6866e644941b2bb03e38d6e666a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _jsonFileName: TestLevels1
-  _levelDataJson: {fileID: 0}
+  _jsonFileName: TestLevels
+  _levelDataJson: {fileID: 4900000, guid: cc43166683f8e0e47a7b4a77c5b58b9f, type: 3}
 --- !u!114 &223015989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,15 +200,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88c39b81a8a44aa5a50412ca9f9c12be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _numberOfEnemyTypes: 4
-  _minSpawnCount: 1
-  _maxSpawnCount: 7
-  _minSpawnTime: 1
-  _maxSpawnTime: 1
-  _minSecondsToWin: 2
-  _maxSecondsToWin: 2
-  _savePath: E:/Projects/Snowflakes is coming/Assets/Project/Levels/Test Levels
+  _parameters: {fileID: 11400000, guid: 65203207d21d58345b4973ba2337c8f3, type: 2}
+  _savePath: Assets/Project/Levels/Test Levels
   _fileName: TestLevels
+--- !u!114 &223015990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 223015983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 373caf84c9ed4aa4b642a70b9fc72c54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _jsonLevelParser: {fileID: 223015988}
+  _parameters: {fileID: 11400000, guid: 65203207d21d58345b4973ba2337c8f3, type: 2}
 --- !u!1 &595257229
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,18 +8,10 @@ namespace Project.Components.Scripts.Level_System.LevelCreatingSystem
 {
     public class NewLevelGenerator : MonoBehaviour
     {
-        [SerializeField] private int _numberOfEnemyTypes;
-
-        [SerializeField] private int _minSpawnCount;
-        [SerializeField] private int _maxSpawnCount;
-
-        [SerializeField] private int _minSpawnTime;
-        [SerializeField] private int _maxSpawnTime;
-
-        [SerializeField] private int _minSecondsToWin;
-        [SerializeField] private int _maxSecondsToWin;
+        [SerializeField] private LevelCreatingParameters _parameters;
 
         [FolderPath] [SerializeField] private string _savePath;
+
         [SerializeField] private string _fileName;
 
         private void Update()
@@ -35,52 +27,61 @@ namespace Project.Components.Scripts.Level_System.LevelCreatingSystem
         private List<LevelData> GenerateAllLevelCombinations(int totalSpawnCount, int spawnTime, int secondsToWin)
         {
             var combinations = new List<LevelData>();
-            int levelNumber = 1;
 
-            for (int spawnCount = _minSpawnCount; spawnCount <= _maxSpawnCount; spawnCount++)
+            // Генерация всех возможных комбинаций
+            for (int totalEnemies = _parameters._minSpawnCount;
+                 totalEnemies <= _parameters._maxSpawnCount;
+                 totalEnemies++)
             {
-                var enemyTypesInfo = new List<EnemyTypeInfo>();
+                var enemyTypesInfo = new List<List<EnemyTypeInfo>>();
 
-                for (int i = 0; i < _numberOfEnemyTypes; i++)
+                // Генерация врагов с различными комбинациями
+                GenerateEnemyCombinations(enemyTypesInfo, totalEnemies, 0, new List<EnemyTypeInfo>());
+
+                // Фильтрация и добавление комбинаций
+                foreach (var enemyCombination in enemyTypesInfo)
                 {
-                    enemyTypesInfo.Add(new EnemyTypeInfo
-                    {
-                        EnemyPrefabName = $"Enemy {i + 1}",
-                        MaxSpawnCount = 0
-                    });
-                }
+                    // Удаление врагов с нулевым количеством
+                    var validCombination = enemyCombination.Where(enemy => enemy.MaxSpawnCount > 0).ToList();
 
-                GenerateCombinations(combinations, enemyTypesInfo, 0, totalSpawnCount, levelNumber++, spawnTime,
-                    secondsToWin);
+                    if (validCombination.Any())
+                    {
+                        combinations.Add(new LevelData
+                        {
+                            NumberOfLevel = combinations.Count + 1,
+                            TimeToSpawn = spawnTime,
+                            SecondsToWin = secondsToWin,
+                            EnemyTypesInfo = validCombination
+                        });
+                    }
+                }
             }
 
             return combinations;
         }
 
-        private void GenerateCombinations(List<LevelData> combinations, List<EnemyTypeInfo> currentCombination,
-            int currentTypeIndex, int remainingSpawnCount, int levelNumber, int spawnTime, int secondsToWin)
+        private void GenerateEnemyCombinations(List<List<EnemyTypeInfo>> result, int remainingEnemies,
+            int currentTypeIndex, List<EnemyTypeInfo> currentCombination)
         {
-            if (currentTypeIndex == _numberOfEnemyTypes)
+            if (currentTypeIndex == _parameters._numberOfEnemyTypes)
             {
-                if (remainingSpawnCount == 0 && currentCombination.Any(e => e.MaxSpawnCount > 0))
+                if (remainingEnemies == 0)
                 {
-                    combinations.Add(new LevelData
-                    {
-                        NumberOfLevel = levelNumber,
-                        TimeToSpawn = spawnTime,
-                        SecondsToWin = secondsToWin,
-                        EnemyTypesInfo = currentCombination.Where(e => e.MaxSpawnCount > 0).ToList()
-                    });
+                    result.Add(new List<EnemyTypeInfo>(currentCombination));
                 }
 
                 return;
             }
 
-            for (int i = 0; i <= remainingSpawnCount; i++)
+            for (int i = 0; i <= remainingEnemies; i++)
             {
-                currentCombination[currentTypeIndex].MaxSpawnCount = i;
-                GenerateCombinations(combinations, currentCombination, currentTypeIndex + 1, remainingSpawnCount - i,
-                    levelNumber, spawnTime, secondsToWin);
+                var newCombination = new List<EnemyTypeInfo>(currentCombination);
+                newCombination.Add(new EnemyTypeInfo
+                {
+                    EnemyPrefabName = $"Enemy {currentTypeIndex + 1}",
+                    MaxSpawnCount = i
+                });
+                GenerateEnemyCombinations(result, remainingEnemies - i, currentTypeIndex + 1, newCombination);
             }
         }
 
@@ -88,11 +89,15 @@ namespace Project.Components.Scripts.Level_System.LevelCreatingSystem
         {
             var levels = new List<LevelData>();
 
-            for (int spawnTime = _minSpawnTime; spawnTime <= _maxSpawnTime; spawnTime++)
+            for (int spawnTime = _parameters._minSpawnTime;
+                 spawnTime <= _parameters._maxSpawnTime;
+                 spawnTime++)
             {
-                for (int secondsToWin = _minSecondsToWin; secondsToWin <= _maxSecondsToWin; secondsToWin++)
+                for (int secondsToWin = _parameters._minSecondsToWin;
+                     secondsToWin <= _parameters._maxSecondsToWin;
+                     secondsToWin++)
                 {
-                    levels.AddRange(GenerateAllLevelCombinations(_maxSpawnCount, spawnTime, secondsToWin));
+                    levels.AddRange(GenerateAllLevelCombinations(_parameters._maxSpawnCount, spawnTime, secondsToWin));
                 }
             }
 
