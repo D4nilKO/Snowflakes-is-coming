@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Project.Components.Scripts.Level_System.LevelStructure;
 using UnityEngine;
 
@@ -6,7 +7,9 @@ namespace Project.Components.Scripts.Level_System
 {
     public class JsonLevelParser : MonoBehaviour
     {
+        [FolderPath] [SerializeField] private string _path;
         [SerializeField] private string _jsonFileName;
+
         [SerializeField] private TextAsset _levelDataJson;
 
         private LevelDataList _levelDataList;
@@ -20,7 +23,7 @@ namespace Project.Components.Scripts.Level_System
 
             if (_levelDataJson == null)
             {
-                if (!TryGetJsonTextFile(out _levelDataJson))
+                if (TryGetJsonTextFile(out _levelDataJson) == false)
                 {
                     throw new InvalidOperationException("Failed to load levels from resources");
                 }
@@ -41,6 +44,14 @@ namespace Project.Components.Scripts.Level_System
             if (_jsonFileName == string.Empty)
             {
                 Debug.LogError("Пустое имя JSON файла");
+                return false;
+            }
+
+            string fullPath = Path.Combine(_path, _jsonFileName);
+
+            if (!File.Exists(fullPath))
+            {
+                Debug.LogError($"JSON файл не найден: {fullPath}");
                 return false;
             }
 

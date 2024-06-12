@@ -161,15 +161,18 @@ namespace Project.Components.Scripts.Level_System.LevelValidation
         {
             return levels
                 .Where(level => level.EnemyTypesInfo
-                    .Any(e => e.MaxSpawnCount < _parameters._minSpawnCount || e.MaxSpawnCount > _parameters._maxSpawnCount))
+                    .Any(e => e.MaxSpawnCount < _parameters._minSpawnCount ||
+                              e.MaxSpawnCount > _parameters._maxSpawnCount))
                 .ToList();
         }
 
         private List<LevelData> FindLevelsWithInvalidTimes(List<LevelData> levels)
         {
             return levels
-                .Where(level => level.TimeToSpawn < _parameters._minSpawnTime || level.TimeToSpawn > _parameters._maxSpawnTime ||
-                                level.SecondsToWin < _parameters._minSecondsToWin || level.SecondsToWin > _parameters._maxSecondsToWin)
+                .Where(level => level.TimeToSpawn < _parameters._minSpawnTime ||
+                                level.TimeToSpawn > _parameters._maxSpawnTime ||
+                                level.SecondsToWin < _parameters._minSecondsToWin ||
+                                level.SecondsToWin > _parameters._maxSecondsToWin)
                 .ToList();
         }
 

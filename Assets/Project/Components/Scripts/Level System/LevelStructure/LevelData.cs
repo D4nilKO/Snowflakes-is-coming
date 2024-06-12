@@ -9,6 +9,14 @@ namespace Project.Components.Scripts.Level_System.LevelStructure
     [Serializable]
     public class LevelData
     {
+        public LevelData(int numberOfLevel, int timeToSpawn, int secondsToWin, List<EnemyTypeInfo> enemyTypesInfo)
+        {
+            NumberOfLevel = numberOfLevel;
+            TimeToSpawn = timeToSpawn;
+            SecondsToWin = secondsToWin;
+            EnemyTypesInfo = enemyTypesInfo;
+        }
+
         public int NumberOfLevel;
         public int TimeToSpawn;
         public int SecondsToWin;

@@ -186,6 +186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2624d6866e644941b2bb03e38d6e666a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _path: Assets/Project/Levels/Test Levels
   _jsonFileName: TestLevels
   _levelDataJson: {fileID: 4900000, guid: cc43166683f8e0e47a7b4a77c5b58b9f, type: 3}
 --- !u!114 &223015989

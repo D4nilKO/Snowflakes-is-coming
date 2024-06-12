@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _numberOfEnemyTypes: 2
   _minSpawnCount: 1
-  _maxSpawnCount: 4
+  _maxSpawnCount: 3
   _minSpawnTime: 1
   _maxSpawnTime: 1
   _minSecondsToWin: 1

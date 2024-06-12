@@ -1,4 +1,6 @@
 ﻿#if UNITY_EDITOR
+using System;
+using Project.Components.Scripts.Utility;
 using UnityEditor;
 using UnityEngine;
 
@@ -15,6 +17,7 @@ public class FolderPathDrawer : PropertyDrawer
         {
             EditorGUI.BeginChangeCheck();
             string newValue = EditorGUI.TextField(position, label, property.stringValue);
+
             if (EditorGUI.EndChangeCheck())
             {
                 property.stringValue = newValue;
@@ -24,9 +27,10 @@ public class FolderPathDrawer : PropertyDrawer
             {
                 string selectedPath =
                     EditorUtility.OpenFolderPanel("Select Folder", folderPathAttribute.DefaultPath, string.Empty);
-                if (!string.IsNullOrEmpty(selectedPath))
+
+                if (string.IsNullOrEmpty(selectedPath) == false)
                 {
-                    property.stringValue = selectedPath;
+                    property.stringValue = FileUtils.RemoveLocalPath(selectedPath);
                 }
             }
         }

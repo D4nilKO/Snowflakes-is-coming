@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Project.Components.Scripts.Level_System.LevelCreatingSystem
 {
@@ -13,10 +14,13 @@ namespace Project.Components.Scripts.Level_System.LevelCreatingSystem
         public int _minSecondsToWin;
         public int _maxSecondsToWin;
 
-        // public int GetMaxCombinationsCount()
-        // {
-        //      int count1 = (int)((Mathf.Pow(_numberOfEnemyTypes, _maxSpawnCount + 1) - _numberOfEnemyTypes) / 2);
-        //     int count2 = 
-        // }
+
+        public int GetMaxCombinationsCount()
+        {
+            int count1 = (int)((Mathf.Pow(_numberOfEnemyTypes, _maxSpawnCount + 1) - _numberOfEnemyTypes) / 2);
+            int count2 = (_maxSpawnTime - _minSpawnTime) * (_maxSecondsToWin - _minSecondsToWin);
+
+            return count1 * count2;
+        }
     }
 }
