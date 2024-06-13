@@ -133,9 +133,9 @@ GameObject:
   m_Component:
   - component: {fileID: 223015985}
   - component: {fileID: 223015986}
-  - component: {fileID: 223015988}
   - component: {fileID: 223015989}
   - component: {fileID: 223015990}
+  - component: {fileID: 223015991}
   m_Layer: 0
   m_Name: Level
   m_TagString: Untagged
@@ -170,25 +170,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c72ae5ef101242feafac37c29fb5c802, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _jsonLevelParser: {fileID: 223015988}
+  _jsonLevelParser: {fileID: 223015991}
   _difficultyCoefficient: 1
   _levelDataCollection:
     Levels: []
---- !u!114 &223015988
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 223015983}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2624d6866e644941b2bb03e38d6e666a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _path: Assets/Project/Levels/Test Levels
-  _jsonFileName: TestLevels
-  _levelDataJson: {fileID: 4900000, guid: 9894d68a6286f5542a4113ab0efab406, type: 3}
 --- !u!114 &223015989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,7 +189,6 @@ MonoBehaviour:
   _savePath: Assets/Project/Levels/Test Levels
   _fileName: TestLevels
   _parameters: {fileID: 11400000, guid: 65203207d21d58345b4973ba2337c8f3, type: 2}
-  _enemyTypesTest: []
 --- !u!114 &223015990
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -217,8 +201,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 373caf84c9ed4aa4b642a70b9fc72c54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _jsonLevelParser: {fileID: 223015988}
+  _jsonLevelParser: {fileID: 223015991}
   _parameters: {fileID: 11400000, guid: 65203207d21d58345b4973ba2337c8f3, type: 2}
+--- !u!114 &223015991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 223015983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62437091250d4bc78bc943f6435691b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _path: Assets/Project/Levels/Test Levels
+  _jsonFileName: TestLevels
+  _levelDataJson: {fileID: 0}
 --- !u!1 &595257229
 GameObject:
   m_ObjectHideFlags: 0

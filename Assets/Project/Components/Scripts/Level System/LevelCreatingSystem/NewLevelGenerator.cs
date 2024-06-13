@@ -12,19 +12,18 @@ namespace Project.Components.Scripts.Level_System.LevelCreatingSystem
         [SerializeField] private string _fileName;
         [SerializeField] private LevelCreatingParameters _parameters;
 
-        [SerializeField] private List<EnemyTypeInfo> _enemyTypesTest = new();
+        private EnemyNumberСombinator _enemyNumberСombinator = new();
 
         private LevelDataList _levelDataList;
 
         private int _index = 1;
         private string _separator = ",";
+        private string _enemyPrefix = "Enemy ";
 
         private void Awake()
         {
             _levelDataList = new LevelDataList();
             _levelDataList.Levels = new List<LevelData>();
-
-            // Test();
         }
 
         private void Update()
@@ -39,7 +38,8 @@ namespace Project.Components.Scripts.Level_System.LevelCreatingSystem
 
         private void GenerateAndSaveLevels()
         {
-            var allCombinations = GetAllCombinations(_parameters._numberOfEnemyTypes, _parameters._maxSpawnCount);
+            var allCombinations =
+                _enemyNumberСombinator.GetAllCombinations(_parameters._numberOfEnemyTypes, _parameters._maxSpawnCount);
 
             if (allCombinations == null || allCombinations.Count == 0)
             {
@@ -84,6 +84,8 @@ namespace Project.Components.Scripts.Level_System.LevelCreatingSystem
             }
 
             SaveLevelsToFile(_levelDataList);
+
+            Debug.Log($"Levels count: {_levelDataList.LevelsCount}");
         }
 
         private void CreateLevel(int spawnTime, int secondsToWin, string combination)
@@ -103,13 +105,14 @@ namespace Project.Components.Scripts.Level_System.LevelCreatingSystem
 
             for (int i = 0; i < split.Length; i++)
             {
-                EnemyTypeInfo enemyTypeInfo = typeInfos.FirstOrDefault(x => x.EnemyPrefabName == $"Enemy {split[i]}");
+                EnemyTypeInfo enemyTypeInfo =
+                    typeInfos.FirstOrDefault(x => x.EnemyPrefabName == $"{_enemyPrefix}{split[i]}");
 
-                if (typeInfos.Count == 0 || enemyTypeInfo.EnemyPrefabName != $"Enemy {split[i]}")
+                if (typeInfos.Count == 0 || enemyTypeInfo.EnemyPrefabName != $"{_enemyPrefix}{split[i]}")
                 {
                     typeInfos.Add(new EnemyTypeInfo
                     {
-                        EnemyPrefabName = $"Enemy {split[i]}",
+                        EnemyPrefabName = $"{_enemyPrefix}{split[i]}",
                         MaxSpawnCount = 1
                     });
                 }
@@ -122,61 +125,21 @@ namespace Project.Components.Scripts.Level_System.LevelCreatingSystem
             return typeInfos;
         }
 
-        private List<List<string>> GetAllCombinations(int countEnemyTypes, int countOfNumberCells)
-        {
-            var result = new List<List<string>>();
-
-            for (int i = 1; i <= countOfNumberCells; i++)
-            {
-                var combinations = GetNumberCombinations(countEnemyTypes, i);
-                result.Add(combinations);
-            }
-
-            return result;
-        }
-
-        private void Test()
-        {
-            Debug.Log("Start test");
-
-            var allCombinations = GetAllCombinations(2, 3);
-
-            Debug.Log("Combinations count: " + allCombinations.Count);
-
-            foreach (string s in allCombinations.SelectMany(variable => variable))
-            {
-                Debug.Log(s);
-            }
-        }
-
-        private List<string> GetNumberCombinations(int countEnemyTypes, int countOfNumberCells)
-        {
-            var results = new List<string>();
-            GenerateNumberCombinations(results, new List<int>(), countEnemyTypes, countOfNumberCells, 1);
-            return results;
-        }
-
-        private void GenerateNumberCombinations(
-            List<string> results,
-            List<int> current,
-            int countEnemyTypes,
-            int countOfNumberCells,
-            int start)
-        {
-            if (current.Count == countOfNumberCells)
-            {
-                results.Add(string.Join(_separator, current));
-                return;
-            }
-
-            for (int i = start; i <= countEnemyTypes; i++)
-            {
-                current.Add(i);
-                GenerateNumberCombinations(results, current, countEnemyTypes, countOfNumberCells,
-                    1);
-                current.RemoveAt(current.Count - 1);
-            }
-        }
+        // private void Test(int countEnemyTypes, int countOfNumberCells)
+        // {
+        //     Debug.Log("Start test");
+        //
+        //     var allCombinations = GetAllCombinations(countEnemyTypes, countOfNumberCells);
+        //
+        //     Debug.Log($"Combinations count: {allCombinations.Count}");
+        //
+        //     foreach (string s in allCombinations.SelectMany(variable => variable))
+        //     {
+        //         Debug.Log(s);
+        //     }
+        //
+        //     Debug.Log("End test");
+        // }
 
         #endregion
 

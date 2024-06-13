@@ -10,11 +10,11 @@ namespace Project.Components.Scripts.Level_System
         [FolderPath] [SerializeField] private string _path;
         [SerializeField] private string _jsonFileName;
 
-        [SerializeField] private TextAsset _levelDataJson;
+        [SerializeField] protected TextAsset _levelDataJson;
 
         protected LevelDataList _levelDataList;
 
-        public LevelDataList GetLevelDataList()
+        public virtual LevelDataList GetLevelDataList()
         {
             if (_levelDataList != null)
             {
@@ -37,7 +37,7 @@ namespace Project.Components.Scripts.Level_System
             return _levelDataList;
         }
 
-        private bool TryGetJsonTextFile(out TextAsset json)
+        protected bool TryGetJsonTextFile(out TextAsset json)
         {
             json = null;
 
@@ -55,7 +55,8 @@ namespace Project.Components.Scripts.Level_System
                 return false;
             }
 
-            json = Resources.Load<TextAsset>(_jsonFileName);
+            // todo вот тут поменять на загрузку через полный путь
+            // json = Resources.Load<TextAsset>(_jsonFileName);
 
             if (json == null)
             {
@@ -68,7 +69,7 @@ namespace Project.Components.Scripts.Level_System
             return true;
         }
 
-        private bool TryParseJsonFile(TextAsset json)
+        protected bool TryParseJsonFile(TextAsset json)
         {
             _levelDataList = JsonUtility.FromJson<LevelDataList>(json.text);
 
