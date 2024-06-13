@@ -3,23 +3,20 @@ using System.IO;
 using Project.Components.Scripts.Level_System.LevelStructure;
 using UnityEngine;
 
-namespace Project.Components.Scripts.Level_System
+namespace Project.Components.Scripts.Level_System.LevelCreatingSystem
 {
-    public class JsonLevelParser : MonoBehaviour
+    public class RuntimeJsonParser : MonoBehaviour
     {
         [FolderPath] [SerializeField] private string _path;
         [SerializeField] private string _jsonFileName;
 
-        [SerializeField] private TextAsset _levelDataJson;
+        private TextAsset _levelDataJson;
 
-        protected LevelDataList _levelDataList;
+        private LevelDataList _levelDataList;
 
         public LevelDataList GetLevelDataList()
         {
-            if (_levelDataList != null)
-            {
-                return _levelDataList;
-            }
+            _levelDataList = null;
 
             if (_levelDataJson == null)
             {

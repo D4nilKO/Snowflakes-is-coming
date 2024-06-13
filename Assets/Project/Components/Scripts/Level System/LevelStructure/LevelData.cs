@@ -7,7 +7,7 @@ using System.Linq;
 namespace Project.Components.Scripts.Level_System.LevelStructure
 {
     [Serializable]
-    public class LevelData
+    public struct LevelData
     {
         public LevelData(int numberOfLevel, int timeToSpawn, int secondsToWin, List<EnemyTypeInfo> enemyTypesInfo)
         {
@@ -23,6 +23,9 @@ namespace Project.Components.Scripts.Level_System.LevelStructure
 
         public List<EnemyTypeInfo> EnemyTypesInfo;
 
-        public float TimeToSurvive => EnemyTypesInfo.Sum(t => t.MaxSpawnCount * TimeToSpawn) + SecondsToWin;
+        public int GetTimeToSurvive()
+        {
+            return (TimeToSpawn * EnemyTypesInfo.Count) + SecondsToWin;
+        }
     }
 }

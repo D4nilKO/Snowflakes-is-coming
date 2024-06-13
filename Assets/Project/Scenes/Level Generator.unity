@@ -188,7 +188,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _path: Assets/Project/Levels/Test Levels
   _jsonFileName: TestLevels
-  _levelDataJson: {fileID: 4900000, guid: cc43166683f8e0e47a7b4a77c5b58b9f, type: 3}
+  _levelDataJson: {fileID: 4900000, guid: 9894d68a6286f5542a4113ab0efab406, type: 3}
 --- !u!114 &223015989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,9 +201,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88c39b81a8a44aa5a50412ca9f9c12be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _parameters: {fileID: 11400000, guid: 65203207d21d58345b4973ba2337c8f3, type: 2}
   _savePath: Assets/Project/Levels/Test Levels
   _fileName: TestLevels
+  _parameters: {fileID: 11400000, guid: 65203207d21d58345b4973ba2337c8f3, type: 2}
+  _enemyTypesTest: []
 --- !u!114 &223015990
 MonoBehaviour:
   m_ObjectHideFlags: 0

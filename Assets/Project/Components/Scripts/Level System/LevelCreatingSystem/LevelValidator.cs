@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Project.Components.Scripts.Level_System.LevelCreatingSystem;
 using Project.Components.Scripts.Level_System.LevelStructure;
 using UnityEngine;
@@ -29,89 +30,73 @@ namespace Project.Components.Scripts.Level_System.LevelValidation
             }
 
             var levels = levelDataList.Levels;
+            var logs = new StringBuilder();
 
             var emptyEnemies = FindLevelsWithEmptyEnemies(levels);
             if (emptyEnemies.Count > 0)
             {
-                Debug.LogError("Levels with empty enemies found:");
+                logs.AppendLine("Levels with empty enemies found:");
                 foreach (var level in emptyEnemies)
                 {
-                    Debug.LogError($"Level {level.NumberOfLevel} has enemies with MaxSpawnCount = 0");
+                    logs.AppendLine($"Level {level.NumberOfLevel} has enemies with MaxSpawnCount = 0");
                 }
             }
-            else
+
+            if (ValidLevelsCount(levels) == false)
             {
-                Debug.Log("No levels with empty enemies found.");
+                logs.AppendLine("Not all levels have the same number of enemies.");
+
+                logs.AppendLine($"Number of levels: {levels.Count}");
+                logs.Append($" Number of combinations: {_parameters.GetMaxCombinationsCount()}");
             }
 
-            var duplicateLevels = FindDuplicateLevels(levels);
+            var duplicateLevels = FindConsecutiveDuplicateEnemies(levels);
             if (duplicateLevels.Count > 0)
             {
-                Debug.LogError("Duplicate levels found:");
+                logs.AppendLine("Duplicate levels found:");
                 foreach (var level in duplicateLevels)
                 {
-                    Debug.LogError($"Level {level.NumberOfLevel} is duplicate.");
+                    logs.AppendLine($"Level {level.NumberOfLevel} is duplicate.");
                 }
-            }
-            else
-            {
-                Debug.Log("No duplicate levels found.");
-            }
-
-            var invalidEnemyNames = FindLevelsWithDuplicateEnemyNames(levels);
-            if (invalidEnemyNames.Count > 0)
-            {
-                Debug.LogError("Levels with duplicate enemy names found:");
-                foreach (var level in invalidEnemyNames)
-                {
-                    Debug.LogError($"Level {level.NumberOfLevel} has duplicate enemy names.");
-                }
-            }
-            else
-            {
-                Debug.Log("No levels with duplicate enemy names found.");
             }
 
             var invalidSpawnCounts = FindLevelsWithInvalidSpawnCounts(levels);
             if (invalidSpawnCounts.Count > 0)
             {
-                Debug.LogError("Levels with invalid spawn counts found:");
+                logs.AppendLine("Levels with invalid spawn counts found:");
                 foreach (var level in invalidSpawnCounts)
                 {
-                    Debug.LogError($"Level {level.NumberOfLevel} has enemies with invalid spawn counts.");
+                    logs.AppendLine($"Level {level.NumberOfLevel} has enemies with invalid spawn counts.");
                 }
-            }
-            else
-            {
-                Debug.Log("No levels with invalid spawn counts found.");
             }
 
             var invalidTimes = FindLevelsWithInvalidTimes(levels);
             if (invalidTimes.Count > 0)
             {
-                Debug.LogError("Levels with invalid times found:");
+                logs.AppendLine("Levels with invalid times found:");
                 foreach (var level in invalidTimes)
                 {
-                    Debug.LogError($"Level {level.NumberOfLevel} has invalid spawn time or win time.");
+                    logs.AppendLine($"Level {level.NumberOfLevel} has invalid spawn time or win time.");
                 }
-            }
-            else
-            {
-                Debug.Log("No levels with invalid times found.");
             }
 
             var totalEnemyCounts = FindLevelsWithInvalidTotalEnemyCount(levels);
             if (totalEnemyCounts.Count > 0)
             {
-                Debug.LogError("Levels with invalid total enemy count found:");
+                logs.AppendLine("Levels with invalid total enemy count found:");
                 foreach (var level in totalEnemyCounts)
                 {
-                    Debug.LogError($"Level {level.NumberOfLevel} has invalid total enemy count.");
+                    logs.AppendLine($"Level {level.NumberOfLevel} has invalid total enemy count.");
                 }
+            }
+
+            if (logs.Length > 0)
+            {
+                Debug.LogError(logs.ToString());
             }
             else
             {
-                Debug.Log("No levels with invalid total enemy count found.");
+                Debug.Log("All tests passed.");
             }
         }
 
@@ -122,39 +107,44 @@ namespace Project.Components.Scripts.Level_System.LevelValidation
                 .ToList();
         }
 
-        private List<LevelData> FindDuplicateLevels(List<LevelData> levels)
+        private bool ValidLevelsCount(List<LevelData> levels)
         {
-            var duplicateLevels = new List<LevelData>();
+            return _parameters.GetMaxCombinationsCount() == (ulong)levels.Count;
+        }
 
-            var levelGroups = levels
-                .GroupBy(level => new
-                {
-                    level.TimeToSpawn,
-                    level.SecondsToWin,
-                    Enemies = level.EnemyTypesInfo
-                        .OrderBy(enemy => enemy.EnemyPrefabName)
-                        .Select(enemy => new { enemy.EnemyPrefabName, enemy.MaxSpawnCount })
-                        .ToList()
-                });
+        private List<LevelData> FindConsecutiveDuplicateEnemies(List<LevelData> levels)
+        {
+            var consecutiveDuplicateEnemies = new List<LevelData>();
 
-            foreach (var group in levelGroups)
+            foreach (var level in levels)
             {
-                if (group.Count() > 1)
+                var duplicateEnemies = new List<EnemyTypeInfo>();
+                var currentEnemy = level.EnemyTypesInfo.FirstOrDefault();
+
+                for (int i = 1; i < level.EnemyTypesInfo.Count; i++)
                 {
-                    duplicateLevels.AddRange(group);
+                    var nextEnemy = level.EnemyTypesInfo[i];
+                    if (currentEnemy.EnemyPrefabName == nextEnemy.EnemyPrefabName)
+                    {
+                        duplicateEnemies.Add(currentEnemy);
+                        duplicateEnemies.Add(nextEnemy);
+                    }
+                    else
+                    {
+                        if (duplicateEnemies.Count > 1)
+                        {
+                            consecutiveDuplicateEnemies.Add(level);
+                            break;
+                        }
+
+                        duplicateEnemies.Clear();
+                    }
+
+                    currentEnemy = nextEnemy;
                 }
             }
 
-            return duplicateLevels;
-        }
-
-        private List<LevelData> FindLevelsWithDuplicateEnemyNames(List<LevelData> levels)
-        {
-            return levels
-                .Where(level => level.EnemyTypesInfo
-                    .GroupBy(e => e.EnemyPrefabName)
-                    .Any(group => group.Count() > 1))
-                .ToList();
+            return consecutiveDuplicateEnemies;
         }
 
         private List<LevelData> FindLevelsWithInvalidSpawnCounts(List<LevelData> levels)

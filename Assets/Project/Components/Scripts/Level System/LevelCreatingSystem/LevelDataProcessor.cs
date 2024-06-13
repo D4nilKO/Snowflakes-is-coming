@@ -58,7 +58,7 @@ namespace Project.Components.Scripts.Level_System.LevelCreatingSystem
         {
             float levelDifficulty = 0f;
             int enemyTypesCount = levelData.EnemyTypesInfo.Count;
-            float timeToWin = levelData.TimeToSurvive;
+            float timeToWin = levelData.GetTimeToSurvive();
             float timeLeft = timeToWin;
 
             for (int i = 0; i < enemyTypesCount; i++)

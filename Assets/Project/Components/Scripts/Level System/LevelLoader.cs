@@ -67,8 +67,8 @@ namespace Project.Components.Scripts.Level_System
         private void InitializeLevel()
         {
             _enemySpawner.Initialize(_levelData.EnemyTypesInfo, _levelData.TimeToSpawn);
-            _gameOutcome.Initialize(_levelData.TimeToSurvive);
-            _timersView.Initialize(_levelData.TimeToSurvive);
+            _gameOutcome.Initialize(_levelData.GetTimeToSurvive());
+            _timersView.Initialize(_levelData.GetTimeToSurvive());
             _levelTextView.Initialize(_levelData.NumberOfLevel);
             _player.Initialize();
         }
