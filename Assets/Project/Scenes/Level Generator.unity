@@ -216,7 +216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _path: Assets/Project/Levels/Test Levels
-  _jsonFileName: TestLevels
+  _fileName: TestLevels
   _levelDataJson: {fileID: 0}
 --- !u!1 &595257229
 GameObject:

@@ -15,7 +15,13 @@ namespace Project.Components.Scripts.Level_System.LevelCreatingSystem
 
         public ulong GetMaxCombinationsCount()
         {
-            ulong count1 = (ulong)(Mathf.Pow(_numberOfEnemyTypes, _maxSpawnCount + 1) - _numberOfEnemyTypes);
+            ulong count1 = 0;
+
+            for (int i = _minSpawnCount; i <= _maxSpawnCount; i++)
+            {
+                count1 += (ulong)Mathf.Pow(_numberOfEnemyTypes, i);
+            }
+
             ulong count2 = (ulong)((_maxSpawnTime - _minSpawnTime + 1) * (_maxSecondsToWin - _minSecondsToWin + 1));
 
             return count1 * count2;

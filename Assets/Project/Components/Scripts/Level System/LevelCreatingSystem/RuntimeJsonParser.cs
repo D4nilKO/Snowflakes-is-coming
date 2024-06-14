@@ -1,7 +1,5 @@
 ﻿using System;
-using System.IO;
 using Project.Components.Scripts.Level_System.LevelStructure;
-using UnityEngine;
 
 namespace Project.Components.Scripts.Level_System.LevelCreatingSystem
 {
@@ -15,7 +13,7 @@ namespace Project.Components.Scripts.Level_System.LevelCreatingSystem
             {
                 if (TryGetJsonTextFile(out _levelDataJson) == false)
                 {
-                    throw new InvalidOperationException("Failed to load levels from resources");
+                    throw new InvalidOperationException("Failed to load levels");
                 }
             }
 
