@@ -90,12 +90,18 @@ namespace Project.Components.Scripts.Level_System.LevelCreatingSystem
 
         private void CreateLevel(int spawnTime, int secondsToWin, string combination)
         {
-            AddLevelToList(new LevelData(
+            LevelData newLevel = new(
                 _index,
                 spawnTime,
                 secondsToWin,
-                GetEnemyTypesInfoFromString(combination)
-            ));
+                GetEnemyTypesInfoFromString(combination));
+
+            if (_levelDataList.CheckLevelUniqueness(newLevel) == false)
+            {
+                return;
+            }
+
+            AddLevelToList(newLevel);
         }
 
         private List<EnemyTypeInfo> GetEnemyTypesInfoFromString(string combination)
@@ -124,22 +130,6 @@ namespace Project.Components.Scripts.Level_System.LevelCreatingSystem
 
             return typeInfos;
         }
-
-        // private void Test(int countEnemyTypes, int countOfNumberCells)
-        // {
-        //     Debug.Log("Start test");
-        //
-        //     var allCombinations = GetAllCombinations(countEnemyTypes, countOfNumberCells);
-        //
-        //     Debug.Log($"Combinations count: {allCombinations.Count}");
-        //
-        //     foreach (string s in allCombinations.SelectMany(variable => variable))
-        //     {
-        //         Debug.Log(s);
-        //     }
-        //
-        //     Debug.Log("End test");
-        // }
 
         #endregion
 

@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f18c50b236f4350acf5baf63e628218, type: 3}
   m_Name: LevelCreatingParameters
   m_EditorClassIdentifier: 
-  _numberOfEnemyTypes: 4
-  _minSpawnCount: 3
-  _maxSpawnCount: 6
+  _numberOfEnemyTypes: 3
+  _minSpawnCount: 1
+  _maxSpawnCount: 3
   _minSpawnTime: 1
   _maxSpawnTime: 1
   _minSecondsToWin: 2
