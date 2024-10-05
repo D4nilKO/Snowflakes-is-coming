@@ -1,5 +1,4 @@
-﻿using System;
-using Project.Components.Scripts.Level_System.LevelStructure;
+﻿using Project.Components.Scripts.Level_System.LevelStructure;
 
 namespace Project.Components.Scripts.Level_System.LevelCreatingSystem
 {
@@ -9,20 +8,7 @@ namespace Project.Components.Scripts.Level_System.LevelCreatingSystem
         {
             _levelDataList = null;
 
-            if (_levelDataJson == null)
-            {
-                if (TryGetJsonTextFile(out _levelDataJson) == false)
-                {
-                    throw new InvalidOperationException("Failed to load levels");
-                }
-            }
-
-            if (TryParseJsonFile(_levelDataJson) == false)
-            {
-                throw new InvalidOperationException("Failed to load levels from JSON file");
-            }
-
-            return _levelDataList;
+            return base.GetLevelDataList();
         }
     }
 }

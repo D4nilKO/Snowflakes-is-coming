@@ -1,91 +1,53 @@
 ﻿using System;
 using System.IO;
 using Project.Components.Scripts.Level_System.LevelStructure;
+using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Project.Components.Scripts.Level_System
 {
     public class JsonLevelParser : MonoBehaviour
     {
-        [FolderPath] [SerializeField] private string _path;
+        [SerializeField]
+        private bool _usePath;
 
-        [FormerlySerializedAs("_jsonFileName")] [SerializeField]
-        private string _fileName;
+        [SerializeField, FilePath, ShowIf(nameof(_usePath))]
+        private string _path;
 
-        [SerializeField] protected TextAsset _levelDataJson;
+        [SerializeField, HideIf(nameof(_usePath))]
+        protected TextAsset _levelDataJson;
 
         protected LevelDataList _levelDataList;
 
         public virtual LevelDataList GetLevelDataList()
         {
             if (_levelDataList != null)
-            {
                 return _levelDataList;
-            }
 
-            if (_levelDataJson == null)
-            {
-                if (TryGetJsonTextFile(out _levelDataJson) == false)
-                {
-                    throw new InvalidOperationException("Failed to load levels from resources");
-                }
-            }
+            if (_usePath)
+                LoadJsonFromFile();
 
             if (TryParseJsonFile(_levelDataJson) == false)
-            {
                 throw new InvalidOperationException("Failed to load levels from JSON file");
-            }
 
             return _levelDataList;
         }
 
-        protected bool TryGetJsonTextFile(out TextAsset json)
+        private void LoadJsonFromFile()
         {
-            json = null;
-
-            if (_fileName == string.Empty)
+            if (string.IsNullOrEmpty(_path))
             {
-                Debug.LogError("Пустое имя JSON файла");
-                return false;
-            }
-            
-            if (_path == string.Empty)
-            {
-                Debug.LogError("Пустая папка JSON файла");
-                return false;
-            }
-            
-            if (!Directory.Exists(_path))
-            {
-                Debug.LogError($"Папка не найдена: {_path}");
-                return false;
+                Debug.LogError("Invalid file name or path");
+                return;
             }
 
-            if (!Path.GetExtension(_fileName).Equals(".json", System.StringComparison.OrdinalIgnoreCase))
+            if (File.Exists(_path) == false)
             {
-                _fileName = Path.ChangeExtension(_fileName, ".json");
+                Debug.LogError($"Directory not found: {_path}");
+                return;
             }
 
-            string fullPath = Path.Combine(_path, _fileName);
-
-            if (!File.Exists(fullPath))
-            {
-                Debug.LogError($"JSON файл не найден: {fullPath}");
-                return false;
-            }
-
-            json = new TextAsset(File.ReadAllText(fullPath));
-
-            if (json == null)
-            {
-                Debug.LogError($"Указанный JSON файл не найден: {_fileName}");
-                return false;
-            }
-
-            Debug.Log("JSON файл загружен");
-
-            return true;
+            _levelDataJson = new TextAsset(File.ReadAllText(_path));
         }
 
         protected bool TryParseJsonFile(TextAsset json)
@@ -94,7 +56,7 @@ namespace Project.Components.Scripts.Level_System
 
             if (_levelDataList == null)
             {
-                Debug.LogError($"Не удалось загрузить JSON файл: {_fileName}");
+                Debug.LogError($"Failed to parse JSON file {json.name}");
                 return false;
             }
 
@@ -102,7 +64,7 @@ namespace Project.Components.Scripts.Level_System
 
             if (maxLevelsCount <= 0)
             {
-                Debug.LogError("Уровни не загрузились, проверьте названия переменных внутри JSON и pure класов.");
+                Debug.LogError("Levels not loaded, check JSON file and class names.");
                 return false;
             }
 
