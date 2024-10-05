@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 using Project.Components.Scripts.Level_System.LevelStructure;
 using UnityEngine;
 
@@ -11,14 +12,11 @@ namespace Project.Components.Scripts.Level_System.LevelCreatingSystem
 
         [SerializeField] private LevelDataList _levelDataCollection;
 
+        private Dictionary<LevelData, float> _levelsDictionary = new();
+
         private void CalculateLevels()
         {
             ProcessLevelData(_jsonLevelParser.GetLevelDataList());
-        }
-
-        private void CalculateModifiedLevels()
-        {
-            ProcessLevelData(_levelDataCollection);
         }
 
         private void Update()
@@ -26,11 +24,25 @@ namespace Project.Components.Scripts.Level_System.LevelCreatingSystem
             if (Input.GetKeyDown(KeyCode.C))
             {
                 CalculateLevels();
+                DisplayLevelsDifficulty(_levelsDictionary);
+            }
+        }
+
+        public Dictionary<LevelData, float> GetLevelsDifficultyData()
+        {
+            if (_levelsDictionary.Count == 0)
+            {
+                ProcessLevelData(_levelDataCollection);
             }
 
-            if (Input.GetKeyDown(KeyCode.M))
+            return _levelsDictionary;
+        }
+
+        public void DisplayLevelsDifficulty(Dictionary<LevelData, float> levelsWithDifficulty)
+        {
+            foreach (KeyValuePair<LevelData, float> level in levelsWithDifficulty)
             {
-                CalculateModifiedLevels();
+                Debug.Log($"Уровень {level.Key.NumberOfLevel} --- сложность: {level.Value} --- время: {level.Key.GetTimeToSurvive()}");
             }
         }
 
@@ -38,19 +50,15 @@ namespace Project.Components.Scripts.Level_System.LevelCreatingSystem
         {
             if (levelDataList is { Levels: not null })
             {
-                _levelDataCollection = levelDataList;
-
                 foreach (LevelData levelData in levelDataList.Levels)
                 {
-                    float levelDifficulty = CalculateLevelDifficulty(levelData);
-                    StringBuilder sb = new();
-                    sb.Append($"Level {levelData.NumberOfLevel} difficulty: {levelDifficulty}");
-                    Debug.Log(sb.ToString());
+                    float difficulty = CalculateLevelDifficulty(levelData);
+                    _levelsDictionary.Add(levelData, difficulty);
                 }
             }
             else
             {
-                Debug.LogError("Failed to process level data");
+                Debug.LogError("Failed to fill dictionary");
             }
         }
 

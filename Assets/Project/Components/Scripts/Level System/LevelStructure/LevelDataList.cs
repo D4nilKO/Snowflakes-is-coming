@@ -27,5 +27,20 @@ namespace Project.Components.Scripts.Level_System.LevelStructure
                 return Levels.Count;
             }
         }
+
+        public bool CheckLevelUniqueness(LevelData newLevel)
+        {
+            foreach (LevelData oldLevel in Levels)
+            {
+                if (newLevel.IsEqual(oldLevel) == false)
+                {
+                    continue;
+                }
+
+                return false;
+            }
+
+            return true;
+        }
     }
 }

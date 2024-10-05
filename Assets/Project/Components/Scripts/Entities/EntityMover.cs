@@ -9,7 +9,8 @@ namespace Project.Components.Scripts.Entities
     [DisallowMultipleComponent]
     public class EntityMover : MonoBehaviour
     {
-        [SerializeField] private Player _player;
+        [SerializeField]
+        private Player _player;
 
         private List<IMovable> _movableEntities = new();
 
@@ -35,7 +36,8 @@ namespace Project.Components.Scripts.Entities
 
         private void FindAndAddMovableEntities()
         {
-            _movableEntities.AddRange(FindObjectsOfType<EnemyBase>().Where(enemy => enemy.isActiveAndEnabled));
+            _movableEntities.AddRange(FindObjectsByType<EnemyBase>(FindObjectsSortMode.None)
+                .Where(enemy => enemy.isActiveAndEnabled));
         }
 
         private void RotateEntities()
