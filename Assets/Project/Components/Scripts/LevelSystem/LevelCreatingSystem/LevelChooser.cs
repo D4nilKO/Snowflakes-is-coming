@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Project.Components.Scripts.Level_System.LevelStructure;
+using Project.LevelSystem.LevelStructure;
 using UnityEngine;
 
-namespace Project.Components.Scripts.Level_System.LevelCreatingSystem
+namespace Project.LevelSystem.LevelCreatingSystem
 {
     public class LevelChooser : MonoBehaviour
     {

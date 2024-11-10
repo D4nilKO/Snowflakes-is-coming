@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Project.Components.Scripts.Menu
+namespace Project.Menu
 {
     public class Buttons : MonoBehaviour
     {

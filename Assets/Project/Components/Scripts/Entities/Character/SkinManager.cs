@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Project.Components.Scripts.Entities.Character
+namespace Project.Entities.Character
 {
     [DisallowMultipleComponent]
     public class SkinManager : MonoBehaviour

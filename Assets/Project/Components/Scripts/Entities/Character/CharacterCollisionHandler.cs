@@ -1,8 +1,8 @@
-﻿using Project.Components.Scripts.Entities.Enemies;
-using Project.Components.Scripts.GameState;
+﻿using Project.Entities.Enemies;
+using Project.GameState;
 using UnityEngine;
 
-namespace Project.Components.Scripts.Entities.Character
+namespace Project.Entities.Character
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(Collider2D), typeof(Rigidbody2D))]

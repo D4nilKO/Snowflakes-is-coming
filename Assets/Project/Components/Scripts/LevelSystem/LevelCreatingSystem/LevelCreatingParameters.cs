@@ -1,7 +1,7 @@
 ﻿using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace Project.Components.Scripts.Level_System.LevelCreatingSystem
+namespace Project.LevelSystem.LevelCreatingSystem
 {
     [CreateAssetMenu(fileName = "LevelCreatingParameters", menuName = "Level System/LevelCreatingParameters")]
     public class LevelCreatingParameters : ScriptableObject

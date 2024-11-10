@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Project.Components.Scripts.Data
+namespace Project.Data
 {
     public class DevButtons : MonoBehaviour
     {

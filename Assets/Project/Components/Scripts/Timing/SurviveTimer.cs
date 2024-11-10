@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace Project.Components.Scripts.Utility
+namespace Project.Timing
 {
     [Serializable]
     public class SurviveTimer

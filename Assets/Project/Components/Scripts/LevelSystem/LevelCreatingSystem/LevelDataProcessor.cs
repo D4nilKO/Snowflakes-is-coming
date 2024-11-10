@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Text;
-using Project.Components.Scripts.Level_System.LevelStructure;
+using Project.LevelSystem.LevelStructure;
 using UnityEngine;
 
-namespace Project.Components.Scripts.Level_System.LevelCreatingSystem
+namespace Project.LevelSystem.LevelCreatingSystem
 {
     public class LevelDataProcessor : MonoBehaviour
     {

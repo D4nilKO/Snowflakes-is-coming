@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Project.Components.Scripts.Entities.Enemies
+namespace Project.Entities.Enemies
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(Entity))]

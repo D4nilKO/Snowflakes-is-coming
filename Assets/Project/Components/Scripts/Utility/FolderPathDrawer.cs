@@ -1,44 +1,46 @@
 ﻿#if UNITY_EDITOR
-using Project.Components.Scripts.Utility;
 using UnityEditor;
 using UnityEngine;
 
-[CustomPropertyDrawer(typeof(FolderPathAttribute))]
-public class FolderPathDrawer : PropertyDrawer
+namespace Project.Utility
 {
-    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+    [CustomPropertyDrawer(typeof(FolderPathAttribute))]
+    public class FolderPathDrawer : PropertyDrawer
     {
-        FolderPathAttribute folderPathAttribute = (FolderPathAttribute)attribute;
-
-        EditorGUI.BeginProperty(position, label, property);
-
-        if (property.propertyType == SerializedPropertyType.String)
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            EditorGUI.BeginChangeCheck();
-            string newValue = EditorGUI.TextField(position, label, property.stringValue);
+            FolderPathAttribute folderPathAttribute = (FolderPathAttribute)attribute;
 
-            if (EditorGUI.EndChangeCheck())
+            EditorGUI.BeginProperty(position, label, property);
+
+            if (property.propertyType == SerializedPropertyType.String)
             {
-                property.stringValue = newValue;
-            }
+                EditorGUI.BeginChangeCheck();
+                string newValue = EditorGUI.TextField(position, label, property.stringValue);
 
-            if (GUI.Button(new Rect(position.xMax - 25f, position.y, 25f, position.height), "..."))
-            {
-                string selectedPath =
-                    EditorUtility.OpenFolderPanel("Select Folder", folderPathAttribute.DefaultPath, string.Empty);
-
-                if (string.IsNullOrEmpty(selectedPath) == false)
+                if (EditorGUI.EndChangeCheck())
                 {
-                    property.stringValue = FileUtils.RemoveLocalPath(selectedPath);
+                    property.stringValue = newValue;
+                }
+
+                if (GUI.Button(new Rect(position.xMax - 25f, position.y, 25f, position.height), "..."))
+                {
+                    string selectedPath =
+                        EditorUtility.OpenFolderPanel("Select Folder", folderPathAttribute.DefaultPath, string.Empty);
+
+                    if (string.IsNullOrEmpty(selectedPath) == false)
+                    {
+                        property.stringValue = FileUtils.RemoveLocalPath(selectedPath);
+                    }
                 }
             }
-        }
-        else
-        {
-            EditorGUI.LabelField(position, label.text, "Use FolderPath with string.");
-        }
+            else
+            {
+                EditorGUI.LabelField(position, label.text, "Use FolderPath with string.");
+            }
 
-        EditorGUI.EndProperty();
+            EditorGUI.EndProperty();
+        }
     }
 }
 #endif

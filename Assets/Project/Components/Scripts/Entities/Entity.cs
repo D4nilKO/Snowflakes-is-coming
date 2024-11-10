@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Project.Components.Scripts.Entities
+namespace Project.Entities
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(Collider2D), typeof(Rigidbody2D), typeof(SpriteRenderer))]

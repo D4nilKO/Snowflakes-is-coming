@@ -1,13 +1,13 @@
-﻿using Project.Components.Scripts.Data;
-using Project.Components.Scripts.Entities.Character;
-using Project.Components.Scripts.Entities.Enemies;
-using Project.Components.Scripts.GameState;
-using Project.Components.Scripts.GameState.View;
-using Project.Components.Scripts.Level_System.LevelStructure;
-using Project.Components.Scripts.Timing;
+﻿using Project.Data;
+using Project.Entities.Character;
+using Project.Entities.Enemies;
+using Project.GameState;
+using Project.GameState.View;
+using Project.LevelSystem.LevelStructure;
+using Project.Timing;
 using UnityEngine;
 
-namespace Project.Components.Scripts.Level_System
+namespace Project.LevelSystem
 {
     public class LevelLoader : MonoBehaviour
     {

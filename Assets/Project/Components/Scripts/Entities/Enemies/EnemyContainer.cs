@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using static NTC.Global.Pool.NightPool;
 
-namespace Project.Components.Scripts.Entities.Enemies
+namespace Project.Entities.Enemies
 {
     public class EnemyContainer : MonoBehaviour
     {

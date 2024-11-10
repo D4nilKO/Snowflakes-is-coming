@@ -1,7 +1,7 @@
-﻿namespace Project.Components.Scripts.Test
-{
-    using UnityEngine;
+﻿using UnityEngine;
 
+namespace Project.Test
+{
     [RequireComponent(typeof(EdgeCollider2D))]
     public class ScreenBounds : MonoBehaviour
     {

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Project.Components.Scripts.Test
+namespace Project.Test
 {
     public class TestEnemy : MonoBehaviour
     {

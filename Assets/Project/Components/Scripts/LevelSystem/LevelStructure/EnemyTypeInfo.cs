@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Project.Components.Scripts.Level_System.LevelStructure
+namespace Project.LevelSystem.LevelStructure
 {
     [Serializable]
     public struct EnemyTypeInfo

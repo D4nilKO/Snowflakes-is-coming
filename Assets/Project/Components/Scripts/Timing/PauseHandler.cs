@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace Project.Components.Scripts.Timing
+namespace Project.Timing
 {
     public class PauseHandler : MonoBehaviour
     {

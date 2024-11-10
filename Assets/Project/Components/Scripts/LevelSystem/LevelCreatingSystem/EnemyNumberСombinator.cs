@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Project.Components.Scripts.Level_System.LevelCreatingSystem
+namespace Project.LevelSystem.LevelCreatingSystem
 {
     public class EnemyNumberСombinator
     {

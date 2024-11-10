@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Project.Components.Scripts.GameState.View
+namespace Project.GameState.View
 {
     public class GameOutcomeView : MonoBehaviour
     {

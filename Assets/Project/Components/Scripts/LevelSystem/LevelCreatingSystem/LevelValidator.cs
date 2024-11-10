@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Project.Components.Scripts.Level_System.LevelCreatingSystem;
-using Project.Components.Scripts.Level_System.LevelStructure;
+using Project.LevelSystem.LevelStructure;
 using UnityEngine;
 
-namespace Project.Components.Scripts.Level_System.LevelValidation
+namespace Project.LevelSystem.LevelCreatingSystem
 {
     public class LevelValidator : MonoBehaviour
     {

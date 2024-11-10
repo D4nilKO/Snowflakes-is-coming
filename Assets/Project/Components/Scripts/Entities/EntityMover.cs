@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Project.Components.Scripts.Entities.Character;
-using Project.Components.Scripts.Entities.Enemies;
+using Project.Entities.Character;
+using Project.Entities.Enemies;
 using UnityEngine;
 
-namespace Project.Components.Scripts.Entities
+namespace Project.Entities
 {
     [DisallowMultipleComponent]
     public class EntityMover : MonoBehaviour

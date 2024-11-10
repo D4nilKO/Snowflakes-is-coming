@@ -1,10 +1,10 @@
-﻿using Project.Components.Scripts.Entities.Enemies;
-using Project.Components.Scripts.GameState;
+﻿using Project.Entities.Enemies;
+using Project.GameState;
 using TMPro;
 using UnityEngine;
 using VavilichevGD.Utils.Timing;
 
-namespace Project.Components.Scripts.Timing
+namespace Project.Timing
 {
     public class TimersView : MonoBehaviour
     {

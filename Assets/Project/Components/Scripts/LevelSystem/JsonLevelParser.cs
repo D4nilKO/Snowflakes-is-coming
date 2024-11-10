@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
-using Project.Components.Scripts.Level_System.LevelStructure;
+using Project.LevelSystem.LevelStructure;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace Project.Components.Scripts.Level_System
+namespace Project.LevelSystem
 {
     public class JsonLevelParser : MonoBehaviour
     {

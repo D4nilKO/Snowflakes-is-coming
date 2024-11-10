@@ -1,4 +1,4 @@
-﻿namespace Project.Components.Scripts.Entities
+﻿namespace Project.Entities
 {
     public interface IMovable
     {

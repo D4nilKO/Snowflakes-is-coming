@@ -2,7 +2,7 @@
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Project.Components.Scripts.Entities.Enemies
+namespace Project.Entities.Enemies
 {
     public abstract class EnemyBase : Entity, IMovable, IPoolItem
     {

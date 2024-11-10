@@ -1,9 +1,9 @@
 ﻿using System;
-using Project.Components.Scripts.Data;
-using Project.Components.Scripts.Level_System.LevelStructure;
+using Project.Data;
+using Project.LevelSystem.LevelStructure;
 using UnityEngine;
 
-namespace Project.Components.Scripts.Level_System
+namespace Project.LevelSystem
 {
     public class Game : MonoBehaviour
     {

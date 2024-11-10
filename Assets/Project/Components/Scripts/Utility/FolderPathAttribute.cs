@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
 
-public class FolderPathAttribute : PropertyAttribute
+namespace Project.Utility
 {
-    public readonly string DefaultPath;
-
-    public FolderPathAttribute(string defaultPath = "")
+    public class FolderPathAttribute : PropertyAttribute
     {
-        DefaultPath = defaultPath;
+        public readonly string DefaultPath;
+
+        public FolderPathAttribute(string defaultPath = "")
+        {
+            DefaultPath = defaultPath;
+        }
     }
 }

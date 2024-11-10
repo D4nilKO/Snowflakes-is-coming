@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Project.Components.Scripts.Entities.Character
+namespace Project.Entities.Character
 {
     [Serializable]
     public class CharacterSkin

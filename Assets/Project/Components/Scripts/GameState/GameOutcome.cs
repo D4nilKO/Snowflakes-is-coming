@@ -1,9 +1,9 @@
 ﻿using System;
-using Project.Components.Scripts.Timing;
+using Project.Timing;
 using UnityEngine;
 using VavilichevGD.Utils.Timing;
 
-namespace Project.Components.Scripts.GameState
+namespace Project.GameState
 {
     public class GameOutcome : MonoBehaviour
     {

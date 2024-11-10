@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Project.Components.Scripts.Utility
+namespace Project.Utility
 {
     public class FileUtils
     {

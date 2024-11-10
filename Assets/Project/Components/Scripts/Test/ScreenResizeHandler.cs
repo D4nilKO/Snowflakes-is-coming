@@ -1,37 +1,40 @@
 ﻿using System;
 using UnityEngine;
 
-public class ScreenResizeHandler : MonoBehaviour
+namespace Project.Test
 {
-    private int _lastScreenWidth;
-    private int _lastScreenHeight;
-
-    public event Action ScreenResized;
-
-    private void Start()
+    public class ScreenResizeHandler : MonoBehaviour
     {
-        _lastScreenWidth = Screen.width;
-        _lastScreenHeight = Screen.height;
-    }
+        private int _lastScreenWidth;
+        private int _lastScreenHeight;
 
-    private void LateUpdate()
-    {
-        if (CheckResizeScreen())
-        {
-            ScreenResized?.Invoke();
-        }
-    }
+        public event Action ScreenResized;
 
-    private bool CheckResizeScreen()
-    {
-        if (Screen.width != _lastScreenWidth || Screen.height != _lastScreenHeight)
+        private void Start()
         {
             _lastScreenWidth = Screen.width;
             _lastScreenHeight = Screen.height;
-
-            return true;
         }
 
-        return false;
+        private void LateUpdate()
+        {
+            if (CheckResizeScreen())
+            {
+                ScreenResized?.Invoke();
+            }
+        }
+
+        private bool CheckResizeScreen()
+        {
+            if (Screen.width != _lastScreenWidth || Screen.height != _lastScreenHeight)
+            {
+                _lastScreenWidth = Screen.width;
+                _lastScreenHeight = Screen.height;
+
+                return true;
+            }
+
+            return false;
+        }
     }
 }

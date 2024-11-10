@@ -1,6 +1,6 @@
-﻿using Project.Components.Scripts.Level_System.LevelStructure;
+﻿using Project.LevelSystem.LevelStructure;
 
-namespace Project.Components.Scripts.Level_System.LevelCreatingSystem
+namespace Project.LevelSystem.LevelCreatingSystem
 {
     public class RuntimeJsonParser : JsonLevelParser
     {

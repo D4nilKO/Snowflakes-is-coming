@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Project.Components.Scripts.Level_System.LevelStructure
+namespace Project.LevelSystem.LevelStructure
 {
     [Serializable]
     public class LevelDataList

@@ -1,7 +1,7 @@
-﻿using Project.Components.Scripts.GameState;
+﻿using Project.GameState;
 using UnityEngine;
 
-namespace Project.Components.Scripts.Data
+namespace Project.Data
 {
     public class ProgressData : MonoBehaviour
     {

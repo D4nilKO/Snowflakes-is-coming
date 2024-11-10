@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Project.Components.Scripts.Utility
+namespace Project.Utility
 {
     [ExecuteAlways]
     [DisallowMultipleComponent]

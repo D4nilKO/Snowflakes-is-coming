@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using Project.Components.Scripts.Level_System;
-using Project.Components.Scripts.Level_System.LevelStructure;
+using Project.LevelSystem;
+using Project.LevelSystem.LevelStructure;
 using UnityEngine;
 using VavilichevGD.Utils.Timing;
 using static NTC.Global.Pool.NightPool;
 
-namespace Project.Components.Scripts.Entities.Enemies
+namespace Project.Entities.Enemies
 {
     public class EnemySpawner : MonoBehaviour
     {
