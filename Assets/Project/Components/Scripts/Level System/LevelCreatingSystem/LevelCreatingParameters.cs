@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Sirenix.OdinInspector;
+using UnityEngine;
 
 namespace Project.Components.Scripts.Level_System.LevelCreatingSystem
 {
@@ -12,6 +13,12 @@ namespace Project.Components.Scripts.Level_System.LevelCreatingSystem
         public int _maxSpawnTime;
         public int _minSecondsToWin;
         public int _maxSecondsToWin;
+
+        [Button("Вывести максимальное количество комбинаций")]
+        public void DisplayMaxCombinationsCount()
+        {
+            Debug.Log($"Максимальное количество комбинаций: {GetMaxCombinationsCount()}");
+        }
 
         public ulong GetMaxCombinationsCount()
         {

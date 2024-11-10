@@ -15,8 +15,17 @@ namespace Project.Components.Scripts.Entities.Character
 
         public void Move()
         {
-            Vector2 mousePosition = MainCamera.ScreenToWorldPoint(Input.mousePosition);
-            CheckOutOfBounds(mousePosition);
+            Vector2 mousePosition = Input.mousePosition;
+
+            if (IsInViewport(mousePosition, MainCamera))
+            {
+                Vector2 worldPosition = MainCamera.ScreenToWorldPoint(mousePosition);
+
+                if (ValidatePosition(worldPosition) == false)
+                    return;
+
+                CheckOutOfBounds(worldPosition);
+            }
         }
 
         public void Initialize()
@@ -36,6 +45,20 @@ namespace Project.Components.Scripts.Entities.Character
             _maxX = (ScreenWidth * 0.5f) - _halfObjectWidth;
             _minY = (-ScreenHeight * 0.5f) + _halfObjectHeight;
             _maxY = (ScreenHeight * 0.5f) - _halfObjectHeight;
+        }
+        
+        public bool IsInViewport(Vector2 screenPosition, Camera _camera)
+        {
+            Rect viewportRect = new Rect(0, 0, _camera.pixelWidth, _camera.pixelHeight);
+            return viewportRect.Contains(screenPosition);
+        }
+
+        private bool ValidatePosition(Vector2 position)
+        {
+            bool isNaN = float.IsNaN(position.x) || float.IsNaN(position.y);
+            bool isInfinity = float.IsInfinity(position.x) || float.IsInfinity(position.y);
+
+            return isNaN == false && isInfinity == false;
         }
 
         private void CheckOutOfBounds(Vector2 newPosition)
