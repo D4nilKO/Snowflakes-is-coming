@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 using YG.Utils.Lang;
 #if YG_NEWTONSOFT_FOR_AUTOLOCALIZATION
 using Newtonsoft.Json.Linq;

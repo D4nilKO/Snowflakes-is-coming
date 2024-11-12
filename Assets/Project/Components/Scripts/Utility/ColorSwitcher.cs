@@ -2,7 +2,7 @@
 
 namespace Project.Utility
 {
-    [ExecuteAlways]
+    [ExecuteAlways] 
     [DisallowMultipleComponent]
     public class ColorSwitcher : MonoBehaviour
     {
