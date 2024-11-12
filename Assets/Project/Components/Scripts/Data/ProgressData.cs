@@ -14,9 +14,9 @@ namespace Project.Data
 
         public void IncreaseCurrentLevel()
         {
-            if (CurrentLevelNumber != _maxLevelsCount)
+            if (CurrentLevelNumber != _maxLevelsCount && CurrentLevelNumber <= UnlockedLevelNumber)
             {
-                UnlockedLevelNumber = ++CurrentLevelNumber;
+                CurrentLevelNumber++;
             }
         }
 
@@ -43,12 +43,22 @@ namespace Project.Data
 
         private void SubscribeEvents()
         {
-            _gameOutcome.GameIsWon += IncreaseUnlockedLevelNumber;
+            if (_gameOutcome != null)
+            {
+                _gameOutcome.GameIsWon += IncreaseUnlockedLevelNumber;
+            }
+            else
+            {
+                Debug.LogError("_gameOutcome is null. Cannot subscribe to events.");
+            }
         }
 
         private void UnsubscribeEvents()
         {
-            _gameOutcome.GameIsWon -= IncreaseUnlockedLevelNumber;
+            if (_gameOutcome != null)
+            {
+                _gameOutcome.GameIsWon -= IncreaseUnlockedLevelNumber;
+            }
         }
 
         private void IncreaseUnlockedLevelNumber()
@@ -59,8 +69,7 @@ namespace Project.Data
             if (UnlockedLevelNumber > CurrentLevelNumber)
                 return;
 
-            UnlockedLevelNumber = ++CurrentLevelNumber;
-            Debug.Log("Уровень " + CurrentLevelNumber + " открыт");
+            UnlockedLevelNumber = CurrentLevelNumber + 1;
         }
     }
 }
