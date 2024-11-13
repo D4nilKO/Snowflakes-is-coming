@@ -7,18 +7,18 @@ namespace Project.LevelSystem
 {
     public class Game : MonoBehaviour
     {
-        [SerializeField] private JsonLevelParser _jsonLevelParser;
+        [SerializeField]
+        private JsonLevelParser _jsonLevelParser;
 
-        [SerializeField] private ProgressData _progressData;
+        [SerializeField]
+        private ProgressData _progressData;
 
-        [SerializeField] [Header("Данные для ознакомления, загружаются в начале игры")]
+        [SerializeField, Header("Ниже данные для ознакомления, загружаются в начале игры")]
         private LevelData _currentLevelData;
 
         private LevelDataList _levelDataList;
 
         public event Action<LevelData> LevelSettingsReady;
-
-        [field: SerializeField] public float InitialSpawnDelay { get; private set; } = 1.5f;
 
         public void FetchCurrentLevelSettings()
         {

@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
-// С этим файлом нужно быть аккуартнее, так как названия полей и классов
-// внутри JSON и pure класов должны быть одинаковыми
 namespace Project.LevelSystem.LevelStructure
 {
+    // С этим файлом нужно быть аккуартнее, так как названия полей и классов
+    // внутри JSON и pure класов должны быть одинаковыми
+
     [Serializable]
     public class LevelData
     {
@@ -24,30 +27,28 @@ namespace Project.LevelSystem.LevelStructure
 
         public int GetTimeToSurvive()
         {
-            return (TimeToSpawn * EnemyTypesInfo.Count) + SecondsToWin;
+            int time = 0;
+
+            time += ((GetEnemiesCount(EnemyTypesInfo) - 1) * TimeToSpawn);
+            time += SecondsToWin;
+            time += 1; // TODO: t
+            
+            return time;
         }
 
         public bool IsEqual(LevelData newLevel)
         {
             if (GetTimeToSurvive() != newLevel.GetTimeToSurvive())
-            {
                 return false;
-            }
 
             if (TimeToSpawn != newLevel.TimeToSpawn)
-            {
                 return false;
-            }
 
             if (SecondsToWin != newLevel.SecondsToWin)
-            {
                 return false;
-            }
 
             if (EnemyTypesEquals(newLevel) == false)
-            {
                 return false;
-            }
 
             return true;
         }
@@ -68,6 +69,11 @@ namespace Project.LevelSystem.LevelStructure
             }
 
             return true;
+        }
+
+        public int GetEnemiesCount(IEnumerable<EnemyTypeInfo> list)
+        {
+            return EnemyTypesInfo.Sum(enemyTypeInfo => enemyTypeInfo.MaxSpawnCount);
         }
     }
 }

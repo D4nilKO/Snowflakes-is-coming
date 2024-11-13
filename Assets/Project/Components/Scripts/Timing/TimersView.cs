@@ -56,7 +56,7 @@ namespace Project.Timing
             
             _isInitialized = true;
             
-            _gameOutcome.Timer.TimerValueChanged += UpdateMainTimerText;
+            _gameOutcome.SurviveTimer.TimerValueChanged += UpdateMainTimerText;
             _enemySpawner.Timer.TimerValueChanged += UpdateEnemyTimerDisplay;
         }
 
@@ -67,7 +67,7 @@ namespace Project.Timing
             
             _isInitialized = false;
             
-            _gameOutcome.Timer.TimerValueChanged -= UpdateMainTimerText;
+            _gameOutcome.SurviveTimer.TimerValueChanged -= UpdateMainTimerText;
             _enemySpawner.Timer.TimerValueChanged -= UpdateEnemyTimerDisplay;
         }
 

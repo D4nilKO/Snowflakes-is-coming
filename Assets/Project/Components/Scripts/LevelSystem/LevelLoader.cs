@@ -11,14 +11,29 @@ namespace Project.LevelSystem
 {
     public class LevelLoader : MonoBehaviour
     {
-        [SerializeField] private EnemySpawner _enemySpawner;
-        [SerializeField] private GameOutcome _gameOutcome;
-        [SerializeField] private Player _player;
-        [SerializeField] private Game _game;
-        [SerializeField] private TimersView _timersView;
-        [SerializeField] private EnemyContainer _enemyContainer;
-        [SerializeField] private LevelTextView _levelTextView;
-        [SerializeField] private ProgressData _progressData;
+        [SerializeField]
+        private EnemySpawner _enemySpawner;
+
+        [SerializeField]
+        private GameOutcome _gameOutcome;
+
+        [SerializeField]
+        private Player _player;
+
+        [SerializeField]
+        private Game _game;
+
+        [SerializeField]
+        private TimersView _timersView;
+
+        [SerializeField]
+        private EnemyContainer _enemyContainer;
+
+        [SerializeField]
+        private LevelTextView _levelTextView;
+
+        [SerializeField]
+        private ProgressData _progressData;
 
         private LevelData _levelData;
 

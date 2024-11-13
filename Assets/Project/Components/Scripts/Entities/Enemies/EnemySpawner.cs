@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using Project.LevelSystem;
 using Project.LevelSystem.LevelStructure;
 using UnityEngine;
 using VavilichevGD.Utils.Timing;
@@ -10,24 +10,37 @@ namespace Project.Entities.Enemies
 {
     public class EnemySpawner : MonoBehaviour
     {
-        [SerializeField] private string _enemyPrefabFolder;
+        [SerializeField]
+        private string _enemyPrefabFolder;
 
-        [SerializeField] private Game _game;
-        [SerializeField] private EntityMover _entityMover;
-        [SerializeField] private Transform _enemyContainer;
+        [SerializeField]
+        private EntityMover _entityMover;
+
+        [SerializeField]
+        private Transform _enemyContainer;
+
+        [SerializeField]
+        private float _initialSpawnDelay;
 
         private IReadOnlyList<EnemyTypeInfo> _enemyTypes;
         private Dictionary<string, int> _availableEnemyCounts;
 
         private TimerType _timerType = TimerType.UpdateTick;
-        private float _initialSpawnDelay;
         private int _spawnDelaySeconds;
 
         private int _currentEnemyTypeIndex;
 
-        private bool _isSubscribed;
-
         public SyncedTimer Timer { get; private set; }
+
+        private void Awake()
+        {
+            SubscribeToTimer();
+        }
+
+        private void OnDestroy()
+        {
+            UnsubscribeFromTimer();
+        }
 
         public void Initialize(IReadOnlyList<EnemyTypeInfo> enemyTypeInfos, int timeToSpawn)
         {
@@ -42,18 +55,6 @@ namespace Project.Entities.Enemies
 
             Timer = new SyncedTimer(_timerType, _spawnDelaySeconds);
             Timer.Start(_initialSpawnDelay);
-
-            SubscribeToTimer();
-        }
-
-        private void Awake()
-        {
-            _initialSpawnDelay = _game.InitialSpawnDelay;
-        }
-
-        private void OnDestroy()
-        {
-            UnsubscribeFromTimer();
         }
 
         private void OnTimerFinished()
@@ -113,8 +114,7 @@ namespace Project.Entities.Enemies
 
         private void UnsubscribeFromTimer()
         {
-            if (_isSubscribed)
-                Timer.TimerFinished -= OnTimerFinished;
+            Timer.TimerFinished -= OnTimerFinished;
         }
 
         private void SpawnEnemy(GameObject enemyPrefab)
