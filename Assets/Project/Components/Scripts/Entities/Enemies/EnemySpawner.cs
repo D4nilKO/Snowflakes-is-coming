@@ -19,7 +19,7 @@ namespace Project.Entities.Enemies
         [SerializeField]
         private Transform _enemyContainer;
 
-        [SerializeField]
+        [SerializeField, Min(0.5f)]
         private float _initialSpawnDelay;
 
         private IReadOnlyList<EnemyTypeInfo> _enemyTypes;
@@ -34,6 +34,7 @@ namespace Project.Entities.Enemies
 
         private void Awake()
         {
+            Timer = new SyncedTimer(_timerType);
             SubscribeToTimer();
         }
 
@@ -53,7 +54,6 @@ namespace Project.Entities.Enemies
 
             InitializeAvailableEnemyCounts();
 
-            Timer = new SyncedTimer(_timerType, _spawnDelaySeconds);
             Timer.Start(_initialSpawnDelay);
         }
 

@@ -2,6 +2,7 @@
 
 namespace Project.Entities.Character
 {
+    [DisallowMultipleComponent]
     public class Player : Entity, IMovable
     {
         private Bounds _bounds;
@@ -46,10 +47,10 @@ namespace Project.Entities.Character
             _minY = (-ScreenHeight * 0.5f) + _halfObjectHeight;
             _maxY = (ScreenHeight * 0.5f) - _halfObjectHeight;
         }
-        
+
         public bool IsInViewport(Vector2 screenPosition, Camera _camera)
         {
-            Rect viewportRect = new Rect(0, 0, _camera.pixelWidth, _camera.pixelHeight);
+            Rect viewportRect = new(0, 0, _camera.pixelWidth, _camera.pixelHeight);
             return viewportRect.Contains(screenPosition);
         }
 

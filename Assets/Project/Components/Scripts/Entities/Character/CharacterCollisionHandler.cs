@@ -8,14 +8,40 @@ namespace Project.Entities.Character
     [RequireComponent(typeof(Collider2D), typeof(Rigidbody2D))]
     public class CharacterCollisionHandler : MonoBehaviour
     {
-        [SerializeField] private GameOutcome _gameOutcome;
+        [SerializeField]
+        private GameOutcome _gameOutcome;
 
-        private void OnTriggerEnter2D(Collider2D col)
+        private bool _isInvincible;
+
+        public void ActivateInvincibility(float duration)
         {
-            if (col.gameObject.TryGetComponent(out EnemyBase _))
+            if (duration <= 0) return;
+
+            if (_isInvincible) return;
+
+            _isInvincible = true;
+            Invoke(nameof(DeactivateInvincibility), duration);
+        }
+
+        private void Awake()
+        {
+            if (_gameOutcome == null)
+            {
+                _gameOutcome = GetComponent<GameOutcome>();
+            }
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (!_isInvincible && collision.gameObject.TryGetComponent(out EnemyBase enemy))
             {
                 _gameOutcome.LostGame();
             }
+        }
+
+        private void DeactivateInvincibility()
+        {
+            _isInvincible = false;
         }
     }
 }

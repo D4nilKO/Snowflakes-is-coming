@@ -8,14 +8,13 @@ namespace Project.GameState
 {
     public class GameOutcome : MonoBehaviour
     {
+        private const TimerType oneSecTick = TimerType.OneSecTick;
+
         [SerializeField]
         private PauseHandler _pauseHandler;
 
-        [SerializeField]
-        private Game _game;
-
-        [SerializeField]
         private bool _isWonGame;
+        private bool _isRevived;
 
         private bool _isSubscribed;
 
@@ -23,18 +22,19 @@ namespace Project.GameState
         public event Action GameIsOver;
 
         private float _timeToSurvive;
+        
 
         public SyncedTimer SurviveTimer { get; private set; }
 
         private void Awake()
         {
-            if (_game == null || _pauseHandler == null)
+            if (_pauseHandler == null)
             {
-                Debug.LogError("GameOutcome: _game or _pauseHandler is null");
+                Debug.LogError("_pauseHandler is null");
                 return;
             }
 
-            SurviveTimer = new SyncedTimer(TimerType.OneSecTick);
+            SurviveTimer = new SyncedTimer(oneSecTick);
 
             SubscribeSurviveTimer();
         }
@@ -55,8 +55,19 @@ namespace Project.GameState
 
         private void StartSurviveTimer()
         {
-            SurviveTimer.SetTime(_timeToSurvive);
-            SurviveTimer.Start();
+            SurviveTimer.Start(_timeToSurvive);
+        }
+        
+        public void RevivePlayer()
+        {
+            if (_isRevived)
+            {
+                Debug.LogError("player is already revived", this);
+                return;
+            }
+            
+            _isRevived = true;
+            _pauseHandler.Resume();
         }
 
         public void LostGame()
