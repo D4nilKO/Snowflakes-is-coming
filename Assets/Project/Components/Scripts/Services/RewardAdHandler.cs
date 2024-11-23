@@ -19,7 +19,7 @@ namespace Project.Services
         [SerializeField]
         private GameObject _continueButton;
 
-        public void Init()
+        public void Initialize()
         {
             _rewardAdButton.SetActive(true);
             _continueButton.SetActive(false);
@@ -49,6 +49,7 @@ namespace Project.Services
             
             _rewardAdButton.SetActive(false);
             _continueButton.SetActive(true);
+            //
         }
     }
 }

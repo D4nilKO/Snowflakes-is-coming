@@ -4,7 +4,9 @@ using Project.Entities.Enemies;
 using Project.GameState;
 using Project.GameState.View;
 using Project.LevelSystem.LevelStructure;
+using Project.Services;
 using Project.Timing;
+using Project.Utility;
 using UnityEngine;
 
 namespace Project.LevelSystem
@@ -16,6 +18,9 @@ namespace Project.LevelSystem
 
         [SerializeField]
         private GameOutcome _gameOutcome;
+
+        [SerializeField]
+        private RewardAdHandler _rewardAdHandler;
 
         [SerializeField]
         private Player _player;
@@ -37,6 +42,19 @@ namespace Project.LevelSystem
 
         private LevelData _levelData;
 
+        private void Awake()
+        {
+            this.ValidateSerializedFields();
+
+            SubscribeEvents();
+            Debug.Log("level loader awake");
+        }
+
+        private void OnDestroy()
+        {
+            UnsubscribeEvents();
+        }
+
         public void LoadNextLevel()
         {
             _progressData.IncreaseCurrentLevel();
@@ -49,17 +67,6 @@ namespace Project.LevelSystem
             _enemyContainer.ClearActiveEnemies();
 
             InitializeLevel();
-        }
-
-        private void Awake()
-        {
-            SubscribeEvents();
-            Debug.Log("level loader awake");
-        }
-
-        private void OnDestroy()
-        {
-            UnsubscribeEvents();
         }
 
         private void SubscribeEvents()
@@ -86,6 +93,7 @@ namespace Project.LevelSystem
             _timersView.Initialize(_levelData.GetTimeToSurvive());
             _levelTextView.Initialize(_levelData.NumberOfLevel);
             _player.Initialize();
+            _rewardAdHandler.Initialize();
         }
     }
 }

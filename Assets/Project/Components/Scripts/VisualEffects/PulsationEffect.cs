@@ -41,7 +41,7 @@ namespace Project.VisualEffects
         {
             StopPulsation();
             _isPulsating = true;
-            transform.DOScale(_endValue, _pulsationDuration).SetLoops(-1, LoopType.Yoyo);
+            transform.DOScale(_endValue, _pulsationDuration).SetLoops(-1, LoopType.Yoyo).SetUpdate(true);
         }
 
         private void StopPulsation()

@@ -13,7 +13,6 @@ namespace Project.GameState
         [SerializeField]
         private PauseHandler _pauseHandler;
 
-        private bool _isWonGame;
         private bool _isRevived;
 
         private bool _isSubscribed;
@@ -22,7 +21,6 @@ namespace Project.GameState
         public event Action GameIsOver;
 
         private float _timeToSurvive;
-        
 
         public SyncedTimer SurviveTimer { get; private set; }
 
@@ -49,6 +47,7 @@ namespace Project.GameState
             Debug.Log("Init game outcome");
 
             _timeToSurvive = timeToSurvive;
+            _isRevived = false;
 
             StartSurviveTimer();
         }
@@ -57,22 +56,20 @@ namespace Project.GameState
         {
             SurviveTimer.Start(_timeToSurvive);
         }
-        
+
         public void RevivePlayer()
         {
             if (_isRevived)
             {
                 Debug.LogError("player is already revived", this);
-                return;
             }
-            
+
             _isRevived = true;
             _pauseHandler.Resume();
         }
 
         public void LostGame()
         {
-            _isWonGame = false;
             _pauseHandler.Pause();
 
             GameIsOver?.Invoke();
@@ -100,7 +97,6 @@ namespace Project.GameState
 
         private void WonGame()
         {
-            _isWonGame = true;
             _pauseHandler.Pause();
 
             GameIsWon?.Invoke();
