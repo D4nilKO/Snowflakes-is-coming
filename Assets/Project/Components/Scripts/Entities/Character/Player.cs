@@ -5,6 +5,8 @@ namespace Project.Entities.Character
     [DisallowMultipleComponent]
     public class Player : Entity, IMovable
     {
+        private const float maxDistanceDelta = 2.5f;
+
         private Bounds _bounds;
         private float _halfObjectWidth;
         private float _halfObjectHeight;
@@ -67,7 +69,7 @@ namespace Project.Entities.Character
             newPosition.x = Mathf.Clamp(newPosition.x, _minX, _maxX);
             newPosition.y = Mathf.Clamp(newPosition.y, _minY, _maxY);
 
-            transform.position = Vector2.MoveTowards(transform.position, newPosition, 2.5f);
+            transform.position = Vector2.MoveTowards(transform.position, newPosition, maxDistanceDelta);
         }
     }
 }

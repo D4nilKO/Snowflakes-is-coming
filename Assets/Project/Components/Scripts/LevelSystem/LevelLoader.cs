@@ -6,7 +6,6 @@ using Project.GameState.View;
 using Project.LevelSystem.LevelStructure;
 using Project.Services;
 using Project.Timing;
-using Project.Utility;
 using UnityEngine;
 
 namespace Project.LevelSystem

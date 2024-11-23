@@ -33,6 +33,12 @@ namespace VavilichevGD.Utils.Timing
 			TimerValueChanged?.Invoke(RemainingSeconds, TimeChangingSource.TimeForceChanged);
 		}
 
+		public void Restart(float seconds)
+		{
+			SetTime(seconds);
+			Start();
+		}
+
 		public void Start()
 		{
 			if (IsActive)

@@ -307,6 +307,6 @@ MonoBehaviour:
   debug: 1
   archivingBuild: 1
   logoImageFormat: 1
-  backgroundImageFormat: 3
+  backgroundImageFormat: 2
   pixelRatioEnable: 0
   pixelRatioValue: 1

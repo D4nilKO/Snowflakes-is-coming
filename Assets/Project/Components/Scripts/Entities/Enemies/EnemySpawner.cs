@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using Project.LevelSystem.LevelStructure;
 using UnityEngine;
@@ -10,6 +9,8 @@ namespace Project.Entities.Enemies
 {
     public class EnemySpawner : MonoBehaviour
     {
+        private const TimerType updateTick = TimerType.UpdateTick;
+
         [SerializeField]
         private string _enemyPrefabFolder;
 
@@ -25,23 +26,11 @@ namespace Project.Entities.Enemies
         private IReadOnlyList<EnemyTypeInfo> _enemyTypes;
         private Dictionary<string, int> _availableEnemyCounts;
 
-        private TimerType _timerType = TimerType.UpdateTick;
         private int _spawnDelaySeconds;
 
         private int _currentEnemyTypeIndex;
 
         public SyncedTimer Timer { get; private set; }
-
-        private void Awake()
-        {
-            Timer = new SyncedTimer(_timerType);
-            SubscribeToTimer();
-        }
-
-        private void OnDestroy()
-        {
-            UnsubscribeFromTimer();
-        }
 
         public void Initialize(IReadOnlyList<EnemyTypeInfo> enemyTypeInfos, int timeToSpawn)
         {
@@ -54,7 +43,18 @@ namespace Project.Entities.Enemies
 
             InitializeAvailableEnemyCounts();
 
-            Timer.Start(_initialSpawnDelay);
+            Timer.Restart(_initialSpawnDelay);
+        }
+
+        private void Awake()
+        {
+            Timer = new SyncedTimer(updateTick);
+            SubscribeToTimer();
+        }
+
+        private void OnDestroy()
+        {
+            UnsubscribeFromTimer();
         }
 
         private void OnTimerFinished()

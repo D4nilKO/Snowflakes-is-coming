@@ -299,7 +299,7 @@ Transform:
   m_GameObject: {fileID: 50388106}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.41685057, y: 2.160584, z: -0.0019708276}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1071,6 +1071,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: YandexGame
       objectReference: {fileID: 0}
+    - target: {fileID: 2211564899198745197, guid: caf9732433f4dc044845763962493607, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2211564899198745199, guid: caf9732433f4dc044845763962493607, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1166,7 +1170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _startTimeScale: 1
-  _startTimePauseBeforeContinueTime: 0.5
+  _startTimePauseBeforeContinueTime: 0.1
 --- !u!1 &177726759
 GameObject:
   m_ObjectHideFlags: 0
@@ -1704,6 +1708,7 @@ MonoBehaviour:
   _pulsationDuration: 0.4
   _endValue: 1.2
   _isPulsating: 1
+  _resetScaleOnStop: 1
 --- !u!1 &284907595
 GameObject:
   m_ObjectHideFlags: 0
@@ -2200,6 +2205,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1730768456}
     m_Modifications:
     - target: {fileID: 1232662313, guid: 00ad8649d0d864840966b9472cf7e3dc, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1232662313, guid: 00ad8649d0d864840966b9472cf7e3dc, type: 3}
       propertyPath: _isImmortal
       value: 0
       objectReference: {fileID: 0}
@@ -2207,6 +2216,10 @@ PrefabInstance:
       propertyPath: _gameOutcome
       value: 
       objectReference: {fileID: 1410697578}
+    - target: {fileID: 1232662313, guid: 00ad8649d0d864840966b9472cf7e3dc, type: 3}
+      propertyPath: _isInvincible
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5490961874798397312, guid: 00ad8649d0d864840966b9472cf7e3dc, type: 3}
       propertyPath: m_Name
       value: Character
@@ -3954,10 +3967,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 255f68a4d9a6484189603d6bfee77fae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gameOutcome: {fileID: 1410697578}
   _pauseHandler: {fileID: 174531507}
   _rewardAdButton: {fileID: 788806868}
   _continueButton: {fileID: 260902484}
+  _replayButton: {fileID: 991893451}
 --- !u!1 &1614655788
 GameObject:
   m_ObjectHideFlags: 0
@@ -4638,6 +4651,7 @@ MonoBehaviour:
   _pulsationDuration: 0.3
   _endValue: 1.2
   _isPulsating: 1
+  _resetScaleOnStop: 1
 --- !u!1 &1902376008
 GameObject:
   m_ObjectHideFlags: 0

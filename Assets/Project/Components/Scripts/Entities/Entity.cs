@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using static Project.Utility.UserUtils;
 
 namespace Project.Entities
 {
@@ -54,12 +56,6 @@ namespace Project.Entities
             Bounds bounds = ObjectCollider.bounds;
             ObjectWidth = bounds.size.x;
             ObjectHeight = bounds.size.y;
-        }
-
-        private static void FetchCameraSize(Camera camera, out float screenWidth, out float screenHeight)
-        {
-            screenWidth = camera.orthographicSize * camera.aspect * 2f;
-            screenHeight = camera.orthographicSize * 2f;
         }
     }
 }

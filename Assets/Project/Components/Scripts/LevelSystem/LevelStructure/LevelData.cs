@@ -31,7 +31,7 @@ namespace Project.LevelSystem.LevelStructure
             time += ((GetEnemiesCount(EnemyTypesInfo) - 1) * TimeToSpawn);
             time += SecondsToWin;
             time += 1; // TODO: t
-            
+
             return time;
         }
 
