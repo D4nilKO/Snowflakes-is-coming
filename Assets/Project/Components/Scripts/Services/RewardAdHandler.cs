@@ -1,5 +1,4 @@
-﻿using Project.GameState;
-using Project.Timing;
+﻿using Project.Timing;
 using UnityEngine;
 using YG;
 
@@ -8,16 +7,16 @@ namespace Project.Services
     public class RewardAdHandler : MonoBehaviour
     {
         [SerializeField]
-        private GameOutcome _gameOutcome;
-        
-        [SerializeField]
         private PauseHandler _pauseHandler;
-        
+
         [SerializeField]
         private GameObject _rewardAdButton;
-        
+
         [SerializeField]
         private GameObject _continueButton;
+
+        [SerializeField]
+        private GameObject _replayButton;
 
         public void Initialize()
         {
@@ -27,29 +26,33 @@ namespace Project.Services
 
         private void Awake()
         {
-            if (_gameOutcome == null || _pauseHandler == null || _rewardAdButton == null || _continueButton == null)
-            {
-                Debug.LogError("rewardAdHandler is empty");
-            }
+            this.ValidateSerializedFields();
         }
 
         private void OnEnable()
         {
             YandexGame.RewardVideoEvent += Rewarded;
+            YandexGame.ErrorVideoEvent += NotRewarded;
         }
 
         private void OnDisable()
         {
             YandexGame.RewardVideoEvent -= Rewarded;
+            YandexGame.ErrorVideoEvent -= NotRewarded;
         }
 
         private void Rewarded(int id)
         {
             _pauseHandler.Pause();
-            
+
             _rewardAdButton.SetActive(false);
             _continueButton.SetActive(true);
-            //
+            _replayButton.SetActive(true);
+        }
+        
+        private void NotRewarded()
+        {
+            _pauseHandler.Pause();
         }
     }
 }

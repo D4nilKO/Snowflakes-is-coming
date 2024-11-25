@@ -1,6 +1,7 @@
 ﻿using System;
 using Project.Data;
 using Project.LevelSystem.LevelStructure;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Project.LevelSystem
@@ -15,6 +16,11 @@ namespace Project.LevelSystem
 
         [SerializeField, Header("Ниже данные для ознакомления, загружаются в начале игры")]
         private LevelData _currentLevelData;
+
+        [ShowInInspector]
+        private int TimeToWin => _timeToWin;
+
+        private int _timeToWin; 
 
         private LevelDataList _levelDataList;
 
@@ -55,6 +61,8 @@ namespace Project.LevelSystem
 
             _currentLevelData = levelDataList.GetLevel(levelNumber - 1);
             LevelSettingsReady?.Invoke(_currentLevelData);
+            
+            _timeToWin = _currentLevelData.GetTimeToSurvive();
         }
 
         private void Start()

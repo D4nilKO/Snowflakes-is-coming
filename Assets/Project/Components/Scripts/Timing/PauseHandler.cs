@@ -21,9 +21,7 @@ namespace Project.Timing
                 return;
 
             canvasToSetActive.SetActive(false);
-            ApplyWaitBeforeContinueTime();
-
-            s_gamePaused = true;
+            Resume();
         }
 
         public void Resume()
@@ -31,7 +29,9 @@ namespace Project.Timing
             if (s_gamePaused == false)
                 return;
 
-            ApplyWaitBeforeContinueTime();
+            ApplyWaitBeforeContinueTime(); // Закоментировать следующую строку, если текущая строка расскоментирована.
+            // Time.timeScale = _startTimeScale;
+
             s_gamePaused = true;
         }
 

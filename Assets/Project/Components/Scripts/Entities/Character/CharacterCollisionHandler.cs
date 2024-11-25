@@ -11,6 +11,7 @@ namespace Project.Entities.Character
         [SerializeField]
         private GameOutcome _gameOutcome;
 
+        [SerializeField]
         private bool _isInvincible;
 
         public void ActivateInvincibility(float duration)
@@ -32,6 +33,14 @@ namespace Project.Entities.Character
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (!_isInvincible && collision.gameObject.TryGetComponent(out EnemyBase enemy))
+            {
+                _gameOutcome.LostGame();
+            }
+        }
+
+        private void OnTriggerStay2D(Collider2D collision)
         {
             if (!_isInvincible && collision.gameObject.TryGetComponent(out EnemyBase enemy))
             {

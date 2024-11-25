@@ -1,5 +1,4 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Project.Menu
@@ -7,20 +6,11 @@ namespace Project.Menu
     public class Buttons : MonoBehaviour
     {
         [SerializeField]
-        private SceneAsset _scene;
+        private int _sceneBuildIndex = 1;
 
         public void LoadBaseGame()
         {
-            if (_scene != null)
-            {
-                string scenePath = AssetDatabase.GetAssetPath(_scene);
-                string sceneName = System.IO.Path.GetFileNameWithoutExtension(scenePath);
-                SceneManager.LoadScene(sceneName);
-            }
-            else
-            {
-                Debug.LogError("Scene is not set");
-            }
+            SceneManager.LoadScene(_sceneBuildIndex);
         }
     }
 }

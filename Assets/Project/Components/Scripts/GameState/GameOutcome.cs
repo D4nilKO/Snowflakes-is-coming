@@ -1,6 +1,7 @@
 ﻿using System;
 using Project.LevelSystem;
 using Project.Timing;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using VavilichevGD.Utils.Timing;
 
@@ -20,6 +21,7 @@ namespace Project.GameState
         public event Action GameIsWon;
         public event Action GameIsOver;
 
+        [ShowInInspector]
         private float _timeToSurvive;
 
         public SyncedTimer SurviveTimer { get; private set; }
@@ -54,7 +56,7 @@ namespace Project.GameState
 
         private void StartSurviveTimer()
         {
-            SurviveTimer.Start(_timeToSurvive);
+            SurviveTimer.Restart(_timeToSurvive);
         }
 
         public void RevivePlayer()
