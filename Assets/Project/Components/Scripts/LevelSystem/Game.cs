@@ -1,6 +1,7 @@
 ﻿using System;
 using Project.Data;
 using Project.LevelSystem.LevelStructure;
+using Project.Timing;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -13,6 +14,9 @@ namespace Project.LevelSystem
 
         [SerializeField]
         private ProgressData _progressData;
+        
+        [SerializeField]
+        private PauseHandler _pauseHandler;
 
         [SerializeField, Header("Ниже данные для ознакомления, загружаются в начале игры")]
         private LevelData _currentLevelData;
@@ -31,6 +35,19 @@ namespace Project.LevelSystem
             _levelDataList = _jsonLevelParser.GetLevelDataList();
 
             FetchLevelSettings(_levelDataList, _progressData.CurrentLevelNumber);
+        }
+
+        private void Awake()
+        {
+            this.ValidateSerializedFields();
+        }
+
+        private void Start()
+        {
+            FetchCurrentLevelSettings();
+            Debug.Log("level settings start");
+            
+            _pauseHandler.InGamePause();
         }
 
         private void FetchLevelSettings(LevelDataList levelDataList, int levelNumber)
@@ -63,12 +80,6 @@ namespace Project.LevelSystem
             LevelSettingsReady?.Invoke(_currentLevelData);
             
             _timeToWin = _currentLevelData.GetTimeToSurvive();
-        }
-
-        private void Start()
-        {
-            FetchCurrentLevelSettings();
-            Debug.Log("level settings start");
         }
     }
 }

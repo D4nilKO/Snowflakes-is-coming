@@ -7,9 +7,6 @@ namespace Project.Services
     public class RewardAdHandler : MonoBehaviour
     {
         [SerializeField]
-        private PauseHandler _pauseHandler;
-
-        [SerializeField]
         private GameObject _rewardAdButton;
 
         [SerializeField]
@@ -43,16 +40,16 @@ namespace Project.Services
 
         private void Rewarded(int id)
         {
-            _pauseHandler.Pause();
+            PauseHandler.Pause();
 
             _rewardAdButton.SetActive(false);
+            _replayButton.SetActive(false);
             _continueButton.SetActive(true);
-            _replayButton.SetActive(true);
         }
-        
+
         private void NotRewarded()
         {
-            _pauseHandler.Pause();
+            PauseHandler.Pause();
         }
     }
 }

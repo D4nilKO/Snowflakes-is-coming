@@ -1,5 +1,4 @@
 ﻿using System;
-using Project.LevelSystem;
 using Project.Timing;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -35,7 +34,6 @@ namespace Project.GameState
             }
 
             SurviveTimer = new SyncedTimer(oneSecTick);
-
             SubscribeSurviveTimer();
         }
 
@@ -67,13 +65,12 @@ namespace Project.GameState
             }
 
             _isRevived = true;
-            _pauseHandler.Resume();
+            _pauseHandler.ForceInGamePause();
         }
 
         public void LostGame()
         {
-            _pauseHandler.Pause();
-
+            PauseHandler.Pause();
             GameIsOver?.Invoke();
         }
 
@@ -83,7 +80,6 @@ namespace Project.GameState
                 return;
 
             _isSubscribed = true;
-
             SurviveTimer.TimerFinished += WonGame;
         }
 
@@ -93,14 +89,12 @@ namespace Project.GameState
                 return;
 
             _isSubscribed = false;
-
             SurviveTimer.TimerFinished -= WonGame;
         }
 
         private void WonGame()
         {
-            _pauseHandler.Pause();
-
+            PauseHandler.Pause();
             GameIsWon?.Invoke();
         }
     }

@@ -1,2 +1,2 @@
-Build path: E:/Программирование/Снежинки/0.4
-Build number: 1
+Build path: E:/Программирование/Снежинки
+Build number: 2

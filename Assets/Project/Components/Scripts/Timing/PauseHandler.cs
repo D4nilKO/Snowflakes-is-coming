@@ -1,51 +1,43 @@
 ﻿using System.Collections;
 using UnityEngine;
+using YG;
 
 namespace Project.Timing
 {
     public class PauseHandler : MonoBehaviour
     {
+        #region Fields
+
         [SerializeField]
         private float _startTimeScale = 1;
 
         [SerializeField]
         private float _startTimePauseBeforeContinueTime = 0.5f;
 
-        private static bool s_gamePaused;
+        [SerializeField]
+        private GameObject _inGamePauseCanvas;
 
         private Coroutine _currentCoroutine;
+        
+        public static bool GamePaused { get; private set; }
 
-        public void Resume(GameObject canvasToSetActive)
+        #endregion
+
+        #region Private methods
+
+        private void OnEnable()
         {
-            if (s_gamePaused == false)
-                return;
-
-            canvasToSetActive.SetActive(false);
-            Resume();
+            YandexGame.onHideWindowGame += OnHideWindowGame;
         }
 
-        public void Resume()
+        private void OnDisable()
         {
-            if (s_gamePaused == false)
-                return;
-
-            ApplyWaitBeforeContinueTime(); // Закоментировать следующую строку, если текущая строка расскоментирована.
-            // Time.timeScale = _startTimeScale;
-
-            s_gamePaused = true;
+            YandexGame.onHideWindowGame -= OnHideWindowGame;
         }
 
-        public void Pause()
+        private void OnHideWindowGame()
         {
-            Time.timeScale = 0f;
-            s_gamePaused = true;
-        }
-
-        private void Pause(GameObject canvasToSetActive)
-        {
-            canvasToSetActive.SetActive(true);
-            Time.timeScale = 0f;
-            s_gamePaused = true;
+            InGamePause();
         }
 
         private IEnumerator UnscaledWaitBeforeContinueTime()
@@ -59,6 +51,7 @@ namespace Project.Timing
             }
 
             Time.timeScale = _startTimeScale;
+            YandexGame.GameplayStart();
         }
 
         private void ApplyWaitBeforeContinueTime()
@@ -68,5 +61,69 @@ namespace Project.Timing
 
             _currentCoroutine = StartCoroutine(UnscaledWaitBeforeContinueTime());
         }
+
+        #endregion
+
+        #region Public methods
+
+        public void Resume()
+        {
+            if (GamePaused == false)
+                return;
+
+            // ApplyWaitBeforeContinueTime(); // Закоментировать следующую строку, если текущая строка расскоментирована.
+            Time.timeScale = _startTimeScale;
+            YandexGame.GameplayStart();
+            
+
+            GamePaused = true;
+        }
+
+        public void Resume(GameObject canvasToSetActive)
+        {
+            if (GamePaused == false)
+                return;
+
+            canvasToSetActive.SetActive(false);
+            Resume();
+        }
+
+        public static void Pause()
+        {
+            Time.timeScale = 0f;
+            GamePaused = true;
+
+            YandexGame.GameplayStop();
+        }
+
+        public static void Pause(GameObject canvasToSetActive)
+        {
+            canvasToSetActive.SetActive(true);
+            Time.timeScale = 0f;
+            GamePaused = true;
+        }
+
+        public void ForceInGamePause()
+        {
+            Pause(_inGamePauseCanvas);
+        }
+
+        public void InGamePause()
+        {
+            if (GamePaused)
+                return;
+
+            Pause(_inGamePauseCanvas);
+        }
+
+        public void InGameResume()
+        {
+            if (GamePaused == false)
+                return;
+
+            Resume(_inGamePauseCanvas);
+        }
+
+        #endregion
     }
 }
