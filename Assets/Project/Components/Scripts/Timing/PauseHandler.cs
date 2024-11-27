@@ -18,27 +18,12 @@ namespace Project.Timing
         private GameObject _inGamePauseCanvas;
 
         private Coroutine _currentCoroutine;
-        
+
         public static bool GamePaused { get; private set; }
 
         #endregion
 
         #region Private methods
-
-        private void OnEnable()
-        {
-            YandexGame.onHideWindowGame += OnHideWindowGame;
-        }
-
-        private void OnDisable()
-        {
-            YandexGame.onHideWindowGame -= OnHideWindowGame;
-        }
-
-        private void OnHideWindowGame()
-        {
-            InGamePause();
-        }
 
         private IEnumerator UnscaledWaitBeforeContinueTime()
         {
@@ -71,10 +56,8 @@ namespace Project.Timing
             if (GamePaused == false)
                 return;
 
-            // ApplyWaitBeforeContinueTime(); // Закоментировать следующую строку, если текущая строка расскоментирована.
             Time.timeScale = _startTimeScale;
             YandexGame.GameplayStart();
-            
 
             GamePaused = true;
         }
