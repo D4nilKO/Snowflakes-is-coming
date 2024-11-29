@@ -41,7 +41,7 @@ namespace Project.LevelSystem
 
         private LevelData _levelData;
 
-        private void Awake()
+        private void Start()
         {
             this.ValidateSerializedFields();
 

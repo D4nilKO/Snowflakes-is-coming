@@ -33,45 +33,73 @@ namespace Project.Data
             _maxLevelsCount = maxLevelsCount;
         }
 
+        public void SetStartedParameters()
+        {
+            CurrentLevelNumber = 1;
+            UnlockedLevelNumber = 1;
+
+            ForceSaveData();
+        }
+
+        public void LoadData()
+        {
+            if (UnlockedLevelNumber >= YandexGame.savesData.unlockedLevelNumber)
+                return;
+
+            ForceLoadData();
+        }
+
+        public void SaveData()
+        {
+            if (UnlockedLevelNumber <= YandexGame.savesData.unlockedLevelNumber)
+                return;
+
+            ForceSaveData();
+        }
+
+        public void ForceSaveData()
+        {
+            YandexGame.savesData.unlockedLevelNumber = UnlockedLevelNumber;
+            YandexGame.SaveProgress();
+        }
+
+        public void ForceLoadData()
+        {
+            UnlockedLevelNumber = YandexGame.savesData.unlockedLevelNumber;
+            CurrentLevelNumber = UnlockedLevelNumber;
+
+            Debug.LogWarning("Progress data loaded");
+        }
+
         #endregion
 
-        private void Start()
+        #region Lifecycle
+
+        private void Awake()
         {
+            this.ValidateSerializedFields();
+
             if (YandexGame.SDKEnabled)
-                GetLoad();
+                LoadData();
         }
 
         private void OnEnable() => SubscribeEvents();
         private void OnDisable() => UnsubscribeEvents();
 
+        #endregion
+
+        #region Private methods
+
         private void SubscribeEvents()
         {
-            if (_gameOutcome != null)
-                _gameOutcome.GameIsWon += IncreaseUnlockedLevelNumber;
-            else
-                Debug.LogError("_gameOutcome is null. Cannot subscribe to events.");
-
-            YandexGame.GetDataEvent += GetLoad;
+            _gameOutcome.GameIsWon += IncreaseUnlockedLevelNumber;
+            YandexGame.GetDataEvent += LoadData;
         }
 
         private void UnsubscribeEvents()
         {
-            if (_gameOutcome != null)
-                _gameOutcome.GameIsWon -= IncreaseUnlockedLevelNumber;
-
-            YandexGame.GetDataEvent -= GetLoad;
-        }
-
-        private void GetLoad()
-        {
-            UnlockedLevelNumber = YandexGame.savesData.unlockedLevelNumber;
-        }
-
-        private void SaveData()
-        {
-            YandexGame.savesData.unlockedLevelNumber = UnlockedLevelNumber;
-            YandexGame.SaveProgress();
-            Debug.Log("Progress data saved");
+            _gameOutcome.GameIsWon -= IncreaseUnlockedLevelNumber;
+            YandexGame.GetDataEvent -= LoadData;
         }
 
         private void IncreaseUnlockedLevelNumber()
@@ -85,5 +113,7 @@ namespace Project.Data
             UnlockedLevelNumber = CurrentLevelNumber + 1;
             SaveData();
         }
+
+        #endregion
     }
 }
