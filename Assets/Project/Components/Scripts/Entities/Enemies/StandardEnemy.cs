@@ -6,10 +6,10 @@ namespace Project.Entities.Enemies
     {
         public override void Move()
         {
-            Vector2 currentPosition = Rigidbody2D.position;
-            Vector2 newPosition = currentPosition + (Direction * (Speed * Time.fixedDeltaTime));
+            Vector2 newPosition = GetNewPosition(Rigidbody2D.position);
 
-            CheckOutOfBounds(ref newPosition);
+            TryReflect(ref newPosition);
+            ClampPosition(ref newPosition);
 
             Rigidbody2D.MovePosition(newPosition);
         }
@@ -19,8 +19,6 @@ namespace Project.Entities.Enemies
             SetRandomDirection();
         }
 
-        public override void OnDespawn()
-        {
-        }
+        public override void OnDespawn() { }
     }
 }

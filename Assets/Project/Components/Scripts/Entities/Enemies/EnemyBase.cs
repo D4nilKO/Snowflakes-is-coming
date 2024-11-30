@@ -1,4 +1,5 @@
 ﻿using NTC.Global.Pool;
+using Project.Entities.Character;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -6,10 +7,14 @@ namespace Project.Entities.Enemies
 {
     public abstract class EnemyBase : Entity, IMovable, IPoolItem
     {
-        [SerializeField] [Range(0f, 20f)] private float _speed = 5f;
+        [SerializeField, Range(0f, 20f)]
+        private float _speed = 5f;
 
-        [SerializeField] [Range(1f, 359f)] private float _rotationSpeed = 10f;
-        [SerializeField] private bool _rotateEnabled;
+        [SerializeField, Range(1f, 359f)]
+        private float _rotationSpeed = 10f;
+
+        [SerializeField]
+        private bool _rotateEnabled = true;
 
         private Quaternion _targetRotation;
 
@@ -19,7 +24,7 @@ namespace Project.Entities.Enemies
         protected Vector2 Direction
         {
             get => _direction;
-            private set
+            set
             {
                 if (value == Vector2.zero)
                     return;
@@ -31,14 +36,13 @@ namespace Project.Entities.Enemies
         public abstract void Move();
         public abstract void OnSpawn();
         public abstract void OnDespawn();
-        
+
         public void Rotate()
         {
             if (_rotateEnabled == false)
                 return;
 
             float newRotation = _targetRotation.eulerAngles.z + (_rotationSpeed * Time.deltaTime);
-
             _targetRotation = Quaternion.Euler(0f, 0f, newRotation);
 
             transform.rotation = Quaternion.RotateTowards(
@@ -57,41 +61,66 @@ namespace Project.Entities.Enemies
             Direction = Random.insideUnitCircle.normalized;
         }
 
-        protected void CheckOutOfBounds(ref Vector2 newPosition)
+        protected void TurnInPlayerDirection()
         {
-            float halfScreenWidth = ScreenWidth / 2f;
-            float halfScreenHeight = ScreenHeight / 2f;
-
-            float halfObjectWidth = ObjectWidth / 2f;
-            float halfObjectHeight = ObjectHeight / 2f;
-
-            bool isOutOfBoundsX = newPosition.x < -halfScreenWidth + halfObjectWidth ||
-                                  newPosition.x > halfScreenWidth - halfObjectWidth;
-
-            bool isOutOfBoundsY = newPosition.y < -halfScreenHeight + halfObjectHeight ||
-                                  newPosition.y > halfScreenHeight - halfObjectHeight;
-
-            if (isOutOfBoundsX)
-                ReflectHorizontal(ref newPosition);
-
-            if (isOutOfBoundsY)
-                ReflectVertical(ref newPosition);
+            Vector3 playerPosition = Player.Instance.transform.position;
+            Direction = playerPosition - transform.position;
         }
 
-        private void ReflectHorizontal(ref Vector2 position)
+        protected Vector2 GetNewPosition(Vector2 currentPosition)
+        {
+            return currentPosition + (Direction * (Speed * Time.fixedDeltaTime));
+        }
+
+        protected void TryReflect(ref Vector2 newPosition)
+        {
+            CheckOutOfBounds(newPosition, out bool isOutOfBoundsX, out bool isOutOfBoundsY);
+            ReflectDirection(isOutOfBoundsX, isOutOfBoundsY);
+        }
+
+        private void CheckOutOfBounds(Vector2 newPosition, out bool isOutOfBoundsX, out bool isOutOfBoundsY)
+        {
+            float halfScreenWidth = ScreenWidth * 0.5f;
+            float halfScreenHeight = ScreenHeight * 0.5f;
+
+            float halfObjectWidth = ObjectWidth * 0.5f;
+            float halfObjectHeight = ObjectHeight * 0.5f;
+
+            isOutOfBoundsX = newPosition.x < -halfScreenWidth + halfObjectWidth ||
+                newPosition.x > halfScreenWidth - halfObjectWidth;
+
+            isOutOfBoundsY = newPosition.y < -halfScreenHeight + halfObjectHeight ||
+                newPosition.y > halfScreenHeight - halfObjectHeight;
+        }
+
+        protected virtual void ReflectDirection(bool isOutOfBoundsX, bool isOutOfBoundsY)
+        {
+            if (isOutOfBoundsX)
+                ReflectHorizontal();
+
+            if (isOutOfBoundsY)
+                ReflectVertical();
+        }
+
+        private void ReflectHorizontal()
         {
             Direction = new Vector2(-Direction.x, Direction.y);
+        }
+
+        private void ReflectVertical()
+        {
+            Direction = new Vector2(Direction.x, -Direction.y);
+        }
+
+        protected void ClampPosition(ref Vector2 position)
+        {
             Bounds bounds = ObjectCollider.bounds;
+
             position.x = Mathf.Clamp(
                 position.x,
                 (-ScreenWidth / 2f) + bounds.extents.x,
                 (ScreenWidth / 2f) - bounds.extents.x);
-        }
 
-        private void ReflectVertical(ref Vector2 position)
-        {
-            Direction = new Vector2(Direction.x, -Direction.y);
-            Bounds bounds = ObjectCollider.bounds;
             position.y = Mathf.Clamp(
                 position.y,
                 (-ScreenHeight / 2f) + bounds.extents.y,

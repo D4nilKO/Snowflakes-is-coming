@@ -6,10 +6,14 @@ namespace Project.Entities.Enemies
     [RequireComponent(typeof(Entity))]
     public class SizeChanger : MonoBehaviour
     {
-        [SerializeField] private float _changeRate;
+        [SerializeField, Range(0.1f, 5f)]
+        private float _changeRate = 1f;
 
-        [SerializeField] private float _minSize;
-        [SerializeField] private float _maxSize;
+        [SerializeField]
+        private float _minSize;
+
+        [SerializeField]
+        private float _maxSize;
 
         private Entity _entity;
 
@@ -24,16 +28,8 @@ namespace Project.Entities.Enemies
 
         private void CheckFields()
         {
-            if (_changeRate <= 0)
-            {
-                _isWorking = false;
-                Debug.LogError($"Задан некорректный коэффициент изменения размера: {_changeRate}");
-                return;
-            }
-
             if (_minSize >= _maxSize)
             {
-                _isWorking = false;
                 Debug.LogError($"Задан некорректный диапазон изменения размера: {_minSize} - {_maxSize}");
                 return;
             }
@@ -47,6 +43,11 @@ namespace Project.Entities.Enemies
                 return;
 
             ChangeSize();
+        }
+
+        private void OnValidate()
+        {
+            CheckFields();
         }
 
         private void ChangeSize()

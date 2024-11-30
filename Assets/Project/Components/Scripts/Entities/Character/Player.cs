@@ -7,6 +7,8 @@ namespace Project.Entities.Character
     {
         private const float maxDistanceDelta = 2.5f;
 
+        public static Player Instance { get; private set; }
+
         private Bounds _bounds;
         private float _halfObjectWidth;
         private float _halfObjectHeight;
@@ -35,6 +37,7 @@ namespace Project.Entities.Character
         {
             Debug.Log("character init");
 
+            Instance = this;
             SetBounds();
         }
 
@@ -50,7 +53,7 @@ namespace Project.Entities.Character
             _maxY = (ScreenHeight * 0.5f) - _halfObjectHeight;
         }
 
-        public bool IsInViewport(Vector2 screenPosition, Camera _camera)
+        private bool IsInViewport(Vector2 screenPosition, Camera _camera)
         {
             Rect viewportRect = new(0, 0, _camera.pixelWidth, _camera.pixelHeight);
             return viewportRect.Contains(screenPosition);

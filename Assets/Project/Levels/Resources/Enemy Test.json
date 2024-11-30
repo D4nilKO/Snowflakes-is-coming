@@ -1,0 +1,15 @@
+﻿{
+  "Levels": [
+    {
+      "NumberOfLevel": 1,
+      "TimeToSpawn": 1,
+      "SecondsToWin": 30,
+      "EnemyTypesInfo": [
+        {
+          "EnemyPrefabName": "Enemy 7",
+          "MaxSpawnCount": 5
+        }
+      ]
+    }
+  ]
+}
