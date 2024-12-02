@@ -16,13 +16,19 @@ namespace Project.Entities.Character
 
         public void ActivateInvincibility(float duration)
         {
-            if (duration <= 0) return;
+            if (duration <= 0)
+                return;
 
-            if (_isInvincible) return;
+            if (_isInvincible)
+                return;
 
-            _isInvincible = true;
+            ActivateInvincibility();
             Invoke(nameof(DeactivateInvincibility), duration);
         }
+
+        public void ActivateInvincibility() => _isInvincible = true;
+
+        public void DeactivateInvincibility() => _isInvincible = false;
 
         private void Awake()
         {
@@ -46,11 +52,6 @@ namespace Project.Entities.Character
             {
                 _gameOutcome.LostGame();
             }
-        }
-
-        private void DeactivateInvincibility()
-        {
-            _isInvincible = false;
         }
     }
 }

@@ -58,7 +58,7 @@ namespace Project.Entities.Enemies
 
         protected void SetRandomDirection()
         {
-            Direction = Random.insideUnitCircle.normalized;
+            Direction = Random.insideUnitCircle;
         }
 
         protected void TurnInPlayerDirection()

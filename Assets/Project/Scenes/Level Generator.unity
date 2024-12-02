@@ -177,7 +177,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 223015983}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 88c39b81a8a44aa5a50412ca9f9c12be, type: 3}
   m_Name: 
@@ -211,9 +211,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62437091250d4bc78bc943f6435691b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _usePath: 1
+  _usePath: 0
   _path: Assets/Project/Levels/TestLevels/TestLevels1.json
-  _levelDataJson: {fileID: 0}
+  _levelDataJson: {fileID: 4900000, guid: 448f5eabd2dd4d0e84b5954640b4c10c, type: 3}
 --- !u!1 &595257229
 GameObject:
   m_ObjectHideFlags: 0

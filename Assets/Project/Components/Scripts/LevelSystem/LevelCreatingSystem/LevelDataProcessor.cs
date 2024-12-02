@@ -1,15 +1,20 @@
 ﻿using System.Collections.Generic;
 using Project.LevelSystem.LevelStructure;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Project.LevelSystem.LevelCreatingSystem
 {
     public class LevelDataProcessor : MonoBehaviour
     {
-        [SerializeField] private JsonLevelParser _jsonLevelParser;
-        [SerializeField] private float _difficultyCoefficient;
+        [SerializeField]
+        private JsonLevelParser _jsonLevelParser;
 
-        [SerializeField] private LevelDataList _levelDataCollection;
+        [SerializeField]
+        private float _difficultyCoefficient;
+
+        [SerializeField]
+        private LevelDataList _levelDataCollection;
 
         private Dictionary<LevelData, float> _levelsDictionary = new();
 
@@ -18,13 +23,11 @@ namespace Project.LevelSystem.LevelCreatingSystem
             ProcessLevelData(_jsonLevelParser.GetLevelDataList());
         }
 
-        private void Update()
+        [Button("Вывести сложность уровней")]
+        private void ShowResult()
         {
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-                CalculateLevels();
-                DisplayLevelsDifficulty(_levelsDictionary);
-            }
+            CalculateLevels();
+            DisplayLevelsDifficulty(_levelsDictionary);
         }
 
         public Dictionary<LevelData, float> GetLevelsDifficultyData()
@@ -41,7 +44,8 @@ namespace Project.LevelSystem.LevelCreatingSystem
         {
             foreach (KeyValuePair<LevelData, float> level in levelsWithDifficulty)
             {
-                Debug.Log($"Уровень {level.Key.NumberOfLevel} --- сложность: {level.Value} --- время: {level.Key.GetTimeToSurvive()}");
+                Debug.Log(
+                    $"Уровень {level.Key.NumberOfLevel} --- сложность: {level.Value} --- время: {level.Key.GetTimeToSurvive()}");
             }
         }
 

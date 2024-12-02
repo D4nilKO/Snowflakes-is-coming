@@ -4,8 +4,8 @@ using System.Linq;
 
 namespace Project.LevelSystem.LevelStructure
 {
-    // С этим файлом нужно быть аккуартнее, так как названия полей и классов
-    // внутри JSON и pure класов должны быть одинаковыми
+    // С этим файлом нужно быть аккуратнее, так как названия полей и классов
+    // внутри JSON и pure классов должны быть одинаковыми
 
     [Serializable]
     public class LevelData
@@ -28,9 +28,9 @@ namespace Project.LevelSystem.LevelStructure
         {
             int time = 0;
 
-            time += ((GetEnemiesCount(EnemyTypesInfo) - 1) * TimeToSpawn);
+            time += ((GetEnemiesCount() - 1) * TimeToSpawn);
             time += SecondsToWin;
-            time += 1; // TODO: t
+            time += 1;
 
             return time;
         }
@@ -55,22 +55,18 @@ namespace Project.LevelSystem.LevelStructure
         public bool EnemyTypesEquals(LevelData other)
         {
             if (EnemyTypesInfo.Count != other.EnemyTypesInfo.Count)
-            {
                 return false;
-            }
 
             for (int i = 0; i < EnemyTypesInfo.Count; i++)
             {
                 if (EnemyTypesInfo[i].IsEquals(other.EnemyTypesInfo[i]) == false)
-                {
                     return false;
-                }
             }
 
             return true;
         }
 
-        public int GetEnemiesCount(IEnumerable<EnemyTypeInfo> list)
+        public int GetEnemiesCount()
         {
             return EnemyTypesInfo.Sum(enemyTypeInfo => enemyTypeInfo.MaxSpawnCount);
         }

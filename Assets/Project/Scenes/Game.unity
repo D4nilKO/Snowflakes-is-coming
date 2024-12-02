@@ -437,7 +437,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Restart
+  m_text: Un Immortal
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ef28179f80ec44149bc7e8b981e8502b, type: 2}
   m_sharedMaterial: {fileID: -4508530836514171610, guid: ef28179f80ec44149bc7e8b981e8502b, type: 2}
@@ -464,7 +464,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 62.8
+  m_fontSize: 41.75
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2393,7 +2393,7 @@ PrefabInstance:
       objectReference: {fileID: 1410697578}
     - target: {fileID: 1232662313, guid: 00ad8649d0d864840966b9472cf7e3dc, type: 3}
       propertyPath: _isInvincible
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4771411142498409480, guid: 00ad8649d0d864840966b9472cf7e3dc, type: 3}
       propertyPath: m_SortingOrder
@@ -2612,7 +2612,7 @@ GameObject:
   - component: {fileID: 553119170}
   - component: {fileID: 553119169}
   m_Layer: 5
-  m_Name: Load
+  m_Name: Immortal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2682,9 +2682,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 490470428}
-        m_TargetAssemblyTypeName: Project.Data.ProgressData, Assembly-CSharp
-        m_MethodName: ForceLoadData
+      - m_Target: {fileID: 1538021603}
+        m_TargetAssemblyTypeName: Project.Entities.Character.CharacterCollisionHandler,
+          Assembly-CSharp
+        m_MethodName: ActivateInvincibility
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2745,7 +2746,7 @@ GameObject:
   - component: {fileID: 786775941}
   - component: {fileID: 786775940}
   m_Layer: 5
-  m_Name: Restart
+  m_Name: Un Immortal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2815,9 +2816,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 50388107}
-        m_TargetAssemblyTypeName: Project.LevelSystem.LevelLoader, Assembly-CSharp
-        m_MethodName: RestartLevel
+      - m_Target: {fileID: 1538021603}
+        m_TargetAssemblyTypeName: Project.Entities.Character.CharacterCollisionHandler,
+          Assembly-CSharp
+        m_MethodName: DeactivateInvincibility
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5382,7 +5384,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044C\n"
+  m_text: Immortal
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ef28179f80ec44149bc7e8b981e8502b, type: 2}
   m_sharedMaterial: {fileID: -4508530836514171610, guid: ef28179f80ec44149bc7e8b981e8502b, type: 2}
@@ -5409,7 +5411,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 49.6
+  m_fontSize: 59.1
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1

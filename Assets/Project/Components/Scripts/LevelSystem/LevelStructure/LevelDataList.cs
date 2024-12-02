@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Project.LevelSystem.LevelStructure
 {
     [Serializable]
     public class LevelDataList
     {
-        public LevelDataList()
-        {
-            Levels = new List<LevelData>();
-        }
-
-        public List<LevelData> Levels;
+        public List<LevelData> Levels = new();
 
         public LevelData GetLevel(int index) => Levels[index];
 
@@ -30,17 +26,7 @@ namespace Project.LevelSystem.LevelStructure
 
         public bool CheckLevelUniqueness(LevelData newLevel)
         {
-            foreach (LevelData oldLevel in Levels)
-            {
-                if (newLevel.IsEqual(oldLevel) == false)
-                {
-                    continue;
-                }
-
-                return false;
-            }
-
-            return true;
+            return Levels.All(oldLevel => newLevel.IsEqual(oldLevel) == false);
         }
     }
 }
