@@ -1,4 +1,5 @@
-﻿using Project.GameState;
+﻿using System;
+using Project.GameState;
 using UnityEngine;
 using YG;
 
@@ -6,6 +7,8 @@ namespace Project.Data
 {
     public class ProgressData : MonoBehaviour
     {
+        #region Fields
+
         [SerializeField]
         private GameOutcome _gameOutcome;
 
@@ -13,13 +16,26 @@ namespace Project.Data
 
         public int CurrentLevelNumber { get; private set; } = 1;
         public int UnlockedLevelNumber { get; private set; } = 1;
+        
+        #endregion
 
         #region Public methods
 
-        public void IncreaseCurrentLevel()
+        public bool TryIncreaseCurrentLevel()
         {
-            if (CurrentLevelNumber != _maxLevelsCount && CurrentLevelNumber <= UnlockedLevelNumber)
-                CurrentLevelNumber++;
+            bool notLastLevel = CurrentLevelNumber != _maxLevelsCount;
+            bool hasNextLevel = CurrentLevelNumber <= UnlockedLevelNumber;
+
+            if (notLastLevel)
+            {
+                if (hasNextLevel) CurrentLevelNumber++;
+            }
+            else
+            {
+                return false;
+            }
+            
+            return true;
         }
 
         public void SetMaxLevelsCount(int maxLevelsCount)
@@ -67,8 +83,6 @@ namespace Project.Data
         {
             UnlockedLevelNumber = YandexGame.savesData.unlockedLevelNumber;
             CurrentLevelNumber = UnlockedLevelNumber;
-
-            Debug.LogWarning("Progress data loaded");
         }
 
         #endregion

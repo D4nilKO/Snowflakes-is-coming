@@ -12,9 +12,6 @@ namespace Project.Entities.Enemies
         private const TimerType updateTick = TimerType.UpdateTick;
 
         [SerializeField]
-        private string _enemyPrefabFolder;
-
-        [SerializeField]
         private EntityMover _entityMover;
 
         [SerializeField]
@@ -88,7 +85,7 @@ namespace Project.Entities.Enemies
 
             if (_availableEnemyCounts.TryGetValue(enemyPrefabName, out int availableCount) && availableCount > 0)
             {
-                string path = Path.Combine(_enemyPrefabFolder, enemyPrefabName);
+                string path = enemyPrefabName;
                 GameObject enemyPrefab = Resources.Load<GameObject>(path);
 
                 if (enemyPrefab != null)

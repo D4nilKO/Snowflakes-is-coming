@@ -1,4 +1,5 @@
-﻿using Project.Data;
+﻿using System;
+using Project.Data;
 using Project.Entities.Character;
 using Project.Entities.Enemies;
 using Project.GameState;
@@ -39,6 +40,8 @@ namespace Project.LevelSystem
         [SerializeField]
         private ProgressData _progressData;
 
+        public event Action LastLevelReached;
+
         private LevelData _levelData;
 
         private void Start()
@@ -56,9 +59,14 @@ namespace Project.LevelSystem
 
         public void LoadNextLevel()
         {
-            _progressData.IncreaseCurrentLevel();
-            _enemyContainer.ClearActiveEnemies();
-            _game.FetchCurrentLevelSettings();
+            if (_progressData.TryIncreaseCurrentLevel())
+            {
+                _enemyContainer.ClearActiveEnemies();
+                _game.FetchCurrentLevelSettings();
+                return;
+            }
+
+            LastLevelReached?.Invoke();
         }
 
         public void RestartLevel()

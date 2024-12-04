@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Project.LevelSystem;
 using UnityEngine;
 using YG;
 
@@ -9,13 +10,13 @@ namespace Project.Timing
         #region Fields
 
         [SerializeField]
+        private GameObject _inGamePauseCanvas;
+
+        [SerializeField]
         private float _startTimeScale = 1;
 
         [SerializeField]
         private float _startTimePauseBeforeContinueTime = 0.5f;
-
-        [SerializeField]
-        private GameObject _inGamePauseCanvas;
 
         private Coroutine _currentCoroutine;
 

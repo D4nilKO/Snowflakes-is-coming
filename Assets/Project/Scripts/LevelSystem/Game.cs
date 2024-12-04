@@ -80,6 +80,8 @@ namespace Project.LevelSystem
             LevelSettingsReady?.Invoke(_currentLevelData);
             
             _timeToWin = _currentLevelData.GetTimeToSurvive();
+            
+            _pauseHandler.ForceInGamePause();
         }
     }
 }
