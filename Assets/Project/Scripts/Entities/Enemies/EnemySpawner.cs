@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using Project.LevelSystem.LevelStructure;
 using UnityEngine;
 using VavilichevGD.Utils.Timing;
@@ -31,8 +30,6 @@ namespace Project.Entities.Enemies
 
         public void Initialize(IReadOnlyList<EnemyTypeInfo> enemyTypeInfos, int timeToSpawn)
         {
-            Debug.Log("init enemy spawner");
-
             gameObject.SetActive(true);
 
             SetStartedParameters(enemyTypeInfos, timeToSpawn);
@@ -60,7 +57,6 @@ namespace Project.Entities.Enemies
 
             if (_currentEnemyTypeIndex >= _enemyTypes.Count)
             {
-                Debug.Log("All enemies spawned");
                 gameObject.SetActive(false);
                 return;
             }

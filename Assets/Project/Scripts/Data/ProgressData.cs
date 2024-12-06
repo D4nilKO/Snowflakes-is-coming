@@ -1,5 +1,4 @@
-﻿using System;
-using Project.GameState;
+﻿using Project.GameState;
 using UnityEngine;
 using YG;
 
@@ -16,7 +15,7 @@ namespace Project.Data
 
         public int CurrentLevelNumber { get; private set; } = 1;
         public int UnlockedLevelNumber { get; private set; } = 1;
-        
+
         #endregion
 
         #region Public methods
@@ -34,7 +33,7 @@ namespace Project.Data
             {
                 return false;
             }
-            
+
             return true;
         }
 

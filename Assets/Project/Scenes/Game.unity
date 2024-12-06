@@ -1271,9 +1271,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5012ef77ac0f4302bc8996e087dafdf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _inGamePauseCanvas: {fileID: 1260585923}
   _startTimeScale: 1
   _startTimePauseBeforeContinueTime: 0.1
-  _inGamePauseCanvas: {fileID: 1260585923}
 --- !u!1 &177726759
 GameObject:
   m_ObjectHideFlags: 0
@@ -5096,6 +5096,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pauseHandler: {fileID: 174531507}
+  _progressData: {fileID: 490470428}
 --- !u!4 &1410697579
 Transform:
   m_ObjectHideFlags: 0

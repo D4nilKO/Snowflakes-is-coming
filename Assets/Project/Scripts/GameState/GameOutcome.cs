@@ -1,4 +1,6 @@
 ﻿using System;
+using Project.Data;
+using Project.Services;
 using Project.Timing;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -12,6 +14,9 @@ namespace Project.GameState
 
         [SerializeField]
         private PauseHandler _pauseHandler;
+        
+        [SerializeField]
+        private ProgressData _progressData;
 
         private bool _isRevived;
 
@@ -23,17 +28,12 @@ namespace Project.GameState
         [ShowInInspector]
         private float _timeToSurvive;
 
-        public SyncedTimer SurviveTimer { get; private set; }
+        public SyncedTimer SurviveTimer { get; private set; } = new SyncedTimer(oneSecTick);
 
         private void Awake()
         {
-            if (_pauseHandler == null)
-            {
-                Debug.LogError("_pauseHandler is null");
-                return;
-            }
-
-            SurviveTimer = new SyncedTimer(oneSecTick);
+            this.ValidateSerializedFields();
+            
             SubscribeSurviveTimer();
         }
 
@@ -44,17 +44,10 @@ namespace Project.GameState
 
         public void Initialize(float timeToSurvive)
         {
-            Debug.Log("Init game outcome");
-
             _timeToSurvive = timeToSurvive;
             _isRevived = false;
 
             StartSurviveTimer();
-        }
-
-        private void StartSurviveTimer()
-        {
-            SurviveTimer.Restart(_timeToSurvive);
         }
 
         public void RevivePlayer()
@@ -65,13 +58,27 @@ namespace Project.GameState
             }
 
             _isRevived = true;
+            MetricaSender.SendWithId( MetricaId.LevelReviveId, _progressData.CurrentLevelNumber.ToString());
             _pauseHandler.ForceInGamePause();
         }
 
         public void LostGame()
         {
             PauseHandler.Pause();
+            MetricaSender.SendWithId(MetricaId.LevelLoseId, _progressData.CurrentLevelNumber.ToString());
             GameIsOver?.Invoke();
+        }
+
+        private void WonGame()
+        {
+            PauseHandler.Pause();
+            MetricaSender.SendWithId(MetricaId.LevelWonId, _progressData.CurrentLevelNumber.ToString());
+            GameIsWon?.Invoke();
+        }
+
+        private void StartSurviveTimer()
+        {
+            SurviveTimer.Restart(_timeToSurvive);
         }
 
         private void SubscribeSurviveTimer()
@@ -90,12 +97,6 @@ namespace Project.GameState
 
             _isSubscribed = false;
             SurviveTimer.TimerFinished -= WonGame;
-        }
-
-        private void WonGame()
-        {
-            PauseHandler.Pause();
-            GameIsWon?.Invoke();
         }
     }
 }

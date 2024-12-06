@@ -45,8 +45,6 @@ namespace Project.LevelSystem
         private void Start()
         {
             FetchCurrentLevelSettings();
-            Debug.Log("level settings start");
-            
             _pauseHandler.InGamePause();
         }
 

@@ -1,5 +1,3 @@
-using Project.Entities.Character;
-
 namespace Project.Entities.Enemies
 {
     public class PlayerDirectedEnemy : StandardEnemy

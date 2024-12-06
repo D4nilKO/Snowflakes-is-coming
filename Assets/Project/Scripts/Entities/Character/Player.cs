@@ -35,8 +35,6 @@ namespace Project.Entities.Character
 
         public void Initialize()
         {
-            Debug.Log("character init");
-
             Instance = this;
             SetBounds();
         }

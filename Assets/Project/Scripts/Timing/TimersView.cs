@@ -73,8 +73,6 @@ namespace Project.Timing
 
         public void Initialize(float timeToSurvive)
         {
-            Debug.Log("timers view init");
-            
             UnsubscribeEvents();
             SubscribeEvents();
             

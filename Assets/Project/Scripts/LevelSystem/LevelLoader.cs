@@ -49,7 +49,6 @@ namespace Project.LevelSystem
             this.ValidateSerializedFields();
 
             SubscribeEvents();
-            Debug.Log("level loader awake");
         }
 
         private void OnDestroy()
@@ -66,6 +65,7 @@ namespace Project.LevelSystem
                 return;
             }
 
+            MetricaSender.SendWithId(MetricaId.LastLevelReachedId, _progressData.CurrentLevelNumber.ToString());
             LastLevelReached?.Invoke();
         }
 
@@ -101,6 +101,8 @@ namespace Project.LevelSystem
             _levelTextView.Initialize(_levelData.NumberOfLevel);
             _player.Initialize();
             _rewardAdHandler.Initialize();
+
+            MetricaSender.SendWithId(MetricaId.LevelStartId, _levelData.NumberOfLevel.ToString());
         }
     }
 }
