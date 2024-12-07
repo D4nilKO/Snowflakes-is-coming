@@ -9,5 +9,6 @@ namespace Project.Services
         public static string LevelWonId = "LevelWon";
         public static string LevelLoseId = "LevelLose";
         public static string LastLevelReachedId = "LastLevelReached";
+        public static string LevelStartFromMenuId = "LevelStartFromMenu";
     }
 }

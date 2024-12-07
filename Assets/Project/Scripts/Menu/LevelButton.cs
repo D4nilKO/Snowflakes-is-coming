@@ -1,4 +1,5 @@
 using Project.Data;
+using Project.Services;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -58,6 +59,7 @@ namespace Project.Menu
         private void OnLevelButtonClicked()
         {
             ProgressData.SetCurrentLevel(_levelNumber);
+            MetricaSender.SendWithId(MetricaId.LevelStartFromMenuId, _levelNumber.ToString());
             _sceneLoader.LoadBaseGame();
         }
     }
