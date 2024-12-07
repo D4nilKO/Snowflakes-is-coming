@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 namespace Project.Menu
 {
-    public class SceneLoadButtons : MonoBehaviour
+    public class SceneLoader : MonoBehaviour
     {
         [SerializeField]
         private int _menuSceneBuildIndex = 0;

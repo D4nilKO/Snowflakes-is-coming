@@ -1,28 +1,35 @@
-﻿using Project.GameState;
-using UnityEngine;
+﻿using UnityEngine;
 using YG;
 
 namespace Project.Data
 {
-    public class ProgressData : MonoBehaviour
+    static class ProgressData
     {
         #region Fields
 
-        [SerializeField]
-        private GameOutcome _gameOutcome;
+        public static int MaxLevelsCount { get; private set; }
+        public static int CurrentLevelNumber { get; private set; } = 1;
+        public static int UnlockedLevelNumber { get; private set; } = 1;
 
-        private int _maxLevelsCount;
+        #endregion
 
-        public int CurrentLevelNumber { get; private set; } = 1;
-        public int UnlockedLevelNumber { get; private set; } = 1;
+        #region Constructors
+
+        static ProgressData()
+        {
+            if (YandexGame.SDKEnabled)
+                LoadData();
+            
+            
+        }
 
         #endregion
 
         #region Public methods
 
-        public bool TryIncreaseCurrentLevel()
+        public static bool TryIncreaseCurrentLevel()
         {
-            bool notLastLevel = CurrentLevelNumber != _maxLevelsCount;
+            bool notLastLevel = CurrentLevelNumber != MaxLevelsCount;
             bool hasNextLevel = CurrentLevelNumber <= UnlockedLevelNumber;
 
             if (notLastLevel)
@@ -37,7 +44,7 @@ namespace Project.Data
             return true;
         }
 
-        public void SetMaxLevelsCount(int maxLevelsCount)
+        public static void SetMaxLevelsCount(int maxLevelsCount)
         {
             if (maxLevelsCount <= 0)
             {
@@ -45,18 +52,10 @@ namespace Project.Data
                 return;
             }
 
-            _maxLevelsCount = maxLevelsCount;
+            MaxLevelsCount = maxLevelsCount;
         }
 
-        public void SetStartedParameters()
-        {
-            CurrentLevelNumber = 1;
-            UnlockedLevelNumber = 1;
-
-            ForceSaveData();
-        }
-
-        public void LoadData()
+        public static void LoadData()
         {
             if (UnlockedLevelNumber >= YandexGame.savesData.unlockedLevelNumber)
                 return;
@@ -64,7 +63,7 @@ namespace Project.Data
             ForceLoadData();
         }
 
-        public void SaveData()
+        public static void SaveData()
         {
             if (UnlockedLevelNumber <= YandexGame.savesData.unlockedLevelNumber)
                 return;
@@ -72,52 +71,21 @@ namespace Project.Data
             ForceSaveData();
         }
 
-        public void ForceSaveData()
+        public static void ForceSaveData()
         {
             YandexGame.savesData.unlockedLevelNumber = UnlockedLevelNumber;
             YandexGame.SaveProgress();
         }
 
-        public void ForceLoadData()
+        public static void ForceLoadData()
         {
             UnlockedLevelNumber = YandexGame.savesData.unlockedLevelNumber;
             CurrentLevelNumber = UnlockedLevelNumber;
         }
 
-        #endregion
-
-        #region Lifecycle
-
-        private void Awake()
+        public static void IncreaseUnlockedLevelNumber()
         {
-            this.ValidateSerializedFields();
-
-            if (YandexGame.SDKEnabled)
-                LoadData();
-        }
-
-        private void OnEnable() => SubscribeEvents();
-        private void OnDisable() => UnsubscribeEvents();
-
-        #endregion
-
-        #region Private methods
-
-        private void SubscribeEvents()
-        {
-            _gameOutcome.GameIsWon += IncreaseUnlockedLevelNumber;
-            YandexGame.GetDataEvent += LoadData;
-        }
-
-        private void UnsubscribeEvents()
-        {
-            _gameOutcome.GameIsWon -= IncreaseUnlockedLevelNumber;
-            YandexGame.GetDataEvent -= LoadData;
-        }
-
-        private void IncreaseUnlockedLevelNumber()
-        {
-            if (UnlockedLevelNumber == _maxLevelsCount)
+            if (UnlockedLevelNumber == MaxLevelsCount)
                 return;
 
             if (UnlockedLevelNumber > CurrentLevelNumber)
@@ -128,5 +96,27 @@ namespace Project.Data
         }
 
         #endregion
+
+        public static void SetCurrentLevel(int level)
+        {
+            if (level > MaxLevelsCount)
+            {
+                Debug.LogError("Уровень не существует");
+                return;
+            }
+            if (level < 1)
+            {
+                Debug.LogError("Уровень не существует");
+                return;
+            }
+            
+            if (level > UnlockedLevelNumber)
+            {
+                Debug.LogError("Уровень не разблокирован");
+                return;
+            }
+
+            CurrentLevelNumber = level;
+        }
     }
 }

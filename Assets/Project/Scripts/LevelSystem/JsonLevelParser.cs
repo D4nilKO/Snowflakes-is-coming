@@ -60,7 +60,7 @@ namespace Project.LevelSystem
                 return false;
             }
 
-            int maxLevelsCount = _levelDataList.LevelsCount;
+            int maxLevelsCount = _levelDataList.Count;
 
             if (maxLevelsCount <= 0)
             {

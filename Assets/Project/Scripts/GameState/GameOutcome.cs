@@ -14,9 +14,6 @@ namespace Project.GameState
 
         [SerializeField]
         private PauseHandler _pauseHandler;
-        
-        [SerializeField]
-        private ProgressData _progressData;
 
         private bool _isRevived;
 
@@ -28,12 +25,12 @@ namespace Project.GameState
         [ShowInInspector]
         private float _timeToSurvive;
 
-        public SyncedTimer SurviveTimer { get; private set; } = new SyncedTimer(oneSecTick);
+        public SyncedTimer SurviveTimer { get; private set; } = new(oneSecTick);
 
         private void Awake()
         {
             this.ValidateSerializedFields();
-            
+
             SubscribeSurviveTimer();
         }
 
@@ -58,21 +55,22 @@ namespace Project.GameState
             }
 
             _isRevived = true;
-            MetricaSender.SendWithId( MetricaId.LevelReviveId, _progressData.CurrentLevelNumber.ToString());
+            MetricaSender.SendWithId(MetricaId.LevelReviveId, ProgressData.CurrentLevelNumber.ToString());
             _pauseHandler.ForceInGamePause();
         }
 
         public void LostGame()
         {
             PauseHandler.Pause();
-            MetricaSender.SendWithId(MetricaId.LevelLoseId, _progressData.CurrentLevelNumber.ToString());
+            MetricaSender.SendWithId(MetricaId.LevelLoseId, ProgressData.CurrentLevelNumber.ToString());
             GameIsOver?.Invoke();
         }
 
         private void WonGame()
         {
             PauseHandler.Pause();
-            MetricaSender.SendWithId(MetricaId.LevelWonId, _progressData.CurrentLevelNumber.ToString());
+            MetricaSender.SendWithId(MetricaId.LevelWonId, ProgressData.CurrentLevelNumber.ToString());
+            ProgressData.IncreaseUnlockedLevelNumber();
             GameIsWon?.Invoke();
         }
 

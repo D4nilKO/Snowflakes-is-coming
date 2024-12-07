@@ -13,9 +13,6 @@ namespace Project.LevelSystem
         private JsonLevelParser _jsonLevelParser;
 
         [SerializeField]
-        private ProgressData _progressData;
-        
-        [SerializeField]
         private PauseHandler _pauseHandler;
 
         [SerializeField, Header("Ниже данные для ознакомления, загружаются в начале игры")]
@@ -24,7 +21,7 @@ namespace Project.LevelSystem
         [ShowInInspector]
         private int TimeToWin => _timeToWin;
 
-        private int _timeToWin; 
+        private int _timeToWin;
 
         private LevelDataList _levelDataList;
 
@@ -34,7 +31,7 @@ namespace Project.LevelSystem
         {
             _levelDataList = _jsonLevelParser.GetLevelDataList();
 
-            FetchLevelSettings(_levelDataList, _progressData.CurrentLevelNumber);
+            FetchLevelSettings(_levelDataList, ProgressData.CurrentLevelNumber);
         }
 
         private void Awake()
@@ -56,15 +53,15 @@ namespace Project.LevelSystem
                 return;
             }
 
-            if (levelDataList.LevelsCount == 0)
+            if (levelDataList.Count == 0)
             {
                 Debug.LogError("LevelDataList is empty");
                 return;
             }
 
-            int maxLevelsCount = levelDataList.LevelsCount;
+            int maxLevelsCount = levelDataList.Count;
 
-            _progressData.SetMaxLevelsCount(maxLevelsCount);
+            ProgressData.SetMaxLevelsCount(maxLevelsCount);
 
             if (levelNumber > maxLevelsCount)
             {
@@ -76,9 +73,9 @@ namespace Project.LevelSystem
 
             _currentLevelData = levelDataList.GetLevel(levelNumber - 1);
             LevelSettingsReady?.Invoke(_currentLevelData);
-            
+
             _timeToWin = _currentLevelData.GetTimeToSurvive();
-            
+
             _pauseHandler.ForceInGamePause();
         }
     }

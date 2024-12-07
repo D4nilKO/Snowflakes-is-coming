@@ -78,7 +78,7 @@ namespace Project.LevelSystem.LevelCreatingSystem
                 }
             }
 
-            if (_levelDataList == null || _levelDataList.LevelsCount == 0)
+            if (_levelDataList == null || _levelDataList.Count == 0)
             {
                 Debug.LogError("No levels generated");
                 return;
@@ -86,7 +86,7 @@ namespace Project.LevelSystem.LevelCreatingSystem
 
             SaveLevelsToFile(_levelDataList);
 
-            Debug.Log($"Levels count: {_levelDataList.LevelsCount}");
+            Debug.Log($"Levels count: {_levelDataList.Count}");
         }
 
         private void CreateLevel(int spawnTime, int secondsToWin, string combination)

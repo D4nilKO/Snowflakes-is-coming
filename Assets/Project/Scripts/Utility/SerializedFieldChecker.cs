@@ -12,7 +12,7 @@ public static class SerializedFieldChecker
     /// <param name="detailedLog">Если true, выводит подробный лог о незаполненных полях.</param>
     public static void ValidateSerializedFields(this MonoBehaviour behaviour, bool detailedLog = true)
     {
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
+#if UNITY_EDITOR
         if (behaviour == null)
         {
             Debug.LogError("Объект для проверки равен null.");

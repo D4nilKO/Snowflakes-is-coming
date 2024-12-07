@@ -11,7 +11,7 @@ namespace Project.LevelSystem.LevelStructure
 
         public LevelData GetLevel(int index) => Levels[index];
 
-        public int LevelsCount
+        public int Count
         {
             get
             {
@@ -28,5 +28,6 @@ namespace Project.LevelSystem.LevelStructure
         {
             return Levels.All(oldLevel => newLevel.IsEqual(oldLevel) == false);
         }
+        
     }
 }

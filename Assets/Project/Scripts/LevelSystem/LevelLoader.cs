@@ -37,9 +37,6 @@ namespace Project.LevelSystem
         [SerializeField]
         private LevelTextView _levelTextView;
 
-        [SerializeField]
-        private ProgressData _progressData;
-
         public event Action LastLevelReached;
 
         private LevelData _levelData;
@@ -58,14 +55,14 @@ namespace Project.LevelSystem
 
         public void LoadNextLevel()
         {
-            if (_progressData.TryIncreaseCurrentLevel())
+            if (ProgressData.TryIncreaseCurrentLevel())
             {
                 _enemyContainer.ClearActiveEnemies();
                 _game.FetchCurrentLevelSettings();
                 return;
             }
 
-            MetricaSender.SendWithId(MetricaId.LastLevelReachedId, _progressData.CurrentLevelNumber.ToString());
+            MetricaSender.SendWithId(MetricaId.LastLevelReachedId, ProgressData.CurrentLevelNumber.ToString());
             LastLevelReached?.Invoke();
         }
 
