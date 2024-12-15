@@ -7,7 +7,9 @@ using Project.GameState.View;
 using Project.LevelSystem.LevelStructure;
 using Project.Services;
 using Project.Timing;
+using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Project.LevelSystem
 {
@@ -36,6 +38,15 @@ namespace Project.LevelSystem
 
         [SerializeField]
         private LevelTextView _levelTextView;
+
+        [SerializeField]
+        private Canvas _wonCanvas;
+
+        [SerializeField]
+        private Canvas _loseCanvas;
+
+        [SerializeField]
+        private Canvas _finalCanvas;
 
         public event Action LastLevelReached;
 
@@ -69,6 +80,7 @@ namespace Project.LevelSystem
         public void RestartLevel()
         {
             _enemyContainer.ClearActiveEnemies();
+            EventSystem.current.SetSelectedGameObject(null);
 
             InitializeLevel();
         }
@@ -92,14 +104,29 @@ namespace Project.LevelSystem
 
         private void InitializeLevel()
         {
+            InitializeComponents();
+            HideCanvases();
+
+            MetricaSender.SendWithId(MetricaId.LevelStartId, _levelData.NumberOfLevel.ToString());
+        }
+
+        private void InitializeComponents()
+        {
+            int timeToSurvive = _levelData.GetTimeToSurvive();
             _enemySpawner.Initialize(_levelData.EnemyTypesInfo, _levelData.TimeToSpawn);
-            _gameOutcome.Initialize(_levelData.GetTimeToSurvive());
-            _timersView.Initialize(_levelData.GetTimeToSurvive());
+            _gameOutcome.Initialize(timeToSurvive);
+            _timersView.Initialize(timeToSurvive);
             _levelTextView.Initialize(_levelData.NumberOfLevel);
             _player.Initialize();
             _rewardAdHandler.Initialize();
+        }
 
-            MetricaSender.SendWithId(MetricaId.LevelStartId, _levelData.NumberOfLevel.ToString());
+        [Button("Hide Canvases")]
+        private void HideCanvases()
+        {
+            _wonCanvas.gameObject.SetActive(false);
+            _loseCanvas.gameObject.SetActive(false);
+            _finalCanvas.gameObject.SetActive(false);
         }
     }
 }

@@ -9,6 +9,8 @@ namespace Project.Menu
     [RequireComponent(typeof(Button))]
     public class LevelButton : MonoBehaviour
     {
+        private const float inactiveColorAlpha = 0.5f;
+
         [SerializeField]
         private TextMeshProUGUI _levelText;
 
@@ -16,6 +18,8 @@ namespace Project.Menu
         private Button _button;
 
         private SceneLoader _sceneLoader;
+        private Color _startedColor;
+        private Color _inactiveColor;
 
         private int _levelNumber;
 
@@ -30,12 +34,25 @@ namespace Project.Menu
 
             _button.onClick.RemoveAllListeners();
             _button.onClick.AddListener(OnLevelButtonClicked);
+
+            GetColors();
         }
 
         public void Setup(int levelNumber, bool isUnlocked)
         {
             SetLevelNumber(levelNumber);
             _button.interactable = isUnlocked;
+
+            _levelText.color = isUnlocked
+                ? _startedColor
+                : _inactiveColor;
+        }
+
+        private void GetColors()
+        {
+            _startedColor = _levelText.color;
+            _inactiveColor = _startedColor;
+            _inactiveColor.a = inactiveColorAlpha;
         }
 
         private void SetLevelNumber(int levelNumber)

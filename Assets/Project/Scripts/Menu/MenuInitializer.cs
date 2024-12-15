@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Project.Menu
@@ -17,16 +18,15 @@ namespace Project.Menu
         {
             this.ValidateSerializedFields();
 
-            _levelSelectorPanel.SetActive(false);
-            _menuButtons.SetActive(true);
-
-            // перенести подальше от начала игры, чтобы она быстрее загружалась
-            Invoke(nameof(InitializeLevelSelector), 0.5f);
+            SetActivePanels();
+            _levelSelector.StartInitializeCoroutine();
         }
 
-        private void InitializeLevelSelector()
+        [Button("Set Active Panels")]
+        public void SetActivePanels()
         {
-            _levelSelector.Initialize();
+            _levelSelectorPanel.SetActive(false);
+            _menuButtons.SetActive(true);
         }
     }
 }

@@ -1,5 +1,7 @@
-﻿using Project.Timing;
+﻿using System.Collections.Generic;
+using Project.Timing;
 using UnityEngine;
+using UnityEngine.UI;
 using YG;
 
 namespace Project.Services
@@ -7,18 +9,21 @@ namespace Project.Services
     public class RewardAdHandler : MonoBehaviour
     {
         [SerializeField]
-        private GameObject _rewardAdButton;
+        private Button _watchAdButton;
 
         [SerializeField]
-        private GameObject _continueButton;
+        private Button _reviveButton;
 
         [SerializeField]
-        private GameObject _replayButton;
+        private List<Button> _otherButtons;
+
+        private bool _isRevived;
 
         public void Initialize()
         {
-            _rewardAdButton.SetActive(true);
-            _continueButton.SetActive(false);
+            _isRevived = false;
+            SetActiveRewardButtons(false);
+            SetActiveOtherButtons(true);
         }
 
         private void Awake()
@@ -42,14 +47,38 @@ namespace Project.Services
         {
             PauseHandler.Pause();
 
-            _rewardAdButton.SetActive(false);
-            _replayButton.SetActive(false);
-            _continueButton.SetActive(true);
+            SetActiveRewardButtons(true);
+            SetActiveOtherButtons(false);
         }
 
         private void NotRewarded()
         {
             PauseHandler.Pause();
+        }
+
+        private void SetActiveOtherButtons(bool isActive)
+        {
+            foreach (Button button in _otherButtons)
+            {
+                button.gameObject.SetActive(isActive);
+            }
+        }
+
+        private void SetActiveRewardButtons(bool isWatchedAd)
+        {
+            if (_isRevived == false)
+            {
+                _watchAdButton.gameObject.SetActive(!isWatchedAd);
+            }
+
+            _reviveButton.gameObject.SetActive(isWatchedAd);
+        }
+
+        public void OnRevive()
+        {
+            _isRevived = true;
+            SetActiveRewardButtons(false);
+            SetActiveOtherButtons(true);
         }
     }
 }

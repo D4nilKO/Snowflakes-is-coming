@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Project.Data;
 using Project.LevelSystem;
@@ -46,10 +47,10 @@ namespace Project.Menu
 
         private void Start()
         {
-            Initialize();
+            StartInitializeCoroutine();
         }
 
-        public void Initialize()
+        public void StartInitializeCoroutine()
         {
             if (_isInitialized)
                 return;
@@ -57,11 +58,18 @@ namespace Project.Menu
             this.ValidateSerializedFields();
 
             GetData();
-            CreatePageButtons();
-            UpdatePage();
-            SetupNavigationButtons();
+
+            StartCoroutine(CreateAndSetup());
 
             _isInitialized = true;
+        }
+
+        private IEnumerator CreateAndSetup()
+        {
+            yield return StartCoroutine(CreatePageButtonsCoroutine());
+
+            UpdatePage();
+            SetupNavigationButtons();
         }
 
         private void GetData()
@@ -76,10 +84,14 @@ namespace Project.Menu
                 _unlockedLevels = _totalLevels;
         }
 
-        private void CreatePageButtons()
+        private IEnumerator CreatePageButtonsCoroutine()
         {
             foreach (Transform child in _buttonContainer)
+            {
                 Destroy(child.gameObject);
+            }
+
+            _pageButtons.Clear();
 
             for (int i = 0; i < _buttonsPerPage; i++)
             {
@@ -87,6 +99,8 @@ namespace Project.Menu
                 levelButton.gameObject.SetActive(false);
                 levelButton.Initialize(_sceneLoader);
                 _pageButtons.Add(levelButton);
+
+                yield return null;
             }
         }
 
