@@ -2429,7 +2429,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   side: 1
-  _additionalText: ': )'
+  _additionalText: ' :)'
 --- !u!1001 &454269978
 PrefabInstance:
   m_ObjectHideFlags: 0
