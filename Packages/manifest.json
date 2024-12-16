@@ -3,6 +3,7 @@
     "com.github-glitchenzo.nugetforunity": "https://github.com/GlitchEnzo/NuGetForUnity.git?path=/src/NuGetForUnity",
     "com.unity.feature.2d": "2.0.0",
     "com.unity.ide.rider": "3.0.34",
+    "com.unity.nuget.newtonsoft-json": "3.2.1",
     "com.unity.timeline": "1.8.7",
     "com.unity.ugui": "2.0.0",
     "com.unity.modules.accessibility": "1.0.0",
