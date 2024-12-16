@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
+using System.Linq;
 using YG.Utils.Lang;
 #if YG_NEWTONSOFT_FOR_AUTOLOCALIZATION
 using Newtonsoft.Json.Linq;
 using UnityEngine.Networking;
-using System;
 using System.Net;
 #endif
 #if YG_TEXT_MESH_PRO
@@ -321,53 +320,36 @@ namespace YG
         string TranslateGoogle(string translationTo = "en")
         {
 #if YG_NEWTONSOFT_FOR_AUTOLOCALIZATION
-            string text;
+            string text = componentTextField 
+                ? (textLComponent != null ? textLComponent.text : textMPComponent?.text) 
+                : this.text;
 
-            if (!componentTextField)
-                text = this.text;
-            else if (textLComponent)
-                text = textLComponent.text;
-#if YG_TEXT_MESH_PRO
-            else if (textMPComponent)
-                text = textMPComponent.text;
-#endif
-            else
-            {
-                Debug.LogError("(The text for translation was not found!");
+            if (string.IsNullOrEmpty(text))
                 return null;
-            }
 
-            var url = String.Format("https://translate.google." + infoYG.domainAutoLocalization + "/translate_a/single?client=gtx&dt=t&sl={0}&tl={1}&q={2}",
-                "auto", translationTo, WebUtility.UrlEncode(text));
+            string url = $"https://translate.google.{infoYG.domainAutoLocalization}/translate_a/single?client=gtx&dt=t&sl=auto&tl={translationTo}&q={WebUtility.UrlEncode(text)}";
+
             UnityWebRequest www = UnityWebRequest.Get(url);
             www.SendWebRequest();
-            while (!www.isDone)
-            {
+            while (!www.isDone) { }
 
-            }
-            string response = www.downloadHandler.text;
+            if (www.result != UnityWebRequest.Result.Success)
+                return "translation error";
 
             try
             {
-                JArray jsonArray = JArray.Parse(response);
-                response = jsonArray[0][0][0].ToString();
+                JArray jsonArray = JArray.Parse(www.downloadHandler.text);
+                return string.Concat(jsonArray[0].Select(segment => segment[0].ToString()));
             }
             catch
             {
-                response = "process error";
-                StopAllCoroutines();
-                processTranslateLabel = processTranslateLabel + " error";
-
-                Debug.LogError("The process is not completed! Most likely, you made too many requests. In this case, the Google Translate API blocks access to the translation for a while.  Please try again later. Do not translate the text too often, so that Google does not consider your actions as spam");
+                return "process error";
             }
-
-            return response;
 #else
-            Debug.LogError("Missing library 'Newtonsoft.Json.Linq'. You need to import it. You need to import 'Newtonsoft Json' for auto-localization.");
-            return null;
+    return null;
 #endif
         }
-
+        
         [HideInInspector] public int countLang = 0;
 
         private void RunTranslateEmptyFields(int countLangAvailable)
