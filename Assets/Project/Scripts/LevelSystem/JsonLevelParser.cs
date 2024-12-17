@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Project.Data;
 using Project.LevelSystem.LevelStructure;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -18,7 +19,7 @@ namespace Project.LevelSystem
         protected TextAsset _levelDataJson;
 
         protected LevelDataList _levelDataList;
-
+        
         public virtual LevelDataList GetLevelDataList()
         {
             if (_levelDataList != null)
@@ -29,7 +30,9 @@ namespace Project.LevelSystem
 
             if (TryParseJsonFile(_levelDataJson) == false)
                 throw new InvalidOperationException("Failed to load levels from JSON file");
-
+            
+            ProgressData.SetMaxLevelsCount(_levelDataList.Count);
+            
             return _levelDataList;
         }
 

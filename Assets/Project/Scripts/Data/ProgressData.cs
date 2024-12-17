@@ -19,8 +19,6 @@ namespace Project.Data
         {
             if (YandexGame.SDKEnabled)
                 LoadData();
-            
-            
         }
 
         #endregion
@@ -42,17 +40,6 @@ namespace Project.Data
             }
 
             return true;
-        }
-
-        public static void SetMaxLevelsCount(int maxLevelsCount)
-        {
-            if (maxLevelsCount <= 0)
-            {
-                Debug.LogError("Максимальное количество уровней должно быть больше нуля");
-                return;
-            }
-
-            MaxLevelsCount = maxLevelsCount;
         }
 
         public static void LoadData()
@@ -99,17 +86,12 @@ namespace Project.Data
 
         public static void SetCurrentLevel(int level)
         {
-            if (level > MaxLevelsCount)
+            if (level > MaxLevelsCount && level < 1)
             {
                 Debug.LogError("Уровень не существует");
                 return;
             }
-            if (level < 1)
-            {
-                Debug.LogError("Уровень не существует");
-                return;
-            }
-            
+
             if (level > UnlockedLevelNumber)
             {
                 Debug.LogError("Уровень не разблокирован");
@@ -117,6 +99,35 @@ namespace Project.Data
             }
 
             CurrentLevelNumber = level;
+        }
+
+        public static void SetUnlockedLevel(int level)
+        {
+            if (level > MaxLevelsCount && level < 1)
+            {
+                Debug.LogError("Уровень не существует");
+                return;
+            }
+
+            UnlockedLevelNumber = level;
+        }
+
+        public static void SetMaxLevelsCount(int maxLevelsCount)
+        {
+            if (maxLevelsCount <= 0)
+            {
+                Debug.LogError("Максимальное количество уровней должно быть больше нуля");
+                return;
+            }
+
+            MaxLevelsCount = maxLevelsCount;
+        }
+
+        public static void SetStartValues()
+        {
+            SetUnlockedLevel(1);
+            SetCurrentLevel(1);
+            ForceSaveData();
         }
     }
 }

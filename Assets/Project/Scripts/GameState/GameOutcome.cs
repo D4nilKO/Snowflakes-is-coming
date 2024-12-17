@@ -66,7 +66,7 @@ namespace Project.GameState
             GameIsOver?.Invoke();
         }
 
-        private void WonGame()
+        public void WonGame()
         {
             PauseHandler.Pause();
             MetricaSender.SendWithId(MetricaId.LevelWonId, ProgressData.CurrentLevelNumber.ToString());

@@ -30,7 +30,6 @@ namespace Project.LevelSystem
         public void FetchCurrentLevelSettings()
         {
             _levelDataList = _jsonLevelParser.GetLevelDataList();
-
             FetchLevelSettings(_levelDataList, ProgressData.CurrentLevelNumber);
         }
 
@@ -60,8 +59,6 @@ namespace Project.LevelSystem
             }
 
             int maxLevelsCount = levelDataList.Count;
-
-            ProgressData.SetMaxLevelsCount(maxLevelsCount);
 
             if (levelNumber > maxLevelsCount)
             {
