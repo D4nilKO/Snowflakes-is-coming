@@ -62,11 +62,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6329751790586338194, guid: 7a496d983cefe5442bd298d1c1f958d1, type: 3}
       propertyPath: m_Name
-      value: Enemy 4
+      value: Enemy 3
       objectReference: {fileID: 0}
     - target: {fileID: 9035218858096641903, guid: 7a496d983cefe5442bd298d1c1f958d1, type: 3}
       propertyPath: rotationSpeed
       value: 250
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035218858096641903, guid: 7a496d983cefe5442bd298d1c1f958d1, type: 3}
+      propertyPath: _rotationSpeed
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

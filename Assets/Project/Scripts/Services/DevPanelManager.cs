@@ -12,7 +12,7 @@ namespace Project.Services
         private int _inputBufferLimit = 10;
 
         [SerializeField]
-        private string _showCommand = "dev";
+        private string _showCommand = "dev39611";
 
         [SerializeField]
         private string _hideCommand = "hide";
@@ -81,28 +81,10 @@ namespace Project.Services
                 return;
 
             _devPanel.SetActive(isActive);
-            
+
             string state = isActive ? "Activated" : "Deactivated";
             Debug.Log($"Dev Panel {state}");
             MetricaSender.SendWithId(MetricaId.TriggerId, $"Dev Panel {state}");
-        }
-
-        public void ExecuteConsoleCommand(string command)
-        {
-            switch (command.ToLower())
-            {
-                case var cmd when cmd == _showCommand:
-                    ToggleDevPanel(true);
-                    break;
-
-                case var cmd when cmd == _hideCommand:
-                    ToggleDevPanel(false);
-                    break;
-
-                default:
-                    Debug.Log($"Unknown command: {command}");
-                    break;
-            }
         }
     }
 }

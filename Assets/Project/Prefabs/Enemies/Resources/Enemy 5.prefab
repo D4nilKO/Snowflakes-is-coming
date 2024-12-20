@@ -79,5 +79,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 5
-  _rotationSpeed: 10
-  _rotateEnabled: 0
+  _rotationSpeed: 30
+  _rotateEnabled: 1
