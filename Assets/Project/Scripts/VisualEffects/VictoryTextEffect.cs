@@ -1,85 +1,77 @@
-using UnityEngine;
-using DG.Tweening;
 using TMPro;
+using UnityEngine;
 
-public class VictoryTextEffect : MonoBehaviour
+namespace Project.VisualEffects
 {
-    public TMP_Text tmpComponent; // Ссылка на компонент TMP_Text
-    public float jumpHeight = 20f; // Высота прыжка
-    public float duration = 0.5f; // Длительность прыжка
-    public float delayBetweenLetters = 0.1f; // Задержка между буквами
-
-    private void Start()
+    public class VictoryTextEffect : MonoBehaviour
     {
-        PlayVictoryEffect();
-    }
+        [SerializeField]
+        private TMP_Text _tmpComponent;
 
-    private void PlayVictoryEffect()
-    {
-        if (tmpComponent == null)
+        [SerializeField]
+        private float _delayBetweenLetters = 0.1f;
+
+        [SerializeField]
+        private float _jumpHeight = 30f;
+
+        [SerializeField]
+        private float _duration = 0.5f;
+
+        private void Start()
         {
-            Debug.LogError("TMP_Text компонент не назначен!");
-            return;
+            this.ValidateSerializedFields();
+
+            PlayVictoryEffect();
         }
 
-        string text = tmpComponent.text;
-        tmpComponent.ForceMeshUpdate(); // Обновляем текстовую информацию
-        TMP_TextInfo textInfo = tmpComponent.textInfo;
-
-        // Создаём родительский объект для букв
-        RectTransform parentRect = tmpComponent.rectTransform;
-        tmpComponent.enabled = false; // выключаем исходный текст, чтобы буквы отображались только через анимацию
-
-        for (int i = 0; i < text.Length; i++)
+        private void PlayVictoryEffect()
         {
-            TMP_CharacterInfo charInfo = textInfo.characterInfo[i];
-            if (!charInfo.isVisible) continue; // Пропускаем невидимые символы
+            string text = _tmpComponent.text;
+            _tmpComponent.ForceMeshUpdate();
 
-            char letter = text[i];
-            int index = i;
+            TMP_TextInfo textInfo = _tmpComponent.textInfo;
+            RectTransform parentRect = _tmpComponent.rectTransform;
+            _tmpComponent.enabled = false;
 
-            // Рассчитываем позицию символа
-            Vector3 charBottomLeft = charInfo.bottomLeft;
-            Vector3 charTopRight = charInfo.topRight;
+            for (int i = 0; i < text.Length; i++)
+            {
+                TMP_CharacterInfo charInfo = textInfo.characterInfo[i];
 
-            Vector2 charPosition = new Vector2(
-                (charBottomLeft.x + charTopRight.x) / 2f,
-                (charBottomLeft.y + charTopRight.y) / 2f
-            );
+                if (charInfo.isVisible == false)
+                    continue;
 
-            GameObject letterObj = CreateLetterObject(letter, parentRect, charPosition);
-            if (letterObj == null) continue;
+                char letter = text[i];
+                Vector3 charBottomLeft = charInfo.bottomLeft;
+                Vector3 charTopRight = charInfo.topRight;
 
-            RectTransform letterRect = letterObj.GetComponent<RectTransform>();
+                float positionX = (charBottomLeft.x + charTopRight.x) / 2f;
+                float positionY = (charBottomLeft.y + charTopRight.y) / 2f;
+                Vector2 charPosition = new(positionX, positionY);
 
-            // Анимация прыжка
-            letterRect.DOAnchorPosY(jumpHeight, duration)
-                .SetLoops(-1, LoopType.Yoyo)
-                .SetEase(Ease.InOutQuad)
-                .SetDelay(index * delayBetweenLetters)
-                .SetUpdate(true);
+                float delay = i * _delayBetweenLetters;
+
+                CreateLetterObject(letter, parentRect, charPosition, delay);
+            }
         }
-    }
 
-    private GameObject CreateLetterObject(char letter, RectTransform parent, Vector2 position)
-    {
-        GameObject letterObj = new GameObject($"Letter_{letter}");
-        RectTransform letterRect = letterObj.AddComponent<RectTransform>();
+        private void CreateLetterObject(char letter, RectTransform parent, Vector2 position, float delay)
+        {
+            GameObject letterObj = new($"{letter}_Letter");
+            RectTransform letterRect = letterObj.AddComponent<RectTransform>();
 
-        letterRect.SetParent(parent, false);
-        letterRect.localScale = Vector3.one;
+            letterRect.SetParent(parent, false);
+            letterRect.localScale = Vector3.one;
 
-        // Добавляем компонент TextMeshProUGUI для отображения буквы
-        TextMeshProUGUI letterTMP = letterObj.AddComponent<TextMeshProUGUI>();
-        letterTMP.text = letter.ToString();
-        letterTMP.font = tmpComponent.font;
-        letterTMP.fontSize = tmpComponent.fontSize;
-        letterTMP.color = tmpComponent.color;
-        letterTMP.alignment = TextAlignmentOptions.Top;
+            TextMeshProUGUI letterTMP = letterObj.AddComponent<TextMeshProUGUI>();
+            letterTMP.text = letter.ToString();
+            letterTMP.font = _tmpComponent.font;
+            letterTMP.fontSize = _tmpComponent.fontSize;
+            letterTMP.color = _tmpComponent.color;
+            letterTMP.alignment = TextAlignmentOptions.Top;
+            letterRect.anchoredPosition = position;
 
-        // Устанавливаем начальную позицию буквы
-        letterRect.anchoredPosition = position;
-
-        return letterObj;
+            FloatingObject floatingObject = letterObj.AddComponent<FloatingObject>();
+            floatingObject.Initialize(_jumpHeight, _duration, delay);
+        }
     }
 }
