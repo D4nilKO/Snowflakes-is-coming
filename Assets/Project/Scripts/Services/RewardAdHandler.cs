@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Project.Entities.Character;
+using Project.GameState;
 using Project.Timing;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,13 +10,19 @@ namespace Project.Services
     public class RewardAdHandler : MonoBehaviour
     {
         [SerializeField]
+        private GameOutcome _gameOutcome;
+
+        [SerializeField]
+        private GameObject _gameOverCanvas;
+
+        [SerializeField]
+        private PauseHandler _pauseHandler;
+
+        [SerializeField]
+        private CharacterCollisionHandler _characterCollisionHandler;
+
+        [SerializeField]
         private Button _watchAdButton;
-
-        [SerializeField]
-        private Button _reviveButton;
-
-        [SerializeField]
-        private List<Button> _otherButtons;
 
         private bool _isRevived;
 
@@ -23,7 +30,11 @@ namespace Project.Services
         {
             _isRevived = false;
             SetActiveRewardButtons(false);
-            SetActiveOtherButtons(true);
+        }
+
+        public void ShowRewardAd()
+        {
+            YandexGame.RewVideoShow(0);
         }
 
         private void Awake()
@@ -45,23 +56,15 @@ namespace Project.Services
 
         private void Rewarded(int id)
         {
-            PauseHandler.Pause();
+            _pauseHandler.ForceInGamePause();
+            _gameOverCanvas.SetActive(false);
 
             SetActiveRewardButtons(true);
-            SetActiveOtherButtons(false);
         }
 
         private void NotRewarded()
         {
             PauseHandler.Pause();
-        }
-
-        private void SetActiveOtherButtons(bool isActive)
-        {
-            foreach (Button button in _otherButtons)
-            {
-                button.gameObject.SetActive(isActive);
-            }
         }
 
         private void SetActiveRewardButtons(bool isWatchedAd)
@@ -70,15 +73,6 @@ namespace Project.Services
             {
                 _watchAdButton.gameObject.SetActive(!isWatchedAd);
             }
-
-            _reviveButton.gameObject.SetActive(isWatchedAd);
-        }
-
-        public void OnRevive()
-        {
-            _isRevived = true;
-            SetActiveRewardButtons(false);
-            SetActiveOtherButtons(true);
         }
     }
 }
