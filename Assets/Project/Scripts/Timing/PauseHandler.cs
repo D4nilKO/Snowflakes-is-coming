@@ -1,53 +1,27 @@
-﻿using System.Collections;
+﻿using Project.Architecture.UI;
 using UnityEngine;
+using VContainer;
 using YG;
 
 namespace Project.Timing
 {
-    public class PauseHandler : MonoBehaviour
+    public class PauseHandler
     {
         #region Fields
 
-        [SerializeField]
+        private float _startTimeScale = 1;
         private GameObject _inGamePauseCanvas;
 
-        [SerializeField]
-        private float _startTimeScale = 1;
-
-        [SerializeField]
-        private float _startTimePauseBeforeContinueTime = 0.5f;
-
-        private Coroutine _currentCoroutine;
-
-        public static bool GamePaused { get; private set; }
+        private static bool GamePaused { get; set; }
 
         #endregion
-
-        #region Private methods
-
-        private IEnumerator UnscaledWaitBeforeContinueTime()
+        
+        [Inject]
+        public void Construct(InGamePausePanel inGamePausePanel)
         {
-            float timePauseBeforeContinueTime = _startTimePauseBeforeContinueTime;
-
-            while (timePauseBeforeContinueTime > 0)
-            {
-                timePauseBeforeContinueTime -= Time.unscaledDeltaTime;
-                yield return null;
-            }
-
-            Time.timeScale = _startTimeScale;
-            YandexGame.GameplayStart();
+            _startTimeScale = Time.timeScale;
+            _inGamePauseCanvas = inGamePausePanel.gameObject;
         }
-
-        private void ApplyWaitBeforeContinueTime()
-        {
-            if (_currentCoroutine != null)
-                StopCoroutine(_currentCoroutine);
-
-            _currentCoroutine = StartCoroutine(UnscaledWaitBeforeContinueTime());
-        }
-
-        #endregion
 
         #region Public methods
 
@@ -79,9 +53,9 @@ namespace Project.Timing
             YandexGame.GameplayStop();
         }
 
-        public static void Pause(GameObject canvasToSetActive)
+        public static void Pause(GameObject gameObjectToSetActive)
         {
-            canvasToSetActive.SetActive(true);
+            gameObjectToSetActive.SetActive(true);
             Time.timeScale = 0f;
             GamePaused = true;
         }

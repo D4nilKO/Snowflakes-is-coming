@@ -1,20 +1,28 @@
-﻿using UnityEngine;
+﻿using System;
+using Project.Architecture.UI;
+using UnityEngine;
+using VContainer;
 
 namespace Project.GameState.View
 {
-    public class GameOutcomeView : MonoBehaviour
+    public class GameOutcomeView : IDisposable
     {
-        [SerializeField] private GameObject _losePanel;
-        [SerializeField] private GameObject _wonPanel;
+        private GameObject _losePanel;
+        private GameObject _wonPanel;
 
-        [SerializeField] private GameOutcome _gameOutcome;
+        private GameOutcome _gameOutcome;
 
-        private void Awake()
+        [Inject]
+        public void Construct(GameOutcome gameOutcome, WonPanel wonPanel, LosePanel losePanel)
         {
+            _gameOutcome = gameOutcome;
+            _wonPanel = wonPanel.gameObject;
+            _losePanel = losePanel.gameObject;
+
             SubscribeEvents();
         }
 
-        private void OnDestroy()
+        public void Dispose()
         {
             UnsubscribeEvents();
         }

@@ -1,25 +1,28 @@
 using System.Linq;
+using Project.Settings;
 using UnityEngine;
+using VContainer;
+using VContainer.Unity;
 
 namespace Project.Services
 {
-    public class DevPanelManager : MonoBehaviour
+    public class DevPanelSwitcher : ITickable, IStartable
     {
-        [SerializeField, Header("Dev Panel Settings")]
-        private GameObject _devPanel;
-
-        [SerializeField]
-        private int _inputBufferLimit = 10;
-
-        [SerializeField]
-        private string _showCommand = "dev39611";
-
-        [SerializeField]
-        private string _hideCommand = "hide";
+        private const int inputBufferLimit = 10;
 
         private string _inputBuffer = "";
 
-        private void Start()
+        private DevPanelSettings _settings;
+        private GameObject _panel;
+
+        [Inject]
+        public void Construct(DevPanel panel, DevPanelSettings settings)
+        {
+            _panel = panel.gameObject;
+            _settings = settings;
+        }
+
+        public void Start()
         {
 #if UNITY_EDITOR
             ToggleDevPanel(true);
@@ -28,7 +31,7 @@ namespace Project.Services
 #endif
         }
 
-        private void Update()
+        public void Tick()
         {
             HandleKeyboardInput();
         }
@@ -50,20 +53,20 @@ namespace Project.Services
         {
             _inputBuffer += char.ToLower(character);
 
-            if (_inputBuffer.Length > _inputBufferLimit)
+            if (_inputBuffer.Length > inputBufferLimit)
             {
-                _inputBuffer = _inputBuffer.Substring(_inputBuffer.Length - _inputBufferLimit);
+                _inputBuffer = _inputBuffer[^inputBufferLimit..];
             }
         }
 
         private void ProcessInputBuffer()
         {
-            if (_inputBuffer.EndsWith(_showCommand))
+            if (_inputBuffer.EndsWith(_settings.ShowCommand))
             {
                 ToggleDevPanel(true);
                 ClearInputBuffer();
             }
-            else if (_inputBuffer.EndsWith(_hideCommand))
+            else if (_inputBuffer.EndsWith(_settings.HideCommand))
             {
                 ToggleDevPanel(false);
                 ClearInputBuffer();
@@ -77,10 +80,10 @@ namespace Project.Services
 
         private void ToggleDevPanel(bool isActive)
         {
-            if (_devPanel.activeSelf == isActive)
+            if (_panel.activeSelf == isActive)
                 return;
 
-            _devPanel.SetActive(isActive);
+            _panel.SetActive(isActive);
 
             string state = isActive ? "Activated" : "Deactivated";
             Debug.Log($"Dev Panel {state}");

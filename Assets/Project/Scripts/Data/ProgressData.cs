@@ -128,6 +128,8 @@ namespace Project.Data
             SetUnlockedLevel(1);
             SetCurrentLevel(1);
             ForceSaveData();
+
+            YandexGame.savesData.IsSawTraining = false;
         }
     }
 }

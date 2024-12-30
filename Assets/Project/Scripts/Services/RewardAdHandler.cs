@@ -1,54 +1,52 @@
-﻿using Project.Entities.Character;
+﻿using System;
+using Project.Architecture.UI;
 using Project.GameState;
 using Project.Timing;
 using UnityEngine;
 using UnityEngine.UI;
+using VContainer;
 using YG;
 
 namespace Project.Services
 {
-    public class RewardAdHandler : MonoBehaviour
+    public class RewardAdHandler : IDisposable
     {
-        [SerializeField]
         private GameOutcome _gameOutcome;
 
-        [SerializeField]
-        private GameObject _gameOverCanvas;
+        private GameObject _losePanel;
 
-        [SerializeField]
-        private PauseHandler _pauseHandler;
-
-        [SerializeField]
-        private CharacterCollisionHandler _characterCollisionHandler;
-
-        [SerializeField]
         private Button _watchAdButton;
 
         private bool _isRevived;
 
+        [Inject]
+        public void Construct(GameOutcome gameOutcome, LosePanel losePanel)
+        {
+            _gameOutcome = gameOutcome;
+            _watchAdButton = losePanel.ShowAdButton;
+            _losePanel = losePanel.gameObject;
+
+            SubscribeEvents();
+        }
+
+        public void Dispose()
+        {
+            UnsubscribeEvents();
+        }
+
         public void Initialize()
         {
             _isRevived = false;
-            SetActiveRewardButtons(false);
+            SetActiveRewardButton(false);
         }
 
-        public void ShowRewardAd()
-        {
-            YandexGame.RewVideoShow(0);
-        }
-
-        private void Awake()
-        {
-            this.ValidateSerializedFields();
-        }
-
-        private void OnEnable()
+        private void SubscribeEvents()
         {
             YandexGame.RewardVideoEvent += Rewarded;
             YandexGame.ErrorVideoEvent += NotRewarded;
         }
 
-        private void OnDisable()
+        private void UnsubscribeEvents()
         {
             YandexGame.RewardVideoEvent -= Rewarded;
             YandexGame.ErrorVideoEvent -= NotRewarded;
@@ -56,10 +54,10 @@ namespace Project.Services
 
         private void Rewarded(int id)
         {
-            _pauseHandler.ForceInGamePause();
-            _gameOverCanvas.SetActive(false);
+            _losePanel.SetActive(false);
+            _gameOutcome.RevivePlayer();
 
-            SetActiveRewardButtons(true);
+            SetActiveRewardButton(true);
         }
 
         private void NotRewarded()
@@ -67,7 +65,7 @@ namespace Project.Services
             PauseHandler.Pause();
         }
 
-        private void SetActiveRewardButtons(bool isWatchedAd)
+        private void SetActiveRewardButton(bool isWatchedAd)
         {
             if (_isRevived == false)
             {

@@ -1,132 +1,68 @@
 ﻿using System;
 using Project.Data;
-using Project.Entities.Character;
-using Project.Entities.Enemies;
-using Project.GameState;
 using Project.GameState.View;
 using Project.LevelSystem.LevelStructure;
-using Project.Services;
 using Project.Timing;
-using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.EventSystems;
+using VContainer;
 
 namespace Project.LevelSystem
 {
-    public class LevelLoader : MonoBehaviour
+    public class LevelLoader
     {
-        [SerializeField]
-        private EnemySpawner _enemySpawner;
+        private JsonLevelParser _jsonLevelParser;
 
-        [SerializeField]
-        private GameOutcome _gameOutcome;
+        private PauseHandler _pauseHandler;
+        private LevelInfoView _levelInfoView;
 
-        [SerializeField]
-        private RewardAdHandler _rewardAdHandler;
+        private LevelDataList _levelDataList;
 
-        [SerializeField]
-        private Player _player;
+        public event Action<LevelData> LevelSettingsReady;
 
-        [SerializeField]
-        private Game _game;
-
-        [SerializeField]
-        private TimersView _timersView;
-
-        [SerializeField]
-        private EnemyContainer _enemyContainer;
-
-        [SerializeField]
-        private LevelTextView _levelTextView;
-
-        [SerializeField]
-        private Canvas _wonCanvas;
-
-        [SerializeField]
-        private Canvas _loseCanvas;
-
-        [SerializeField]
-        private Canvas _finalCanvas;
-
-        public event Action LastLevelReached;
-
-        private LevelData _levelData;
-
-        private void Start()
+        [Inject]
+        public void Construct(PauseHandler pauseHandler, LevelInfoView levelInfoView, JsonLevelParser jsonLevelParser)
         {
-            this.ValidateSerializedFields();
-
-            SubscribeEvents();
+            _pauseHandler = pauseHandler;
+            _levelInfoView = levelInfoView;
+            _jsonLevelParser = jsonLevelParser;
         }
 
-        private void OnDestroy()
+        public void FetchCurrentLevelSettings()
         {
-            UnsubscribeEvents();
+            _levelDataList = _jsonLevelParser.GetLevelDataList();
+            FetchLevelSettings(_levelDataList, ProgressData.CurrentLevelNumber);
         }
 
-        public void LoadNextLevel()
+        private void FetchLevelSettings(LevelDataList levelDataList, int levelNumber)
         {
-            if (ProgressData.TryIncreaseCurrentLevel())
+            if (levelDataList == null)
             {
-                _enemyContainer.ClearActiveEnemies();
-                _game.FetchCurrentLevelSettings();
+                Debug.LogError("LevelDataList is null");
                 return;
             }
 
-            MetricaSender.SendWithId(MetricaId.LastLevelReachedId, ProgressData.CurrentLevelNumber.ToString());
-            LastLevelReached?.Invoke();
-        }
+            if (levelDataList.Count == 0)
+            {
+                Debug.LogError("LevelDataList is empty");
+                return;
+            }
 
-        public void RestartLevel()
-        {
-            _enemyContainer.ClearActiveEnemies();
-            EventSystem.current.SetSelectedGameObject(null);
+            int maxLevelsCount = levelDataList.Count;
 
-            InitializeLevel();
-        }
+            if (levelNumber > maxLevelsCount)
+            {
+                Debug.LogError($"Уровень {levelNumber} не найден в JSON файле");
+                return;
+            }
 
-        private void SubscribeEvents()
-        {
-            _game.LevelSettingsReady += SetLevelData;
-        }
+            Debug.Log($"Данные уровня №{levelNumber} загружены");
 
-        private void UnsubscribeEvents()
-        {
-            _game.LevelSettingsReady -= SetLevelData;
-        }
+            LevelData currentLevelData = levelDataList.GetLevel(levelNumber - 1);
+            LevelSettingsReady?.Invoke(currentLevelData);
 
-        private void SetLevelData(LevelData levelData)
-        {
-            _levelData = levelData;
+            _levelInfoView.SetLevelInfo(currentLevelData);
 
-            InitializeLevel();
-        }
-
-        private void InitializeLevel()
-        {
-            InitializeComponents();
-            HideCanvases();
-
-            MetricaSender.SendWithId(MetricaId.LevelStartId, _levelData.NumberOfLevel.ToString());
-        }
-
-        private void InitializeComponents()
-        {
-            int timeToSurvive = _levelData.GetTimeToSurvive();
-            _enemySpawner.Initialize(_levelData.EnemyTypesInfo, _levelData.TimeToSpawn);
-            _gameOutcome.Initialize(timeToSurvive);
-            _timersView.Initialize(timeToSurvive);
-            _levelTextView.Initialize(_levelData.NumberOfLevel);
-            _player.Initialize();
-            _rewardAdHandler.Initialize();
-        }
-
-        [Button("Hide Canvases")]
-        private void HideCanvases()
-        {
-            _wonCanvas.gameObject.SetActive(false);
-            _loseCanvas.gameObject.SetActive(false);
-            _finalCanvas.gameObject.SetActive(false);
+            _pauseHandler.ForceInGamePause();
         }
     }
 }

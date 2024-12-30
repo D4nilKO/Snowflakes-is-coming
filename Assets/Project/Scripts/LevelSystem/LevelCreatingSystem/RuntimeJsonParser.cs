@@ -6,7 +6,7 @@ namespace Project.LevelSystem.LevelCreatingSystem
     {
         public override LevelDataList GetLevelDataList()
         {
-            _levelDataList = null;
+            LevelDataList = null;
 
             return base.GetLevelDataList();
         }

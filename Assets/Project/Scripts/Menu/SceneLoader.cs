@@ -1,24 +1,20 @@
-﻿using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine.SceneManagement;
 
 namespace Project.Menu
 {
-    public class SceneLoader : MonoBehaviour
+    public class SceneLoader
     {
-        [SerializeField]
-        private int _menuSceneBuildIndex = 0;
-
-        [SerializeField]
-        private int _gameSceneBuildIndex = 1;
+        private const int menuSceneBuildIndex = 0;
+        private const int gameSceneBuildIndex = 1;
 
         public void LoadBaseGame()
         {
-            SceneManager.LoadScene(_gameSceneBuildIndex);
+            SceneManager.LoadScene(gameSceneBuildIndex);
         }
 
         public void LoadMainMenu()
         {
-            SceneManager.LoadScene(_menuSceneBuildIndex);
+            SceneManager.LoadScene(menuSceneBuildIndex);
         }
     }
 }

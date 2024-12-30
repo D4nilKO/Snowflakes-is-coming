@@ -18,12 +18,12 @@ namespace Project.LevelSystem
         [SerializeField, HideIf(nameof(_usePath))]
         protected TextAsset _levelDataJson;
 
-        protected LevelDataList _levelDataList;
+        protected LevelDataList LevelDataList;
         
         public virtual LevelDataList GetLevelDataList()
         {
-            if (_levelDataList != null)
-                return _levelDataList;
+            if (LevelDataList != null)
+                return LevelDataList;
 
             if (_usePath)
                 LoadJsonFromFile();
@@ -31,9 +31,9 @@ namespace Project.LevelSystem
             if (TryParseJsonFile(_levelDataJson) == false)
                 throw new InvalidOperationException("Failed to load levels from JSON file");
             
-            ProgressData.SetMaxLevelsCount(_levelDataList.Count);
+            ProgressData.SetMaxLevelsCount(LevelDataList.Count);
             
-            return _levelDataList;
+            return LevelDataList;
         }
 
         private void LoadJsonFromFile()
@@ -55,15 +55,15 @@ namespace Project.LevelSystem
 
         protected bool TryParseJsonFile(TextAsset json)
         {
-            _levelDataList = JsonUtility.FromJson<LevelDataList>(json.text);
+            LevelDataList = JsonUtility.FromJson<LevelDataList>(json.text);
 
-            if (_levelDataList == null)
+            if (LevelDataList == null)
             {
                 Debug.LogError($"Failed to parse JSON file {json.name}");
                 return false;
             }
 
-            int maxLevelsCount = _levelDataList.Count;
+            int maxLevelsCount = LevelDataList.Count;
 
             if (maxLevelsCount <= 0)
             {

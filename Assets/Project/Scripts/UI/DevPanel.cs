@@ -3,22 +3,26 @@ using Project.GameState;
 using Project.LevelSystem;
 using TMPro;
 using UnityEngine;
+using VContainer;
 
 namespace Project.Services
 {
-    public class DevButtons : MonoBehaviour
+    public class DevPanel : MonoBehaviour
     {
         [SerializeField]
         private TMP_InputField _inputField;
 
-        [SerializeField]
         private GameOutcome _gameOutcome;
-
-        [SerializeField]
+        private LevelInitializer _levelInitializer;
         private LevelLoader _levelLoader;
 
-        [SerializeField]
-        private Game _game;
+        [Inject]
+        private void Construct(GameOutcome gameOutcome, LevelInitializer levelInitializer, LevelLoader levelLoader)
+        {
+            _gameOutcome = gameOutcome;
+            _levelInitializer = levelInitializer;
+            _levelLoader = levelLoader;
+        }
 
         private void Awake()
         {
@@ -46,8 +50,8 @@ namespace Project.Services
             ProgressData.SetUnlockedLevel(level);
             ProgressData.SetCurrentLevel(level);
 
-            _game.FetchCurrentLevelSettings();
-            _levelLoader.RestartLevel();
+            _levelLoader.FetchCurrentLevelSettings();
+            _levelInitializer.RestartLevel();
         }
 
         public void WonLevel()

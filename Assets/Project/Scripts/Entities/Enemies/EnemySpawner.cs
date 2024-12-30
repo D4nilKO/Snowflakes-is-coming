@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Project.LevelSystem.LevelStructure;
 using UnityEngine;
 using VavilichevGD.Utils.Timing;
@@ -14,12 +15,12 @@ namespace Project.Entities.Enemies
         private EntityMover _entityMover;
 
         [SerializeField]
-        private Transform _enemyContainer;
+        private EnemyContainer _enemyContainer;
 
         [SerializeField, Min(0.5f)]
         private float _initialSpawnDelay;
 
-        private IReadOnlyList<EnemyTypeInfo> _enemyTypes;
+        private List<EnemyTypeInfo> _enemyTypes;
         private Dictionary<string, int> _availableEnemyCounts;
 
         private int _spawnDelaySeconds;
@@ -28,7 +29,7 @@ namespace Project.Entities.Enemies
 
         public SyncedTimer Timer { get; private set; }
 
-        public void Initialize(IReadOnlyList<EnemyTypeInfo> enemyTypeInfos, int timeToSpawn)
+        public void Initialize(List<EnemyTypeInfo> enemyTypeInfos, int timeToSpawn)
         {
             gameObject.SetActive(true);
 
@@ -112,14 +113,14 @@ namespace Project.Entities.Enemies
 
         private void SpawnEnemy(GameObject enemyPrefab)
         {
-            GameObject enemy = Spawn(enemyPrefab, _enemyContainer);
+            GameObject enemy = Spawn(enemyPrefab, _enemyContainer.transform);
             EnemyBase enemyComponent = enemy.GetComponent<EnemyBase>();
             _entityMover.AddMovableEntity(enemyComponent);
         }
 
-        private void SetStartedParameters(IReadOnlyList<EnemyTypeInfo> enemyTypeInfos, int timeToSpawn)
+        private void SetStartedParameters(IEnumerable<EnemyTypeInfo> enemyTypeInfos, int timeToSpawn)
         {
-            _enemyTypes = enemyTypeInfos;
+            _enemyTypes = enemyTypeInfos.ToList();
             _spawnDelaySeconds = timeToSpawn;
         }
     }

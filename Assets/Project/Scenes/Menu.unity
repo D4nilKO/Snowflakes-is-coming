@@ -2126,52 +2126,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!1 &1463506046
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1463506048}
-  - component: {fileID: 1463506047}
-  m_Layer: 0
-  m_Name: Scene Load Buttons
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1463506047
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1463506046}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ee7a59d4f9e48b6b26d2face41dd924, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _menuSceneBuildIndex: 0
-  _gameSceneBuildIndex: 1
---- !u!4 &1463506048
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1463506046}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1469895396
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2389,7 +2343,7 @@ PrefabInstance:
     - target: {fileID: 4636884676216742798, guid: fabb1d1f776ff4b33b290c2acdcecde1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1463506047}
+      objectReference: {fileID: 0}
     - target: {fileID: 4636884676216742798, guid: fabb1d1f776ff4b33b290c2acdcecde1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: LoadBaseGame
@@ -2962,7 +2916,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _jsonLevelParser: {fileID: 1637897723}
-  _sceneLoader: {fileID: 1463506047}
   _buttonPrefab: {fileID: 4169306721544758625, guid: e5f6a5b5a49ad4613a76931c8e8e4cc4, type: 3}
   _buttonsPerPage: 10
   _buttonContainer: {fileID: 346884547}
@@ -3348,7 +3301,7 @@ PrefabInstance:
     - target: {fileID: 2532456766250073715, guid: f0434d75e4e6bb34d920827f29db568d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1463506047}
+      objectReference: {fileID: 0}
     - target: {fileID: 8457483396251255144, guid: f0434d75e4e6bb34d920827f29db568d, type: 3}
       propertyPath: m_text
       value: "\u0418\u0433\u0440\u0430\u0442\u044C"
@@ -3527,7 +3480,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 24317586}
-  - {fileID: 1463506048}
   - {fileID: 1935184793}
   - {fileID: 1202472788}
   - {fileID: 1178418797}
