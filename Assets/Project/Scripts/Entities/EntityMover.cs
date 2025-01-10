@@ -3,22 +3,22 @@ using System.Linq;
 using Project.Entities.Character;
 using Project.Entities.Enemies;
 using UnityEngine;
+using VContainer;
 
 namespace Project.Entities
 {
-    [DisallowMultipleComponent]
     public class EntityMover : MonoBehaviour
     {
-        [SerializeField]
         private Player _player;
 
         private List<IMovable> _movableEntities = new();
 
-        public void AddMovableEntity(IMovable movableEntity)
+        [Inject]
+        public void Construct(Player player)
         {
-            _movableEntities.Add(movableEntity);
+            _player = player;
         }
-
+        
         private void Start()
         {
             FindAndAddMovableEntities();
@@ -32,6 +32,11 @@ namespace Project.Entities
         private void Update()
         {
             RotateEntities();
+        }
+
+        public void AddMovableEntity(IMovable movableEntity)
+        {
+            _movableEntities.Add(movableEntity);
         }
 
         private void FindAndAddMovableEntities()

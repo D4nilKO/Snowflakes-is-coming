@@ -15,13 +15,16 @@ namespace Project.Services
         private GameOutcome _gameOutcome;
         private LevelInitializer _levelInitializer;
         private LevelLoader _levelLoader;
+        private ProgressData _progressData;
 
         [Inject]
-        private void Construct(GameOutcome gameOutcome, LevelInitializer levelInitializer, LevelLoader levelLoader)
+        private void Construct(GameOutcome gameOutcome, LevelInitializer levelInitializer, LevelLoader levelLoader,
+            ProgressData progressData)
         {
             _gameOutcome = gameOutcome;
             _levelInitializer = levelInitializer;
             _levelLoader = levelLoader;
+            _progressData = progressData;
         }
 
         private void Awake()
@@ -31,12 +34,12 @@ namespace Project.Services
 
         public void ClearSaves()
         {
-            ProgressData.SetStartValues();
+            _progressData.SetStartValues();
         }
 
         public void UnlockAllLevels()
         {
-            ProgressData.SetUnlockedLevel(ProgressData.MaxLevelsCount);
+            _progressData.SetUnlockedLevel(_progressData.MaxLevelsCount);
         }
 
         public void LoadEnteredLevel()
@@ -47,8 +50,8 @@ namespace Project.Services
                 return;
             }
 
-            ProgressData.SetUnlockedLevel(level);
-            ProgressData.SetCurrentLevel(level);
+            _progressData.SetUnlockedLevel(level);
+            _progressData.SetCurrentLevel(level);
 
             _levelLoader.FetchCurrentLevelSettings();
             _levelInitializer.RestartLevel();

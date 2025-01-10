@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Project.LevelSystem.LevelStructure;
 using UnityEngine;
 using VavilichevGD.Utils.Timing;
+using VContainer;
 using static NTC.Global.Pool.NightPool;
 
 namespace Project.Entities.Enemies
@@ -11,14 +13,11 @@ namespace Project.Entities.Enemies
     {
         private const TimerType updateTick = TimerType.UpdateTick;
 
-        [SerializeField]
-        private EntityMover _entityMover;
-
-        [SerializeField]
-        private EnemyContainer _enemyContainer;
-
         [SerializeField, Min(0.5f)]
         private float _initialSpawnDelay;
+
+        private EntityMover _entityMover;
+        private EnemyContainer _enemyContainer;
 
         private List<EnemyTypeInfo> _enemyTypes;
         private Dictionary<string, int> _availableEnemyCounts;
@@ -27,7 +26,18 @@ namespace Project.Entities.Enemies
 
         private int _currentEnemyTypeIndex;
 
+        public event Action<float> Initialized;
+
         public SyncedTimer Timer { get; private set; }
+
+        [Inject]
+        public void Construct(EntityMover mover, EnemyContainer container)
+        {
+            _entityMover = mover;
+            _enemyContainer = container;
+
+            SetStartTransform();
+        }
 
         public void Initialize(List<EnemyTypeInfo> enemyTypeInfos, int timeToSpawn)
         {
@@ -39,6 +49,8 @@ namespace Project.Entities.Enemies
             InitializeAvailableEnemyCounts();
 
             Timer.Restart(_initialSpawnDelay);
+
+            Initialized?.Invoke(_initialSpawnDelay);
         }
 
         private void Awake()
@@ -50,6 +62,12 @@ namespace Project.Entities.Enemies
         private void OnDestroy()
         {
             UnsubscribeFromTimer();
+        }
+
+        private void SetStartTransform()
+        {
+            transform.SetParent(_enemyContainer.transform);
+            transform.localPosition = Vector3.zero;
         }
 
         private void OnTimerFinished()

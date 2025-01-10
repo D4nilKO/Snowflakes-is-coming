@@ -9,76 +9,54 @@ namespace Project.Timing
     {
         #region Fields
 
-        private float _startTimeScale = 1;
-        private GameObject _inGamePauseCanvas;
+        private InGamePausePanel _inGamePauseCanvas;
 
-        private static bool GamePaused { get; set; }
+        private float _startTimeScale = 1;
 
         #endregion
-        
+
         [Inject]
         public void Construct(InGamePausePanel inGamePausePanel)
         {
-            _startTimeScale = Time.timeScale;
-            _inGamePauseCanvas = inGamePausePanel.gameObject;
+            _inGamePauseCanvas = inGamePausePanel;
+            inGamePausePanel.AddListeners(this);
         }
 
         #region Public methods
 
         public void Resume()
         {
-            if (GamePaused == false)
-                return;
-
             Time.timeScale = _startTimeScale;
             YandexGame.GameplayStart();
-
-            GamePaused = true;
         }
 
         public void Resume(GameObject canvasToSetActive)
         {
-            if (GamePaused == false)
-                return;
-
             canvasToSetActive.SetActive(false);
             Resume();
         }
 
-        public static void Pause()
+        public void Pause()
         {
             Time.timeScale = 0f;
-            GamePaused = true;
-
             YandexGame.GameplayStop();
         }
 
-        public static void Pause(GameObject gameObjectToSetActive)
+        public void Pause(GameObject gameObjectToSetActive)
         {
             gameObjectToSetActive.SetActive(true);
-            Time.timeScale = 0f;
-            GamePaused = true;
-        }
 
-        public void ForceInGamePause()
-        {
-            Pause(_inGamePauseCanvas);
+            Pause();
         }
 
         public void InGamePause()
         {
-            if (GamePaused)
-                return;
-
-            Pause(_inGamePauseCanvas);
+            Pause(_inGamePauseCanvas.gameObject);
         }
 
         public void InGameResume()
         {
-            if (GamePaused == false)
-                return;
-
-            Resume(_inGamePauseCanvas);
+            Resume(_inGamePauseCanvas.gameObject);
         }
 
         #endregion

@@ -28,6 +28,14 @@ namespace Project.Services
             UnsubscribeEvents();
         }
 
+        private void Awake()
+        {
+            this.ValidateSerializedFields();
+
+            _reviewPanel.SetActive(false);
+            _outOfLevelsPanel.SetActive(false);
+        }
+
         private void SubscribeEvents()
         {
             _levelInitializer.LastLevelReached += OnLastLevelReached;

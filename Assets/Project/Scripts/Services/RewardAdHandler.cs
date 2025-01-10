@@ -12,6 +12,7 @@ namespace Project.Services
     public class RewardAdHandler : IDisposable
     {
         private GameOutcome _gameOutcome;
+        private PauseHandler _pauseHandler;
 
         private GameObject _losePanel;
 
@@ -62,7 +63,7 @@ namespace Project.Services
 
         private void NotRewarded()
         {
-            PauseHandler.Pause();
+            _pauseHandler.Pause();
         }
 
         private void SetActiveRewardButton(bool isWatchedAd)

@@ -1,4 +1,5 @@
 ﻿using System;
+using Project.Data;
 using Project.Services;
 using Project.Timing;
 using UnityEngine;
@@ -12,6 +13,7 @@ namespace Project.GameState
     public class GameOutcome : IDisposable
     {
         private PauseHandler _pauseHandler;
+        private ProgressData _progressData;
 
         private float _timeToSurvive;
 
@@ -21,15 +23,16 @@ namespace Project.GameState
         public event Action GameIsWon;
         public event Action GameIsOver;
 
+        public SyncedTimer SurviveTimer { get; private set; } = new(TimerType.OneSecTick);
+
         [Inject]
-        public void Construct(PauseHandler pauseHandler)
+        public void Construct(PauseHandler pauseHandler, ProgressData progressData)
         {
             _pauseHandler = pauseHandler;
+            _progressData = progressData;
 
             SubscribeSurviveTimer();
         }
-
-        public SyncedTimer SurviveTimer { get; private set; } = new(TimerType.OneSecTick);
 
         public void Dispose()
         {
@@ -52,22 +55,22 @@ namespace Project.GameState
             }
 
             _isRevived = true;
-            MetricaSender.SendWithId(LevelReviveId, CurrentLevelNumber.ToString());
-            _pauseHandler.ForceInGamePause();
+            MetricaSender.SendWithId(LevelReviveId, _progressData.CurrentLevelNumber.ToString());
+            _pauseHandler.InGamePause();
         }
 
         public void LostGame()
         {
-            PauseHandler.Pause();
-            MetricaSender.SendWithId(LevelLoseId, CurrentLevelNumber.ToString());
+            _pauseHandler.Pause();
+            MetricaSender.SendWithId(LevelLoseId, _progressData.CurrentLevelNumber.ToString());
             GameIsOver?.Invoke();
         }
 
         public void WonGame()
         {
-            PauseHandler.Pause();
-            MetricaSender.SendWithId(LevelWonId, CurrentLevelNumber.ToString());
-            IncreaseUnlockedLevelNumber();
+            _pauseHandler.Pause();
+            MetricaSender.SendWithId(LevelWonId, _progressData.CurrentLevelNumber.ToString());
+            _progressData.IncreaseUnlockedLevelNumber();
             GameIsWon?.Invoke();
         }
 

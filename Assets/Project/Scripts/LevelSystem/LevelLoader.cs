@@ -2,7 +2,6 @@
 using Project.Data;
 using Project.GameState.View;
 using Project.LevelSystem.LevelStructure;
-using Project.Timing;
 using UnityEngine;
 using VContainer;
 
@@ -11,26 +10,25 @@ namespace Project.LevelSystem
     public class LevelLoader
     {
         private JsonLevelParser _jsonLevelParser;
-
-        private PauseHandler _pauseHandler;
-        private LevelInfoView _levelInfoView;
+        private LevelDataInfoView _levelDataInfoView;
+        private ProgressData _progressData;
 
         private LevelDataList _levelDataList;
 
         public event Action<LevelData> LevelSettingsReady;
 
         [Inject]
-        public void Construct(PauseHandler pauseHandler, LevelInfoView levelInfoView, JsonLevelParser jsonLevelParser)
+        public void Construct(LevelDataInfoView levelDataInfoView, JsonLevelParser jsonLevelParser, ProgressData progressData)
         {
-            _pauseHandler = pauseHandler;
-            _levelInfoView = levelInfoView;
+            _levelDataInfoView = levelDataInfoView;
             _jsonLevelParser = jsonLevelParser;
+            _progressData = progressData;
         }
 
         public void FetchCurrentLevelSettings()
         {
             _levelDataList = _jsonLevelParser.GetLevelDataList();
-            FetchLevelSettings(_levelDataList, ProgressData.CurrentLevelNumber);
+            FetchLevelSettings(_levelDataList, _progressData.CurrentLevelNumber);
         }
 
         private void FetchLevelSettings(LevelDataList levelDataList, int levelNumber)
@@ -60,9 +58,7 @@ namespace Project.LevelSystem
             LevelData currentLevelData = levelDataList.GetLevel(levelNumber - 1);
             LevelSettingsReady?.Invoke(currentLevelData);
 
-            _levelInfoView.SetLevelInfo(currentLevelData);
-
-            _pauseHandler.ForceInGamePause();
+            _levelDataInfoView.SetLevelInfo(currentLevelData);
         }
     }
 }

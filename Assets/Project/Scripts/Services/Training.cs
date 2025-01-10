@@ -14,12 +14,10 @@ namespace Project.Services
         private void Construct(TrainingPanel trainingPanel)
         {
             _trainingPanel = trainingPanel.gameObject;
-            Debug.Log("Training Constructed");
         }
 
         public void Start()
         {
-            Debug.Log("Training");
             bool isShow = YandexGame.savesData.IsSawTraining;
             _trainingPanel.SetActive(isShow);
         }

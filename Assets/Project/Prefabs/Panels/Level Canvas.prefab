@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 8805517897764507089}
   - component: {fileID: 4626810788670622411}
   - component: {fileID: 2063839546512788194}
-  - component: {fileID: 7983531929679614717}
-  - component: {fileID: 7839252672714687204}
+  - component: {fileID: 7507171321850422294}
+  - component: {fileID: 3886468048465820509}
   m_Layer: 5
   m_Name: Level Text
   m_TagString: Untagged
@@ -138,7 +138,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &7983531929679614717
+--- !u!114 &7507171321850422294
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -152,7 +152,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   side: 1
   _additionalText: ': 100'
---- !u!114 &7839252672714687204
+--- !u!114 &3886468048465820509
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -199,7 +199,7 @@ MonoBehaviour:
   changeOnlyFont: 0
   fontNumber: 0
   uniqueFont: {fileID: 0}
-  additionalText: {fileID: 7983531929679614717}
+  additionalText: {fileID: 7507171321850422294}
   textHeight: 20
   processTranslateLabel: 3/3 completed
   componentTextField: 1
@@ -319,4 +319,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 351bb89510e04aa2bf87b93b6287ff9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _additionalTextComponent: {fileID: 7983531929679614717}
+  _additionalTextComponent: {fileID: 7507171321850422294}

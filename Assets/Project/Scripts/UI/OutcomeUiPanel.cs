@@ -1,5 +1,5 @@
-using Project.LevelSystem;
 using Project.Menu;
+using Project.Timing;
 using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
@@ -13,16 +13,13 @@ namespace Project.Architecture.UI
 
         private SceneLoader _sceneLoader;
 
-        protected LevelInitializer LevelInitializer;
-
         [Inject]
-        public void Construct(LevelInitializer levelInitializer, SceneLoader sceneLoader)
+        public void Construct(SceneLoader sceneLoader, PauseHandler pauseHandler)
         {
-            LevelInitializer = levelInitializer;
             _sceneLoader = sceneLoader;
         }
 
-        private void Awake()
+        protected virtual void Awake()
         {
             this.ValidateSerializedFields();
             AddListeners();

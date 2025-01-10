@@ -1,18 +1,24 @@
 ﻿using Project.Entities.Enemies;
 using Project.GameState;
 using UnityEngine;
+using VContainer;
 
 namespace Project.Entities.Character
 {
-    [DisallowMultipleComponent]
     [RequireComponent(typeof(Collider2D), typeof(Rigidbody2D))]
     public class CharacterCollisionHandler : MonoBehaviour
     {
         [SerializeField]
+        private bool _isInvincible;
+
         private GameOutcome _gameOutcome;
 
-        [SerializeField]
-        private bool _isInvincible;
+        [Inject]
+        public void Construct(GameOutcome gameOutcome)
+        {
+            _gameOutcome = gameOutcome;
+            _isInvincible = false;
+        }
 
         public void ActivateInvincibility(float duration)
         {
@@ -30,23 +36,17 @@ namespace Project.Entities.Character
 
         public void DeactivateInvincibility() => _isInvincible = false;
 
-        private void Awake()
-        {
-            if (_gameOutcome == null)
-            {
-                _gameOutcome = GetComponent<GameOutcome>();
-            }
-        }
-
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (!_isInvincible && collision.gameObject.TryGetComponent(out EnemyBase enemy))
-            {
-                _gameOutcome.LostGame();
-            }
+            CheckCollision(collision);
         }
 
         private void OnTriggerStay2D(Collider2D collision)
+        {
+            CheckCollision(collision);
+        }
+
+        private void CheckCollision(Collider2D collision)
         {
             if (!_isInvincible && collision.gameObject.TryGetComponent(out EnemyBase enemy))
             {

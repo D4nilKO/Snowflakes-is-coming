@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using YG;
@@ -9,23 +10,19 @@ namespace Project.Architecture.UI
         [SerializeField]
         private Button _nextLevelButton;
 
-        private void Awake()
-        {
-            this.ValidateSerializedFields();
-            gameObject.SetActive(false);
-        }
+        public Action LoadNextLevelRequested;
 
         protected override void AddListeners()
         {
             base.AddListeners();
 
             _nextLevelButton.onClick.RemoveAllListeners();
-            _nextLevelButton.onClick.AddListener(LoadNextLevel);
+            _nextLevelButton.onClick.AddListener(OnLoadNextLevelClicked);
         }
 
-        private void LoadNextLevel()
+        private void OnLoadNextLevelClicked()
         {
-            LevelInitializer.LoadNextLevel();
+            LoadNextLevelRequested?.Invoke();
             gameObject.SetActive(false);
             YandexGame.FullscreenShow();
         }

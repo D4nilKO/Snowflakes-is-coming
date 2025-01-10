@@ -8,10 +8,9 @@ namespace Project.Entities
     public abstract class Entity : MonoBehaviour
     {
         protected Rigidbody2D Rigidbody2D;
-
-        protected Camera MainCamera;
-
         protected Collider2D ObjectCollider;
+        
+        protected Camera MainCamera;
 
         protected float ScreenWidth;
         protected float ScreenHeight;

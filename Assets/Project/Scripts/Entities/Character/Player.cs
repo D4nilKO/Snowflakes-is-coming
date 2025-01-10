@@ -2,7 +2,6 @@
 
 namespace Project.Entities.Character
 {
-    [DisallowMultipleComponent]
     public class Player : Entity, IMovable
     {
         private const float maxDistanceDelta = 2.5f;

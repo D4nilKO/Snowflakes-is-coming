@@ -15,8 +15,16 @@ MonoBehaviour:
   poolName: Enemy
   poolItems:
   - prefab: {fileID: 6329751790586338194, guid: 7a496d983cefe5442bd298d1c1f958d1, type: 3}
-    size: 10
+    size: 3
   - prefab: {fileID: 8331830385630280651, guid: 35496f11b85c7fc4c9dff7349fea6e5e, type: 3}
-    size: 5
+    size: 3
+  - prefab: {fileID: 2312015023831910244, guid: 8aff2dec9487162458efadbb98cf17e9, type: 3}
+    size: 3
   - prefab: {fileID: 5288950461557604750, guid: 72f49c8a4559f734388acccbdd3e4fa3, type: 3}
-    size: 5
+    size: 3
+  - prefab: {fileID: 6089226774673005181, guid: 4e171ad29cd204d1fa3dcdbe0b10bcac, type: 3}
+    size: 3
+  - prefab: {fileID: 5163823401070893350, guid: 426094443aae8e34f8dfc6f1c94aedab, type: 3}
+    size: 3
+  - prefab: {fileID: 8223871925156581995, guid: 2363c7dec46ad44e093bbdc439b3de74, type: 3}
+    size: 3

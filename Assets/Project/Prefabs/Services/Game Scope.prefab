@@ -1,0 +1,77 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &9215635361298367808
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4304316193506884242}
+  - component: {fileID: 708010203654193720}
+  - component: {fileID: 3839491378207606209}
+  m_Layer: 0
+  m_Name: Game Scope
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4304316193506884242
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9215635361298367808}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &708010203654193720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9215635361298367808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00440c3736ad4b2f8fc936a432d8a561, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentReference:
+    TypeName: Project.Architecture.RootLifetimeScope
+  autoRun: 1
+  autoInjectGameObjects: []
+  _devPanelSettings: {fileID: 11400000, guid: c1af558117dc043c8b9dd1e7c4834093, type: 2}
+  _inGamePausePanel: {fileID: 416065348816809685, guid: 5fb14ef80807c4967b929617057e7667, type: 3}
+  _trainingPanel: {fileID: 5226079120092244770, guid: 3048d4e9756e24fee996378c388e0091, type: 3}
+  _finalPanel: {fileID: 6409869410848191369, guid: ff335f72f8c8a46179ac35bf0788decd, type: 3}
+  _losePanel: {fileID: 305453613411728900, guid: 83b17a29e7a74495b89d0cdeef56f328, type: 3}
+  _wonPanel: {fileID: 7518060280073789811, guid: 2a5e6f9e979cc4d188f3eb4e73e13e3f, type: 3}
+  _devPanel: {fileID: 672676098287001459, guid: ad2b9f0a9ef4c482791be677d0ca098a, type: 3}
+  _levelPanel: {fileID: 8192302695843779040, guid: 51c13adb4956745c68b18c7f6f48d234, type: 3}
+  _surviveTimerPanel: {fileID: 9195226371466158560, guid: 8eacc4b23138f49509506e5bd3a4d2e6, type: 3}
+  _player: {fileID: 1232662312, guid: 00ad8649d0d864840966b9472cf7e3dc, type: 3}
+  _enemyContainer: {fileID: 599588924903093088, guid: dd95a76e994d74968b0a897036f74c22, type: 3}
+  _enemySpawner: {fileID: 5795099636840865599, guid: 763180dc009014919a9b7de13fadffa0, type: 3}
+  _mainCanvas: {fileID: 0}
+  _gamePlayParent: {fileID: 0}
+--- !u!114 &3839491378207606209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9215635361298367808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 223146ba43194a63a3cc8912c3f81f60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

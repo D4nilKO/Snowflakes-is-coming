@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using YG;
@@ -12,6 +13,8 @@ namespace Project.Architecture.UI
         [SerializeField]
         private Button _restartButton;
 
+        public event Action RestartRequested;
+
         protected override void AddListeners()
         {
             base.AddListeners();
@@ -20,12 +23,12 @@ namespace Project.Architecture.UI
             _restartButton.onClick.RemoveAllListeners();
 
             ShowAdButton.onClick.AddListener(ShowRewardAd);
-            _restartButton.onClick.AddListener(RestartLevel);
+            _restartButton.onClick.AddListener(OnRestartButtonClicked);
         }
 
-        private void RestartLevel()
+        private void OnRestartButtonClicked()
         {
-            LevelInitializer.RestartLevel();
+            RestartRequested?.Invoke();
         }
 
         private void ShowRewardAd()

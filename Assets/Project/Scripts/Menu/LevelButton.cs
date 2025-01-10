@@ -14,23 +14,24 @@ namespace Project.Menu
         [SerializeField]
         private TextMeshProUGUI _levelText;
 
-        [SerializeField]
         private Button _button;
 
         private SceneLoader _sceneLoader;
+        private ProgressData _progressData;
+
         private Color _startedColor;
         private Color _inactiveColor;
 
         private int _levelNumber;
 
-        private void Awake()
+        public void Initialize(SceneLoader sceneLoader, ProgressData progressData)
         {
             this.ValidateSerializedFields();
-        }
 
-        public void Initialize(SceneLoader sceneLoader)
-        {
+            _button = GetComponent<Button>();
+
             _sceneLoader = sceneLoader;
+            _progressData = progressData;
 
             _button.onClick.RemoveAllListeners();
             _button.onClick.AddListener(OnLevelButtonClicked);
@@ -63,9 +64,9 @@ namespace Project.Menu
                 return;
             }
 
-            if (levelNumber > ProgressData.MaxLevelsCount)
+            if (levelNumber > _progressData.MaxLevelsCount)
             {
-                Debug.LogError($"Уровень не существует: {levelNumber} > {ProgressData.MaxLevelsCount}");
+                Debug.LogError($"Уровень не существует: {levelNumber} > {_progressData.MaxLevelsCount}");
                 return;
             }
 
@@ -75,7 +76,7 @@ namespace Project.Menu
 
         private void OnLevelButtonClicked()
         {
-            ProgressData.SetCurrentLevel(_levelNumber);
+            _progressData.SetCurrentLevel(_levelNumber);
             MetricaSender.SendWithId(MetricaId.LevelStartFromMenuId, _levelNumber.ToString());
             _sceneLoader.LoadBaseGame();
         }

@@ -1,31 +1,30 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using VContainer.Unity;
 using YG;
 
 namespace Project.Data
 {
-    static class ProgressData
+    public class ProgressData : IStartable, IDisposable
     {
         #region Fields
 
-        public static int MaxLevelsCount { get; private set; }
-        public static int CurrentLevelNumber { get; private set; } = 1;
-        public static int UnlockedLevelNumber { get; private set; } = 1;
+        public int MaxLevelsCount { get; private set; }
+        public int CurrentLevelNumber { get; private set; } = 1;
+        public int UnlockedLevelNumber { get; private set; } = 1;
+
+        private bool _isSubscribed;
 
         #endregion
 
-        #region Constructors
-
-        static ProgressData()
+        public void Start()
         {
-            if (YandexGame.SDKEnabled)
-                LoadData();
+            LoadData();
         }
-
-        #endregion
 
         #region Public methods
 
-        public static bool TryIncreaseCurrentLevel()
+        public bool TryIncreaseCurrentLevel()
         {
             bool notLastLevel = CurrentLevelNumber != MaxLevelsCount;
             bool hasNextLevel = CurrentLevelNumber <= UnlockedLevelNumber;
@@ -42,7 +41,7 @@ namespace Project.Data
             return true;
         }
 
-        public static void LoadData()
+        public void LoadData()
         {
             if (UnlockedLevelNumber >= YandexGame.savesData.unlockedLevelNumber)
                 return;
@@ -50,7 +49,7 @@ namespace Project.Data
             ForceLoadData();
         }
 
-        public static void SaveData()
+        public void SaveData()
         {
             if (UnlockedLevelNumber <= YandexGame.savesData.unlockedLevelNumber)
                 return;
@@ -58,19 +57,21 @@ namespace Project.Data
             ForceSaveData();
         }
 
-        public static void ForceSaveData()
+        public void ForceSaveData()
         {
+            Debug.LogError("ForceSaveData");
+
             YandexGame.savesData.unlockedLevelNumber = UnlockedLevelNumber;
             YandexGame.SaveProgress();
         }
 
-        public static void ForceLoadData()
+        public void ForceLoadData()
         {
             UnlockedLevelNumber = YandexGame.savesData.unlockedLevelNumber;
             CurrentLevelNumber = UnlockedLevelNumber;
         }
 
-        public static void IncreaseUnlockedLevelNumber()
+        public void IncreaseUnlockedLevelNumber()
         {
             if (UnlockedLevelNumber == MaxLevelsCount)
                 return;
@@ -84,7 +85,7 @@ namespace Project.Data
 
         #endregion
 
-        public static void SetCurrentLevel(int level)
+        public void SetCurrentLevel(int level)
         {
             if (level > MaxLevelsCount && level < 1)
             {
@@ -101,7 +102,7 @@ namespace Project.Data
             CurrentLevelNumber = level;
         }
 
-        public static void SetUnlockedLevel(int level)
+        public void SetUnlockedLevel(int level)
         {
             if (level > MaxLevelsCount && level < 1)
             {
@@ -112,7 +113,7 @@ namespace Project.Data
             UnlockedLevelNumber = level;
         }
 
-        public static void SetMaxLevelsCount(int maxLevelsCount)
+        public void SetMaxLevelsCount(int maxLevelsCount)
         {
             if (maxLevelsCount <= 0)
             {
@@ -123,13 +124,22 @@ namespace Project.Data
             MaxLevelsCount = maxLevelsCount;
         }
 
-        public static void SetStartValues()
+        public void SetStartValues()
         {
             SetUnlockedLevel(1);
             SetCurrentLevel(1);
             ForceSaveData();
 
             YandexGame.savesData.IsSawTraining = false;
+        }
+
+        public void Dispose()
+        {
+            if (_isSubscribed)
+            {
+                YandexGame.GetDataEvent -= LoadData;
+                _isSubscribed = false;
+            }
         }
     }
 }

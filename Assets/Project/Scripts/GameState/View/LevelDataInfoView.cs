@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Project.GameState.View
 {
-    public class LevelInfoView : MonoBehaviour
+    public class LevelDataInfoView : MonoBehaviour
     {
         [SerializeField, Header("Данные для ознакомления")]
         private LevelData _currentLevelData;
