@@ -1,4 +1,5 @@
 using Project.Data;
+using Project.Entities.Character;
 using Project.GameState;
 using Project.LevelSystem;
 using TMPro;
@@ -16,15 +17,17 @@ namespace Project.Services
         private LevelInitializer _levelInitializer;
         private LevelLoader _levelLoader;
         private ProgressData _progressData;
+        private CharacterCollisionHandler _characterCollisionHandler;
 
         [Inject]
         private void Construct(GameOutcome gameOutcome, LevelInitializer levelInitializer, LevelLoader levelLoader,
-            ProgressData progressData)
+            ProgressData progressData, CharacterCollisionHandler characterCollisionHandler)
         {
             _gameOutcome = gameOutcome;
             _levelInitializer = levelInitializer;
             _levelLoader = levelLoader;
             _progressData = progressData;
+            _characterCollisionHandler = characterCollisionHandler;
         }
 
         private void Awake()
@@ -62,9 +65,19 @@ namespace Project.Services
             _gameOutcome.WonGame();
         }
 
-        public void LostLevel()
+        public void LoseLevel()
         {
             _gameOutcome.LostGame();
+        }
+
+        public void ImmortalMode()
+        {
+            _characterCollisionHandler.ActivateInvincibility();
+        }
+
+        public void UnImmortalMode()
+        {
+            _characterCollisionHandler.DeactivateInvincibility();
         }
     }
 }

@@ -18,7 +18,7 @@ namespace Project.Architecture
             ConfigureSingletons(builder);
             DontDestroyOnLoad(gameObject);
 
-            Debug.LogError("RootLifetimeScope configure");
+            Debug.Log("RootLifetimeScope configure");
         }
 
         private void ConfigureSingletons(IContainerBuilder builder)

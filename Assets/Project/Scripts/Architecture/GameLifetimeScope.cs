@@ -61,7 +61,7 @@ namespace Project.Architecture
 
         protected override void Configure(IContainerBuilder builder)
         {
-            Debug.LogError("GameLifetimeScope configure");
+            Debug.Log("GameLifetimeScope configure");
 
             builder.RegisterComponentInNewPrefab(_inGamePausePanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
             builder.RegisterComponentInNewPrefab(_trainingPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);

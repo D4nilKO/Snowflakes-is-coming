@@ -11,7 +11,7 @@ namespace Project.Menu
 
         private void Start()
         {
-            Debug.LogError("MenuResolver Start");
+            Debug.Log("MenuResolver Start");
 
             var lifetimeScope = GetComponent<MenuLifetimeScope>();
             _container = lifetimeScope.Container;

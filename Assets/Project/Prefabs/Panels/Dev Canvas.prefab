@@ -111,7 +111,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &9093142427631059357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -586,8 +586,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Project.Services.DevButtons, Assembly-CSharp
+      - m_Target: {fileID: 672676098287001459}
+        m_TargetAssemblyTypeName: Project.Services.DevPanel, Assembly-CSharp
         m_MethodName: WonLevel
         m_Mode: 1
         m_Arguments:
@@ -719,10 +719,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Project.Entities.Character.CharacterCollisionHandler,
-          Assembly-CSharp
-        m_MethodName: DeactivateInvincibility
+      - m_Target: {fileID: 672676098287001459}
+        m_TargetAssemblyTypeName: Project.Services.DevPanel, Assembly-CSharp
+        m_MethodName: UnImmortalMode
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1122,8 +1121,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Project.Services.DevButtons, Assembly-CSharp
+      - m_Target: {fileID: 672676098287001459}
+        m_TargetAssemblyTypeName: Project.Services.DevPanel, Assembly-CSharp
         m_MethodName: LoadEnteredLevel
         m_Mode: 1
         m_Arguments:
@@ -1987,8 +1986,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Project.Services.DevButtons, Assembly-CSharp
+      - m_Target: {fileID: 672676098287001459}
+        m_TargetAssemblyTypeName: Project.Services.DevPanel, Assembly-CSharp
         m_MethodName: LostLevel
         m_Mode: 1
         m_Arguments:
@@ -2549,8 +2548,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Project.Services.DevButtons, Assembly-CSharp
+      - m_Target: {fileID: 672676098287001459}
+        m_TargetAssemblyTypeName: Project.Services.DevPanel, Assembly-CSharp
         m_MethodName: ClearSaves
         m_Mode: 1
         m_Arguments:
@@ -2682,10 +2681,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Project.Entities.Character.CharacterCollisionHandler,
-          Assembly-CSharp
-        m_MethodName: ActivateInvincibility
+      - m_Target: {fileID: 672676098287001459}
+        m_TargetAssemblyTypeName: Project.Services.DevPanel, Assembly-CSharp
+        m_MethodName: ImmortalMode
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2816,8 +2814,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Project.Services.DevButtons, Assembly-CSharp
+      - m_Target: {fileID: 672676098287001459}
+        m_TargetAssemblyTypeName: Project.Services.DevPanel, Assembly-CSharp
         m_MethodName: UnlockAllLevels
         m_Mode: 1
         m_Arguments:

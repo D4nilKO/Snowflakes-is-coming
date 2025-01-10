@@ -59,7 +59,7 @@ namespace Project.Data
 
         public void ForceSaveData()
         {
-            Debug.LogError("ForceSaveData");
+            Debug.Log("ForceSaveData");
 
             YandexGame.savesData.unlockedLevelNumber = UnlockedLevelNumber;
             YandexGame.SaveProgress();
