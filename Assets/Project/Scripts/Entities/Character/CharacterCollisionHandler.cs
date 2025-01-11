@@ -48,9 +48,17 @@ namespace Project.Entities.Character
 
         private void CheckCollision(Collider2D collision)
         {
-            if (!_isInvincible && collision.gameObject.TryGetComponent(out EnemyBase enemy))
+            if (collision.gameObject.TryGetComponent(out ICollectable collectable))
             {
-                _gameOutcome.LostGame();
+                collectable.Collect();
+            }
+
+            if (_isInvincible)
+                return;
+
+            if (collision.gameObject.TryGetComponent(out IDamageDealer damageDealer))
+            {
+                damageDealer.DealDamage(_gameOutcome);
             }
         }
     }

@@ -1,19 +1,20 @@
-using Project.Architecture;
 using UnityEngine;
 
-public class RootLifetimeScopeInitializer : MonoBehaviour
+namespace Project.Architecture
 {
-    [SerializeField]
-    private RootLifetimeScope _rootLifetimeScopePrefab;
-
-    private static bool _isRootLifetimeScopeInitialized; 
-
-    private void Awake()
+    public class RootLifetimeScopeInitializer : MonoBehaviour
     {
-        if (!_isRootLifetimeScopeInitialized)
+        [SerializeField]
+        private RootLifetimeScope _rootLifetimeScopePrefab;
+
+        private bool IsRootLifetimeScopeInitialized => FindFirstObjectByType<RootLifetimeScope>() != null;
+
+        private void Awake()
         {
-            Instantiate(_rootLifetimeScopePrefab);
-            _isRootLifetimeScopeInitialized = true;
+            if (IsRootLifetimeScopeInitialized == false)
+            {
+                Instantiate(_rootLifetimeScopePrefab);
+            }
         }
     }
 }

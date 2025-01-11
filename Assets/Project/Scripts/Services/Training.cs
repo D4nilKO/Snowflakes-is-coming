@@ -18,8 +18,11 @@ namespace Project.Services
 
         public void Start()
         {
-            bool isShow = YandexGame.savesData.IsSawTraining;
-            _trainingPanel.SetActive(isShow);
+            bool isSawTraining = YandexGame.savesData.IsSawTraining;
+            _trainingPanel.SetActive(!isSawTraining);
+
+            YandexGame.savesData.IsSawTraining = true;
+            YandexGame.SaveProgress();
         }
     }
 }

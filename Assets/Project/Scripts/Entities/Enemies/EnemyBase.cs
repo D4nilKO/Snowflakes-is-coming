@@ -33,9 +33,22 @@ namespace Project.Entities.Enemies
             }
         }
 
-        public abstract void Move();
-        public abstract void OnSpawn();
-        public abstract void OnDespawn();
+        public virtual void Move()
+        {
+            Vector2 newPosition = GetNewPosition(Rigidbody2D.position);
+
+            TryReflect(ref newPosition);
+            ClampPosition(ref newPosition);
+
+            Rigidbody2D.MovePosition(newPosition);
+        }
+
+        public virtual void OnSpawn()
+        {
+            SetRandomDirection();
+        }
+
+        public virtual void OnDespawn() { }
 
         public void Rotate()
         {

@@ -1,24 +1,12 @@
-using UnityEngine;
+using Project.GameState;
 
 namespace Project.Entities.Enemies
 {
-    public class StandardEnemy : EnemyBase
+    public class StandardEnemy : EnemyBase, IDamageDealer
     {
-        public override void Move()
+        public void DealDamage(GameOutcome gameOutcome)
         {
-            Vector2 newPosition = GetNewPosition(Rigidbody2D.position);
-
-            TryReflect(ref newPosition);
-            ClampPosition(ref newPosition);
-
-            Rigidbody2D.MovePosition(newPosition);
+            gameOutcome.LostGame();
         }
-
-        public override void OnSpawn()
-        {
-            SetRandomDirection();
-        }
-
-        public override void OnDespawn() { }
     }
 }

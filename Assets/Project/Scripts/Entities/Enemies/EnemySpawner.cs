@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NTC.Global.Pool;
 using Project.LevelSystem.LevelStructure;
 using UnityEngine;
 using VavilichevGD.Utils.Timing;
 using VContainer;
-using static NTC.Global.Pool.NightPool;
 
 namespace Project.Entities.Enemies
 {
@@ -14,7 +14,7 @@ namespace Project.Entities.Enemies
         private const TimerType updateTick = TimerType.UpdateTick;
 
         [SerializeField, Min(0.5f)]
-        private float _initialSpawnDelay;
+        private float _initialSpawnDelay = 1f;
 
         private EntityMover _entityMover;
         private EnemyContainer _enemyContainer;
@@ -95,27 +95,30 @@ namespace Project.Entities.Enemies
 
         private void SpawnNextEnemy()
         {
-            EnemyTypeInfo currentEnemyType = _enemyTypes[_currentEnemyTypeIndex];
-            string enemyPrefabName = currentEnemyType.EnemyPrefabName;
+            EnemyTypeInfo currentType = _enemyTypes[_currentEnemyTypeIndex];
+            string prefabName = currentType.EnemyPrefabName;
 
-            if (_availableEnemyCounts.TryGetValue(enemyPrefabName, out int availableCount) && availableCount > 0)
+            bool hasEnemy = _availableEnemyCounts.TryGetValue(prefabName, out int availableCount);
+            bool isAvailable = availableCount > 0;
+
+            if (hasEnemy && isAvailable)
             {
-                string path = enemyPrefabName;
-                GameObject enemyPrefab = Resources.Load<GameObject>(path);
+                var enemyPrefab = Resources.Load<EnemyBase>(prefabName);
 
-                if (enemyPrefab != null)
+                if (enemyPrefab == null)
                 {
-                    SpawnEnemy(enemyPrefab);
-                    _availableEnemyCounts[enemyPrefabName]--;
-                }
-                else
-                {
-                    Debug.LogError($"Не удалось загрузить префаб врага: {path}");
+                    Debug.LogError($"Не удалось загрузить префаб врага: {prefabName}");
                     return;
                 }
+
+                SpawnEnemy(enemyPrefab);
+                _availableEnemyCounts[prefabName]--;
             }
 
-            if (_availableEnemyCounts.TryGetValue(enemyPrefabName, out int remainingCount) && remainingCount == 0)
+            hasEnemy = _availableEnemyCounts.TryGetValue(prefabName, out int remainingCount);
+            isAvailable = remainingCount > 0;
+
+            if (hasEnemy && isAvailable == false)
                 _currentEnemyTypeIndex++;
         }
 
@@ -129,11 +132,10 @@ namespace Project.Entities.Enemies
             Timer.TimerFinished -= OnTimerFinished;
         }
 
-        private void SpawnEnemy(GameObject enemyPrefab)
+        private void SpawnEnemy(EnemyBase enemyPrefab)
         {
-            GameObject enemy = Spawn(enemyPrefab, _enemyContainer.transform);
-            EnemyBase enemyComponent = enemy.GetComponent<EnemyBase>();
-            _entityMover.AddMovableEntity(enemyComponent);
+            EnemyBase enemy = NightPool.Spawn(enemyPrefab, _enemyContainer.transform);
+            _entityMover.AddMovableEntity(enemy);
         }
 
         private void SetStartedParameters(IEnumerable<EnemyTypeInfo> enemyTypeInfos, int timeToSpawn)

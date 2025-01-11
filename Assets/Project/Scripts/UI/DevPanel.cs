@@ -53,6 +53,12 @@ namespace Project.Services
                 return;
             }
 
+            if (level > _progressData.MaxLevelsCount)
+            {
+                Debug.LogError($"Уровень {level} не существует, максимальный уровень {_progressData.MaxLevelsCount}");
+                return;
+            }
+
             _progressData.SetUnlockedLevel(level);
             _progressData.SetCurrentLevel(level);
 
