@@ -9,19 +9,20 @@ namespace Project.Entities
 {
     public class EntityMover : MonoBehaviour
     {
-        private Player _player;
-
         private List<IMovable> _movableEntities = new();
+        private List<IRotatable> _rotatableEntities = new();
+
+        private Player _player;
 
         [Inject]
         public void Construct(Player player)
         {
             _player = player;
         }
-        
+
         private void Start()
         {
-            FindAndAddMovableEntities();
+            FindAndAddEntitiesToLists();
         }
 
         private void FixedUpdate()
@@ -39,17 +40,22 @@ namespace Project.Entities
             _movableEntities.Add(movableEntity);
         }
 
-        private void FindAndAddMovableEntities()
+        private void FindAndAddEntitiesToLists()
         {
+            _rotatableEntities.AddRange(FindObjectsByType<EnemyBase>(FindObjectsSortMode.None)
+                .Where(enemy => enemy.isActiveAndEnabled));
+
             _movableEntities.AddRange(FindObjectsByType<EnemyBase>(FindObjectsSortMode.None)
                 .Where(enemy => enemy.isActiveAndEnabled));
+
+            _movableEntities.Add(_player);
         }
 
         private void RotateEntities()
         {
-            foreach (EnemyBase enemy in _movableEntities.OfType<EnemyBase>())
+            foreach (IRotatable rotatableEntity in _rotatableEntities.Where(entity => entity != null))
             {
-                enemy.Rotate();
+                rotatableEntity.Rotate();
             }
         }
 
@@ -58,11 +64,6 @@ namespace Project.Entities
             foreach (IMovable movableEntity in _movableEntities.Where(entity => entity != null))
             {
                 movableEntity.Move();
-            }
-
-            if (_player != null)
-            {
-                _player.Move();
             }
         }
     }

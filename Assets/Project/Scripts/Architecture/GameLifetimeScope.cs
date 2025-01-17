@@ -1,3 +1,4 @@
+using Project.Abilities;
 using Project.Architecture.UI;
 using Project.Entities;
 using Project.Entities.Character;
@@ -58,6 +59,9 @@ namespace Project.Architecture
 
         [SerializeField]
         private Transform _gamePlayParent;
+        
+        [SerializeField, Header("Ability Data")]
+        private AbilityData _slowAbilityData;
 
         protected override void Configure(IContainerBuilder builder)
         {

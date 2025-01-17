@@ -136,6 +136,7 @@ namespace Project.Entities.Enemies
         {
             EnemyBase enemy = NightPool.Spawn(enemyPrefab, _enemyContainer.transform);
             _entityMover.AddMovableEntity(enemy);
+            _enemyContainer.AddEnemy(enemy);
         }
 
         private void SetStartedParameters(IEnumerable<EnemyTypeInfo> enemyTypeInfos, int timeToSpawn)

@@ -1,28 +1,21 @@
 using System.Collections.Generic;
+using Project.Abilities;
+using Project.Entities.Collectables;
 
 namespace Project.Data.Collections
 {
     public class CollectionModel
     {
-        public Collection CollectionData { get; private set; }
-        private HashSet<CollectableSnowflakeData> _collectedSnowflakes = new();
+        private HashSet<CollectableSnowflake> _collectedSnowflakes = new();
 
-        public CollectionModel(Collection collectionData)
-        {
-            CollectionData = collectionData;
-        }
-
-        public bool AddSnowflake(CollectableSnowflakeData snowflakeData)
+        public bool AddSnowflake(CollectableSnowflake snowflakeData)
         {
             bool isAdded = _collectedSnowflakes.Add(snowflakeData);
-            bool isCompleted = _collectedSnowflakes.Count == CollectionData.Snowflakes.Count;
+            bool isCompleted = _collectedSnowflakes.Count == snowflakeData.ParentCollectionData.Snowflakes.Count;
 
             return isAdded && isCompleted;
         }
 
-        public void ActivateAbility()
-        {
-            CollectionData.UnlockableAbility?.Activate();
-        }
+        public void ActivateAbility() { }
     }
 }

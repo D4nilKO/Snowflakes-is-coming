@@ -11,10 +11,10 @@ namespace Project.Architecture
 
         private void Awake()
         {
-            if (IsRootLifetimeScopeInitialized == false)
-            {
-                Instantiate(_rootLifetimeScopePrefab);
-            }
+            if (IsRootLifetimeScopeInitialized)
+                return;
+
+            Instantiate(_rootLifetimeScopePrefab);
         }
     }
 }

@@ -5,7 +5,7 @@ using Random = UnityEngine.Random;
 
 namespace Project.Entities.Enemies
 {
-    public abstract class EnemyBase : Entity, IMovable, IPoolItem
+    public abstract class EnemyBase : Entity, IMovable, IPoolItem, IRotatable
     {
         [SerializeField, Range(0f, 20f)]
         private float _speed = 5f;
@@ -16,10 +16,27 @@ namespace Project.Entities.Enemies
         [SerializeField]
         private bool _rotateEnabled = true;
 
+        private float _slowFactor = 0f;
+
+        public float SlowFactor
+        {
+            get => _slowFactor;
+            set => _slowFactor = Mathf.Clamp01(value);
+        }
+
         private Quaternion _targetRotation;
 
         private Vector2 _direction;
-        protected float Speed => _speed;
+
+        protected float Speed
+        {
+            get => _speed;
+            set
+            {
+                _speed = value;
+                SetRigidbodyVelocity();
+            }
+        }
 
         protected Vector2 Direction
         {
@@ -31,6 +48,17 @@ namespace Project.Entities.Enemies
 
                 _direction = value.normalized;
             }
+        }
+
+        protected virtual void Start()
+        {
+            _targetRotation = transform.rotation;
+        }
+
+        private void OnEnable()
+        {
+            SetRigidbodyVelocity();
+            UpdateBoundsValue();
         }
 
         public virtual void Move()
@@ -48,7 +76,10 @@ namespace Project.Entities.Enemies
             SetRandomDirection();
         }
 
-        public virtual void OnDespawn() { }
+        public virtual void OnDespawn()
+        {
+            SlowFactor = 0f;
+        }
 
         public void Rotate()
         {
@@ -62,16 +93,6 @@ namespace Project.Entities.Enemies
                 transform.rotation,
                 _targetRotation,
                 _rotationSpeed * Time.deltaTime);
-        }
-
-        protected virtual void Start()
-        {
-            _targetRotation = transform.rotation;
-        }
-
-        protected void SetRandomDirection()
-        {
-            Direction = Random.insideUnitCircle;
         }
 
         protected void TurnInPlayerDirection()
@@ -89,6 +110,11 @@ namespace Project.Entities.Enemies
         {
             CheckOutOfBounds(newPosition, out bool isOutOfBoundsX, out bool isOutOfBoundsY);
             ReflectDirection(isOutOfBoundsX, isOutOfBoundsY);
+        }
+
+        private void SetRandomDirection()
+        {
+            Direction = Random.insideUnitCircle;
         }
 
         private void CheckOutOfBounds(Vector2 newPosition, out bool isOutOfBoundsX, out bool isOutOfBoundsY)
@@ -140,15 +166,9 @@ namespace Project.Entities.Enemies
                 (ScreenHeight / 2f) - bounds.extents.y);
         }
 
-        private void OnEnable()
-        {
-            UpdateBoundsValue();
-            SetRigidbodyVelocity();
-        }
-
         private void SetRigidbodyVelocity()
         {
-            Rigidbody2D.velocity = Direction * _speed;
+            Rigidbody2D.velocity = Direction * Speed * (1f - SlowFactor);
         }
     }
 }

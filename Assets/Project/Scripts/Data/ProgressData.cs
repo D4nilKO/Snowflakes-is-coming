@@ -5,15 +5,13 @@ using YG;
 
 namespace Project.Data
 {
-    public class ProgressData : IStartable, IDisposable
+    public class ProgressData : IStartable
     {
         #region Fields
 
         public int MaxLevelsCount { get; private set; }
         public int CurrentLevelNumber { get; private set; } = 1;
         public int UnlockedLevelNumber { get; private set; } = 1;
-
-        private bool _isSubscribed;
 
         #endregion
 
@@ -131,15 +129,6 @@ namespace Project.Data
             ForceSaveData();
 
             YandexGame.savesData.IsSawTraining = false;
-        }
-
-        public void Dispose()
-        {
-            if (_isSubscribed)
-            {
-                YandexGame.GetDataEvent -= LoadData;
-                _isSubscribed = false;
-            }
         }
     }
 }

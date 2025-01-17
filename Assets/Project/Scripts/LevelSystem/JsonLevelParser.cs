@@ -21,12 +21,12 @@ namespace Project.LevelSystem
 
         protected LevelDataList LevelDataList;
 
-        protected ProgressData ProgressData;
+        private ProgressData _progressData;
 
         [Inject]
         public void Construct(ProgressData progressData)
         {
-            ProgressData = progressData;
+            _progressData = progressData;
         }
 
         public virtual LevelDataList GetLevelDataList()
@@ -40,7 +40,7 @@ namespace Project.LevelSystem
             if (TryParseJsonFile(_levelDataJson) == false)
                 throw new InvalidOperationException("Failed to load levels from JSON file");
 
-            ProgressData.SetMaxLevelsCount(LevelDataList.Count);
+            _progressData.SetMaxLevelsCount(LevelDataList.Count);
 
             return LevelDataList;
         }
