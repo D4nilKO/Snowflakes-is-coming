@@ -31,6 +31,8 @@ namespace Project.Entities.Enemies
             {
                 NightPool.Despawn(enemy);
             }
+
+            _activeEnemies.Clear();
         }
 
         public List<EnemyBase> GetEnemies()

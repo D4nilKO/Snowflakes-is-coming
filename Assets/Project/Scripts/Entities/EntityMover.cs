@@ -14,10 +14,13 @@ namespace Project.Entities
 
         private Player _player;
 
+        private IObjectResolver _container;
+
         [Inject]
-        public void Construct(Player player)
+        public void Construct(Player player, IObjectResolver container)
         {
             _player = player;
+            _container = container;
         }
 
         private void Start()
@@ -35,35 +38,55 @@ namespace Project.Entities
             RotateEntities();
         }
 
-        public void AddMovableEntity(IMovable movableEntity)
+        public void AddEntity(EnemyBase entity)
         {
-            _movableEntities.Add(movableEntity);
+            _movableEntities.Add(entity);
+            _rotatableEntities.Add(entity);
         }
 
         private void FindAndAddEntitiesToLists()
         {
-            _rotatableEntities.AddRange(FindObjectsByType<EnemyBase>(FindObjectsSortMode.None)
-                .Where(enemy => enemy.isActiveAndEnabled));
+            var enemies = FindObjectsByType<EnemyBase>(FindObjectsSortMode.None)
+                .Where(enemy => enemy.isActiveAndEnabled).ToArray();
 
-            _movableEntities.AddRange(FindObjectsByType<EnemyBase>(FindObjectsSortMode.None)
-                .Where(enemy => enemy.isActiveAndEnabled));
+            _rotatableEntities.AddRange(enemies);
 
+            _movableEntities.AddRange(enemies);
             _movableEntities.Add(_player);
+
+            foreach (var enemy in enemies)
+            {
+                _container.Inject(enemy);
+            }
         }
 
         private void RotateEntities()
         {
-            foreach (IRotatable rotatableEntity in _rotatableEntities.Where(entity => entity != null))
+            for (int i = _rotatableEntities.Count - 1; i >= 0; i--)
             {
-                rotatableEntity.Rotate();
+                try
+                {
+                    _rotatableEntities[i].Rotate();
+                }
+                catch
+                {
+                    _rotatableEntities.RemoveAt(i);
+                }
             }
         }
 
         private void MoveEntities()
         {
-            foreach (IMovable movableEntity in _movableEntities.Where(entity => entity != null))
+            for (int i = _movableEntities.Count - 1; i >= 0; i--)
             {
-                movableEntity.Move();
+                try
+                {
+                    _movableEntities[i].Move();
+                }
+                catch
+                {
+                    _movableEntities.RemoveAt(i);
+                }
             }
         }
     }

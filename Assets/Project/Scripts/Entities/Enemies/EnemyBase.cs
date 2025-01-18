@@ -1,5 +1,6 @@
 ﻿using NTC.Global.Pool;
 using Project.Entities.Character;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -18,10 +19,14 @@ namespace Project.Entities.Enemies
 
         private float _slowFactor = 0f;
 
+        [ShowInInspector]
         public float SlowFactor
         {
             get => _slowFactor;
-            set => _slowFactor = Mathf.Clamp01(value);
+            set
+            {
+                _slowFactor = Mathf.Clamp01(value);
+            }
         }
 
         private Quaternion _targetRotation;
@@ -30,11 +35,10 @@ namespace Project.Entities.Enemies
 
         protected float Speed
         {
-            get => _speed;
+            get => _speed * (1f - _slowFactor);
             set
             {
                 _speed = value;
-                SetRigidbodyVelocity();
             }
         }
 
@@ -57,7 +61,6 @@ namespace Project.Entities.Enemies
 
         private void OnEnable()
         {
-            SetRigidbodyVelocity();
             UpdateBoundsValue();
         }
 
@@ -164,11 +167,6 @@ namespace Project.Entities.Enemies
                 position.y,
                 (-ScreenHeight / 2f) + bounds.extents.y,
                 (ScreenHeight / 2f) - bounds.extents.y);
-        }
-
-        private void SetRigidbodyVelocity()
-        {
-            Rigidbody2D.velocity = Direction * Speed * (1f - SlowFactor);
         }
     }
 }

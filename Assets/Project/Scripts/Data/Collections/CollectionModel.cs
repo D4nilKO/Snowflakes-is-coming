@@ -7,15 +7,26 @@ namespace Project.Data.Collections
     public class CollectionModel
     {
         private HashSet<CollectableSnowflake> _collectedSnowflakes = new();
+        private readonly CollectionData _data;
+        private readonly Ability _ability;
 
-        public bool AddSnowflake(CollectableSnowflake snowflakeData)
+        public CollectionModel(CollectionData data, Ability ability)
         {
-            bool isAdded = _collectedSnowflakes.Add(snowflakeData);
-            bool isCompleted = _collectedSnowflakes.Count == snowflakeData.ParentCollectionData.Snowflakes.Count;
-
-            return isAdded && isCompleted;
+            _data = data;
+            _ability = ability;
         }
 
-        public void ActivateAbility() { }
+        public bool AddSnowflake(CollectableSnowflake snowflake)
+        {
+            bool isAdded = _collectedSnowflakes.Add(snowflake);
+            bool isCompleted = _collectedSnowflakes.Count == _data.Snowflakes.Count;
+
+            if (isAdded)
+            {
+                _ability?.Activate();
+            }
+
+            return isCompleted;
+        }
     }
 }

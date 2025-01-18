@@ -63,6 +63,8 @@ MonoBehaviour:
   _enemySpawner: {fileID: 5795099636840865599, guid: 763180dc009014919a9b7de13fadffa0, type: 3}
   _mainCanvas: {fileID: 0}
   _gamePlayParent: {fileID: 0}
+  _collections:
+  - {fileID: 11400000, guid: b8f6fdd2bbc414e6fb3e009be543c85a, type: 2}
 --- !u!114 &3839491378207606209
 MonoBehaviour:
   m_ObjectHideFlags: 0

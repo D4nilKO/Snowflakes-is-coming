@@ -9,16 +9,20 @@ namespace Project.Abilities
 {
     public class SlowModeAbility : Ability, IStartable, IDisposable
     {
-        private SyncedTimer _timer = new(TimerType.UpdateTick);
+        private readonly SyncedTimer _timer = new(TimerType.UpdateTick);
 
         private SlowModeAbilityData _data;
         private EnemyContainer _enemyContainer;
 
         [Inject]
-        public void Construct(EnemyContainer enemyContainer, SlowModeAbilityData slowModeData)
+        public void Construct(EnemyContainer enemyContainer)
         {
             _enemyContainer = enemyContainer;
-            _data = slowModeData;
+        }
+
+        public void Initialize(SlowModeAbilityData data)
+        {
+            _data = data;
         }
 
         public void Start()
@@ -42,15 +46,14 @@ namespace Project.Abilities
             _timer.TimerFinished -= Deactivate;
         }
 
-        public override void Activate()
+        protected override void OnActivate()
         {
-            Debug.LogError("Slow mode activated");
             _enemyContainer.GetEnemies().ForEach(enemy => enemy.SlowFactor = _data.SlowFactor);
             _enemyContainer.SetSlowFactor(_data.SlowFactor);
             _timer.Start(_data.Duration);
         }
 
-        public override void Deactivate()
+        protected override void OnDeactivate()
         {
             Debug.LogError("Slow mode deactivated");
             _enemyContainer.GetEnemies().ForEach(enemy => enemy.SlowFactor = 0f);

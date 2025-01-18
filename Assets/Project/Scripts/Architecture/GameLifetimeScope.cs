@@ -1,12 +1,13 @@
+using System.Collections.Generic;
 using Project.Abilities;
 using Project.Architecture.UI;
+using Project.Data.Collections;
 using Project.Entities;
 using Project.Entities.Character;
 using Project.Entities.Enemies;
 using Project.GameState;
 using Project.GameState.View;
 using Project.LevelSystem;
-using Project.Menu;
 using Project.Services;
 using Project.Settings;
 using Project.Timing;
@@ -59,14 +60,12 @@ namespace Project.Architecture
 
         [SerializeField]
         private Transform _gamePlayParent;
-        
-        [SerializeField, Header("Ability Data")]
-        private AbilityData _slowAbilityData;
+
+        [SerializeField, Header("Snowflake Collections")]
+        private List<CollectionData> _collections;
 
         protected override void Configure(IContainerBuilder builder)
         {
-            Debug.Log("GameLifetimeScope configure");
-
             builder.RegisterComponentInNewPrefab(_inGamePausePanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
             builder.RegisterComponentInNewPrefab(_trainingPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
             builder.RegisterComponentInNewPrefab(_finalPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
@@ -101,6 +100,25 @@ namespace Project.Architecture
 
             builder.Register<LevelLoader>(Lifetime.Scoped);
             builder.Register<RewardAdHandler>(Lifetime.Scoped);
+
+            RegisterCollections(builder);
+        }
+
+        private void RegisterCollections(IContainerBuilder builder)
+        {
+            builder.RegisterEntryPoint<SlowModeAbility>().AsSelf();
+            builder.Register<AbilityFactory>(Lifetime.Singleton).As<IAbilityFactory>();
+            builder.Register<CollectionManager>(Lifetime.Singleton);
+
+            builder.RegisterBuildCallback(container =>
+            {
+                var collectionManager = container.Resolve<CollectionManager>();
+
+                foreach (var collection in _collections)
+                {
+                    collectionManager.RegisterCollection(collection);
+                }
+            });
         }
     }
 }

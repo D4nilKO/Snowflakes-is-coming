@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 671236fa5b38434d87245f3b24c849dc, type: 3}
+  m_Name: First_CollectionData
+  m_EditorClassIdentifier: 
+  <CollectionName>k__BackingField: 1
+  <Snowflakes>k__BackingField:
+  - {fileID: 952377200719329249, guid: 743ee336d74d1404c9014e813aaea9c5, type: 3}
+  - {fileID: 952377200719329249, guid: 308bb70584bdf457f83f754f6e767dd5, type: 3}
+  - {fileID: 952377200719329249, guid: 7c671d69e9b1a48d0af6a5212511526c, type: 3}
+  <UnlockableAbilityData>k__BackingField: {fileID: 11400000, guid: c5fb9ae2a350240dbb75b360376b4977, type: 2}

@@ -1,14 +1,15 @@
 using NTC.Global.Pool;
 using Project.Data.Collections;
 using Project.Entities.Enemies;
+using UnityEngine;
 using VContainer;
 
 namespace Project.Entities.Collectables
 {
     public class CollectableSnowflake : EnemyBase, ICollectable
     {
-        public int Id { set; get; }
-        public CollectionData ParentCollectionData { get; set; }
+        [HideInInspector]
+        public CollectionData ParentCollectionData;
 
         private CollectionManager _collectionManager;
 

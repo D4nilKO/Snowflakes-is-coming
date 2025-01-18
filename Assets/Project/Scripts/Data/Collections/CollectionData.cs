@@ -1,5 +1,5 @@
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using Project.Abilities;
 using Project.Entities.Collectables;
 using UnityEngine;
@@ -12,11 +12,18 @@ namespace Project.Data.Collections
         [field: SerializeField]
         public string CollectionName { get; private set; }
 
-        [SerializeField]
-        private List<CollectableSnowflake> _snowflakes;
+        [field: SerializeField]
+        public List<CollectableSnowflake> Snowflakes { get; private set; }
 
-        public List<CollectableSnowflake> Snowflakes => _snowflakes.ToList();
+        [field: SerializeField]
+        public AbilityData UnlockableAbilityData { get; private set; }
 
-        public AbilityData UnlockableAbilityData;
+        private void OnValidate()
+        {
+            foreach (var snowflake in Snowflakes)
+            {
+                snowflake.ParentCollectionData = this;
+            }
+        }
     }
 }

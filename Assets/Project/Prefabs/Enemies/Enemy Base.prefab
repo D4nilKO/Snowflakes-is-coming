@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -79,6 +79,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -122,6 +124,7 @@ PolygonCollider2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5064293743675624431}
   m_Enabled: 1
+  serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -145,12 +148,13 @@ PolygonCollider2D:
     m_Bits: 4294967295
   m_IsTrigger: 1
   m_UsedByEffector: 0
-  m_UsedByComposite: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5, y: 5}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 5.01, y: 5}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -158,22 +162,13 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 1.4019929, y: 1.753238}
-      - {x: 0.8469056, y: 2.0364501}
-      - {x: -0.0049215555, y: 2.5208328}
-      - {x: -0.8161421, y: 2.0910716}
-      - {x: -1.3252587, y: 1.761385}
-      - {x: -2.171607, y: 1.2621363}
-      - {x: -2.2217531, y: 0.34694803}
-      - {x: -2.1686482, y: -1.2544539}
-      - {x: -1.4004571, y: -1.7484688}
-      - {x: -0.006186247, y: -2.520891}
-      - {x: 0.82207847, y: -2.0969033}
-      - {x: 1.3223861, y: -1.7561476}
-      - {x: 2.180346, y: -1.254981}
-      - {x: 2.2201662, y: -0.35106826}
-      - {x: 2.1848178, y: 0.24232638}
-      - {x: 2.1798527, y: 1.258813}
+    - - {x: -0.007209778, y: 0.5225079}
+      - {x: 0.4325676, y: 0.26915503}
+      - {x: 0.4369821, y: -0.2489934}
+      - {x: 0.28697604, y: -0.3415979}
+      - {x: -0.007916272, y: -0.4987284}
+      - {x: -0.44331416, y: -0.24540615}
+      - {x: -0.4433142, y: 0.25332236}
   m_UseDelaunayMesh: 0
 --- !u!114 &7850825602063701778
 MonoBehaviour:
@@ -188,5 +183,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 5
-  _rotateEnabled: 1
   _rotationSpeed: 10
+  _rotateEnabled: 1
