@@ -21,7 +21,7 @@ namespace Project.Abilities
 
         public void Deactivate()
         {
-            if (!IsActive)
+            if (IsActive == false)
                 return;
 
             IsActive = false;

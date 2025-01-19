@@ -1,4 +1,5 @@
 ﻿using System;
+using Project.Abilities;
 using Project.Architecture.UI;
 using Project.Data;
 using Project.Entities.Character;
@@ -27,6 +28,8 @@ namespace Project.LevelSystem
         private LevelTextView _levelTextView;
         private PauseHandler _pauseHandler;
         private ProgressData _progressData;
+        
+        private SlowModeAbility _slowModeAbility;
 
         private WonPanel _wonPanel;
         private LosePanel _losePanel;
@@ -41,7 +44,7 @@ namespace Project.LevelSystem
         public void Construct(LevelLoader levelLoader, EnemySpawner enemySpawner, GameOutcome gameOutcome,
             RewardAdHandler rewardAdHandler, Player player, SurviveTimerView timersView, EnemyContainer enemyContainer,
             LevelTextView levelTextView, LosePanel losePanel, WonPanel wonPanel, PauseHandler pauseHandler,
-            ProgressData progressData)
+            ProgressData progressData, SlowModeAbility slowModeAbility)
         {
             _levelLoader = levelLoader;
             _enemySpawner = enemySpawner;
@@ -53,6 +56,8 @@ namespace Project.LevelSystem
             _levelTextView = levelTextView;
             _pauseHandler = pauseHandler;
             _progressData = progressData;
+            
+            _slowModeAbility = slowModeAbility;
 
             _wonPanel = wonPanel;
             _losePanel = losePanel;
@@ -142,6 +147,7 @@ namespace Project.LevelSystem
             _levelTextView.Initialize(_levelData.NumberOfLevel);
             _player.Initialize();
             _rewardAdHandler.Initialize();
+            _slowModeAbility.Initialize();
         }
     }
 }

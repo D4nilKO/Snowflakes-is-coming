@@ -19,7 +19,7 @@ namespace Project.Data.Collections
 
         public void RegisterCollection(CollectionData collectionData)
         {
-            if (!_collectionModels.ContainsKey(collectionData))
+            if (_collectionModels.ContainsKey(collectionData) == false)
             {
                 // Создаем способность через фабрику на основе UnlockableAbilityData
                 Ability ability = _abilityFactory.CreateAbility(collectionData.UnlockableAbilityData);
@@ -29,11 +29,16 @@ namespace Project.Data.Collections
 
         public void AddToCollection(CollectableSnowflake snowflake)
         {
-            if (snowflake.ParentCollectionData is null ||
-                !_collectionModels.TryGetValue(snowflake.ParentCollectionData, out var model))
+            if (snowflake.ParentCollectionData is null)
+                return;
+
+            bool hasModel = _collectionModels.TryGetValue(snowflake.ParentCollectionData, out CollectionModel model);
+
+            if (hasModel == false)
                 return;
 
             bool isCompleted = model.AddSnowflake(snowflake);
+
             if (isCompleted)
             {
                 OnCollectionCompleted?.Invoke(model);

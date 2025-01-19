@@ -20,7 +20,7 @@ namespace Project.Abilities
             _enemyContainer = enemyContainer;
         }
 
-        public void Initialize(SlowModeAbilityData data)
+        public void SetData(SlowModeAbilityData data)
         {
             _data = data;
         }
@@ -29,6 +29,11 @@ namespace Project.Abilities
         {
             SubscribeToTimer();
             _timer.SetTime(_data.Duration);
+        }
+
+        public void Initialize()
+        {
+            Deactivate();
         }
 
         public void Dispose()
@@ -55,7 +60,6 @@ namespace Project.Abilities
 
         protected override void OnDeactivate()
         {
-            Debug.LogError("Slow mode deactivated");
             _enemyContainer.GetEnemies().ForEach(enemy => enemy.SlowFactor = 0f);
             _enemyContainer.SetSlowFactor(0f);
         }

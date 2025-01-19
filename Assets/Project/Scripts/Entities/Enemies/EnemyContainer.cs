@@ -26,13 +26,12 @@ namespace Project.Entities.Enemies
         public void ClearActiveEnemies()
         {
             _activeEnemies.AddRange(GetComponentsInChildren<EnemyBase>());
+            _activeEnemies.RemoveWhere(enemy => enemy == null);
 
-            foreach (EnemyBase enemy in _activeEnemies)
+            foreach (var enemy in _activeEnemies)
             {
                 NightPool.Despawn(enemy);
             }
-
-            _activeEnemies.Clear();
         }
 
         public List<EnemyBase> GetEnemies()

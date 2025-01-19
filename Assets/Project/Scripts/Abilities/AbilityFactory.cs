@@ -17,12 +17,12 @@ public class AbilityFactory : IAbilityFactory
         {
             // Создаём способность через контейнер
             var ability = _container.Resolve<SlowModeAbility>();
-            ability.Initialize(slowModeData);
+            ability.SetData(slowModeData);
             return ability;
         }
 
         // Обработка других типов способностей
-        Debug.LogWarning($"Ability type {data.GetType()} is not supported.");
+        Debug.LogError($"Ability type {data.GetType()} is not supported.");
         return null;
     }
 }

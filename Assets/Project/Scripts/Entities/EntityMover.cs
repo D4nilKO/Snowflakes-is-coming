@@ -13,14 +13,15 @@ namespace Project.Entities
         private List<IRotatable> _rotatableEntities = new();
 
         private Player _player;
-
+        private EnemyContainer _enemyContainer;
         private IObjectResolver _container;
 
         [Inject]
-        public void Construct(Player player, IObjectResolver container)
+        public void Construct(Player player, IObjectResolver container, EnemyContainer enemyContainer)
         {
             _player = player;
             _container = container;
+            _enemyContainer = enemyContainer;
         }
 
         private void Start()
@@ -49,26 +50,26 @@ namespace Project.Entities
             var enemies = FindObjectsByType<EnemyBase>(FindObjectsSortMode.None)
                 .Where(enemy => enemy.isActiveAndEnabled).ToArray();
 
-            _rotatableEntities.AddRange(enemies);
-
-            _movableEntities.AddRange(enemies);
-            _movableEntities.Add(_player);
-
             foreach (var enemy in enemies)
             {
                 _container.Inject(enemy);
+                AddEntity(enemy);
+                _enemyContainer.AddEnemy(enemy);
+                enemy.OnSpawn();
             }
+
+            _movableEntities.Add(_player);
         }
 
         private void RotateEntities()
         {
             for (int i = _rotatableEntities.Count - 1; i >= 0; i--)
             {
-                try
+                if (_rotatableEntities[i] as UnityEngine.Object != null)
                 {
                     _rotatableEntities[i].Rotate();
                 }
-                catch
+                else
                 {
                     _rotatableEntities.RemoveAt(i);
                 }
@@ -79,11 +80,11 @@ namespace Project.Entities
         {
             for (int i = _movableEntities.Count - 1; i >= 0; i--)
             {
-                try
+                if (_movableEntities[i] as UnityEngine.Object != null)
                 {
                     _movableEntities[i].Move();
                 }
-                catch
+                else
                 {
                     _movableEntities.RemoveAt(i);
                 }
