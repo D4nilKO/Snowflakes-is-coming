@@ -12,7 +12,7 @@ namespace Project.Abilities
         public void Activate()
         {
             if (IsActive)
-                return;
+                Deactivate();
 
             IsActive = true;
             OnActivate();

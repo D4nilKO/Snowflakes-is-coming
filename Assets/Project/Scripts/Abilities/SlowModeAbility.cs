@@ -55,7 +55,7 @@ namespace Project.Abilities
         {
             _enemyContainer.GetEnemies().ForEach(enemy => enemy.SlowFactor = _data.SlowFactor);
             _enemyContainer.SetSlowFactor(_data.SlowFactor);
-            _timer.Start(_data.Duration);
+            _timer.Restart(_data.Duration);
         }
 
         protected override void OnDeactivate()

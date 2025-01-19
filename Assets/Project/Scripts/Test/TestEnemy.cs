@@ -4,10 +4,11 @@ namespace Project.Test
 {
     public class TestEnemy : MonoBehaviour
     {
-        [SerializeField] private float _speed = 8;
-        
+        [SerializeField]
+        private float _speed = 8;
+
         private Rigidbody2D _rigidbody2D;
-        
+
         private void Awake()
         {
             _rigidbody2D = GetComponent<Rigidbody2D>();

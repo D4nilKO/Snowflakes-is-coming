@@ -42,9 +42,9 @@ namespace Project.Entities.Enemies
             }
         }
 
-        protected Vector2 Direction
+        private Vector2 Direction
         {
-            get => _direction;
+            get => _direction.normalized;
             set
             {
                 if (value == Vector2.zero)
