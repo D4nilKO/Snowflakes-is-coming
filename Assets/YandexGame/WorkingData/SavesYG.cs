@@ -11,7 +11,7 @@
 
         // Ваши сохранения
         public int unlockedLevelNumber = 1;
-        public bool IsSawTraining;
+        public bool IsSawTraining = false;
 
         // Поля (сохранения) можно удалять и создавать новые. При обновлении игры сохранения ломаться не должны
 

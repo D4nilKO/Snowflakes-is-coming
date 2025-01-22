@@ -15,13 +15,11 @@ public class AbilityFactory : IAbilityFactory
     {
         if (data is SlowModeAbilityData slowModeData)
         {
-            // Создаём способность через контейнер
             var ability = _container.Resolve<SlowModeAbility>();
             ability.SetData(slowModeData);
             return ability;
         }
 
-        // Обработка других типов способностей
         Debug.LogError($"Ability type {data.GetType()} is not supported.");
         return null;
     }
