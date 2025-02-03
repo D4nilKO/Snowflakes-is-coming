@@ -38,6 +38,11 @@ namespace Project.Entities.Character
             SetBounds();
         }
 
+        private void FixedUpdate()
+        {
+            Move();
+        }
+
         private void SetBounds()
         {
             _bounds = ObjectCollider.bounds;

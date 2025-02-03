@@ -23,7 +23,7 @@ namespace Project.Data.Collections
 
             if (isAdded)
             {
-                _ability?.Activate();
+                _ability?.ReActivate();
             }
 
             return isCompleted;

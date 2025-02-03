@@ -70,7 +70,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9035218858096641903, guid: 7a496d983cefe5442bd298d1c1f958d1, type: 3}
       propertyPath: _rotationSpeed
-      value: 20
+      value: 45
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

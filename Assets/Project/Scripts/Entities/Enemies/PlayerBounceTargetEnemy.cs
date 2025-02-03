@@ -1,10 +1,13 @@
+using Project.Test;
+using UnityEngine;
+
 namespace Project.Entities.Enemies
 {
     public class PlayerBounceTargetEnemy : StandardEnemy
     {
-        protected override void ReflectDirection(bool isOutOfBoundsX, bool isOutOfBoundsY)
+        private void OnCollisionEnter2D(Collision2D other)
         {
-            if (isOutOfBoundsX || isOutOfBoundsY)
+            if (other.gameObject.TryGetComponent(out ScreenBounds bounds))
             {
                 TurnInPlayerDirection();
             }

@@ -9,14 +9,11 @@ namespace Project.Entities
     {
         protected Rigidbody2D Rigidbody2D;
         protected Collider2D ObjectCollider;
-        
+
         protected Camera MainCamera;
 
         protected float ScreenWidth;
         protected float ScreenHeight;
-
-        protected float ObjectHeight;
-        protected float ObjectWidth;
 
         private float _size;
 
@@ -33,8 +30,6 @@ namespace Project.Entities
 
                 gameObject.transform.localScale = new Vector3(value, value, 1f);
                 _size = value;
-
-                UpdateBoundsValue();
             }
         }
 
@@ -47,13 +42,6 @@ namespace Project.Entities
             FetchCameraSize(MainCamera, out ScreenWidth, out ScreenHeight);
 
             Size = gameObject.transform.localScale.x;
-        }
-
-        protected void UpdateBoundsValue()
-        {
-            Bounds bounds = ObjectCollider.bounds;
-            ObjectWidth = bounds.size.x;
-            ObjectHeight = bounds.size.y;
         }
     }
 }

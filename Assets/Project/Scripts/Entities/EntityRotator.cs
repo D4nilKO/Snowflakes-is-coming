@@ -1,37 +1,28 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Project.Entities.Character;
 using Project.Entities.Enemies;
 using UnityEngine;
 using VContainer;
 
 namespace Project.Entities
 {
-    public class EntityMover : MonoBehaviour
+    public class EntityRotator : MonoBehaviour
     {
-        private List<IMovable> _movableEntities = new();
         private List<IRotatable> _rotatableEntities = new();
 
-        private Player _player;
         private EnemyContainer _enemyContainer;
         private IObjectResolver _container;
 
         [Inject]
-        public void Construct(Player player, IObjectResolver container, EnemyContainer enemyContainer)
+        public void Construct(IObjectResolver container, EnemyContainer enemyContainer)
         {
-            _player = player;
             _container = container;
             _enemyContainer = enemyContainer;
         }
 
         private void Start()
         {
-            FindAndAddEntitiesToLists();
-        }
-
-        private void FixedUpdate()
-        {
-            MoveEntities();
+            FindAndAddEntitiesToList();
         }
 
         private void Update()
@@ -41,14 +32,13 @@ namespace Project.Entities
 
         public void AddEntity(EnemyBase entity)
         {
-            _movableEntities.Add(entity);
             _rotatableEntities.Add(entity);
         }
 
-        private void FindAndAddEntitiesToLists()
+        private void FindAndAddEntitiesToList()
         {
             var enemies = FindObjectsByType<EnemyBase>(FindObjectsSortMode.None)
-                .Where(enemy => enemy.isActiveAndEnabled).ToArray();
+                .Where(enemy => enemy.isActiveAndEnabled);
 
             foreach (var enemy in enemies)
             {
@@ -57,8 +47,6 @@ namespace Project.Entities
                 _enemyContainer.AddEnemy(enemy);
                 enemy.OnSpawn();
             }
-
-            _movableEntities.Add(_player);
         }
 
         private void RotateEntities()
@@ -72,21 +60,6 @@ namespace Project.Entities
                 else
                 {
                     _rotatableEntities.RemoveAt(i);
-                }
-            }
-        }
-
-        private void MoveEntities()
-        {
-            for (int i = _movableEntities.Count - 1; i >= 0; i--)
-            {
-                if (_movableEntities[i] as UnityEngine.Object != null)
-                {
-                    _movableEntities[i].Move();
-                }
-                else
-                {
-                    _movableEntities.RemoveAt(i);
                 }
             }
         }

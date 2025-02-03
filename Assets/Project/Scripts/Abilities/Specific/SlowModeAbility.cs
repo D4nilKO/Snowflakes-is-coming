@@ -1,6 +1,5 @@
 using System;
 using Project.Entities.Enemies;
-using UnityEngine;
 using VavilichevGD.Utils.Timing;
 using VContainer;
 using VContainer.Unity;
@@ -9,7 +8,7 @@ namespace Project.Abilities
 {
     public class SlowModeAbility : Ability, IStartable, IDisposable
     {
-        private readonly SyncedTimer _timer = new(TimerType.UpdateTick);
+        private readonly SyncedTimer _durationTimer = new(TimerType.UpdateTick);
 
         private SlowModeAbilityData _data;
         private EnemyContainer _enemyContainer;
@@ -28,7 +27,8 @@ namespace Project.Abilities
         public void Start()
         {
             SubscribeToTimer();
-            _timer.SetTime(_data.Duration);
+            _durationTimer.SetTime(_data.Duration);
+            CooldownTimer.SetTime(_data.Cooldown);
         }
 
         public void Initialize()
@@ -43,25 +43,30 @@ namespace Project.Abilities
 
         private void SubscribeToTimer()
         {
-            _timer.TimerFinished += Deactivate;
+            _durationTimer.TimerFinished += Deactivate;
         }
 
         private void UnsubscribeFromTimer()
         {
-            _timer.TimerFinished -= Deactivate;
+            _durationTimer.TimerFinished -= Deactivate;
         }
 
         protected override void OnActivate()
         {
             _enemyContainer.GetEnemies().ForEach(enemy => enemy.SlowFactor = _data.SlowFactor);
             _enemyContainer.SetSlowFactor(_data.SlowFactor);
-            _timer.Restart(_data.Duration);
+            _durationTimer.Restart(_data.Duration);
         }
 
         protected override void OnDeactivate()
         {
             _enemyContainer.GetEnemies().ForEach(enemy => enemy.SlowFactor = 0f);
             _enemyContainer.SetSlowFactor(0f);
+        }
+
+        public override float GetCooldown()
+        {
+            return _data.Cooldown;
         }
     }
 }

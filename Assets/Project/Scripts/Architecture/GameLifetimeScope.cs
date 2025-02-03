@@ -84,7 +84,7 @@ namespace Project.Architecture
             builder.RegisterComponentInNewPrefab(_enemyContainer, Lifetime.Scoped).UnderTransform(_gamePlayParent);
             builder.RegisterComponentInNewPrefab(_enemySpawner, Lifetime.Scoped);
 
-            builder.RegisterComponentOnNewGameObject<EntityMover>(Lifetime.Scoped).UnderTransform(_gamePlayParent);
+            builder.RegisterComponentOnNewGameObject<EntityRotator>(Lifetime.Scoped).UnderTransform(_gamePlayParent);
             builder.RegisterComponentOnNewGameObject<LevelDataInfoView>(Lifetime.Scoped);
 
             builder.RegisterInstance(_devPanelSettings);

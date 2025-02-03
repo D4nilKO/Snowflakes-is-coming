@@ -9,8 +9,8 @@ namespace Project.Data.Collections
     {
         public event Action<CollectionModel> OnCollectionCompleted;
 
-        private readonly Dictionary<CollectionData, CollectionModel> _collectionModels = new();
-        private readonly IAbilityFactory _abilityFactory;
+        private Dictionary<CollectionData, CollectionModel> _collectionModels = new();
+        private IAbilityFactory _abilityFactory;
 
         public CollectionManager(IAbilityFactory abilityFactory)
         {

@@ -547,6 +547,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _reviewPanel: {fileID: 4960770968643814545}
   _outOfLevelsPanel: {fileID: 3138481986320323207}
+  _menuButton: {fileID: 7071151350447302973}
 --- !u!1 &7600175667157017600
 GameObject:
   m_ObjectHideFlags: 0
@@ -894,6 +895,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2843736793246486389, guid: 7a4ef4145d32d432e899c309f2c3cebe, type: 3}
   m_PrefabInstance: {fileID: 2244547371098895622}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7071151350447302973 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9009448036594457659, guid: 7a4ef4145d32d432e899c309f2c3cebe, type: 3}
+  m_PrefabInstance: {fileID: 2244547371098895622}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7624998965115857425
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1029,6 +1041,18 @@ PrefabInstance:
     - target: {fileID: 8742646622300237117, guid: f0434d75e4e6bb34d920827f29db568d, type: 3}
       propertyPath: m_SizeDelta.y
       value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 8742646622300237117, guid: f0434d75e4e6bb34d920827f29db568d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.1630048
+      objectReference: {fileID: 0}
+    - target: {fileID: 8742646622300237117, guid: f0434d75e4e6bb34d920827f29db568d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.1630048
+      objectReference: {fileID: 0}
+    - target: {fileID: 8742646622300237117, guid: f0434d75e4e6bb34d920827f29db568d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.1630048
       objectReference: {fileID: 0}
     - target: {fileID: 8742646622300237117, guid: f0434d75e4e6bb34d920827f29db568d, type: 3}
       propertyPath: m_LocalPosition.x

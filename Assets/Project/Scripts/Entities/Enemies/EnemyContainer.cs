@@ -36,7 +36,13 @@ namespace Project.Entities.Enemies
 
         public List<EnemyBase> GetEnemies()
         {
+            RemoveNullEnemies();
             return _activeEnemies.ToList();
+        }
+        
+        private void RemoveNullEnemies()
+        {
+            _activeEnemies.RemoveWhere(enemy => enemy == null);
         }
     }
 }

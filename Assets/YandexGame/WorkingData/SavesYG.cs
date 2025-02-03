@@ -1,4 +1,6 @@
-﻿namespace YG
+﻿using System.Collections.Generic;
+
+namespace YG
 {
     [System.Serializable]
     public class SavesYG
@@ -12,6 +14,13 @@
         // Ваши сохранения
         public int unlockedLevelNumber = 1;
         public bool IsSawTraining = false;
+
+        public HashSet<string> UnlockedAbilityNames = new();
+        
+        public void AddUnlockedAbilityName(string abilityName)
+        {
+            UnlockedAbilityNames.Add(abilityName);
+        }
 
         // Поля (сохранения) можно удалять и создавать новые. При обновлении игры сохранения ломаться не должны
 

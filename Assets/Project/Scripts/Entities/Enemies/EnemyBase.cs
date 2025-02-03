@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 namespace Project.Entities.Enemies
 {
-    public abstract class EnemyBase : Entity, IMovable, IPoolItem, IRotatable
+    public abstract class EnemyBase : Entity, IPoolItem, IRotatable
     {
         [SerializeField, Range(0f, 20f)]
         private float _speed = 5f;
@@ -19,6 +19,9 @@ namespace Project.Entities.Enemies
 
         private float _slowFactor = 0f;
 
+        private Quaternion _targetRotation;
+        private Vector2 _direction;
+
         [ShowInInspector]
         public float SlowFactor
         {
@@ -26,32 +29,29 @@ namespace Project.Entities.Enemies
             set
             {
                 _slowFactor = Mathf.Clamp01(value);
+                UpdateRigidbodySpeed();
             }
         }
-
-        private Quaternion _targetRotation;
-
-        private Vector2 _direction;
 
         protected float Speed
         {
             get => _speed * (1f - _slowFactor);
             set
             {
+                UpdateRigidbodySpeed();
                 _speed = value;
             }
         }
 
         private Vector2 Direction
         {
-            get => _direction.normalized;
-            set
-            {
-                if (value == Vector2.zero)
-                    return;
+            get => Rigidbody2D.velocity.normalized;
+            set => Rigidbody2D.velocity = value.normalized * Speed;
+        }
 
-                _direction = value.normalized;
-            }
+        private void UpdateRigidbodySpeed()
+        {
+            Rigidbody2D.velocity = Direction * Speed;
         }
 
         protected virtual void Start()
@@ -61,22 +61,13 @@ namespace Project.Entities.Enemies
 
         private void OnEnable()
         {
-            UpdateBoundsValue();
-        }
-
-        public virtual void Move()
-        {
-            Vector2 newPosition = GetNewPosition(Rigidbody2D.position);
-
-            TryReflect(ref newPosition);
-            ClampPosition(ref newPosition);
-
-            Rigidbody2D.MovePosition(newPosition);
+            UpdateRigidbodySpeed();
         }
 
         public virtual void OnSpawn()
         {
-            SetRandomDirection();
+            SetDirectionOnSpawn();
+            OnEnable();
         }
 
         public virtual void OnDespawn()
@@ -104,15 +95,9 @@ namespace Project.Entities.Enemies
             Direction = playerPosition - transform.position;
         }
 
-        protected Vector2 GetNewPosition(Vector2 currentPosition)
+        protected virtual void SetDirectionOnSpawn()
         {
-            return currentPosition + (Direction * (Speed * Time.fixedDeltaTime));
-        }
-
-        protected void TryReflect(ref Vector2 newPosition)
-        {
-            CheckOutOfBounds(newPosition, out bool isOutOfBoundsX, out bool isOutOfBoundsY);
-            ReflectDirection(isOutOfBoundsX, isOutOfBoundsY);
+            SetRandomDirection();
         }
 
         private void SetRandomDirection()
@@ -120,53 +105,13 @@ namespace Project.Entities.Enemies
             Direction = Random.insideUnitCircle;
         }
 
-        private void CheckOutOfBounds(Vector2 newPosition, out bool isOutOfBoundsX, out bool isOutOfBoundsY)
+        private void OnDrawGizmos()
         {
-            float halfScreenWidth = ScreenWidth * 0.5f;
-            float halfScreenHeight = ScreenHeight * 0.5f;
+            if (Rigidbody2D == null)
+                return;
 
-            float halfObjectWidth = ObjectWidth * 0.5f;
-            float halfObjectHeight = ObjectHeight * 0.5f;
-
-            isOutOfBoundsX = newPosition.x < -halfScreenWidth + halfObjectWidth ||
-                newPosition.x > halfScreenWidth - halfObjectWidth;
-
-            isOutOfBoundsY = newPosition.y < -halfScreenHeight + halfObjectHeight ||
-                newPosition.y > halfScreenHeight - halfObjectHeight;
-        }
-
-        protected virtual void ReflectDirection(bool isOutOfBoundsX, bool isOutOfBoundsY)
-        {
-            if (isOutOfBoundsX)
-                ReflectHorizontal();
-
-            if (isOutOfBoundsY)
-                ReflectVertical();
-        }
-
-        private void ReflectHorizontal()
-        {
-            Direction = new Vector2(-Direction.x, Direction.y);
-        }
-
-        private void ReflectVertical()
-        {
-            Direction = new Vector2(Direction.x, -Direction.y);
-        }
-
-        protected void ClampPosition(ref Vector2 position)
-        {
-            Bounds bounds = ObjectCollider.bounds;
-
-            position.x = Mathf.Clamp(
-                position.x,
-                (-ScreenWidth / 2f) + bounds.extents.x,
-                (ScreenWidth / 2f) - bounds.extents.x);
-
-            position.y = Mathf.Clamp(
-                position.y,
-                (-ScreenHeight / 2f) + bounds.extents.y,
-                (ScreenHeight / 2f) - bounds.extents.y);
+            Gizmos.color = Color.red;
+            Gizmos.DrawRay(transform.position, transform.position + (Vector3)Direction * 1000f);
         }
     }
 }
