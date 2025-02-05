@@ -42,6 +42,9 @@ namespace Project.Architecture
 
         [SerializeField]
         private LevelTextView _levelPanel;
+        
+        [SerializeField]
+        private AbilityPanel _abilityPanel;
 
         [SerializeField]
         private SurviveTimerView _surviveTimerPanel;
@@ -74,6 +77,7 @@ namespace Project.Architecture
             builder.RegisterComponentInNewPrefab(_devPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
             builder.RegisterComponentInNewPrefab(_levelPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
             builder.RegisterComponentInNewPrefab(_surviveTimerPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
+            builder.RegisterComponentInNewPrefab(_abilityPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
 
             builder.RegisterComponentInNewPrefab(_player, Lifetime.Scoped).UnderTransform(_gamePlayParent);
 

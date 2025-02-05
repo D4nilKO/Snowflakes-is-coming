@@ -1,13 +1,13 @@
 using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using VavilichevGD.Utils.Timing;
 
 namespace Project.Abilities
 {
-    public class AbilityView : MonoBehaviour, IPointerUpHandler, IDisposable
+    [RequireComponent(typeof(Button))]
+    public class AbilityView : MonoBehaviour, IDisposable
     {
         [SerializeField]
         private Image _icon;
@@ -22,16 +22,25 @@ namespace Project.Abilities
         private TMP_Text _cooldownText;
 
         private Ability _ability;
+        private Button _button;
+        private float _cooldownTime;
 
         public void SetAbility(Ability ability)
         {
             _ability = ability;
+            _abilityName.text = ability.GetData().AbilityName;
+            _icon.sprite = ability.GetData().Icon;
+            _cooldownTime = _ability.GetCooldown();
+
             _ability.CooldownTimer.TimerValueChanged += UpdateCooldownUI;
-            ResetCooldownUI();
+            // ResetCooldownUI();
         }
 
         private void Start()
         {
+            _button = GetComponent<Button>();
+            _button.onClick.AddListener(() => _ability.TryActivate());
+
             this.ValidateSerializedFields();
         }
 
@@ -42,12 +51,9 @@ namespace Project.Abilities
 
         private void UpdateCooldownUI(float remainingTime, TimeChangingSource changingSource)
         {
-            // float remainingTime = _ability.GetRemainingCooldown();
-            float cooldownTime = _ability.GetCooldown();
-
-            if (cooldownTime > 0 && remainingTime > 0)
+            if (_cooldownTime > 0 && remainingTime > 0)
             {
-                UpdateFade(remainingTime, cooldownTime);
+                UpdateFade(remainingTime, _cooldownTime);
                 UpdateText(remainingTime);
             }
             else
@@ -58,8 +64,9 @@ namespace Project.Abilities
 
         private void UpdateText(float remainingTime)
         {
-            _cooldownText.text = Mathf.CeilToInt(remainingTime).ToString();
             _cooldownText.gameObject.SetActive(true);
+            _cooldownText.text = Mathf.CeilToInt(remainingTime).ToString();
+            Debug.LogError("Remaining time: " + remainingTime);
         }
 
         private void UpdateFade(float remainingTime, float cooldownTime)
@@ -72,19 +79,6 @@ namespace Project.Abilities
         {
             _cooldownOverlay.fillAmount = 0f;
             _cooldownText.gameObject.SetActive(false);
-        }
-
-        public void OnPointerUp(PointerEventData eventData)
-        {
-            ActivateAbility();
-        }
-
-        private void ActivateAbility()
-        {
-            if (_ability.IsReady())
-            {
-                _ability.TryActivate();
-            }
         }
 
         public void Dispose()

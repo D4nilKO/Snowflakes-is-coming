@@ -1,26 +1,45 @@
-using Project.Abilities;
+using System.Collections.Generic;
 using UnityEngine;
 using VContainer;
 
-public class AbilityFactory : IAbilityFactory
+namespace Project.Abilities
 {
-    private readonly IObjectResolver _container;
-
-    public AbilityFactory(IObjectResolver container)
+    public class AbilityFactory : IAbilityFactory
     {
-        _container = container;
-    }
+        private readonly IObjectResolver _container;
 
-    public Ability CreateAbility(AbilityData data)
-    {
-        if (data is SlowModeAbilityData slowModeData)
+        private HashSet<Ability> _abilities = new();
+
+        public AbilityFactory(IObjectResolver container)
         {
-            var ability = _container.Resolve<SlowModeAbility>();
-            ability.SetData(slowModeData);
-            return ability;
+            _container = container;
         }
 
-        Debug.LogError($"Ability type {data.GetType()} is not supported.");
-        return null;
+        public Ability CreateAbility(AbilityData data)
+        {
+            if (data is SlowModeAbilityData slowModeData)
+            {
+                var ability = _container.Resolve<SlowModeAbility>();
+                ability.SetData(slowModeData);
+                _abilities.Add(ability);
+                return ability;
+            }
+
+            Debug.LogError($"Ability type {data.GetType()} is not supported.");
+            return null;
+        }
+        
+        public void Initialize()
+        {
+            foreach (Ability ability in _abilities)
+            {
+                ability.Reload();
+            }
+        }
+
+        public IEnumerable<Ability> GetAbilities()
+        {
+            return _abilities;
+        }
     }
 }

@@ -1,3 +1,4 @@
+using Project.Abilities;
 using Project.Architecture.UI;
 using Project.Entities.Character;
 using Project.Entities.Enemies;
@@ -34,6 +35,7 @@ namespace Project.Architecture
             _container.Resolve<LosePanel>();
             _container.Resolve<WonPanel>();
             _container.Resolve<DevPanel>();
+            _container.Resolve<AbilityPanel>();
             _container.Resolve<LevelTextView>();
             _container.Resolve<SurviveTimerView>();
         }

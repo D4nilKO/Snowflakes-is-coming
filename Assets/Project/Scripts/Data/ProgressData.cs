@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Project.Data.Collections;
 using UnityEngine;
 using VContainer.Unity;
 using YG;
@@ -8,6 +8,8 @@ namespace Project.Data
     public class ProgressData : IStartable
     {
         #region Fields
+
+        private CollectionManager _collectionManager;
 
         public int MaxLevelsCount { get; private set; }
         public int CurrentLevelNumber { get; private set; } = 1;

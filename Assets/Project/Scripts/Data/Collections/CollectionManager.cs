@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Project.Entities.Collectables;
 using Project.Abilities;
+using YG;
 
 namespace Project.Data.Collections
 {
@@ -42,6 +43,7 @@ namespace Project.Data.Collections
             if (isCompleted)
             {
                 OnCollectionCompleted?.Invoke(model);
+                YandexGame.savesData.UnlockAbility(model);
             }
         }
     }

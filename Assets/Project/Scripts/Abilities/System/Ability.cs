@@ -4,7 +4,7 @@ using VavilichevGD.Utils.Timing;
 
 namespace Project.Abilities
 {
-    public abstract class Ability : IHasCooldown
+    public abstract class Ability : IHasCooldown, IDisposable
     {
         public readonly SyncedTimer CooldownTimer = new(TimerType.UpdateTick);
 
@@ -16,6 +16,12 @@ namespace Project.Abilities
         protected abstract void OnActivate();
         protected abstract void OnDeactivate();
         public abstract float GetCooldown();
+        public abstract AbilityData GetData();
+
+        // public Ability()
+        // {
+        //     CooldownTimer.TimerFinished += Deactivate;
+        // }
 
         public void ReActivate()
         {
@@ -28,9 +34,13 @@ namespace Project.Abilities
         public bool TryActivate()
         {
             if (IsActive || IsReady() == false)
+            {
+                Debug.LogError($"Ability{GetType()} is not ready");
                 return false;
+            }
 
             ForceActivate();
+
             return true;
         }
 
@@ -38,6 +48,7 @@ namespace Project.Abilities
         {
             IsActive = true;
             OnActivate();
+            CooldownTimer.Start(GetCooldown());
             OnActivated?.Invoke();
 
             Debug.LogError("Ability activated");
@@ -63,10 +74,14 @@ namespace Project.Abilities
         {
             return !CooldownTimer.IsActive;
         }
-        
+
         public void Reload()
         {
+            CooldownTimer.ForceStop();
+            CooldownTimer.Stop();
             CooldownTimer.SetTime(GetCooldown());
         }
+
+        public void Dispose() { }
     }
 }

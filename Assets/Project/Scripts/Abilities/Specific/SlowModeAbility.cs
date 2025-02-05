@@ -66,7 +66,12 @@ namespace Project.Abilities
 
         public override float GetCooldown()
         {
-            return _data.Cooldown;
+            return _data.Cooldown + _data.Duration;
+        }
+
+        public override AbilityData GetData()
+        {
+            return _data;
         }
     }
 }

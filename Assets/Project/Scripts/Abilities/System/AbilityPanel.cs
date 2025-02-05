@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Project.Data.Collections;
 using UnityEngine;
 using VContainer;
 
@@ -14,21 +13,22 @@ namespace Project.Abilities
         private Transform _abilityButtonParent;
 
         private List<AbilityView> _abilityButtons = new();
-        
-        private CollectionManager _collectionManager;
+
+        private IAbilityFactory _abilityFactory;
+
+        [Inject]
+        public void Construct(IAbilityFactory abilityFactory)
+        {
+            _abilityFactory = abilityFactory;
+        }
 
         private void Awake()
         {
             this.ValidateSerializedFields();
+            CreateAbilityButtons(_abilityFactory.GetAbilities());
         }
 
-        [Inject]
-        public void Construct(CollectionManager collectionManager)
-        {
-            _collectionManager = collectionManager;
-        }
-
-        public void CreateAbilityButtons(List<Ability> abilities)
+        private void CreateAbilityButtons(IEnumerable<Ability> abilities)
         {
             ClearContainersChildren();
 
