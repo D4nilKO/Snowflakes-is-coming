@@ -1,8 +1,11 @@
 {
-    "idSave": 172,
+    "idSave": 234,
     "isFirstSession": false,
     "language": "ru",
     "promptDone": false,
-    "unlockedLevelNumber": 8,
-    "IsSawTraining": true
+    "unlockedLevelNumber": 16,
+    "IsSawTraining": true,
+    "UnlockedAbilityNames": [
+        "Slow Mode"
+    ]
 }

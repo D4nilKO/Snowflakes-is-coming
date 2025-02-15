@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 2382948096646746134}
   - component: {fileID: 6080665887050676759}
   - component: {fileID: 9058817362673995749}
-  - component: {fileID: 655294061901229132}
   m_Layer: 5
   m_Name: Ability Panel
   m_TagString: Untagged
@@ -98,7 +97,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
-  m_Spacing: 30
+  m_Spacing: 60
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
@@ -106,20 +105,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &655294061901229132
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2355548242933027365}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb5bfc87119c4f75bb3bbf4bb445a91f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _abilityButtonPrefab: {fileID: 6124976446901817935, guid: 1ea1c585d91774245ac94e96c9cdc43f, type: 3}
-  _abilityButtonParent: {fileID: 936563089798616342}
 --- !u!1001 &4671107039641717982
 PrefabInstance:
   m_ObjectHideFlags: 0

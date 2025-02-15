@@ -25,17 +25,6 @@ namespace Project.Abilities
         private Button _button;
         private float _cooldownTime;
 
-        public void SetAbility(Ability ability)
-        {
-            _ability = ability;
-            _abilityName.text = ability.GetData().AbilityName;
-            _icon.sprite = ability.GetData().Icon;
-            _cooldownTime = _ability.GetCooldown();
-
-            _ability.CooldownTimer.TimerValueChanged += UpdateCooldownUI;
-            // ResetCooldownUI();
-        }
-
         private void Start()
         {
             _button = GetComponent<Button>();
@@ -44,10 +33,21 @@ namespace Project.Abilities
             this.ValidateSerializedFields();
         }
 
-        // private void Update()
-        // {
-        //     UpdateCooldownUI();
-        // }
+        public void SetAbility(Ability ability)
+        {
+            _ability = ability;
+            _abilityName.text = ability.GetData().AbilityName;
+            _icon.sprite = ability.GetData().Icon;
+            _cooldownTime = _ability.GetCooldown();
+
+            _ability.CooldownTimer.TimerValueChanged += UpdateCooldownUI;
+            ResetCooldownUI();
+        }
+
+        public void Initialize()
+        {
+            ResetCooldownUI();
+        }
 
         private void UpdateCooldownUI(float remainingTime, TimeChangingSource changingSource)
         {
@@ -66,18 +66,18 @@ namespace Project.Abilities
         {
             _cooldownText.gameObject.SetActive(true);
             _cooldownText.text = Mathf.CeilToInt(remainingTime).ToString();
-            Debug.LogError("Remaining time: " + remainingTime);
         }
 
         private void UpdateFade(float remainingTime, float cooldownTime)
         {
             float fillAmount = Mathf.Clamp01(remainingTime / cooldownTime);
+            _cooldownOverlay.enabled = true;
             _cooldownOverlay.fillAmount = fillAmount;
         }
 
         private void ResetCooldownUI()
         {
-            _cooldownOverlay.fillAmount = 0f;
+            _cooldownOverlay.enabled = false;
             _cooldownText.gameObject.SetActive(false);
         }
 

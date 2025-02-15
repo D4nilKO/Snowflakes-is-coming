@@ -22,6 +22,14 @@ namespace Project.Abilities
             _abilityFactory = abilityFactory;
         }
 
+        public void Initialize()
+        {
+            foreach (AbilityView abilityView in _abilityButtons)
+            {
+                abilityView.Initialize();
+            }
+        }
+
         private void Awake()
         {
             this.ValidateSerializedFields();

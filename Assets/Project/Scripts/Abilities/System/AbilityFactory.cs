@@ -25,20 +25,22 @@ namespace Project.Abilities
                 return ability;
             }
 
-            Debug.LogError($"Ability type {data.GetType()} is not supported.");
+            Debug.LogError($"Ability type {data.GetType().Name} is not supported.");
             return null;
         }
-        
+
         public void Initialize()
         {
             foreach (Ability ability in _abilities)
             {
+                ability.Deactivate();
                 ability.Reload();
             }
         }
 
         public IEnumerable<Ability> GetAbilities()
         {
+            Debug.LogError(_abilities.Count);
             return _abilities;
         }
     }

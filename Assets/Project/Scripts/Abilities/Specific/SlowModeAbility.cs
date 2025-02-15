@@ -6,7 +6,7 @@ using VContainer.Unity;
 
 namespace Project.Abilities
 {
-    public class SlowModeAbility : Ability, IStartable, IDisposable
+    public class SlowModeAbility : Ability, IStartable
     {
         private readonly SyncedTimer _durationTimer = new(TimerType.UpdateTick);
 
@@ -31,12 +31,7 @@ namespace Project.Abilities
             CooldownTimer.SetTime(_data.Cooldown);
         }
 
-        public void Initialize()
-        {
-            Deactivate();
-        }
-
-        public void Dispose()
+        public override void Dispose()
         {
             UnsubscribeFromTimer();
         }

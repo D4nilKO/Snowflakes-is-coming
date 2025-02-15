@@ -7,5 +7,6 @@ namespace Project.Abilities
         Ability CreateAbility(AbilityData data);
 
         IEnumerable<Ability> GetAbilities();
+        void Initialize();
     }
 }

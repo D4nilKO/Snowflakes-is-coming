@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Project.Abilities;
 using Project.Architecture.UI;
 using Project.Data.Collections;
@@ -42,7 +43,7 @@ namespace Project.Architecture
 
         [SerializeField]
         private LevelTextView _levelPanel;
-        
+
         [SerializeField]
         private AbilityPanel _abilityPanel;
 
@@ -69,6 +70,9 @@ namespace Project.Architecture
 
         protected override void Configure(IContainerBuilder builder)
         {
+            // Регистрируем коллекции перед UI
+            RegisterCollections(builder);
+
             builder.RegisterComponentInNewPrefab(_inGamePausePanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
             builder.RegisterComponentInNewPrefab(_trainingPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
             builder.RegisterComponentInNewPrefab(_finalPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
@@ -77,6 +81,12 @@ namespace Project.Architecture
             builder.RegisterComponentInNewPrefab(_devPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
             builder.RegisterComponentInNewPrefab(_levelPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
             builder.RegisterComponentInNewPrefab(_surviveTimerPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
+
+            builder.RegisterEntryPoint<SlowModeAbility>().AsSelf();
+            builder.Register<CollectionManager>(Lifetime.Singleton);
+
+            builder.Register<AbilityFactory>(Lifetime.Singleton).As<IAbilityFactory>();
+
             builder.RegisterComponentInNewPrefab(_abilityPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
 
             builder.RegisterComponentInNewPrefab(_player, Lifetime.Scoped).UnderTransform(_gamePlayParent);
@@ -95,7 +105,8 @@ namespace Project.Architecture
 
             builder.RegisterEntryPoint<Training>(Lifetime.Scoped);
             builder.RegisterEntryPoint<DevPanelSwitcher>(Lifetime.Scoped);
-            builder.RegisterEntryPoint<LevelInitializer>(Lifetime.Scoped).AsSelf();
+
+            builder.Register<LevelInitializer>(Lifetime.Scoped);
 
             builder.Register<PauseHandler>(Lifetime.Scoped);
 
@@ -104,22 +115,26 @@ namespace Project.Architecture
 
             builder.Register<LevelLoader>(Lifetime.Scoped);
             builder.Register<RewardAdHandler>(Lifetime.Scoped);
-
-            RegisterCollections(builder);
         }
 
         private void RegisterCollections(IContainerBuilder builder)
         {
-            builder.RegisterEntryPoint<SlowModeAbility>().AsSelf();
-            builder.Register<AbilityFactory>(Lifetime.Singleton).As<IAbilityFactory>();
-            builder.Register<CollectionManager>(Lifetime.Singleton);
-
             builder.RegisterBuildCallback(container =>
             {
                 var collectionManager = container.Resolve<CollectionManager>();
 
+                Debug.Log($"RegisterCollections: всего коллекций {_collections.Count}");
+
                 foreach (var collection in _collections)
                 {
+                    Debug.Log($"Регистрируем коллекцию: {collection.name}");
+
+                    if (collection.UnlockableAbilityData == null)
+                    {
+                        Debug.LogError($"Ошибка! У коллекции {collection.name} нет UnlockableAbilityData");
+                        continue;
+                    }
+
                     collectionManager.RegisterCollection(collection);
                 }
             });

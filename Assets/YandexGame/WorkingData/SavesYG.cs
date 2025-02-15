@@ -14,13 +14,16 @@ namespace YG
 
         // Ваши сохранения
         public int unlockedLevelNumber = 1;
-        
+
         public bool IsSawTraining = false;
 
-        public HashSet<string> UnlockedAbilityNames = new();
-        
+        public List<string> UnlockedAbilityNames;
+
         public void UnlockAbility(CollectionModel collectionModel)
         {
+            if (UnlockedAbilityNames.Contains(collectionModel.AbilityName))
+                return;
+
             UnlockedAbilityNames.Add(collectionModel.AbilityName);
         }
 
@@ -29,7 +32,7 @@ namespace YG
         // Вы можете выполнить какие-то действия при загрузке сохранений
         public SavesYG()
         {
-            // Допустим, задать значения по умолчанию для отдельных элементов массива
+            UnlockedAbilityNames = new List<string>();
         }
     }
 }

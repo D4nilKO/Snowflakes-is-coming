@@ -18,24 +18,19 @@ namespace Project.Abilities
         public abstract float GetCooldown();
         public abstract AbilityData GetData();
 
-        // public Ability()
-        // {
-        //     CooldownTimer.TimerFinished += Deactivate;
-        // }
-
         public void ReActivate()
         {
             if (IsActive)
                 Deactivate();
 
-            ForceActivate();
+            ForceActivate(false);
         }
 
         public bool TryActivate()
         {
             if (IsActive || IsReady() == false)
             {
-                Debug.LogError($"Ability{GetType()} is not ready");
+                Debug.LogError($"Ability {GetType().Name} is not activate");
                 return false;
             }
 
@@ -44,11 +39,16 @@ namespace Project.Abilities
             return true;
         }
 
-        private void ForceActivate()
+        private void ForceActivate(bool startCooldown = true)
         {
             IsActive = true;
             OnActivate();
-            CooldownTimer.Start(GetCooldown());
+
+            if (startCooldown)
+            {
+                CooldownTimer.Start(GetCooldown());
+            }
+
             OnActivated?.Invoke();
 
             Debug.LogError("Ability activated");
@@ -80,8 +80,9 @@ namespace Project.Abilities
             CooldownTimer.ForceStop();
             CooldownTimer.Stop();
             CooldownTimer.SetTime(GetCooldown());
+            
         }
 
-        public void Dispose() { }
+        public virtual void Dispose() { }
     }
 }

@@ -11,12 +11,11 @@ using Project.Services;
 using Project.Timing;
 using UnityEngine.EventSystems;
 using VContainer;
-using VContainer.Unity;
 using YG;
 
 namespace Project.LevelSystem
 {
-    public class LevelInitializer : IDisposable, IStartable
+    public class LevelInitializer : IDisposable
     {
         private EnemySpawner _enemySpawner;
         private GameOutcome _gameOutcome;
@@ -28,8 +27,9 @@ namespace Project.LevelSystem
         private LevelTextView _levelTextView;
         private PauseHandler _pauseHandler;
         private ProgressData _progressData;
-        
-        private SlowModeAbility _slowModeAbility;
+
+        private AbilityPanel _abilityPanel;
+        private IAbilityFactory _abilityFactory;
 
         private WonPanel _wonPanel;
         private LosePanel _losePanel;
@@ -44,7 +44,7 @@ namespace Project.LevelSystem
         public void Construct(LevelLoader levelLoader, EnemySpawner enemySpawner, GameOutcome gameOutcome,
             RewardAdHandler rewardAdHandler, Player player, SurviveTimerView timersView, EnemyContainer enemyContainer,
             LevelTextView levelTextView, LosePanel losePanel, WonPanel wonPanel, PauseHandler pauseHandler,
-            ProgressData progressData, SlowModeAbility slowModeAbility)
+            ProgressData progressData, IAbilityFactory abilityFactory, AbilityPanel abilityPanel)
         {
             _levelLoader = levelLoader;
             _enemySpawner = enemySpawner;
@@ -56,16 +56,15 @@ namespace Project.LevelSystem
             _levelTextView = levelTextView;
             _pauseHandler = pauseHandler;
             _progressData = progressData;
-            
-            _slowModeAbility = slowModeAbility;
+
+            _abilityFactory = abilityFactory;
+            _abilityPanel = abilityPanel;
 
             _wonPanel = wonPanel;
             _losePanel = losePanel;
 
             SubscribeEvents();
         }
-
-        public void Start() { }
 
         public void Dispose()
         {
@@ -147,7 +146,8 @@ namespace Project.LevelSystem
             _levelTextView.Initialize(_levelData.NumberOfLevel);
             _player.Initialize();
             _rewardAdHandler.Initialize();
-            _slowModeAbility.Initialize();
+            _abilityFactory.Initialize();
+            _abilityPanel.Initialize();
         }
     }
 }
