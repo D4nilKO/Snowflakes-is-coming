@@ -40,7 +40,6 @@ namespace Project.Abilities
 
         public IEnumerable<Ability> GetAbilities()
         {
-            Debug.LogError(_abilities.Count);
             return _abilities;
         }
     }

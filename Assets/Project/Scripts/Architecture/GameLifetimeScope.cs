@@ -72,22 +72,11 @@ namespace Project.Architecture
         {
             // Регистрируем коллекции перед UI
             RegisterCollections(builder);
+            RegisterUI(builder);
+            RegisterAbilities(builder);
 
-            builder.RegisterComponentInNewPrefab(_inGamePausePanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
-            builder.RegisterComponentInNewPrefab(_trainingPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
-            builder.RegisterComponentInNewPrefab(_finalPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
-            builder.RegisterComponentInNewPrefab(_losePanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
-            builder.RegisterComponentInNewPrefab(_wonPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
-            builder.RegisterComponentInNewPrefab(_devPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
-            builder.RegisterComponentInNewPrefab(_levelPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
-            builder.RegisterComponentInNewPrefab(_surviveTimerPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
-
-            builder.RegisterEntryPoint<SlowModeAbility>().AsSelf();
             builder.Register<CollectionManager>(Lifetime.Singleton);
-
             builder.Register<AbilityFactory>(Lifetime.Singleton).As<IAbilityFactory>();
-
-            builder.RegisterComponentInNewPrefab(_abilityPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
 
             builder.RegisterComponentInNewPrefab(_player, Lifetime.Scoped).UnderTransform(_gamePlayParent);
 
@@ -138,6 +127,24 @@ namespace Project.Architecture
                     collectionManager.RegisterCollection(collection);
                 }
             });
+        }
+
+        private void RegisterAbilities(IContainerBuilder builder)
+        {
+            builder.RegisterEntryPoint<SlowModeAbility>().AsSelf();
+        }
+
+        private void RegisterUI(IContainerBuilder builder)
+        {
+            builder.RegisterComponentInNewPrefab(_inGamePausePanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
+            builder.RegisterComponentInNewPrefab(_trainingPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
+            builder.RegisterComponentInNewPrefab(_finalPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
+            builder.RegisterComponentInNewPrefab(_losePanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
+            builder.RegisterComponentInNewPrefab(_wonPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
+            builder.RegisterComponentInNewPrefab(_devPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
+            builder.RegisterComponentInNewPrefab(_levelPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
+            builder.RegisterComponentInNewPrefab(_surviveTimerPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
+            builder.RegisterComponentInNewPrefab(_abilityPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
         }
     }
 }
