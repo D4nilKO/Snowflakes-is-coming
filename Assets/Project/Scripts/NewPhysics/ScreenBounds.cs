@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using Project.Abilities;
+﻿using Project.Abilities;
 using UnityEngine;
 using VContainer;
 
@@ -15,6 +14,8 @@ namespace Project.NewPhysics
         private ScreenResizeHandler _screenResizeHandler;
         private AbilityPanel _abilityPanel;
         private EdgeCollider2D _edge;
+        
+        public Vector2[] Points => _edge.points;
 
         [Inject]
         public void Construct(ScreenResizeHandler screenResizeHandler, AbilityPanel abilityPanel)
@@ -48,23 +49,12 @@ namespace Project.NewPhysics
 
         private void SubscribeEvents()
         {
-            _screenResizeHandler.ScreenResized += StartUpdateBounds;
+            _screenResizeHandler.ScreenResized += UpdateBounds;
         }
 
         private void UnsubscribeEvents()
         {
-            _screenResizeHandler.ScreenResized -= StartUpdateBounds;
-        }
-
-        private void StartUpdateBounds()
-        {
-            StartCoroutine(UpdateBoundsAfterFrame());
-        }
-
-        private IEnumerator UpdateBoundsAfterFrame()
-        {
-            yield return new WaitForEndOfFrame();
-            UpdateBounds();
+            _screenResizeHandler.ScreenResized -= UpdateBounds;
         }
 
         private void UpdateBounds()

@@ -80,8 +80,6 @@ namespace Project.Architecture
             builder.Register<CollectionManager>(Lifetime.Singleton);
             builder.Register<AbilityFactory>(Lifetime.Singleton).As<IAbilityFactory>();
 
-            builder.RegisterComponentInNewPrefab(_player, Lifetime.Scoped).UnderTransform(_gamePlayParent);
-
             var player = Instantiate(_player);
             builder.RegisterComponent(player);
             builder.RegisterComponent(player.GetComponent<CharacterCollisionHandler>());

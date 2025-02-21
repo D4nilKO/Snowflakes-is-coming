@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Project.NewPhysics
@@ -20,8 +21,14 @@ namespace Project.NewPhysics
         {
             if (CheckResizeScreen())
             {
-                ScreenResized?.Invoke();
+                StartCoroutine(StartScreenResizeEvent());
             }
+        }
+
+        private IEnumerator StartScreenResizeEvent()
+        {
+            yield return new WaitForEndOfFrame();
+            ScreenResized?.Invoke();
         }
 
         private bool CheckResizeScreen()
