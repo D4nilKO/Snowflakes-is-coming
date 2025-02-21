@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Project.Test
+namespace Project.NewPhysics
 {
     public class ScreenResizeHandler : MonoBehaviour
     {
@@ -10,7 +10,7 @@ namespace Project.Test
 
         public event Action ScreenResized;
 
-        private void Start()
+        private void Awake()
         {
             _lastScreenWidth = Screen.width;
             _lastScreenHeight = Screen.height;

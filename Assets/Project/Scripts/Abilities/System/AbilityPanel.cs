@@ -4,27 +4,32 @@ using VContainer;
 
 namespace Project.Abilities
 {
+    [RequireComponent(typeof(Canvas))]
     public class AbilityPanel : MonoBehaviour
     {
         [SerializeField]
-        private AbilityView _abilityButtonPrefab;
+        private AbilityView _buttonPrefab;
 
         [SerializeField]
-        private Transform _abilityButtonParent;
+        private RectTransform _buttonParent;
 
-        private List<AbilityView> _abilityButtons = new();
+        private List<AbilityView> _buttons = new();
+        private Canvas _canvas;
 
-        private IAbilityFactory _abilityFactory;
+        private IAbilityFactory _factory;
+
+        // нужно отдать размер в мировых координатах
+        public float GetPanelWidth => _buttonParent.rect.width * _canvas.scaleFactor;
 
         [Inject]
         public void Construct(IAbilityFactory abilityFactory)
         {
-            _abilityFactory = abilityFactory;
+            _factory = abilityFactory;
         }
 
         public void Initialize()
         {
-            foreach (AbilityView abilityView in _abilityButtons)
+            foreach (AbilityView abilityView in _buttons)
             {
                 abilityView.Initialize();
             }
@@ -33,7 +38,8 @@ namespace Project.Abilities
         private void Awake()
         {
             this.ValidateSerializedFields();
-            CreateAbilityButtons(_abilityFactory.GetAbilities());
+            _canvas = GetComponent<Canvas>();
+            CreateAbilityButtons(_factory.GetAbilities());
         }
 
         private void CreateAbilityButtons(IEnumerable<Ability> abilities)
@@ -42,19 +48,19 @@ namespace Project.Abilities
 
             foreach (Ability ability in abilities)
             {
-                AbilityView abilityButton = Instantiate(_abilityButtonPrefab, _abilityButtonParent);
+                AbilityView abilityButton = Instantiate(_buttonPrefab, _buttonParent);
                 abilityButton.SetAbility(ability);
-                _abilityButtons.Add(abilityButton);
+                _buttons.Add(abilityButton);
             }
         }
 
         private void ClearContainersChildren()
         {
-            int childCount = _abilityButtonParent.childCount;
+            int childCount = _buttonParent.childCount;
 
             for (int i = childCount - 1; i >= 0; i--)
             {
-                Transform child = _abilityButtonParent.GetChild(i);
+                Transform child = _buttonParent.GetChild(i);
                 Destroy(child.gameObject);
             }
         }

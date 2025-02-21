@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Project.Abilities;
 using Project.Architecture.UI;
 using Project.Data.Collections;
@@ -9,6 +8,7 @@ using Project.Entities.Enemies;
 using Project.GameState;
 using Project.GameState.View;
 using Project.LevelSystem;
+using Project.NewPhysics;
 using Project.Services;
 using Project.Settings;
 using Project.Timing;
@@ -60,6 +60,9 @@ namespace Project.Architecture
         private EnemySpawner _enemySpawner;
 
         [SerializeField]
+        private ScreenBounds _screenBounds;
+
+        [SerializeField]
         private Transform _mainCanvas;
 
         [SerializeField]
@@ -70,7 +73,6 @@ namespace Project.Architecture
 
         protected override void Configure(IContainerBuilder builder)
         {
-            // Регистрируем коллекции перед UI
             RegisterCollections(builder);
             RegisterUI(builder);
             RegisterAbilities(builder);
@@ -85,9 +87,14 @@ namespace Project.Architecture
             builder.RegisterComponent(player.GetComponent<CharacterCollisionHandler>());
 
             builder.RegisterComponentInNewPrefab(_enemyContainer, Lifetime.Scoped).UnderTransform(_gamePlayParent);
+            builder.RegisterComponentInNewPrefab(_screenBounds, Lifetime.Scoped).UnderTransform(_gamePlayParent);
             builder.RegisterComponentInNewPrefab(_enemySpawner, Lifetime.Scoped);
 
             builder.RegisterComponentOnNewGameObject<EntityRotator>(Lifetime.Scoped).UnderTransform(_gamePlayParent);
+
+            builder.RegisterComponentOnNewGameObject<ScreenResizeHandler>(Lifetime.Scoped)
+                .UnderTransform(_gamePlayParent);
+
             builder.RegisterComponentOnNewGameObject<LevelDataInfoView>(Lifetime.Scoped);
 
             builder.RegisterInstance(_devPanelSettings);

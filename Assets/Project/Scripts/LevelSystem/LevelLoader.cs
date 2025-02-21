@@ -49,8 +49,8 @@ namespace Project.LevelSystem
 
             if (levelNumber > maxLevelsCount)
             {
-                Debug.LogError($"Уровень {levelNumber} не найден в JSON файле");
-                return;
+                Debug.LogError($"Уровень {levelNumber} не найден в JSON файле, загружен уровень {maxLevelsCount}");
+                levelNumber = maxLevelsCount;
             }
 
             Debug.Log($"Данные уровня №{levelNumber} загружены");
