@@ -14,7 +14,7 @@ namespace Project.NewPhysics
         private ScreenResizeHandler _screenResizeHandler;
         private AbilityPanel _abilityPanel;
         private EdgeCollider2D _edge;
-        
+
         public Vector2[] Points => _edge.points;
 
         [Inject]
@@ -50,19 +50,21 @@ namespace Project.NewPhysics
         private void SubscribeEvents()
         {
             _screenResizeHandler.ScreenResized += UpdateBounds;
+            _abilityPanel.OnPanelResized += UpdateBounds;
         }
 
         private void UnsubscribeEvents()
         {
             _screenResizeHandler.ScreenResized -= UpdateBounds;
+            _abilityPanel.OnPanelResized -= UpdateBounds;
         }
 
         private void UpdateBounds()
         {
-            Vector2 screenBottomLeft = _cameraMain.ViewportToWorldPoint(new Vector2(0, 0));
-            Vector2 screenTopRight = _cameraMain.ViewportToWorldPoint(new Vector2(1, 1));
+            Vector2 screenBottomLeft = _cameraMain.ViewportToWorldPoint(Vector2.zero);
+            Vector2 screenTopRight = _cameraMain.ViewportToWorldPoint(Vector2.one);
 
-            var screenSize = new Vector2(_abilityPanel.PanelWidth, 0f);
+            var screenSize = new Vector2(_abilityPanel.GetPanelWidth(), 0f);
             float leftX = _cameraMain.ScreenToWorldPoint(screenSize).x;
 
             float rightX = screenTopRight.x;

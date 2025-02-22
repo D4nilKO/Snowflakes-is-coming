@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Project.Data.Collections;
@@ -21,15 +22,19 @@ namespace Project.Abilities
         private IAbilityFactory _factory;
         private CollectionManager _collectionManager;
 
-        public float PanelWidth
-        {
-            get
-            {
-                if (_buttonParent.gameObject.activeInHierarchy)
-                    return 0f;
+        public event Action OnPanelResized;
 
-                return _buttonParent.rect.width * _canvas.scaleFactor;
+        public float GetPanelWidth()
+        {
+            if (_canvas == null)
+            {
+                _canvas = GetComponent<Canvas>();
             }
+
+            if (_buttonParent.gameObject.activeInHierarchy == false)
+                return 0f;
+
+            return _buttonParent.rect.width * _canvas.scaleFactor;
         }
 
         [Inject]
@@ -39,10 +44,9 @@ namespace Project.Abilities
             _collectionManager = collectionManager;
         }
 
-        private void Start()
+        private void Awake()
         {
             this.ValidateSerializedFields();
-            _canvas = GetComponent<Canvas>();
 
             CreateAbilityButtons(_factory.GetUnlockedAbilities());
 
@@ -68,7 +72,7 @@ namespace Project.Abilities
 
             if (abilities.Any() == false)
             {
-                _buttonParent.gameObject.SetActive(false);
+                HidePanel();
                 return;
             }
 
@@ -82,7 +86,7 @@ namespace Project.Abilities
         {
             if (ability == null)
             {
-                Debug.LogError("При создании кнопки способности вылезла ошибка: Ability is null");
+                Debug.LogError("При создании кнопки способности возникла ошибка: Ability is null");
                 return;
             }
 
@@ -91,11 +95,23 @@ namespace Project.Abilities
                 return;
             }
 
-            _buttonParent.gameObject.SetActive(true);
+            ShowPanel();
 
             AbilityView abilityButton = Instantiate(_buttonPrefab, _buttonParent);
             abilityButton.SetAbility(ability);
             _buttons.Add(abilityButton);
+        }
+
+        private void ShowPanel()
+        {
+            _buttonParent.gameObject.SetActive(true);
+            OnPanelResized?.Invoke();
+        }
+
+        private void HidePanel()
+        {
+            _buttonParent.gameObject.SetActive(false);
+            OnPanelResized?.Invoke();
         }
 
         private void ClearContainersChildren()

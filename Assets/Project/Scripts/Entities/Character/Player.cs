@@ -73,9 +73,15 @@ namespace Project.Entities.Character
 
             Vector2[] edgePoints = _screenBounds.Points;
 
-            if (edgePoints == null || edgePoints.Length < 4)
+            if (edgePoints == null)
             {
-                Debug.LogError("Некорректные данные границ экрана!");
+                Debug.LogError("EdgePoints не установлены!");
+                return;
+            }
+
+            if (edgePoints.Length < 4)
+            {
+                Debug.LogError($"Недостаточно точек! {edgePoints.Length}");
                 return;
             }
 
