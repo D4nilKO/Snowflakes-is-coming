@@ -9,7 +9,7 @@ namespace Project.Data.Collections
 {
     public class CollectionManager
     {
-        public event Action<CollectionModel> OnCollectionCompleted;
+        public event Action<Ability> OnCollectionCompleted;
 
         private Dictionary<CollectionData, CollectionModel> _collectionModels = new();
         private IAbilityFactory _abilityFactory;
@@ -43,9 +43,10 @@ namespace Project.Data.Collections
 
             if (isCompleted)
             {
-                OnCollectionCompleted?.Invoke(model);
+                OnCollectionCompleted?.Invoke(model.GetAbility);
                 Debug.Log($"Коллекция {model.AbilityName} завершена");
-                YandexGame.savesData.UnlockAbility(model);
+                YandexGame.savesData.UnlockAbility(model.GetAbility);
+                YandexGame.SaveProgress();
             }
         }
     }

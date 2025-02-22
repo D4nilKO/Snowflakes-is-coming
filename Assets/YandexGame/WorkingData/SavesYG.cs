@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Project.Abilities;
 using Project.Data.Collections;
 
 namespace YG
@@ -19,12 +20,12 @@ namespace YG
 
         public List<string> UnlockedAbilityNames;
 
-        public void UnlockAbility(CollectionModel collectionModel)
+        public void UnlockAbility(Ability ability)
         {
-            if (UnlockedAbilityNames.Contains(collectionModel.AbilityName))
+            if (UnlockedAbilityNames.Contains(ability.GetData().AbilityName))
                 return;
 
-            UnlockedAbilityNames.Add(collectionModel.AbilityName);
+            UnlockedAbilityNames.Add(ability.GetData().AbilityName);
         }
 
         // Поля (сохранения) можно удалять и создавать новые. При обновлении игры сохранения ломаться не должны

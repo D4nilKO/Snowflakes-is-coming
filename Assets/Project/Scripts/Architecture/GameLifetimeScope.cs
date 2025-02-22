@@ -119,16 +119,15 @@ namespace Project.Architecture
 
                 Debug.Log($"RegisterCollections: всего коллекций {_collections.Count}");
 
-                foreach (var collection in _collections)
+                foreach (CollectionData collection in _collections)
                 {
-                    Debug.Log($"Регистрируем коллекцию: {collection.name}");
-
                     if (collection.UnlockableAbilityData == null)
                     {
                         Debug.LogError($"Ошибка! У коллекции {collection.name} нет UnlockableAbilityData");
                         continue;
                     }
 
+                    Debug.Log($"Регистрируем коллекцию: {collection.name}");
                     collectionManager.RegisterCollection(collection);
                 }
             });

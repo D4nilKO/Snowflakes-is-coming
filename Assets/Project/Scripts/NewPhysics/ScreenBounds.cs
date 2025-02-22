@@ -62,7 +62,7 @@ namespace Project.NewPhysics
             Vector2 screenBottomLeft = _cameraMain.ViewportToWorldPoint(new Vector2(0, 0));
             Vector2 screenTopRight = _cameraMain.ViewportToWorldPoint(new Vector2(1, 1));
 
-            var screenSize = new Vector2(_abilityPanel.GetPanelWidth, 0f);
+            var screenSize = new Vector2(_abilityPanel.PanelWidth, 0f);
             float leftX = _cameraMain.ScreenToWorldPoint(screenSize).x;
 
             float rightX = screenTopRight.x;

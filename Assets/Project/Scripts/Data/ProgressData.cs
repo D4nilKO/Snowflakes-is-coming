@@ -22,8 +22,6 @@ namespace Project.Data
             LoadData();
         }
 
-        #region Public methods
-
         public bool TryIncreaseCurrentLevel()
         {
             bool notLastLevel = CurrentLevelNumber != MaxLevelsCount;
@@ -83,8 +81,6 @@ namespace Project.Data
             SaveData();
         }
 
-        #endregion
-
         public void SetCurrentLevel(int level)
         {
             if (level > MaxLevelsCount && level < 1)
@@ -128,9 +124,15 @@ namespace Project.Data
         {
             SetUnlockedLevel(1);
             SetCurrentLevel(1);
+            ClearUnlockedAbilities();
 
             YandexGame.savesData.IsSawTraining = false;
             ForceSaveData();
+        }
+
+        private void ClearUnlockedAbilities()
+        {
+            YandexGame.savesData.UnlockedAbilityNames.Clear();
         }
     }
 }

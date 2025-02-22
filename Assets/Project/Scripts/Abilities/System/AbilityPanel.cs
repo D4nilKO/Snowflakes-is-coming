@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using Project.Data.Collections;
 using UnityEngine;
 using VContainer;
 
@@ -17,14 +19,39 @@ namespace Project.Abilities
         private Canvas _canvas;
 
         private IAbilityFactory _factory;
+        private CollectionManager _collectionManager;
 
-        // нужно отдать размер в мировых координатах
-        public float GetPanelWidth => _buttonParent.rect.width * _canvas.scaleFactor;
+        public float PanelWidth
+        {
+            get
+            {
+                if (_buttonParent.gameObject.activeInHierarchy)
+                    return 0f;
+
+                return _buttonParent.rect.width * _canvas.scaleFactor;
+            }
+        }
 
         [Inject]
-        public void Construct(IAbilityFactory abilityFactory)
+        public void Construct(IAbilityFactory abilityFactory, CollectionManager collectionManager)
         {
             _factory = abilityFactory;
+            _collectionManager = collectionManager;
+        }
+
+        private void Start()
+        {
+            this.ValidateSerializedFields();
+            _canvas = GetComponent<Canvas>();
+
+            CreateAbilityButtons(_factory.GetUnlockedAbilities());
+
+            _collectionManager.OnCollectionCompleted += CreateAbilityButton;
+        }
+
+        private void OnDestroy()
+        {
+            _collectionManager.OnCollectionCompleted -= CreateAbilityButton;
         }
 
         public void Initialize()
@@ -35,23 +62,35 @@ namespace Project.Abilities
             }
         }
 
-        private void Awake()
-        {
-            this.ValidateSerializedFields();
-            _canvas = GetComponent<Canvas>();
-            CreateAbilityButtons(_factory.GetAbilities());
-        }
-
-        private void CreateAbilityButtons(IEnumerable<Ability> abilities)
+        private void CreateAbilityButtons(List<Ability> abilities)
         {
             ClearContainersChildren();
 
+            if (abilities.Any() == false)
+            {
+                _buttonParent.gameObject.SetActive(false);
+                return;
+            }
+
             foreach (Ability ability in abilities)
             {
-                AbilityView abilityButton = Instantiate(_buttonPrefab, _buttonParent);
-                abilityButton.SetAbility(ability);
-                _buttons.Add(abilityButton);
+                CreateAbilityButton(ability);
             }
+        }
+
+        private void CreateAbilityButton(Ability ability)
+        {
+            if (ability == null)
+            {
+                Debug.LogError("При создании кнопки способности вылезла ошибка: Ability is null");
+                return;
+            }
+
+            _buttonParent.gameObject.SetActive(true);
+
+            AbilityView abilityButton = Instantiate(_buttonPrefab, _buttonParent);
+            abilityButton.SetAbility(ability);
+            _buttons.Add(abilityButton);
         }
 
         private void ClearContainersChildren()

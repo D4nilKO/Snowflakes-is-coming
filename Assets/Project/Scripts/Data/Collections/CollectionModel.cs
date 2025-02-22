@@ -15,6 +15,7 @@ namespace Project.Data.Collections
         private bool _isUnlocked;
 
         public string AbilityName => _data.CollectionName;
+        public Ability GetAbility => _ability;
 
         public CollectionModel(CollectionData data, Ability ability)
         {
