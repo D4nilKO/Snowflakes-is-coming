@@ -86,6 +86,11 @@ namespace Project.Abilities
                 return;
             }
 
+            if (_buttons.Any(view => view.Ability == ability))
+            {
+                return;
+            }
+
             _buttonParent.gameObject.SetActive(true);
 
             AbilityView abilityButton = Instantiate(_buttonPrefab, _buttonParent);
