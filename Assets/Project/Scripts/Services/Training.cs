@@ -1,28 +1,61 @@
+using System;
+using Project.Entities.Enemies;
 using Project.GameState;
-using UnityEngine;
+using Project.Timing;
 using VContainer;
 using VContainer.Unity;
 using YG;
 
 namespace Project.Services
 {
-    public class Training : IStartable
+    public class Training : IStartable, IDisposable
     {
-        private GameObject _trainingPanel;
+        private TrainingPanel _trainingPanel;
+        private PauseHandler _pauseHandler;
+        private EnemyContainer _enemyContainer;
 
         [Inject]
-        private void Construct(TrainingPanel trainingPanel)
+        private void Construct(TrainingPanel trainingPanel, PauseHandler pauseHandler, EnemyContainer enemyContainer)
         {
-            _trainingPanel = trainingPanel.gameObject;
+            _trainingPanel = trainingPanel;
+            _pauseHandler = pauseHandler;
+            _enemyContainer = enemyContainer;
         }
 
         public void Start()
         {
+            Subscribe();
+
             bool isSawTraining = YandexGame.savesData.IsSawTraining;
-            _trainingPanel.SetActive(!isSawTraining);
+            _trainingPanel.gameObject.SetActive(!isSawTraining);
+            _trainingPanel.SpawnerArrow.transform.position = _enemyContainer.GetNewPosition();
 
             YandexGame.savesData.IsSawTraining = true;
             YandexGame.SaveProgress();
+        }
+
+        private void Subscribe()
+        {
+            _pauseHandler.InGamePauseHide += Hide;
+        }
+
+        private void Unsubscribe()
+        {
+            _pauseHandler.InGamePauseHide -= Hide;
+        }
+
+        private void Hide()
+        {
+            if (_trainingPanel.gameObject.activeInHierarchy)
+            {
+                _trainingPanel.gameObject.SetActive(false);
+                Unsubscribe();
+            }
+        }
+
+        public void Dispose()
+        {
+            Unsubscribe();
         }
     }
 }

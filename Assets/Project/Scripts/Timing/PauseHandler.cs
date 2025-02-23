@@ -1,4 +1,5 @@
-﻿using Project.Architecture.UI;
+﻿using System;
+using Project.Architecture.UI;
 using UnityEngine;
 using VContainer;
 using YG;
@@ -12,6 +13,9 @@ namespace Project.Timing
         private InGamePausePanel _inGamePauseCanvas;
 
         private float _startTimeScale = 1;
+
+        public event Action InGamePauseShow;
+        public event Action InGamePauseHide;
 
         #endregion
 
@@ -52,11 +56,13 @@ namespace Project.Timing
         public void InGamePause()
         {
             Pause(_inGamePauseCanvas.gameObject);
+            InGamePauseShow?.Invoke();
         }
 
         public void InGameResume()
         {
             Resume(_inGamePauseCanvas.gameObject);
+            InGamePauseHide?.Invoke();
         }
 
         #endregion

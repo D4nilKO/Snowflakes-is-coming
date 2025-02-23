@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using Project.Abilities;
 using Project.Entities.Collectables;
 
@@ -6,9 +7,15 @@ namespace Project.Data.Collections
 {
     public class CollectionModel
     {
-        private HashSet<CollectableSnowflake> _collectedSnowflakes = new();
         private readonly CollectionData _data;
         private readonly Ability _ability;
+        
+        private HashSet<CollectableSnowflake> _collectedSnowflakes = new();
+
+        private bool _isUnlocked;
+
+        public string AbilityName => _data.CollectionName;
+        public Ability GetAbility => _ability;
 
         public CollectionModel(CollectionData data, Ability ability)
         {
@@ -23,7 +30,7 @@ namespace Project.Data.Collections
 
             if (isAdded)
             {
-                _ability?.Activate();
+                _ability?.ReActivate();
             }
 
             return isCompleted;

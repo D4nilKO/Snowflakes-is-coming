@@ -1,6 +1,8 @@
 using System;
 using Project.LevelSystem;
+using Project.Menu;
 using UnityEngine;
+using UnityEngine.UI;
 using VContainer;
 using YG;
 
@@ -14,12 +16,18 @@ namespace Project.Services
         [SerializeField]
         private GameObject _outOfLevelsPanel;
 
+        [SerializeField]
+        private Button _menuButton;
+
         private LevelInitializer _levelInitializer;
+        private SceneLoader _sceneLoader;
 
         [Inject]
-        public void Construct(LevelInitializer levelInitializer)
+        public void Construct(LevelInitializer levelInitializer, SceneLoader sceneLoader)
         {
             _levelInitializer = levelInitializer;
+            _sceneLoader = sceneLoader;
+
             SubscribeEvents();
         }
 
@@ -39,6 +47,9 @@ namespace Project.Services
         private void SubscribeEvents()
         {
             _levelInitializer.LastLevelReached += OnLastLevelReached;
+
+            _menuButton.onClick.RemoveAllListeners();
+            _menuButton.onClick.AddListener(() => _sceneLoader.LoadMainMenu());
         }
 
         private void UnsubscribeEvents()

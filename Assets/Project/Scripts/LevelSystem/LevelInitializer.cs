@@ -2,7 +2,6 @@
 using Project.Abilities;
 using Project.Architecture.UI;
 using Project.Data;
-using Project.Entities.Character;
 using Project.Entities.Enemies;
 using Project.GameState;
 using Project.GameState.View;
@@ -11,25 +10,24 @@ using Project.Services;
 using Project.Timing;
 using UnityEngine.EventSystems;
 using VContainer;
-using VContainer.Unity;
 using YG;
 
 namespace Project.LevelSystem
 {
-    public class LevelInitializer : IDisposable, IStartable
+    public class LevelInitializer : IDisposable
     {
         private EnemySpawner _enemySpawner;
         private GameOutcome _gameOutcome;
         private RewardAdHandler _rewardAdHandler;
-        private Player _player;
         private LevelLoader _levelLoader;
         private SurviveTimerView _surviveTimerView;
         private EnemyContainer _enemyContainer;
         private LevelTextView _levelTextView;
         private PauseHandler _pauseHandler;
         private ProgressData _progressData;
-        
-        private SlowModeAbility _slowModeAbility;
+
+        private AbilityPanel _abilityPanel;
+        private IAbilityFactory _abilityFactory;
 
         private WonPanel _wonPanel;
         private LosePanel _losePanel;
@@ -42,30 +40,28 @@ namespace Project.LevelSystem
 
         [Inject]
         public void Construct(LevelLoader levelLoader, EnemySpawner enemySpawner, GameOutcome gameOutcome,
-            RewardAdHandler rewardAdHandler, Player player, SurviveTimerView timersView, EnemyContainer enemyContainer,
+            RewardAdHandler rewardAdHandler, SurviveTimerView timersView, EnemyContainer enemyContainer,
             LevelTextView levelTextView, LosePanel losePanel, WonPanel wonPanel, PauseHandler pauseHandler,
-            ProgressData progressData, SlowModeAbility slowModeAbility)
+            ProgressData progressData, IAbilityFactory abilityFactory, AbilityPanel abilityPanel)
         {
             _levelLoader = levelLoader;
             _enemySpawner = enemySpawner;
             _gameOutcome = gameOutcome;
             _rewardAdHandler = rewardAdHandler;
-            _player = player;
             _surviveTimerView = timersView;
             _enemyContainer = enemyContainer;
             _levelTextView = levelTextView;
             _pauseHandler = pauseHandler;
             _progressData = progressData;
-            
-            _slowModeAbility = slowModeAbility;
+
+            _abilityFactory = abilityFactory;
+            _abilityPanel = abilityPanel;
 
             _wonPanel = wonPanel;
             _losePanel = losePanel;
 
             SubscribeEvents();
         }
-
-        public void Start() { }
 
         public void Dispose()
         {
@@ -145,9 +141,9 @@ namespace Project.LevelSystem
             _gameOutcome.Initialize(timeToSurvive);
             _surviveTimerView.Initialize(timeToSurvive);
             _levelTextView.Initialize(_levelData.NumberOfLevel);
-            _player.Initialize();
             _rewardAdHandler.Initialize();
-            _slowModeAbility.Initialize();
+            _abilityFactory.Initialize();
+            _abilityPanel.Initialize();
         }
     }
 }

@@ -3,11 +3,11 @@
     {
       "NumberOfLevel": 1,
       "TimeToSpawn": 1,
-      "SecondsToWin": 30,
+      "SecondsToWin": 1000,
       "EnemyTypesInfo": [
         {
-          "EnemyPrefabName": "Enemy 7",
-          "MaxSpawnCount": 5
+          "EnemyPrefabName": "Enemy Test",
+          "MaxSpawnCount": 1
         }
       ]
     }

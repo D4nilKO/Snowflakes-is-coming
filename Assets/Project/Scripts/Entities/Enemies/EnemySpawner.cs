@@ -16,7 +16,7 @@ namespace Project.Entities.Enemies
         [SerializeField, Min(0.5f)]
         private float _initialSpawnDelay = 1f;
 
-        private EntityMover _entityMover;
+        private EntityRotator _entityRotator;
         private EnemyContainer _enemyContainer;
 
         private List<EnemyTypeInfo> _enemyTypes;
@@ -31,9 +31,9 @@ namespace Project.Entities.Enemies
         public SyncedTimer Timer { get; private set; }
 
         [Inject]
-        public void Construct(EntityMover mover, EnemyContainer container)
+        public void Construct(EntityRotator rotator, EnemyContainer container)
         {
-            _entityMover = mover;
+            _entityRotator = rotator;
             _enemyContainer = container;
 
             SetStartTransform();
@@ -135,7 +135,7 @@ namespace Project.Entities.Enemies
         private void SpawnEnemy(EnemyBase enemyPrefab)
         {
             EnemyBase enemy = NightPool.Spawn(enemyPrefab, _enemyContainer.transform);
-            _entityMover.AddEntity(enemy);
+            _entityRotator.AddEntity(enemy);
             _enemyContainer.AddEnemy(enemy);
         }
 

@@ -28,6 +28,10 @@ PrefabInstance:
       propertyPath: rotationSpeed
       value: 300
       objectReference: {fileID: 0}
+    - target: {fileID: 766084125228948377, guid: 8aff2dec9487162458efadbb98cf17e9, type: 3}
+      propertyPath: _rotationSpeed
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 2312015023831910244, guid: 8aff2dec9487162458efadbb98cf17e9, type: 3}
       propertyPath: m_Name
       value: Enemy 6

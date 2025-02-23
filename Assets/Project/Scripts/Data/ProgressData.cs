@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Project.Data.Collections;
 using UnityEngine;
 using VContainer.Unity;
 using YG;
@@ -8,6 +8,8 @@ namespace Project.Data
     public class ProgressData : IStartable
     {
         #region Fields
+
+        private CollectionManager _collectionManager;
 
         public int MaxLevelsCount { get; private set; }
         public int CurrentLevelNumber { get; private set; } = 1;
@@ -19,8 +21,6 @@ namespace Project.Data
         {
             LoadData();
         }
-
-        #region Public methods
 
         public bool TryIncreaseCurrentLevel()
         {
@@ -81,8 +81,6 @@ namespace Project.Data
             SaveData();
         }
 
-        #endregion
-
         public void SetCurrentLevel(int level)
         {
             if (level > MaxLevelsCount && level < 1)
@@ -126,9 +124,15 @@ namespace Project.Data
         {
             SetUnlockedLevel(1);
             SetCurrentLevel(1);
-            ForceSaveData();
+            ClearUnlockedAbilities();
 
             YandexGame.savesData.IsSawTraining = false;
+            ForceSaveData();
+        }
+
+        private void ClearUnlockedAbilities()
+        {
+            YandexGame.savesData.UnlockedAbilityNames.Clear();
         }
     }
 }

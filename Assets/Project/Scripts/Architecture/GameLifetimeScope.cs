@@ -8,6 +8,7 @@ using Project.Entities.Enemies;
 using Project.GameState;
 using Project.GameState.View;
 using Project.LevelSystem;
+using Project.NewPhysics;
 using Project.Services;
 using Project.Settings;
 using Project.Timing;
@@ -44,6 +45,9 @@ namespace Project.Architecture
         private LevelTextView _levelPanel;
 
         [SerializeField]
+        private AbilityPanel _abilityPanel;
+
+        [SerializeField]
         private SurviveTimerView _surviveTimerPanel;
 
         [SerializeField]
@@ -56,6 +60,9 @@ namespace Project.Architecture
         private EnemySpawner _enemySpawner;
 
         [SerializeField]
+        private ScreenBounds _screenBounds;
+
+        [SerializeField]
         private Transform _mainCanvas;
 
         [SerializeField]
@@ -66,32 +73,34 @@ namespace Project.Architecture
 
         protected override void Configure(IContainerBuilder builder)
         {
-            builder.RegisterComponentInNewPrefab(_inGamePausePanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
-            builder.RegisterComponentInNewPrefab(_trainingPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
-            builder.RegisterComponentInNewPrefab(_finalPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
-            builder.RegisterComponentInNewPrefab(_losePanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
-            builder.RegisterComponentInNewPrefab(_wonPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
-            builder.RegisterComponentInNewPrefab(_devPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
-            builder.RegisterComponentInNewPrefab(_levelPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
-            builder.RegisterComponentInNewPrefab(_surviveTimerPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
+            RegisterCollections(builder);
+            RegisterUI(builder);
+            RegisterAbilities(builder);
 
-            builder.RegisterComponentInNewPrefab(_player, Lifetime.Scoped).UnderTransform(_gamePlayParent);
+            builder.Register<CollectionManager>(Lifetime.Singleton);
+            builder.Register<AbilityFactory>(Lifetime.Singleton).As<IAbilityFactory>();
 
             var player = Instantiate(_player);
             builder.RegisterComponent(player);
             builder.RegisterComponent(player.GetComponent<CharacterCollisionHandler>());
 
             builder.RegisterComponentInNewPrefab(_enemyContainer, Lifetime.Scoped).UnderTransform(_gamePlayParent);
+            builder.RegisterComponentInNewPrefab(_screenBounds, Lifetime.Scoped).UnderTransform(_gamePlayParent);
             builder.RegisterComponentInNewPrefab(_enemySpawner, Lifetime.Scoped);
 
-            builder.RegisterComponentOnNewGameObject<EntityMover>(Lifetime.Scoped).UnderTransform(_gamePlayParent);
+            builder.RegisterComponentOnNewGameObject<EntityRotator>(Lifetime.Scoped).UnderTransform(_gamePlayParent);
+
+            builder.RegisterComponentOnNewGameObject<ScreenResizeHandler>(Lifetime.Scoped)
+                .UnderTransform(_gamePlayParent);
+
             builder.RegisterComponentOnNewGameObject<LevelDataInfoView>(Lifetime.Scoped);
 
             builder.RegisterInstance(_devPanelSettings);
 
             builder.RegisterEntryPoint<Training>(Lifetime.Scoped);
             builder.RegisterEntryPoint<DevPanelSwitcher>(Lifetime.Scoped);
-            builder.RegisterEntryPoint<LevelInitializer>(Lifetime.Scoped).AsSelf();
+
+            builder.Register<LevelInitializer>(Lifetime.Scoped);
 
             builder.Register<PauseHandler>(Lifetime.Scoped);
 
@@ -100,25 +109,46 @@ namespace Project.Architecture
 
             builder.Register<LevelLoader>(Lifetime.Scoped);
             builder.Register<RewardAdHandler>(Lifetime.Scoped);
-
-            RegisterCollections(builder);
         }
 
         private void RegisterCollections(IContainerBuilder builder)
         {
-            builder.RegisterEntryPoint<SlowModeAbility>().AsSelf();
-            builder.Register<AbilityFactory>(Lifetime.Singleton).As<IAbilityFactory>();
-            builder.Register<CollectionManager>(Lifetime.Singleton);
-
             builder.RegisterBuildCallback(container =>
             {
                 var collectionManager = container.Resolve<CollectionManager>();
 
-                foreach (var collection in _collections)
+                Debug.Log($"RegisterCollections: всего коллекций {_collections.Count}");
+
+                foreach (CollectionData collection in _collections)
                 {
+                    if (collection.UnlockableAbilityData == null)
+                    {
+                        Debug.LogError($"Ошибка! У коллекции {collection.name} нет UnlockableAbilityData");
+                        continue;
+                    }
+
+                    Debug.Log($"Регистрируем коллекцию: {collection.name}");
                     collectionManager.RegisterCollection(collection);
                 }
             });
+        }
+
+        private void RegisterAbilities(IContainerBuilder builder)
+        {
+            builder.RegisterEntryPoint<SlowModeAbility>().AsSelf();
+        }
+
+        private void RegisterUI(IContainerBuilder builder)
+        {
+            builder.RegisterComponentInNewPrefab(_inGamePausePanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
+            builder.RegisterComponentInNewPrefab(_trainingPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
+            builder.RegisterComponentInNewPrefab(_finalPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
+            builder.RegisterComponentInNewPrefab(_losePanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
+            builder.RegisterComponentInNewPrefab(_wonPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
+            builder.RegisterComponentInNewPrefab(_devPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
+            builder.RegisterComponentInNewPrefab(_levelPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
+            builder.RegisterComponentInNewPrefab(_surviveTimerPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
+            builder.RegisterComponentInNewPrefab(_abilityPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
         }
     }
 }
