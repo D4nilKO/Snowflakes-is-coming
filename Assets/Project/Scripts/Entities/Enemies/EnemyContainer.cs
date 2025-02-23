@@ -14,12 +14,12 @@ namespace Project.Entities.Enemies
         private float _containerPercentPosition;
 
         private float _slowFactor;
-        
+
         private Camera _mainCamera;
         private ScreenResizeHandler _screenResizeHandler;
 
         private HashSet<EnemyBase> _activeEnemies = new();
-        
+
         [Inject]
         private void Construct(ScreenResizeHandler screenResizeHandler)
         {
@@ -32,7 +32,7 @@ namespace Project.Entities.Enemies
             SetPosition();
             _screenResizeHandler.ScreenResized += SetPosition;
         }
-        
+
         private void OnDestroy()
         {
             _screenResizeHandler.ScreenResized -= SetPosition;
@@ -46,15 +46,25 @@ namespace Project.Entities.Enemies
             SetPosition();
         }
 
+        private void RemoveNullEnemies()
+        {
+            _activeEnemies.RemoveWhere(enemy => enemy == null);
+        }
+
         private void SetPosition()
         {
+            transform.position = GetNewPosition();
+        }
+
+        public Vector3 GetNewPosition()
+        {
             if (_mainCamera == null)
-                return;
+                return Vector3.zero;
 
             Vector3 viewPortPosition = new(_containerPercentPosition, 0.5f, _mainCamera.nearClipPlane);
             Vector3 worldPoint = _mainCamera.ViewportToWorldPoint(viewPortPosition);
-
-            transform.position = new Vector3(worldPoint.x, transform.position.y, transform.position.z);
+            worldPoint = new Vector3(worldPoint.x, transform.position.y, transform.position.z);
+            return worldPoint;
         }
 
         public void SetSlowFactor(float slowFactor)
@@ -83,11 +93,6 @@ namespace Project.Entities.Enemies
         {
             RemoveNullEnemies();
             return _activeEnemies.ToList();
-        }
-
-        private void RemoveNullEnemies()
-        {
-            _activeEnemies.RemoveWhere(enemy => enemy == null);
         }
     }
 }
