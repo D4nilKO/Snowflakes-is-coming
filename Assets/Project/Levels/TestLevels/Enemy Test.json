@@ -7,7 +7,7 @@
       "EnemyTypesInfo": [
         {
           "EnemyPrefabName": "Enemy Test",
-          "MaxSpawnCount": 100
+          "MaxSpawnCount": 1
         }
       ]
     }
