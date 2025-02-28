@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using VContainer;
+using YG;
 
 namespace Project.Abilities
 {
@@ -38,9 +40,15 @@ namespace Project.Abilities
             }
         }
 
-        public IEnumerable<Ability> GetAbilities()
+        public List<Ability> GetAllAbilities()
         {
-            return _abilities;
+            return _abilities.ToList();
+        }
+
+        public List<Ability> GetUnlockedAbilities()
+        {
+            var unlockedNames = YandexGame.savesData.UnlockedAbilityNames;
+            return _abilities.Where(ability => unlockedNames.Contains(ability.GetData().AbilityName)).ToList();
         }
     }
 }

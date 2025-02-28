@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Project.Abilities;
 using Project.Architecture.UI;
 using Project.Data.Collections;
@@ -9,7 +8,9 @@ using Project.Entities.Enemies;
 using Project.GameState;
 using Project.GameState.View;
 using Project.LevelSystem;
+using Project.NewPhysics;
 using Project.Services;
+using Project.Services.MessageSystem;
 using Project.Settings;
 using Project.Timing;
 using UnityEngine;
@@ -48,6 +49,9 @@ namespace Project.Architecture
         private AbilityPanel _abilityPanel;
 
         [SerializeField]
+        private ScreenMessageHandler _screenMessageHandler;
+
+        [SerializeField]
         private SurviveTimerView _surviveTimerPanel;
 
         [SerializeField]
@@ -60,6 +64,9 @@ namespace Project.Architecture
         private EnemySpawner _enemySpawner;
 
         [SerializeField]
+        private ScreenBounds _screenBounds;
+
+        [SerializeField]
         private Transform _mainCanvas;
 
         [SerializeField]
@@ -68,9 +75,15 @@ namespace Project.Architecture
         [SerializeField, Header("Snowflake Collections")]
         private List<CollectionData> _collections;
 
+        protected override void Awake()
+        {
+            base.Awake();
+
+            this.ValidateSerializedFields();
+        }
+
         protected override void Configure(IContainerBuilder builder)
         {
-            // Регистрируем коллекции перед UI
             RegisterCollections(builder);
             RegisterUI(builder);
             RegisterAbilities(builder);
@@ -78,16 +91,19 @@ namespace Project.Architecture
             builder.Register<CollectionManager>(Lifetime.Singleton);
             builder.Register<AbilityFactory>(Lifetime.Singleton).As<IAbilityFactory>();
 
-            builder.RegisterComponentInNewPrefab(_player, Lifetime.Scoped).UnderTransform(_gamePlayParent);
-
             var player = Instantiate(_player);
             builder.RegisterComponent(player);
             builder.RegisterComponent(player.GetComponent<CharacterCollisionHandler>());
 
             builder.RegisterComponentInNewPrefab(_enemyContainer, Lifetime.Scoped).UnderTransform(_gamePlayParent);
+            builder.RegisterComponentInNewPrefab(_screenBounds, Lifetime.Scoped).UnderTransform(_gamePlayParent);
             builder.RegisterComponentInNewPrefab(_enemySpawner, Lifetime.Scoped);
 
             builder.RegisterComponentOnNewGameObject<EntityRotator>(Lifetime.Scoped).UnderTransform(_gamePlayParent);
+
+            builder.RegisterComponentOnNewGameObject<ScreenResizeHandler>(Lifetime.Scoped)
+                .UnderTransform(_gamePlayParent);
+
             builder.RegisterComponentOnNewGameObject<LevelDataInfoView>(Lifetime.Scoped);
 
             builder.RegisterInstance(_devPanelSettings);
@@ -114,16 +130,15 @@ namespace Project.Architecture
 
                 Debug.Log($"RegisterCollections: всего коллекций {_collections.Count}");
 
-                foreach (var collection in _collections)
+                foreach (CollectionData collection in _collections)
                 {
-                    Debug.Log($"Регистрируем коллекцию: {collection.name}");
-
                     if (collection.UnlockableAbilityData == null)
                     {
                         Debug.LogError($"Ошибка! У коллекции {collection.name} нет UnlockableAbilityData");
                         continue;
                     }
 
+                    Debug.Log($"Регистрируем коллекцию: {collection.name}");
                     collectionManager.RegisterCollection(collection);
                 }
             });
@@ -145,6 +160,10 @@ namespace Project.Architecture
             builder.RegisterComponentInNewPrefab(_levelPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
             builder.RegisterComponentInNewPrefab(_surviveTimerPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
             builder.RegisterComponentInNewPrefab(_abilityPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
+            builder.RegisterComponentInNewPrefab(_screenMessageHandler, Lifetime.Scoped).UnderTransform(_mainCanvas);
+
+            builder.RegisterComponentInNewPrefab(_screenMessageHandler, Lifetime.Scoped).UnderTransform(_mainCanvas)
+                .As<IScreenMessageHandler>();
         }
     }
 }

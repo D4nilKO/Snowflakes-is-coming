@@ -2,7 +2,6 @@
 using Project.Abilities;
 using Project.Architecture.UI;
 using Project.Data;
-using Project.Entities.Character;
 using Project.Entities.Enemies;
 using Project.GameState;
 using Project.GameState.View;
@@ -20,7 +19,6 @@ namespace Project.LevelSystem
         private EnemySpawner _enemySpawner;
         private GameOutcome _gameOutcome;
         private RewardAdHandler _rewardAdHandler;
-        private Player _player;
         private LevelLoader _levelLoader;
         private SurviveTimerView _surviveTimerView;
         private EnemyContainer _enemyContainer;
@@ -42,7 +40,7 @@ namespace Project.LevelSystem
 
         [Inject]
         public void Construct(LevelLoader levelLoader, EnemySpawner enemySpawner, GameOutcome gameOutcome,
-            RewardAdHandler rewardAdHandler, Player player, SurviveTimerView timersView, EnemyContainer enemyContainer,
+            RewardAdHandler rewardAdHandler, SurviveTimerView timersView, EnemyContainer enemyContainer,
             LevelTextView levelTextView, LosePanel losePanel, WonPanel wonPanel, PauseHandler pauseHandler,
             ProgressData progressData, IAbilityFactory abilityFactory, AbilityPanel abilityPanel)
         {
@@ -50,7 +48,6 @@ namespace Project.LevelSystem
             _enemySpawner = enemySpawner;
             _gameOutcome = gameOutcome;
             _rewardAdHandler = rewardAdHandler;
-            _player = player;
             _surviveTimerView = timersView;
             _enemyContainer = enemyContainer;
             _levelTextView = levelTextView;
@@ -144,7 +141,6 @@ namespace Project.LevelSystem
             _gameOutcome.Initialize(timeToSurvive);
             _surviveTimerView.Initialize(timeToSurvive);
             _levelTextView.Initialize(_levelData.NumberOfLevel);
-            _player.Initialize();
             _rewardAdHandler.Initialize();
             _abilityFactory.Initialize();
             _abilityPanel.Initialize();

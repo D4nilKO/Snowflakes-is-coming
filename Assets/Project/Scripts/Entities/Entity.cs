@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using static Project.Utility.UserUtils;
 
 namespace Project.Entities
 {
@@ -11,9 +10,6 @@ namespace Project.Entities
         protected Collider2D ObjectCollider;
 
         protected Camera MainCamera;
-
-        protected float ScreenWidth;
-        protected float ScreenHeight;
 
         private float _size;
 
@@ -39,7 +35,6 @@ namespace Project.Entities
             ObjectCollider = GetComponent<Collider2D>();
 
             MainCamera = Camera.main;
-            FetchCameraSize(MainCamera, out ScreenWidth, out ScreenHeight);
 
             Size = gameObject.transform.localScale.x;
         }

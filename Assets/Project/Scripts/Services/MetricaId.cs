@@ -2,13 +2,13 @@ namespace Project.Services
 {
     public static class MetricaId
     {
-        public static string TriggerId = "Triggers";
-        
-        public static string LevelStartId = "LevelStart";
-        public static string LevelReviveId = "LevelRevive";
-        public static string LevelWonId = "LevelWon";
-        public static string LevelLoseId = "LevelLose";
-        public static string LastLevelReachedId = "LastLevelReached";
-        public static string LevelStartFromMenuId = "LevelStartFromMenu";
+        public const string TriggerId = "Triggers";
+
+        public const string LevelStartId = "LevelStart";
+        public const string LevelReviveId = "LevelRevive";
+        public const string LevelWonId = "LevelWon";
+        public const string LevelLoseId = "LevelLose";
+        public const string LastLevelReachedId = "LastLevelReached";
+        public const string LevelStartFromMenuId = "LevelStartFromMenu";
     }
 }

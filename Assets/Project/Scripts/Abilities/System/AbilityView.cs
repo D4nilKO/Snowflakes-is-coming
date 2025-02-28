@@ -21,26 +21,27 @@ namespace Project.Abilities
         [SerializeField]
         private TMP_Text _cooldownText;
 
-        private Ability _ability;
         private Button _button;
         private float _cooldownTime;
+        
+        public Ability Ability;
 
         private void Start()
         {
             _button = GetComponent<Button>();
-            _button.onClick.AddListener(() => _ability.TryActivate());
+            _button.onClick.AddListener(() => Ability.TryActivate());
 
             this.ValidateSerializedFields();
         }
 
         public void SetAbility(Ability ability)
         {
-            _ability = ability;
+            Ability = ability;
             _abilityName.text = ability.GetData().AbilityName;
             _icon.sprite = ability.GetData().Icon;
-            _cooldownTime = _ability.GetCooldown();
+            _cooldownTime = Ability.GetCooldown();
 
-            _ability.CooldownTimer.TimerValueChanged += UpdateCooldownUI;
+            Ability.CooldownTimer.TimerValueChanged += UpdateCooldownUI;
             ResetCooldownUI();
         }
 
@@ -64,13 +65,20 @@ namespace Project.Abilities
 
         private void UpdateText(float remainingTime)
         {
+            if (!_cooldownText)
+                return;
+            
             _cooldownText.gameObject.SetActive(true);
             _cooldownText.text = Mathf.CeilToInt(remainingTime).ToString();
         }
 
         private void UpdateFade(float remainingTime, float cooldownTime)
         {
+            if (!_cooldownOverlay)
+                return;
+
             float fillAmount = Mathf.Clamp01(remainingTime / cooldownTime);
+
             _cooldownOverlay.enabled = true;
             _cooldownOverlay.fillAmount = fillAmount;
         }
@@ -83,7 +91,7 @@ namespace Project.Abilities
 
         public void Dispose()
         {
-            _ability.CooldownTimer.TimerValueChanged -= UpdateCooldownUI;
+            Ability.CooldownTimer.TimerValueChanged -= UpdateCooldownUI;
         }
     }
 }

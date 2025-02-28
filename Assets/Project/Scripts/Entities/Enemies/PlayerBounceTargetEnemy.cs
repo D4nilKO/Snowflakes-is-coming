@@ -1,13 +1,13 @@
-using Project.Test;
+using Project.NewPhysics;
 using UnityEngine;
 
 namespace Project.Entities.Enemies
 {
     public class PlayerBounceTargetEnemy : StandardEnemy
     {
-        private void OnCollisionEnter2D(Collision2D other)
+        protected override void OnCollisionEnter2D(Collision2D collision)
         {
-            if (other.gameObject.TryGetComponent(out ScreenBounds bounds))
+            if (collision.gameObject.TryGetComponent(out ScreenBounds bounds))
             {
                 TurnInPlayerDirection();
             }

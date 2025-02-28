@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using Project.Abilities;
+using Project.NewPhysics;
+using UnityEngine;
+using VContainer;
 
 namespace Project.Entities.Character
 {
@@ -8,6 +12,10 @@ namespace Project.Entities.Character
 
         public static Player Instance { get; private set; }
 
+        private ScreenBounds _screenBounds;
+        private ScreenResizeHandler _screenResizeHandler;
+        private AbilityPanel _abilityPanel;
+
         private Bounds _bounds;
         private float _halfObjectWidth;
         private float _halfObjectHeight;
@@ -16,6 +24,35 @@ namespace Project.Entities.Character
         private float _maxX;
         private float _minY;
         private float _maxY;
+
+        [Inject]
+        private void Construct(ScreenBounds screenBounds, ScreenResizeHandler screenResizeHandler,
+            AbilityPanel abilityPanel)
+        {
+            _screenBounds = screenBounds;
+            _screenResizeHandler = screenResizeHandler;
+            _abilityPanel = abilityPanel;
+        }
+
+        public void Start()
+        {
+            SetBounds();
+            Instance = this;
+
+            _screenResizeHandler.ScreenResized += SetBounds;
+            _abilityPanel.OnPanelResized += SetBounds;
+        }
+
+        private void OnDestroy()
+        {
+            _screenResizeHandler.ScreenResized -= SetBounds;
+            _abilityPanel.OnPanelResized -= SetBounds;
+        }
+
+        private void FixedUpdate()
+        {
+            Move();
+        }
 
         public void Move()
         {
@@ -32,27 +69,36 @@ namespace Project.Entities.Character
             }
         }
 
-        public void Initialize()
-        {
-            Instance = this;
-            SetBounds();
-        }
-
-        private void FixedUpdate()
-        {
-            Move();
-        }
-
         private void SetBounds()
         {
+            if (_screenBounds == null)
+            {
+                Debug.LogError("ScreenBounds не установлен!");
+                return;
+            }
+
+            Vector2[] edgePoints = _screenBounds.Points;
+
+            if (edgePoints == null)
+            {
+                Debug.LogError("EdgePoints не установлены!");
+                return;
+            }
+
+            if (edgePoints.Length < 4)
+            {
+                Debug.LogError($"Недостаточно точек! {edgePoints.Length}");
+                return;
+            }
+
             _bounds = ObjectCollider.bounds;
             _halfObjectWidth = _bounds.extents.x;
             _halfObjectHeight = _bounds.extents.y;
 
-            _minX = (-ScreenWidth * 0.5f) + _halfObjectWidth;
-            _maxX = (ScreenWidth * 0.5f) - _halfObjectWidth;
-            _minY = (-ScreenHeight * 0.5f) + _halfObjectHeight;
-            _maxY = (ScreenHeight * 0.5f) - _halfObjectHeight;
+            _minX = edgePoints.Min(p => p.x) + _halfObjectWidth;
+            _maxX = edgePoints.Max(p => p.x) - _halfObjectWidth;
+            _minY = edgePoints.Min(p => p.y) + _halfObjectHeight;
+            _maxY = edgePoints.Max(p => p.y) - _halfObjectHeight;
         }
 
         private bool IsInViewport(Vector2 screenPosition, Camera _camera)

@@ -1,60 +1,126 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using Project.Data.Collections;
 using UnityEngine;
 using VContainer;
 
 namespace Project.Abilities
 {
+    [RequireComponent(typeof(Canvas))]
     public class AbilityPanel : MonoBehaviour
     {
         [SerializeField]
-        private AbilityView _abilityButtonPrefab;
+        private AbilityView _buttonPrefab;
 
         [SerializeField]
-        private Transform _abilityButtonParent;
+        private RectTransform _buttonParent;
 
-        private List<AbilityView> _abilityButtons = new();
+        private List<AbilityView> _buttons = new();
+        private Canvas _canvas;
 
-        private IAbilityFactory _abilityFactory;
+        private IAbilityFactory _factory;
+        private CollectionManager _collectionManager;
 
-        [Inject]
-        public void Construct(IAbilityFactory abilityFactory)
+        public event Action OnPanelResized;
+
+        public float GetPanelWidth()
         {
-            _abilityFactory = abilityFactory;
+            if (_canvas == null)
+            {
+                _canvas = GetComponent<Canvas>();
+            }
+
+            if (_buttonParent.gameObject.activeInHierarchy == false)
+                return 0f;
+
+            return _buttonParent.rect.width * _canvas.scaleFactor;
         }
 
-        public void Initialize()
+        [Inject]
+        public void Construct(IAbilityFactory abilityFactory, CollectionManager collectionManager)
         {
-            foreach (AbilityView abilityView in _abilityButtons)
-            {
-                abilityView.Initialize();
-            }
+            _factory = abilityFactory;
+            _collectionManager = collectionManager;
         }
 
         private void Awake()
         {
             this.ValidateSerializedFields();
-            CreateAbilityButtons(_abilityFactory.GetAbilities());
+
+            CreateAbilityButtons(_factory.GetUnlockedAbilities());
+
+            _collectionManager.OnCollectionCompleted += CreateAbilityButton;
         }
 
-        private void CreateAbilityButtons(IEnumerable<Ability> abilities)
+        private void OnDestroy()
+        {
+            _collectionManager.OnCollectionCompleted -= CreateAbilityButton;
+        }
+
+        public void Initialize()
+        {
+            foreach (AbilityView abilityView in _buttons)
+            {
+                abilityView.Initialize();
+            }
+        }
+
+        private void CreateAbilityButtons(List<Ability> abilities)
         {
             ClearContainersChildren();
 
+            if (abilities.Any() == false)
+            {
+                HidePanel();
+                return;
+            }
+
             foreach (Ability ability in abilities)
             {
-                AbilityView abilityButton = Instantiate(_abilityButtonPrefab, _abilityButtonParent);
-                abilityButton.SetAbility(ability);
-                _abilityButtons.Add(abilityButton);
+                CreateAbilityButton(ability);
             }
+        }
+
+        private void CreateAbilityButton(Ability ability)
+        {
+            if (ability == null)
+            {
+                Debug.LogError("При создании кнопки способности возникла ошибка: Ability is null");
+                return;
+            }
+
+            if (_buttons.Any(view => view.Ability == ability))
+            {
+                return;
+            }
+
+            ShowPanel();
+
+            AbilityView abilityButton = Instantiate(_buttonPrefab, _buttonParent);
+            abilityButton.SetAbility(ability);
+            _buttons.Add(abilityButton);
+        }
+
+        private void ShowPanel()
+        {
+            _buttonParent.gameObject.SetActive(true);
+            OnPanelResized?.Invoke();
+        }
+
+        private void HidePanel()
+        {
+            _buttonParent.gameObject.SetActive(false);
+            OnPanelResized?.Invoke();
         }
 
         private void ClearContainersChildren()
         {
-            int childCount = _abilityButtonParent.childCount;
+            int childCount = _buttonParent.childCount;
 
             for (int i = childCount - 1; i >= 0; i--)
             {
-                Transform child = _abilityButtonParent.GetChild(i);
+                Transform child = _buttonParent.GetChild(i);
                 Destroy(child.gameObject);
             }
         }

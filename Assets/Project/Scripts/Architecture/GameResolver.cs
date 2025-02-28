@@ -4,7 +4,9 @@ using Project.Entities.Character;
 using Project.Entities.Enemies;
 using Project.GameState;
 using Project.GameState.View;
+using Project.NewPhysics;
 using Project.Services;
+using Project.Services.MessageSystem;
 using Project.Timing;
 using UnityEngine;
 using VContainer;
@@ -36,6 +38,8 @@ namespace Project.Architecture
             _container.Resolve<WonPanel>();
             _container.Resolve<DevPanel>();
             _container.Resolve<AbilityPanel>();
+            _container.Resolve<ScreenMessageHandler>();
+            _container.Resolve<IScreenMessageHandler>();
             _container.Resolve<LevelTextView>();
             _container.Resolve<SurviveTimerView>();
         }
@@ -47,6 +51,8 @@ namespace Project.Architecture
             _container.Resolve<EnemyContainer>();
             _container.Resolve<EnemySpawner>();
             _container.Resolve<GameOutcomeView>();
+            _container.Resolve<ScreenBounds>();
+            _container.Resolve<ScreenResizeHandler>();
         }
     }
 }
