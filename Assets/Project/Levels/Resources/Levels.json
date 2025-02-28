@@ -36,6 +36,10 @@
           "MaxSpawnCount": 2
         },
         {
+          "EnemyPrefabName": "C1_S1",
+          "MaxSpawnCount": 1
+        },
+        {
           "EnemyPrefabName": "Enemy 2",
           "MaxSpawnCount": 2
         }
@@ -64,6 +68,10 @@
         {
           "EnemyPrefabName": "Enemy 1",
           "MaxSpawnCount": 3
+        },
+        {
+          "EnemyPrefabName": "C1_S2",
+          "MaxSpawnCount": 1
         },
         {
           "EnemyPrefabName": "Enemy 2",
@@ -104,6 +112,10 @@
           "MaxSpawnCount": 5
         },
         {
+          "EnemyPrefabName": "C1_S3",
+          "MaxSpawnCount": 1
+        },
+        {
           "EnemyPrefabName": "Enemy 2",
           "MaxSpawnCount": 3
         },
@@ -116,7 +128,7 @@
     {
       "NumberOfLevel": 8,
       "TimeToSpawn": 2,
-      "SecondsToWin": 8,
+      "SecondsToWin": 5,
       "EnemyTypesInfo": [
         {
           "EnemyPrefabName": "Enemy 1",
@@ -124,7 +136,7 @@
         },
         {
           "EnemyPrefabName": "Enemy 2",
-          "MaxSpawnCount": 3
+          "MaxSpawnCount": 2
         },
         {
           "EnemyPrefabName": "Enemy 3",
@@ -139,11 +151,11 @@
     {
       "NumberOfLevel": 9,
       "TimeToSpawn": 2,
-      "SecondsToWin": 15,
+      "SecondsToWin": 13,
       "EnemyTypesInfo": [
         {
           "EnemyPrefabName": "Enemy 1",
-          "MaxSpawnCount": 4
+          "MaxSpawnCount": 1
         },
         {
           "EnemyPrefabName": "Enemy 2",

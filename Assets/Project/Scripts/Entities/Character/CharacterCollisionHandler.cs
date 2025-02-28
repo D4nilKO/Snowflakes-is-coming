@@ -1,7 +1,6 @@
-﻿using Project.Entities.Enemies;
-using Project.GameState;
+﻿using System;
+using Project.Entities.Enemies;
 using UnityEngine;
-using VContainer;
 
 namespace Project.Entities.Character
 {
@@ -11,14 +10,7 @@ namespace Project.Entities.Character
         [SerializeField]
         private bool _isInvincible;
 
-        private GameOutcome _gameOutcome;
-
-        [Inject]
-        public void Construct(GameOutcome gameOutcome)
-        {
-            _gameOutcome = gameOutcome;
-            _isInvincible = false;
-        }
+        public event Action DamageTaken;
 
         public void ActivateInvincibility(float duration)
         {
@@ -58,7 +50,8 @@ namespace Project.Entities.Character
 
             if (collision.gameObject.TryGetComponent(out IDamageDealer damageDealer))
             {
-                damageDealer.DealDamage(_gameOutcome);
+                damageDealer.DealDamage();
+                DamageTaken?.Invoke();
             }
         }
     }

@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using System.IO;
+using System.Linq;
 using Project.Abilities;
 using Project.Entities.Collectables;
 
@@ -8,29 +8,34 @@ namespace Project.Data.Collections
     public class CollectionModel
     {
         private readonly CollectionData _data;
-        private readonly Ability _ability;
-        
+
         private HashSet<CollectableSnowflake> _collectedSnowflakes = new();
 
-        private bool _isUnlocked;
-
         public string AbilityName => _data.CollectionName;
-        public Ability GetAbility => _ability;
+        public int CollectedAmount => _collectedSnowflakes.Count;
+        public int AllCollectedCount => _data.Snowflakes.Count;
+        public Ability Ability { get; }
 
-        public CollectionModel(CollectionData data, Ability ability)
+        public CollectionModel(CollectionData data, Ability ability,
+            ICollection<CollectableSnowflake> savedCollectedSnowflakes)
         {
             _data = data;
-            _ability = ability;
+            Ability = ability;
+
+            if (savedCollectedSnowflakes is null || savedCollectedSnowflakes.Any() == false)
+                return;
+
+            _collectedSnowflakes = savedCollectedSnowflakes.ToHashSet();
         }
 
         public bool AddSnowflake(CollectableSnowflake snowflake)
         {
             bool isAdded = _collectedSnowflakes.Add(snowflake);
-            bool isCompleted = _collectedSnowflakes.Count == _data.Snowflakes.Count;
+            bool isCompleted = CollectedAmount == AllCollectedCount;
 
             if (isAdded)
             {
-                _ability?.ReActivate();
+                Ability?.ReActivate();
             }
 
             return isCompleted;

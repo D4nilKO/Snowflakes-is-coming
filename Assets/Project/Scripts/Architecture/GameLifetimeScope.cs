@@ -10,6 +10,7 @@ using Project.GameState.View;
 using Project.LevelSystem;
 using Project.NewPhysics;
 using Project.Services;
+using Project.Services.MessageSystem;
 using Project.Settings;
 using Project.Timing;
 using UnityEngine;
@@ -48,6 +49,9 @@ namespace Project.Architecture
         private AbilityPanel _abilityPanel;
 
         [SerializeField]
+        private ScreenMessageHandler _screenMessageHandler;
+
+        [SerializeField]
         private SurviveTimerView _surviveTimerPanel;
 
         [SerializeField]
@@ -70,6 +74,13 @@ namespace Project.Architecture
 
         [SerializeField, Header("Snowflake Collections")]
         private List<CollectionData> _collections;
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            this.ValidateSerializedFields();
+        }
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -149,6 +160,10 @@ namespace Project.Architecture
             builder.RegisterComponentInNewPrefab(_levelPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
             builder.RegisterComponentInNewPrefab(_surviveTimerPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
             builder.RegisterComponentInNewPrefab(_abilityPanel, Lifetime.Scoped).UnderTransform(_mainCanvas);
+            builder.RegisterComponentInNewPrefab(_screenMessageHandler, Lifetime.Scoped).UnderTransform(_mainCanvas);
+
+            builder.RegisterComponentInNewPrefab(_screenMessageHandler, Lifetime.Scoped).UnderTransform(_mainCanvas)
+                .As<IScreenMessageHandler>();
         }
     }
 }

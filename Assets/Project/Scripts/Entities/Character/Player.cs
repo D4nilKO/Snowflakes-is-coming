@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Project.Abilities;
 using Project.NewPhysics;
 using UnityEngine;
 using VContainer;
@@ -13,6 +14,7 @@ namespace Project.Entities.Character
 
         private ScreenBounds _screenBounds;
         private ScreenResizeHandler _screenResizeHandler;
+        private AbilityPanel _abilityPanel;
 
         private Bounds _bounds;
         private float _halfObjectWidth;
@@ -24,10 +26,12 @@ namespace Project.Entities.Character
         private float _maxY;
 
         [Inject]
-        private void Construct(ScreenBounds screenBounds, ScreenResizeHandler screenResizeHandler)
+        private void Construct(ScreenBounds screenBounds, ScreenResizeHandler screenResizeHandler,
+            AbilityPanel abilityPanel)
         {
             _screenBounds = screenBounds;
             _screenResizeHandler = screenResizeHandler;
+            _abilityPanel = abilityPanel;
         }
 
         public void Start()
@@ -36,11 +40,13 @@ namespace Project.Entities.Character
             Instance = this;
 
             _screenResizeHandler.ScreenResized += SetBounds;
+            _abilityPanel.OnPanelResized += SetBounds;
         }
 
         private void OnDestroy()
         {
             _screenResizeHandler.ScreenResized -= SetBounds;
+            _abilityPanel.OnPanelResized -= SetBounds;
         }
 
         private void FixedUpdate()

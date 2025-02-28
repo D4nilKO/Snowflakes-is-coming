@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Project.Abilities;
-using Project.Data.Collections;
+using Project.Entities.Collectables;
 
 namespace YG
 {
@@ -19,13 +19,32 @@ namespace YG
         public bool IsSawTraining = false;
 
         public List<string> UnlockedAbilityNames;
+        public List<string> CollectedSnowflakes;
 
-        public void UnlockAbility(Ability ability)
+        public bool UnlockAbility(Ability ability)
         {
-            if (UnlockedAbilityNames.Contains(ability.GetData().AbilityName))
-                return;
+            string abilityName = ability.GetData().AbilityName;
 
-            UnlockedAbilityNames.Add(ability.GetData().AbilityName);
+            if (UnlockedAbilityNames.Contains(abilityName))
+                return false;
+
+            UnlockedAbilityNames.Add(abilityName);
+            YandexGame.SaveProgress();
+
+            return true;
+        }
+
+        public bool UnlockCollectableSnowflake(CollectableSnowflake snowflake)
+        {
+            string objectName = snowflake.name.Replace("(Clone)", "");
+
+            if (CollectedSnowflakes.Contains(objectName))
+                return false;
+
+            CollectedSnowflakes.Add(objectName);
+            YandexGame.SaveProgress();
+
+            return true;
         }
 
         // Поля (сохранения) можно удалять и создавать новые. При обновлении игры сохранения ломаться не должны
@@ -34,6 +53,7 @@ namespace YG
         public SavesYG()
         {
             UnlockedAbilityNames = new List<string>();
+            CollectedSnowflakes = new List<string>();
         }
     }
 }

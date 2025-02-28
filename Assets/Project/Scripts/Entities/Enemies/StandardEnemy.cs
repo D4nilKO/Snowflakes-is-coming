@@ -1,12 +1,10 @@
-using Project.GameState;
-
 namespace Project.Entities.Enemies
 {
     public class StandardEnemy : EnemyBase, IDamageDealer
     {
-        public void DealDamage(GameOutcome gameOutcome)
+        public void DealDamage()
         {
-            gameOutcome.LostGame();
+            // gameOutcome.LostGame();
         }
     }
 }

@@ -51,7 +51,7 @@ namespace Project.Abilities
 
             OnActivated?.Invoke();
 
-            Debug.LogError("Ability activated");
+            Debug.Log("Ability activated");
         }
 
         public void Deactivate()
@@ -62,7 +62,7 @@ namespace Project.Abilities
             IsActive = false;
             OnDeactivate();
             OnDeactivated?.Invoke();
-            Debug.LogError("Ability deactivated");
+            Debug.Log("Ability deactivated");
         }
 
         public float GetRemainingCooldown()

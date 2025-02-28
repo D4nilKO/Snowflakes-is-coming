@@ -60,7 +60,7 @@ namespace Project.Entities.Enemies
             _targetRotation = transform.rotation;
         }
 
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
             UpdateRigidbodySpeed();
         }
@@ -68,7 +68,6 @@ namespace Project.Entities.Enemies
         public virtual void OnSpawn()
         {
             SetDirectionOnSpawn();
-            OnEnable();
         }
 
         public virtual void OnDespawn()
@@ -129,7 +128,6 @@ namespace Project.Entities.Enemies
             float minDeviation = 15f; // Минимальное отклонение от 90 градусов
 
             float alpha = Mathf.Atan2(Direction.y, Direction.x) * Mathf.Rad2Deg;
-            float oldAlpha = alpha;
             float correctedAlpha = alpha;
 
             float remainder = Mathf.Abs(alpha % 90);

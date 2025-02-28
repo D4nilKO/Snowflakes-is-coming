@@ -1,11 +1,11 @@
 ﻿using System;
 using Project.Data;
+using Project.Entities.Character;
 using Project.Services;
 using Project.Timing;
 using UnityEngine;
 using VavilichevGD.Utils.Timing;
 using VContainer;
-using static Project.Data.ProgressData;
 using static Project.Services.MetricaId;
 
 namespace Project.GameState
@@ -14,6 +14,7 @@ namespace Project.GameState
     {
         private PauseHandler _pauseHandler;
         private ProgressData _progressData;
+        private CharacterCollisionHandler _collisionHandler;
 
         private float _timeToSurvive;
 
@@ -26,17 +27,21 @@ namespace Project.GameState
         public SyncedTimer SurviveTimer { get; private set; } = new(TimerType.OneSecTick);
 
         [Inject]
-        public void Construct(PauseHandler pauseHandler, ProgressData progressData)
+        public void Construct(PauseHandler pauseHandler, ProgressData progressData,
+            CharacterCollisionHandler collisionHandler)
         {
             _pauseHandler = pauseHandler;
             _progressData = progressData;
+            _collisionHandler = collisionHandler;
 
             SubscribeSurviveTimer();
+            SubscribeCollisionHandler();
         }
 
         public void Dispose()
         {
             UnsubscribeSurviveTimer();
+            UnsubscribeCollisionHandler();
         }
 
         public void Initialize(float timeToSurvive)
@@ -55,8 +60,10 @@ namespace Project.GameState
             }
 
             _isRevived = true;
-            MetricaSender.SendWithId(LevelReviveId, _progressData.CurrentLevelNumber.ToString());
+            _collisionHandler.ActivateInvincibility(1f);
             _pauseHandler.InGamePause();
+
+            MetricaSender.SendWithId(LevelReviveId, _progressData.CurrentLevelNumber.ToString());
         }
 
         public void LostGame()
@@ -95,6 +102,16 @@ namespace Project.GameState
 
             _isSubscribed = false;
             SurviveTimer.TimerFinished -= WonGame;
+        }
+
+        private void SubscribeCollisionHandler()
+        {
+            _collisionHandler.DamageTaken += LostGame;
+        }
+
+        private void UnsubscribeCollisionHandler()
+        {
+            _collisionHandler.DamageTaken -= LostGame;
         }
     }
 }

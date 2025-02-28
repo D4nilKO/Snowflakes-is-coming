@@ -57,10 +57,13 @@ MonoBehaviour:
   _wonPanel: {fileID: 7518060280073789811, guid: 2a5e6f9e979cc4d188f3eb4e73e13e3f, type: 3}
   _devPanel: {fileID: 672676098287001459, guid: ad2b9f0a9ef4c482791be677d0ca098a, type: 3}
   _levelPanel: {fileID: 8192302695843779040, guid: 51c13adb4956745c68b18c7f6f48d234, type: 3}
+  _abilityPanel: {fileID: 6933368536520122391, guid: 8ab6a4924c57b4eefa97d440ea924485, type: 3}
+  _screenMessageHandler: {fileID: 8944831813766662454, guid: c0b2696e34aa7418f94dc854f92bdb72, type: 3}
   _surviveTimerPanel: {fileID: 9195226371466158560, guid: 8eacc4b23138f49509506e5bd3a4d2e6, type: 3}
   _player: {fileID: 1232662312, guid: 00ad8649d0d864840966b9472cf7e3dc, type: 3}
   _enemyContainer: {fileID: 599588924903093088, guid: dd95a76e994d74968b0a897036f74c22, type: 3}
   _enemySpawner: {fileID: 5795099636840865599, guid: 763180dc009014919a9b7de13fadffa0, type: 3}
+  _screenBounds: {fileID: 6511392499447720384, guid: 10e3b4332d61d4dba922c51c11580394, type: 3}
   _mainCanvas: {fileID: 0}
   _gamePlayParent: {fileID: 0}
   _collections:
