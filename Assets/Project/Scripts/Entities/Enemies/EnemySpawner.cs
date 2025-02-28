@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NTC.Global.Pool;
+using Project.Entities.Collectables;
 using Project.LevelSystem.LevelStructure;
 using UnityEngine;
 using VavilichevGD.Utils.Timing;
@@ -19,6 +20,8 @@ namespace Project.Entities.Enemies
         private EntityRotator _entityRotator;
         private EnemyContainer _enemyContainer;
 
+        private IObjectResolver _vContainer;
+
         private List<EnemyTypeInfo> _enemyTypes;
         private Dictionary<string, int> _availableEnemyCounts;
 
@@ -31,8 +34,9 @@ namespace Project.Entities.Enemies
         public SyncedTimer Timer { get; private set; }
 
         [Inject]
-        public void Construct(EntityRotator rotator, EnemyContainer container)
+        public void Construct(IObjectResolver vContainer, EntityRotator rotator, EnemyContainer container)
         {
+            _vContainer = vContainer;
             _entityRotator = rotator;
             _enemyContainer = container;
 
@@ -112,6 +116,7 @@ namespace Project.Entities.Enemies
                 }
 
                 SpawnEnemy(enemyPrefab);
+
                 _availableEnemyCounts[prefabName]--;
             }
 
@@ -135,6 +140,11 @@ namespace Project.Entities.Enemies
         private void SpawnEnemy(EnemyBase enemyPrefab)
         {
             EnemyBase enemy = NightPool.Spawn(enemyPrefab, _enemyContainer.transform);
+            _vContainer.Inject(enemy);
+
+            if (enemy is CollectableSnowflake collectable)
+                collectable.Initialize();
+
             _entityRotator.AddEntity(enemy);
             _enemyContainer.AddEnemy(enemy);
         }

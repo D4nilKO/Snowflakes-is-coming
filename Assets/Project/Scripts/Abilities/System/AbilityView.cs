@@ -65,13 +65,20 @@ namespace Project.Abilities
 
         private void UpdateText(float remainingTime)
         {
+            if (!_cooldownText)
+                return;
+            
             _cooldownText.gameObject.SetActive(true);
             _cooldownText.text = Mathf.CeilToInt(remainingTime).ToString();
         }
 
         private void UpdateFade(float remainingTime, float cooldownTime)
         {
+            if (!_cooldownOverlay)
+                return;
+
             float fillAmount = Mathf.Clamp01(remainingTime / cooldownTime);
+
             _cooldownOverlay.enabled = true;
             _cooldownOverlay.fillAmount = fillAmount;
         }
