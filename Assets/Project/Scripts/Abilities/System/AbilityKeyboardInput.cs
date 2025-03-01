@@ -1,25 +1,19 @@
 using UnityEngine;
-using VContainer.Unity;
 
 namespace Project.Abilities
 {
-    public class AbilityInputHandler : ITickable
+    public class AbilityKeyboardInput
     {
-        private Ability _ability;
-        private KeyCode _activationKey;
+        private readonly Ability _ability;
+        private readonly KeyCode _activationKey;
 
-        public AbilityInputHandler(Ability ability, KeyCode activationKey)
+        public AbilityKeyboardInput(Ability ability, KeyCode activationKey)
         {
             _ability = ability;
             _activationKey = activationKey;
         }
 
         public void Tick()
-        {
-            HandleKeyboardInput();
-        }
-
-        private void HandleKeyboardInput()
         {
             if (_activationKey == KeyCode.None || _ability == null)
                 return;

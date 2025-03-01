@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace Project.Abilities
 {
+    [CreateAssetMenu(fileName = "AbilityData", menuName = "Data/AbilityData", order = 0)]
     public class AbilityData : ScriptableObject
     {
         public string AbilityName;

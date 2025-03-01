@@ -38,8 +38,8 @@ namespace Project.Architecture
             _container.Resolve<WonPanel>();
             _container.Resolve<DevPanel>();
             _container.Resolve<AbilityPanel>();
-            _container.Resolve<ScreenMessageHandler>();
             _container.Resolve<IScreenMessageHandler>();
+
             _container.Resolve<LevelTextView>();
             _container.Resolve<SurviveTimerView>();
         }
