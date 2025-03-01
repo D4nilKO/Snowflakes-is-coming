@@ -20,8 +20,6 @@ namespace Project.Architecture
 
         private void Start()
         {
-            Debug.Log("GameResolver Start");
-
             var lifetimeScope = GetComponent<GameLifetimeScope>();
             _container = lifetimeScope.Container;
 

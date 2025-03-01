@@ -4,7 +4,7 @@ using VavilichevGD.Utils.Timing;
 
 namespace Project.Abilities
 {
-    public abstract class Ability : IDisposable
+    public abstract class Ability
     {
         public readonly SyncedTimer CooldownTimer = new(TimerType.UpdateTick);
 
@@ -79,6 +79,6 @@ namespace Project.Abilities
             ForceActivate(false);
         }
 
-        public virtual void Dispose() { }
+        public abstract void Dispose();
     }
 }
