@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Project.Abilities
 {
@@ -8,6 +9,8 @@ namespace Project.Abilities
 
         List<Ability> GetAllAbilities();
         List<Ability> GetUnlockedAbilities();
+        
         void Initialize();
+        KeyCode GetAbilityKey(Ability ability);
     }
 }

@@ -20,26 +20,34 @@ namespace Project.Abilities
 
         [SerializeField]
         private TMP_Text _cooldownText;
+        
+        [SerializeField]
+        private TMP_Text _keyBindText;
 
         private Button _button;
         private float _cooldownTime;
-        
-        public Ability Ability;
+
+        public Ability Ability { get; private set; }
+
+        private void Awake()
+        {
+            this.ValidateSerializedFields();
+            _button = GetComponent<Button>();
+        }
 
         private void Start()
         {
-            _button = GetComponent<Button>();
-            _button.onClick.AddListener(() => Ability.TryActivate());
-
-            this.ValidateSerializedFields();
+            _button.onClick.AddListener(() => Ability?.TryActivate());
         }
 
-        public void SetAbility(Ability ability)
+        public void SetAbility(Ability ability, KeyCode keyBind)
         {
             Ability = ability;
-            _abilityName.text = ability.GetData().AbilityName;
-            _icon.sprite = ability.GetData().Icon;
-            _cooldownTime = Ability.GetCooldown();
+
+            _abilityName.text = ability.Data.AbilityName;
+            _icon.sprite = ability.Data.Icon;
+            _cooldownTime = ability.Data.Cooldown;
+            _keyBindText.text = keyBind != KeyCode.None ? keyBind.ToString() : "";
 
             Ability.CooldownTimer.TimerValueChanged += UpdateCooldownUI;
             ResetCooldownUI();
@@ -65,33 +73,40 @@ namespace Project.Abilities
 
         private void UpdateText(float remainingTime)
         {
-            if (!_cooldownText)
+            if (_cooldownText == null)
                 return;
-            
+
             _cooldownText.gameObject.SetActive(true);
             _cooldownText.text = Mathf.CeilToInt(remainingTime).ToString();
         }
 
         private void UpdateFade(float remainingTime, float cooldownTime)
         {
-            if (!_cooldownOverlay)
+            if (_cooldownOverlay == null)
                 return;
 
-            float fillAmount = Mathf.Clamp01(remainingTime / cooldownTime);
-
             _cooldownOverlay.enabled = true;
-            _cooldownOverlay.fillAmount = fillAmount;
+            _cooldownOverlay.fillAmount = Mathf.Clamp01(remainingTime / cooldownTime);
         }
 
         private void ResetCooldownUI()
         {
-            _cooldownOverlay.enabled = false;
-            _cooldownText.gameObject.SetActive(false);
+            if (_cooldownOverlay != null)
+                _cooldownOverlay.enabled = false;
+
+            if (_cooldownText != null)
+                _cooldownText.gameObject.SetActive(false);
         }
 
         public void Dispose()
         {
-            Ability.CooldownTimer.TimerValueChanged -= UpdateCooldownUI;
+            if (Ability != null)
+                Ability.CooldownTimer.TimerValueChanged -= UpdateCooldownUI;
+        }
+
+        private void OnDestroy()
+        {
+            Dispose();
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -10,25 +11,52 @@ namespace Project.Abilities
     {
         private readonly IObjectResolver _container;
 
-        private HashSet<Ability> _abilities = new();
+        private readonly AbilityInputManager _inputManager;
+        private readonly AbilityKeyCodesBank _keyCodes;
+        private int _keycodeIndex = 0;
 
-        public AbilityFactory(IObjectResolver container)
+        private readonly HashSet<Ability> _abilities = new();
+        private readonly Dictionary<Type, Type> _abilityMap;
+
+        public AbilityFactory(IObjectResolver container, AbilityInputManager inputManager, AbilityKeyCodesBank keyCodes)
         {
             _container = container;
+            _inputManager = inputManager;
+            _keyCodes = keyCodes;
+
+            _abilityMap = new Dictionary<Type, Type>
+            {
+                { typeof(SlowModeAbilityData), typeof(SlowModeAbility) },
+            };
         }
 
         public Ability CreateAbility(AbilityData data)
         {
-            if (data is SlowModeAbilityData slowModeData)
+            if (!_abilityMap.TryGetValue(data.GetType(), out Type abilityType))
             {
-                var ability = _container.Resolve<SlowModeAbility>();
-                ability.SetData(slowModeData);
-                _abilities.Add(ability);
-                return ability;
+                Debug.LogError($"Ability type {data.GetType().Name} is not supported.");
+                return null;
             }
 
-            Debug.LogError($"Ability type {data.GetType().Name} is not supported.");
-            return null;
+            var ability = (Ability)_container.Resolve(abilityType);
+            ability.SetData(data);
+            _abilities.Add(ability);
+
+            var activationKey = _keyCodes.GetKeycode(_keycodeIndex);
+
+            if (activationKey != KeyCode.None)
+            {
+                var inputHandler = new AbilityKeyboardInput(ability, activationKey);
+                _inputManager.Register(inputHandler);
+                _keycodeIndex++;
+            }
+            else
+            {
+                Debug.LogError(
+                    $"No available key codes for ability {data.AbilityName}. It will not have a keyboard shortcut.");
+            }
+
+            return ability;
         }
 
         public void Initialize()
@@ -40,15 +68,17 @@ namespace Project.Abilities
             }
         }
 
-        public List<Ability> GetAllAbilities()
+        public KeyCode GetAbilityKey(Ability ability)
         {
-            return _abilities.ToList();
+            if (ability == null)
+                return KeyCode.None;
+
+            return _keyCodes.GetKeycode(_abilities.ToList().IndexOf(ability));
         }
 
-        public List<Ability> GetUnlockedAbilities()
-        {
-            var unlockedNames = YandexGame.savesData.UnlockedAbilityNames;
-            return _abilities.Where(ability => unlockedNames.Contains(ability.GetData().AbilityName)).ToList();
-        }
+        public List<Ability> GetAllAbilities() => _abilities.ToList();
+
+        public List<Ability> GetUnlockedAbilities() =>
+            _abilities.Where(a => YandexGame.savesData.UnlockedAbilityNames.Contains(a.Data.AbilityName)).ToList();
     }
 }

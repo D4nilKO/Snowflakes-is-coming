@@ -50,6 +50,7 @@ MonoBehaviour:
   autoRun: 1
   autoInjectGameObjects: []
   _devPanelSettings: {fileID: 11400000, guid: c1af558117dc043c8b9dd1e7c4834093, type: 2}
+  _abilityKeyCodes: {fileID: 11400000, guid: 0789fc98d14e8400f8f131592bd57790, type: 2}
   _inGamePausePanel: {fileID: 416065348816809685, guid: 5fb14ef80807c4967b929617057e7667, type: 3}
   _trainingPanel: {fileID: 5226079120092244770, guid: 3048d4e9756e24fee996378c388e0091, type: 3}
   _finalPanel: {fileID: 6409869410848191369, guid: ff335f72f8c8a46179ac35bf0788decd, type: 3}

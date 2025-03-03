@@ -21,9 +21,14 @@ namespace Project.Architecture
 {
     public class GameLifetimeScope : LifetimeScope
     {
+        [Header("Settings")]
         [SerializeField]
         private DevPanelSettings _devPanelSettings;
 
+        [SerializeField]
+        private AbilityKeyCodesBank _abilityKeyCodes;
+
+        [Header("UI")]
         [SerializeField]
         private InGamePausePanel _inGamePausePanel;
 
@@ -54,6 +59,7 @@ namespace Project.Architecture
         [SerializeField]
         private SurviveTimerView _surviveTimerPanel;
 
+        [Header("Gameplay")]
         [SerializeField]
         private Player _player;
 
@@ -66,11 +72,15 @@ namespace Project.Architecture
         [SerializeField]
         private ScreenBounds _screenBounds;
 
+        [Header("Parents")]
         [SerializeField]
         private Transform _mainCanvas;
 
         [SerializeField]
         private Transform _gamePlayParent;
+
+        [SerializeField]
+        private Transform _serviceParent;
 
         [SerializeField, Header("Snowflake Collections")]
         private List<CollectionData> _collections;
@@ -104,9 +114,13 @@ namespace Project.Architecture
             builder.RegisterComponentOnNewGameObject<ScreenResizeHandler>(Lifetime.Scoped)
                 .UnderTransform(_gamePlayParent);
 
-            builder.RegisterComponentOnNewGameObject<LevelDataInfoView>(Lifetime.Scoped);
+            builder.RegisterComponentOnNewGameObject<LevelDataInfoView>(Lifetime.Scoped).UnderTransform(_serviceParent);
+
+            builder.RegisterComponentOnNewGameObject<AbilityInputManager>(Lifetime.Scoped)
+                .UnderTransform(_serviceParent);
 
             builder.RegisterInstance(_devPanelSettings);
+            builder.RegisterInstance(_abilityKeyCodes);
 
             builder.RegisterEntryPoint<Training>(Lifetime.Scoped);
             builder.RegisterEntryPoint<DevPanelSwitcher>(Lifetime.Scoped);

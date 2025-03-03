@@ -1,16 +1,12 @@
 {
-    "idSave": 566,
+    "idSave": 616,
     "isFirstSession": false,
     "language": "ru",
     "promptDone": false,
-    "unlockedLevelNumber": 9,
+    "unlockedLevelNumber": 5,
     "IsSawTraining": true,
-    "UnlockedAbilityNames": [
-        "SlowMode"
-    ],
+    "UnlockedAbilityNames": [],
     "CollectedSnowflakes": [
-        "C1_S1",
-        "C1_S2",
-        "C1_S3"
+        "C1_S2"
     ]
 }

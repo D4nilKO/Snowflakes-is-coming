@@ -23,7 +23,7 @@ namespace YG
 
         public bool UnlockAbility(Ability ability)
         {
-            string abilityName = ability.GetData().AbilityName;
+            string abilityName = ability.Data.AbilityName;
 
             if (UnlockedAbilityNames.Contains(abilityName))
                 return false;

@@ -877,6 +877,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 325928733}
     - target: {fileID: 708010203654193720, guid: 2fefc0f067d224444a7c1fd5ad26d5ba, type: 3}
+      propertyPath: _serviceParent
+      value: 
+      objectReference: {fileID: 188512924}
+    - target: {fileID: 708010203654193720, guid: 2fefc0f067d224444a7c1fd5ad26d5ba, type: 3}
       propertyPath: _gamePlayParent
       value: 
       objectReference: {fileID: 1730768456}
