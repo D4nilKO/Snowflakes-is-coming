@@ -20,6 +20,9 @@ namespace Project.Abilities
 
         [SerializeField]
         private TMP_Text _cooldownText;
+        
+        [SerializeField]
+        private TMP_Text _keyBindText;
 
         private Button _button;
         private float _cooldownTime;
@@ -37,13 +40,14 @@ namespace Project.Abilities
             _button.onClick.AddListener(() => Ability?.TryActivate());
         }
 
-        public void SetAbility(Ability ability)
+        public void SetAbility(Ability ability, KeyCode keyBind)
         {
             Ability = ability;
 
             _abilityName.text = ability.Data.AbilityName;
             _icon.sprite = ability.Data.Icon;
             _cooldownTime = ability.Data.Cooldown;
+            _keyBindText.text = keyBind != KeyCode.None ? keyBind.ToString() : "";
 
             Ability.CooldownTimer.TimerValueChanged += UpdateCooldownUI;
             ResetCooldownUI();

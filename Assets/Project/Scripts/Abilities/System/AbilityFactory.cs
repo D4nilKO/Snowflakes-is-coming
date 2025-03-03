@@ -68,6 +68,14 @@ namespace Project.Abilities
             }
         }
 
+        public KeyCode GetAbilityKey(Ability ability)
+        {
+            if (ability == null)
+                return KeyCode.None;
+
+            return _keyCodes.GetKeycode(_abilities.ToList().IndexOf(ability));
+        }
+
         public List<Ability> GetAllAbilities() => _abilities.ToList();
 
         public List<Ability> GetUnlockedAbilities() =>

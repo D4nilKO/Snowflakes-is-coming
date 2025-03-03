@@ -98,7 +98,8 @@ namespace Project.Abilities
             ShowPanel();
 
             AbilityView abilityButton = Instantiate(_buttonPrefab, _buttonParent);
-            abilityButton.SetAbility(ability);
+            KeyCode assignedKey = _factory.GetAbilityKey(ability); // Получаем клавишу
+            abilityButton.SetAbility(ability, assignedKey);
             _buttons.Add(abilityButton);
         }
 
