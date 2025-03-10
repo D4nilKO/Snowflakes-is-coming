@@ -45,5 +45,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _usePath: 0
-  _path: Assets/Project/Levels/TestLevels/Enemy Test.json
+  _path: Assets/Project/Levels/TestLevels/Enemy Test Levels.json
   _levelDataJson: {fileID: 4900000, guid: 448f5eabd2dd4d0e84b5954640b4c10c, type: 3}

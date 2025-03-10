@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2961839307611831256, guid: 0ea80e3bfb4d21c4a8889db09af0731b, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: ef2c8fd4e81d64f93ac636b98b0630e4, type: 2}
     - target: {fileID: 5064293743675624429, guid: 0ea80e3bfb4d21c4a8889db09af0731b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -13.3281975
@@ -60,6 +64,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5064293743675624431, guid: 0ea80e3bfb4d21c4a8889db09af0731b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4150555325359220715}
+    - targetCorrespondingSourceObject: {fileID: 5064293743675624431, guid: 0ea80e3bfb4d21c4a8889db09af0731b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4763099389449334976}
   m_SourcePrefab: {fileID: 100100000, guid: 0ea80e3bfb4d21c4a8889db09af0731b, type: 3}
 --- !u!1 &4824287888879281998 stripped
 GameObject:
@@ -78,7 +85,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77011bb4831a4224b2fbe268bb6d7463, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 5
-  _rotationSpeed: 20
+  _speed: 2.5
+  _rotationSpeed: 10
   _rotateEnabled: 1
   ParentCollectionData: {fileID: 0}
+--- !u!114 &4763099389449334976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4824287888879281998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54cedf20835e4c58a9eaadf7b08f6653, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

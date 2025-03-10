@@ -20,7 +20,7 @@ namespace Project.Abilities
 
         [SerializeField]
         private TMP_Text _cooldownText;
-        
+
         [SerializeField]
         private TMP_Text _keyBindText;
 

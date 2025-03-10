@@ -101,7 +101,7 @@ namespace Project.Architecture
             builder.Register<CollectionManager>(Lifetime.Singleton);
             builder.Register<AbilityFactory>(Lifetime.Singleton).As<IAbilityFactory>();
 
-            var player = Instantiate(_player);
+            var player = Instantiate(_player, _gamePlayParent);
             builder.RegisterComponent(player);
             builder.RegisterComponent(player.GetComponent<CharacterCollisionHandler>());
 

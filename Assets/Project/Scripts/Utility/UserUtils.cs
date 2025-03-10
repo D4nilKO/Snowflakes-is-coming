@@ -9,5 +9,10 @@ namespace Project.Utility
             screenWidth = _camera.orthographicSize * _camera.aspect * 2f;
             screenHeight = _camera.orthographicSize * 2f;
         }
+
+        public static float Map(float value, float inMin, float inHigh, float outLow, float outHigh)
+        {
+            return (value - inMin) * (outHigh - outLow) / (inHigh - inMin) + outLow;
+        }
     }
 }

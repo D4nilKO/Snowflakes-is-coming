@@ -20,7 +20,6 @@ namespace Project.Entities.Enemies
 
         private float _slowFactor = 0f;
 
-        private Quaternion _targetRotation;
         private Vector2 _direction;
 
         [ShowInInspector]
@@ -55,11 +54,6 @@ namespace Project.Entities.Enemies
             Rigidbody2D.velocity = Direction * Speed;
         }
 
-        protected virtual void Start()
-        {
-            _targetRotation = transform.rotation;
-        }
-
         protected virtual void OnEnable()
         {
             UpdateRigidbodySpeed();
@@ -80,13 +74,7 @@ namespace Project.Entities.Enemies
             if (_rotateEnabled == false)
                 return;
 
-            float newRotation = _targetRotation.eulerAngles.z + (_rotationSpeed * Time.deltaTime);
-            _targetRotation = Quaternion.Euler(0f, 0f, newRotation);
-
-            transform.rotation = Quaternion.RotateTowards(
-                transform.rotation,
-                _targetRotation,
-                _rotationSpeed * Time.deltaTime);
+            transform.Rotate(0f, 0f, _rotationSpeed * Time.deltaTime);
         }
 
         protected void TurnInPlayerDirection()
