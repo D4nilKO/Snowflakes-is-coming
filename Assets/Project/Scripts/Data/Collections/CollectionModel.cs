@@ -9,9 +9,10 @@ namespace Project.Data.Collections
     {
         private readonly CollectionData _data;
 
-        private HashSet<CollectableSnowflake> _collectedSnowflakes = new();
+        private HashSet<CollectableSnowflake> _snowflakes = new();
 
-        public int CollectedAmount => _collectedSnowflakes.Count;
+        public List<CollectableSnowflake> Snowflakes => _snowflakes.ToList();
+        public int CollectedAmount => _snowflakes.Count;
         public int AllCollectedCount => _data.Snowflakes.Count;
         public Ability Ability { get; }
 
@@ -24,7 +25,7 @@ namespace Project.Data.Collections
             if (savedCollectedSnowflakes is null || savedCollectedSnowflakes.Any() == false)
                 return;
 
-            _collectedSnowflakes = savedCollectedSnowflakes.ToHashSet();
+            _snowflakes = savedCollectedSnowflakes.ToHashSet();
         }
 
         /// <summary>
@@ -36,9 +37,9 @@ namespace Project.Data.Collections
         {
             bool isAdded = false;
 
-            if (_collectedSnowflakes.Any(_snowflake => _snowflake.name.Contains(snowflake.name)) == false)
+            if (_snowflakes.Any(_snowflake => _snowflake.name.Contains(snowflake.name)) == false)
             {
-                isAdded = _collectedSnowflakes.Add(snowflake);
+                isAdded = _snowflakes.Add(snowflake);
             }
 
             bool isCompleted = CollectedAmount >= AllCollectedCount;

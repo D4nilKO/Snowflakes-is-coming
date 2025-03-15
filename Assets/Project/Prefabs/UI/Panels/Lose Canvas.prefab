@@ -403,7 +403,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34f36451b093ee4c83ad4aa5459d2ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textMPComponent: {fileID: 0}
+  textMPComponent: {fileID: 4973230331055343201}
   uniqueFontTMP: {fileID: 0}
   textLComponent: {fileID: 0}
   infoYG: {fileID: 11400000, guid: 162644796a8b0d044bce3d6fda0641e3, type: 2}
@@ -457,6 +457,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   side: 1
   _additionalText: ' :('
+--- !u!114 &4973230331055343201 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4931210798969451268, guid: 8809298cc45984688a16eda14dfbcca0, type: 3}
+  m_PrefabInstance: {fileID: 102272978169132389}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4549910451660183588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &5987811477751181975 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5941270914493171698, guid: 8809298cc45984688a16eda14dfbcca0, type: 3}
@@ -706,6 +717,18 @@ PrefabInstance:
     - target: {fileID: 5573763052912808622, guid: 81448a418a01d40d2b721e7535ffabdc, type: 3}
       propertyPath: m_SizeDelta.y
       value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 5573763052912808622, guid: 81448a418a01d40d2b721e7535ffabdc, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.0481339
+      objectReference: {fileID: 0}
+    - target: {fileID: 5573763052912808622, guid: 81448a418a01d40d2b721e7535ffabdc, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.0481339
+      objectReference: {fileID: 0}
+    - target: {fileID: 5573763052912808622, guid: 81448a418a01d40d2b721e7535ffabdc, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.0481339
       objectReference: {fileID: 0}
     - target: {fileID: 5573763052912808622, guid: 81448a418a01d40d2b721e7535ffabdc, type: 3}
       propertyPath: m_LocalPosition.x

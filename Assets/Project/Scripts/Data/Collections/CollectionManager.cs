@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Project.Entities.Collectables;
 using Project.Abilities;
 using Project.Services.MessageSystem;
@@ -45,7 +46,7 @@ namespace Project.Data.Collections
                 return;
 
             bool isCompleted = model.AddSnowflake(snowflake);
-            bool isNew = UnlockCollectableSnowflake(snowflake, YandexGame.savesData.CollectedSnowflakes);
+            bool isNew = SaveUnlockedCollectableSnowflake(snowflake);
 
             string key = GetMessageKey(isNew, isCompleted, out string addText, model);
             _messageHandler.ShowMessage(key, addText);
@@ -53,15 +54,15 @@ namespace Project.Data.Collections
             if (isCompleted == false)
                 return;
 
-            if (UnlockAbility(model.Ability, YandexGame.savesData.UnlockedAbilityNames))
+            if (SaveUnlockedAbility(model.Ability))
                 OnCollectionCompleted?.Invoke(model.Ability);
         }
 
-        public bool UnlockCollectableSnowflake(CollectableSnowflake snowflake, List<string> collectedSnowflakes)
+        public bool SaveUnlockedCollectableSnowflake(CollectableSnowflake snowflake)
         {
             string objectName = snowflake.name.Replace("(Clone)", "");
 
-            if (collectedSnowflakes.Contains(objectName))
+            if (YandexGame.savesData.CollectedSnowflakes.Contains(objectName))
                 return false;
 
             YandexGame.savesData.CollectedSnowflakes.Add(objectName);
@@ -70,11 +71,11 @@ namespace Project.Data.Collections
             return true;
         }
 
-        public bool UnlockAbility(Ability ability, List<string> unlockedAbilityNames)
+        public bool SaveUnlockedAbility(Ability ability)
         {
             string abilityName = ability.Data.AbilityName;
 
-            if (unlockedAbilityNames.Contains(abilityName))
+            if (YandexGame.savesData.UnlockedAbilityNames.Contains(abilityName))
                 return false;
 
             YandexGame.savesData.UnlockedAbilityNames.Add(abilityName);
@@ -85,10 +86,8 @@ namespace Project.Data.Collections
 
         public void UnlockAllAbilities()
         {
-            foreach (Ability ability in _abilityFactory.GetUnlockedAbilities())
-            {
-                UnlockAbility(ability, YandexGame.savesData.UnlockedAbilityNames);
-            }
+            foreach (CollectableSnowflake snowflake in _collectionModels.Keys.SelectMany(data => data.Snowflakes))
+                AddToCollection(snowflake);
         }
 
         private string GetMessageKey(bool isNew, bool isCompleted, out string addText, CollectionModel model)

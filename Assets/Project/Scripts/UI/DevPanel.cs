@@ -6,6 +6,7 @@ using Project.LevelSystem;
 using TMPro;
 using UnityEngine;
 using VContainer;
+using YG;
 
 namespace Project.Services
 {
@@ -23,7 +24,8 @@ namespace Project.Services
 
         [Inject]
         private void Construct(GameOutcome gameOutcome, LevelInitializer levelInitializer, LevelLoader levelLoader,
-            ProgressData progressData, CharacterCollisionHandler characterCollisionHandler, CollectionManager collectionManager)
+            ProgressData progressData, CharacterCollisionHandler characterCollisionHandler,
+            CollectionManager collectionManager)
         {
             _gameOutcome = gameOutcome;
             _levelInitializer = levelInitializer;
