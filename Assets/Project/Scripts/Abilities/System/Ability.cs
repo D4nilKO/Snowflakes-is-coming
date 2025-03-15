@@ -4,26 +4,46 @@ using VavilichevGD.Utils.Timing;
 
 namespace Project.Abilities
 {
-    public abstract class Ability
+    public abstract class Ability : IDisposable
     {
-        public readonly SyncedTimer CooldownTimer = new(TimerType.UpdateTick);
-
         public event Action OnActivated;
         public event Action OnDeactivated;
 
-        public bool IsActive { get; private set; }
+        public bool IsActive { get; protected set; }
         public AbilityData Data { get; private set; }
 
+        public readonly SyncedTimer CooldownTimer = new(TimerType.UpdateTick);
+
+        public Ability()
+        {
+            CooldownTimer.TimerFinished += Deactivate;
+        }
+
+        public abstract void Dispose();
+
         protected abstract void OnActivate();
+
         protected abstract void OnDeactivate();
 
         public void SetData(AbilityData data)
         {
             Data = data;
-            CooldownTimer.SetTime(data.Cooldown);
         }
 
-        public bool TryActivate()
+        protected void InvokeOnActivated()
+        {
+            OnActivated?.Invoke();
+        }
+
+        protected void InvokeOnDeactivated()
+        {
+            OnDeactivated?.Invoke();
+        }
+
+        public float GetRemainingCooldown() => CooldownTimer.RemainingSeconds;
+        protected bool IsReady() => CooldownTimer.IsActive == false;
+
+        public virtual bool TryActivate()
         {
             if (IsActive || IsReady() == false)
             {
@@ -35,18 +55,18 @@ namespace Project.Abilities
             return true;
         }
 
-        public void Deactivate()
+        public virtual void Deactivate()
         {
             if (IsActive == false)
                 return;
 
             IsActive = false;
             OnDeactivate();
-            OnDeactivated?.Invoke();
+            InvokeOnDeactivated();
             Debug.Log("Ability deactivated");
         }
 
-        private void ForceActivate(bool startCooldown = true)
+        protected void ForceActivate(bool startCooldown = true)
         {
             IsActive = true;
             OnActivate();
@@ -56,14 +76,11 @@ namespace Project.Abilities
                 CooldownTimer.Start(Data.Cooldown);
             }
 
-            OnActivated?.Invoke();
+            InvokeOnActivated();
             Debug.Log("Ability activated");
         }
 
-        public float GetRemainingCooldown() => CooldownTimer.RemainingSeconds;
-        public bool IsReady() => !CooldownTimer.IsActive;
-
-        public void Reload()
+        public virtual void Reload()
         {
             CooldownTimer.ForceStop();
             CooldownTimer.SetTime(Data.Cooldown);
@@ -72,13 +89,9 @@ namespace Project.Abilities
         public void ReActivate()
         {
             if (IsActive)
-            {
                 Deactivate();
-            }
 
             ForceActivate(false);
         }
-
-        public abstract void Dispose();
     }
 }

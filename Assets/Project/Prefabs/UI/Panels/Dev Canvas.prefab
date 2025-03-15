@@ -2816,7 +2816,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 672676098287001459}
         m_TargetAssemblyTypeName: Project.Services.DevPanel, Assembly-CSharp
-        m_MethodName: UnlockAllLevels
+        m_MethodName: UnlockAll
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

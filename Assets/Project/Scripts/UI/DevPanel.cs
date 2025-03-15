@@ -1,4 +1,5 @@
 using Project.Data;
+using Project.Data.Collections;
 using Project.Entities.Character;
 using Project.GameState;
 using Project.LevelSystem;
@@ -18,16 +19,18 @@ namespace Project.Services
         private LevelLoader _levelLoader;
         private ProgressData _progressData;
         private CharacterCollisionHandler _characterCollisionHandler;
+        private CollectionManager _collectionManager;
 
         [Inject]
         private void Construct(GameOutcome gameOutcome, LevelInitializer levelInitializer, LevelLoader levelLoader,
-            ProgressData progressData, CharacterCollisionHandler characterCollisionHandler)
+            ProgressData progressData, CharacterCollisionHandler characterCollisionHandler, CollectionManager collectionManager)
         {
             _gameOutcome = gameOutcome;
             _levelInitializer = levelInitializer;
             _levelLoader = levelLoader;
             _progressData = progressData;
             _characterCollisionHandler = characterCollisionHandler;
+            _collectionManager = collectionManager;
         }
 
         private void Awake()
@@ -40,9 +43,10 @@ namespace Project.Services
             _progressData.SetStartValues();
         }
 
-        public void UnlockAllLevels()
+        public void UnlockAll()
         {
             _progressData.SetUnlockedLevel(_progressData.MaxLevelsCount);
+            _collectionManager.UnlockAllAbilities();
         }
 
         public void LoadEnteredLevel()

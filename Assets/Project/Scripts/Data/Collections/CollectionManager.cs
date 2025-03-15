@@ -45,7 +45,7 @@ namespace Project.Data.Collections
                 return;
 
             bool isCompleted = model.AddSnowflake(snowflake);
-            bool isNew = YandexGame.savesData.UnlockCollectableSnowflake(snowflake);
+            bool isNew = UnlockCollectableSnowflake(snowflake, YandexGame.savesData.CollectedSnowflakes);
 
             string key = GetMessageKey(isNew, isCompleted, out string addText, model);
             _messageHandler.ShowMessage(key, addText);
@@ -53,8 +53,42 @@ namespace Project.Data.Collections
             if (isCompleted == false)
                 return;
 
-            if (YandexGame.savesData.UnlockAbility(model.Ability))
+            if (UnlockAbility(model.Ability, YandexGame.savesData.UnlockedAbilityNames))
                 OnCollectionCompleted?.Invoke(model.Ability);
+        }
+
+        public bool UnlockCollectableSnowflake(CollectableSnowflake snowflake, List<string> collectedSnowflakes)
+        {
+            string objectName = snowflake.name.Replace("(Clone)", "");
+
+            if (collectedSnowflakes.Contains(objectName))
+                return false;
+
+            YandexGame.savesData.CollectedSnowflakes.Add(objectName);
+            YandexGame.SaveProgress();
+
+            return true;
+        }
+
+        public bool UnlockAbility(Ability ability, List<string> unlockedAbilityNames)
+        {
+            string abilityName = ability.Data.AbilityName;
+
+            if (unlockedAbilityNames.Contains(abilityName))
+                return false;
+
+            YandexGame.savesData.UnlockedAbilityNames.Add(abilityName);
+            YandexGame.SaveProgress();
+
+            return true;
+        }
+
+        public void UnlockAllAbilities()
+        {
+            foreach (Ability ability in _abilityFactory.GetUnlockedAbilities())
+            {
+                UnlockAbility(ability, YandexGame.savesData.UnlockedAbilityNames);
+            }
         }
 
         private string GetMessageKey(bool isNew, bool isCompleted, out string addText, CollectionModel model)
