@@ -8,6 +8,7 @@ using Project.GameState.View;
 using Project.LevelSystem.LevelStructure;
 using Project.Services;
 using Project.Timing;
+using Project.UI;
 using UnityEngine.EventSystems;
 using VContainer;
 using YG;
@@ -93,6 +94,7 @@ namespace Project.LevelSystem
         {
             _levelLoader.LevelSettingsReady += SetLevelData;
             _losePanel.RestartRequested += RestartLevel;
+            _wonPanel.RestartRequested += RestartLevel;
             _wonPanel.LoadNextLevelRequested += LoadNextLevel;
 
             if (YandexGame.SDKEnabled)
@@ -110,6 +112,7 @@ namespace Project.LevelSystem
         {
             _levelLoader.LevelSettingsReady -= SetLevelData;
             _losePanel.RestartRequested -= RestartLevel;
+            _wonPanel.RestartRequested -= RestartLevel;
             _wonPanel.LoadNextLevelRequested -= LoadNextLevel;
 
             if (_isProgressDataSubscribed)

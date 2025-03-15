@@ -140,6 +140,7 @@ namespace Project.Entities.Enemies
         private void SpawnEnemy(EnemyBase enemyPrefab)
         {
             EnemyBase enemy = NightPool.Spawn(enemyPrefab, _enemyContainer.transform);
+            enemy.gameObject.name = enemy.gameObject.name.Replace("(Clone)", "");
             _vContainer.Inject(enemy);
 
             if (enemy is CollectableSnowflake collectable)

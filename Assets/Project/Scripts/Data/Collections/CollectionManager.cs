@@ -46,30 +46,33 @@ namespace Project.Data.Collections
 
             bool isCompleted = model.AddSnowflake(snowflake);
             bool isNew = YandexGame.savesData.UnlockCollectableSnowflake(snowflake);
-            
-            string addText = $" {model.CollectedAmount}/{model.AllCollectedCount}";
 
-            string key = isNew
-                ? MessageKeys.MessageKeyCollected
-                : MessageKeys.MessageKeyAlreadyCollected;
-
-            if (isCompleted)
-            {
-                key = MessageKeys.MessageKeyCompleted;
-                addText = "";
-            }
-
+            string key = GetMessageKey(isNew, isCompleted, out string addText, model);
             _messageHandler.ShowMessage(key, addText);
 
             if (isCompleted == false)
                 return;
 
-            bool isNewUnlock = YandexGame.savesData.UnlockAbility(model.Ability);
+            if (YandexGame.savesData.UnlockAbility(model.Ability))
+                OnCollectionCompleted?.Invoke(model.Ability);
+        }
 
-            if (isNewUnlock == false)
-                return;
+        private string GetMessageKey(bool isNew, bool isCompleted, out string addText, CollectionModel model)
+        {
+            addText = $" {model.CollectedAmount}/{model.AllCollectedCount}";
 
-            OnCollectionCompleted?.Invoke(model.Ability);
+            if (isNew)
+            {
+                if (isCompleted)
+                {
+                    addText = "";
+                    return MessageKeys.MessageKeyCompleted;
+                }
+
+                return MessageKeys.MessageKeyCollected;
+            }
+
+            return MessageKeys.MessageKeyAlreadyCollected;
         }
     }
 }

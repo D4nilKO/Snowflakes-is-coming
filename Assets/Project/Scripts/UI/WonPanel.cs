@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using YG;
 
-namespace Project.Architecture.UI
+namespace Project.UI
 {
     public class WonPanel : OutcomeUiPanel
     {

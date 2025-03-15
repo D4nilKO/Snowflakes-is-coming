@@ -71,7 +71,7 @@ namespace Project.Entities.Enemies
 
         public void Rotate()
         {
-            if (_rotateEnabled == false)
+            if (_rotateEnabled == false || gameObject.activeInHierarchy)
                 return;
 
             transform.Rotate(0f, 0f, _rotationSpeed * Time.deltaTime);

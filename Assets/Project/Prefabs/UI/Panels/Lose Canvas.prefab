@@ -192,8 +192,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _menuButton: {fileID: 7176931774479073823}
-  <ShowAdButton>k__BackingField: {fileID: 527366323124363944}
   _restartButton: {fileID: 4630816924197935604}
+  <ShowAdButton>k__BackingField: {fileID: 527366323124363944}
 --- !u!1001 &102272978169132389
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -403,6 +403,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34f36451b093ee4c83ad4aa5459d2ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textMPComponent: {fileID: 0}
+  uniqueFontTMP: {fileID: 0}
   textLComponent: {fileID: 0}
   infoYG: {fileID: 11400000, guid: 162644796a8b0d044bce3d6fda0641e3, type: 2}
   text: 
@@ -562,7 +564,7 @@ PrefabInstance:
       objectReference: {fileID: 2002449761939175838, guid: 01cfec2d318984f8ca831fddf303dba2, type: 3}
     - target: {fileID: 5418214609161351341, guid: 9a6d5d7b4e3e94aa09274d9b7131c056, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5418214609161351341, guid: 9a6d5d7b4e3e94aa09274d9b7131c056, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Mode
@@ -648,6 +650,10 @@ PrefabInstance:
     - target: {fileID: 1634986170181921559, guid: 81448a418a01d40d2b721e7535ffabdc, type: 3}
       propertyPath: m_Name
       value: Show Ad Button2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1668862102669312480, guid: 81448a418a01d40d2b721e7535ffabdc, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1668862102669312480, guid: 81448a418a01d40d2b721e7535ffabdc, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -907,6 +913,10 @@ PrefabInstance:
     - target: {fileID: 8980075670921311948, guid: 7a4ef4145d32d432e899c309f2c3cebe, type: 3}
       propertyPath: m_Name
       value: Menu Button
+      objectReference: {fileID: 0}
+    - target: {fileID: 9009448036594457659, guid: 7a4ef4145d32d432e899c309f2c3cebe, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

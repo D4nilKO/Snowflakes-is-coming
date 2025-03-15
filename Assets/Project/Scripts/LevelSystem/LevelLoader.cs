@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using Project.Data;
 using Project.GameState.View;
 using Project.LevelSystem.LevelStructure;
+using Project.Services.MessageSystem;
 using UnityEngine;
 using VContainer;
 
@@ -12,17 +14,19 @@ namespace Project.LevelSystem
         private JsonLevelParser _jsonLevelParser;
         private LevelDataInfoView _levelDataInfoView;
         private ProgressData _progressData;
+        private IScreenMessageHandler _screenMessageHandler;
 
         private LevelDataList _levelDataList;
 
         public event Action<LevelData> LevelSettingsReady;
 
         [Inject]
-        public void Construct(LevelDataInfoView levelDataInfoView, JsonLevelParser jsonLevelParser, ProgressData progressData)
+        public void Construct(LevelDataInfoView levelDataInfoView, JsonLevelParser jsonLevelParser, ProgressData progressData, IScreenMessageHandler screenMessageHander)
         {
             _levelDataInfoView = levelDataInfoView;
             _jsonLevelParser = jsonLevelParser;
             _progressData = progressData;
+            _screenMessageHandler = screenMessageHander;
         }
 
         public void FetchCurrentLevelSettings()
@@ -56,6 +60,12 @@ namespace Project.LevelSystem
             Debug.Log($"Данные уровня №{levelNumber} загружены");
 
             LevelData currentLevelData = levelDataList.GetLevel(levelNumber - 1);
+
+            if (currentLevelData.EnemyTypesInfo.Any(enemy => enemy.EnemyPrefabName.Contains("C")))
+            {
+                _screenMessageHandler.ShowMessage(MessageKeys.MessageKeyLevelHasCollectable);
+            }
+            
             LevelSettingsReady?.Invoke(currentLevelData);
 
             _levelDataInfoView.SetLevelInfo(currentLevelData);

@@ -35,5 +35,10 @@ namespace Project.Entities.Collectables
             _collectionManager.AddToCollection(this);
             NightPool.Despawn(this);
         }
+
+        public override int GetHashCode()
+        {
+            return name.GetHashCode();
+        }
     }
 }

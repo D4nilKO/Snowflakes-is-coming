@@ -53,7 +53,10 @@ namespace Project.Entities
         {
             for (int i = _rotatableEntities.Count - 1; i >= 0; i--)
             {
-                if (_rotatableEntities[i] as UnityEngine.Object != null)
+                Object rotatableEntity = _rotatableEntities[i] as Object;
+                GameObject gameObjectEntity = rotatableEntity as GameObject;
+
+                if (rotatableEntity != null && gameObjectEntity != null && gameObjectEntity.activeInHierarchy)
                 {
                     _rotatableEntities[i].Rotate();
                 }

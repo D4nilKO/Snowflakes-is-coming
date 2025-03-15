@@ -11,7 +11,6 @@ namespace Project.Data.Collections
 
         private HashSet<CollectableSnowflake> _collectedSnowflakes = new();
 
-        public string AbilityName => _data.CollectionName;
         public int CollectedAmount => _collectedSnowflakes.Count;
         public int AllCollectedCount => _data.Snowflakes.Count;
         public Ability Ability { get; }
@@ -28,10 +27,21 @@ namespace Project.Data.Collections
             _collectedSnowflakes = savedCollectedSnowflakes.ToHashSet();
         }
 
+        /// <summary>
+        /// Добавляет снежинку в коллекцию и возвращает true, если она завершена.
+        /// </summary>
+        /// <param name="snowflake">Коллекционная снежинка</param>
+        /// <returns>True - если коллекция завершена, false - если нет.</returns>
         public bool AddSnowflake(CollectableSnowflake snowflake)
         {
-            bool isAdded = _collectedSnowflakes.Add(snowflake);
-            bool isCompleted = CollectedAmount == AllCollectedCount;
+            bool isAdded = false;
+
+            if (_collectedSnowflakes.Any(_snowflake => _snowflake.name.Contains(snowflake.name)) == false)
+            {
+                isAdded = _collectedSnowflakes.Add(snowflake);
+            }
+
+            bool isCompleted = CollectedAmount >= AllCollectedCount;
 
             if (isAdded)
             {
