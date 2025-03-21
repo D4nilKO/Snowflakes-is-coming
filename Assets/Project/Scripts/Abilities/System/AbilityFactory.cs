@@ -27,6 +27,7 @@ namespace Project.Abilities
             _abilityMap = new Dictionary<Type, Type>
             {
                 { typeof(SlowModeAbilityData), typeof(SlowModeAbility) },
+                { typeof(RemoveEnemyAbilityData), typeof(RemoveEnemyAbility) },
             };
         }
 
@@ -40,6 +41,7 @@ namespace Project.Abilities
 
             var ability = (Ability)_container.Resolve(abilityType);
             ability.SetData(data);
+            ability.Start();
             _abilities.Add(ability);
 
             var activationKey = _keyCodes.GetKeycode(_keycodeIndex);
@@ -78,7 +80,9 @@ namespace Project.Abilities
 
         public List<Ability> GetAllAbilities() => _abilities.ToList();
 
-        public List<Ability> GetUnlockedAbilities() =>
-            _abilities.Where(a => YandexGame.savesData.UnlockedAbilityNames.Contains(a.Data.AbilityName)).ToList();
+        public List<Ability> GetUnlockedAbilities() => _abilities
+            .Where(a => YandexGame.savesData.UnlockedAbilityNames
+                .Contains(a.CommonData.AbilityName))
+            .ToList();
     }
 }

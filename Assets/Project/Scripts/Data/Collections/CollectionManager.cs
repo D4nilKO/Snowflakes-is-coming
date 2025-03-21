@@ -73,7 +73,7 @@ namespace Project.Data.Collections
 
         public bool SaveUnlockedAbility(Ability ability)
         {
-            string abilityName = ability.Data.AbilityName;
+            string abilityName = ability.CommonData.AbilityName;
 
             if (YandexGame.savesData.UnlockedAbilityNames.Contains(abilityName))
                 return false;

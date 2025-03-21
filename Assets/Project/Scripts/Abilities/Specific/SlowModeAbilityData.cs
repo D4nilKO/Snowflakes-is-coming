@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Project.Abilities
 {
-    [CreateAssetMenu(fileName = "SlowMode_AbilityData", menuName = "Data/Abilities/SlowMode", order = 0)]
+    [CreateAssetMenu(fileName = "SlowMode_AbilityData", menuName = "Data/Abilities/SlowMode")]
     public class SlowModeAbilityData : AbilityData
     {
         [field: SerializeField, Min(0f)]

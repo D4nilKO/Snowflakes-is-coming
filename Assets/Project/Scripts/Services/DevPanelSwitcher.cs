@@ -25,7 +25,7 @@ namespace Project.Services
         public void Start()
         {
 #if UNITY_EDITOR
-            ToggleDevPanel(true);
+            // ToggleDevPanel(true);
 #else
             ToggleDevPanel(false);
 #endif
@@ -42,9 +42,7 @@ namespace Project.Services
                 return;
 
             foreach (char c in Input.inputString.Where(char.IsLetter))
-            {
                 AddToInputBuffer(c);
-            }
 
             ProcessInputBuffer();
         }
@@ -54,9 +52,7 @@ namespace Project.Services
             _inputBuffer += char.ToLower(character);
 
             if (_inputBuffer.Length > inputBufferLimit)
-            {
                 _inputBuffer = _inputBuffer[^inputBufferLimit..];
-            }
         }
 
         private void ProcessInputBuffer()
@@ -85,7 +81,10 @@ namespace Project.Services
 
             _panel.SetActive(isActive);
 
-            string state = isActive ? "Activated" : "Deactivated";
+            string state = isActive
+                ? "Activated"
+                : "Deactivated";
+
             Debug.Log($"Dev Panel {state}");
             MetricaSender.SendWithId(MetricaId.TriggerId, $"Dev Panel {state}");
         }

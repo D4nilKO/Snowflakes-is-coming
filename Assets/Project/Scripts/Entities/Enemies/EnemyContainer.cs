@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using NTC.Global.Pool;
+using Project.Entities.Collectables;
 using Project.NewPhysics;
 using Sirenix.Utilities;
 using UnityEngine;
@@ -93,6 +94,31 @@ namespace Project.Entities.Enemies
         {
             RemoveNullEnemies();
             return _activeEnemies.ToList();
+        }
+
+        public void DespawnRandomEnemy(int count)
+        {
+            if (count <= 0)
+            {
+                Debug.LogError("Count must be greater than 0");
+                return;
+            }
+
+            var temp = _activeEnemies.ToList();
+            temp.RemoveAll(enemy => enemy is CollectableSnowflake);
+
+            if (temp.Count < count)
+                count = temp.Count;
+
+            for (int i = 0; i < count; i++)
+            {
+                var index = Random.Range(0, temp.Count);
+                EnemyBase enemy = temp.ElementAt(index);
+                NightPool.Despawn(enemy);
+
+                _activeEnemies.Remove(enemy);
+                temp.Remove(enemy);
+            }
         }
     }
 }

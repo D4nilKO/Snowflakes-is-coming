@@ -35,20 +35,14 @@ namespace Project.Data.Collections
         /// <returns>True - если коллекция завершена, false - если нет.</returns>
         public bool AddSnowflake(CollectableSnowflake snowflake)
         {
-            bool isAdded = false;
-
-            if (_snowflakes.Any(_snowflake => _snowflake.name.Contains(snowflake.name)) == false)
+            if (_snowflakes.Any(temporarySnowflake => temporarySnowflake.name.Contains(snowflake.name)) == false)
             {
-                isAdded = _snowflakes.Add(snowflake);
+                _snowflakes.Add(snowflake);
             }
+
+            Ability?.ReActivate();
 
             bool isCompleted = CollectedAmount >= AllCollectedCount;
-
-            if (isAdded)
-            {
-                Ability?.ReActivate();
-            }
-
             return isCompleted;
         }
     }

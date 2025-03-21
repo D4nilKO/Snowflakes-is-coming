@@ -6,6 +6,7 @@ namespace Project.Abilities
     public class AbilityData : ScriptableObject
     {
         public string AbilityName;
+        public string Label;
         public Sprite Icon;
 
         [field: SerializeField, Min(1f)]

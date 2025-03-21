@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21befe568f524c829a9f84cb9afc54c0, type: 3}
   m_Name: DevPanelSettings
   m_EditorClassIdentifier: 
-  ShowCommand: dev39611
+  ShowCommand: dev
   HideCommand: hide

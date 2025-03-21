@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 671236fa5b38434d87245f3b24c849dc, type: 3}
+  m_Name: RemoveEnemy_CollectionData
+  m_EditorClassIdentifier: 
+  <CollectionName>k__BackingField: RemoveEnemy
+  <Snowflakes>k__BackingField:
+  - {fileID: 952377200719329249, guid: d71a17609ab6d44ff980eced5470bbc4, type: 3}
+  - {fileID: 952377200719329249, guid: 5018144bc9b74400d9be6ba812b9af72, type: 3}
+  - {fileID: 952377200719329249, guid: 0de1e15258d50441bbce0d56de1f086e, type: 3}
+  <UnlockableAbilityData>k__BackingField: {fileID: 11400000, guid: 03301540e44c542ba8d932041922efc8, type: 2}

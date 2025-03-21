@@ -161,7 +161,8 @@ namespace Project.Architecture
 
         private void RegisterAbilities(IContainerBuilder builder)
         {
-            builder.RegisterEntryPoint<SlowModeAbility>().AsSelf();
+            builder.Register<SlowModeAbility>(Lifetime.Scoped);
+            builder.Register<RemoveEnemyAbility>(Lifetime.Scoped);
         }
 
         private void RegisterUI(IContainerBuilder builder)

@@ -6,29 +6,40 @@ namespace Project.Abilities
 {
     public abstract class Ability : IDisposable
     {
+        public readonly SyncedTimer CooldownTimer = new(TimerType.UpdateTick);
+
         public event Action OnActivated;
         public event Action OnDeactivated;
 
         public bool IsActive { get; protected set; }
-        public AbilityData Data { get; private set; }
-
-        public readonly SyncedTimer CooldownTimer = new(TimerType.UpdateTick);
-
-        public Ability()
-        {
-            CooldownTimer.TimerFinished += Deactivate;
-        }
-
-        public abstract void Dispose();
+        public AbilityData CommonData { get; private set; }
+        protected bool IsReady => CooldownTimer.IsActive == false;
 
         protected abstract void OnActivate();
-
         protected abstract void OnDeactivate();
+
+        public void Dispose()
+        {
+            OnDispose();
+        }
+
+        protected virtual void OnDispose() { }
 
         public void SetData(AbilityData data)
         {
-            Data = data;
+            CommonData = data;
+            CastData();
         }
+
+        protected abstract void CastData();
+
+        public void Start()
+        {
+            CooldownTimer.SetTime(CommonData.Cooldown);
+            OnStart();
+        }
+
+        public virtual void OnStart() { }
 
         protected void InvokeOnActivated()
         {
@@ -40,12 +51,9 @@ namespace Project.Abilities
             OnDeactivated?.Invoke();
         }
 
-        public float GetRemainingCooldown() => CooldownTimer.RemainingSeconds;
-        protected bool IsReady() => CooldownTimer.IsActive == false;
-
         public virtual bool TryActivate()
         {
-            if (IsActive || IsReady() == false)
+            if (IsActive || IsReady == false)
             {
                 Debug.LogWarning($"Ability {GetType().Name} is not ready to activate");
                 return false;
@@ -73,23 +81,25 @@ namespace Project.Abilities
 
             if (startCooldown)
             {
-                CooldownTimer.Start(Data.Cooldown);
+                CooldownTimer.Start(CommonData.Cooldown);
             }
 
             InvokeOnActivated();
             Debug.Log("Ability activated");
         }
 
-        public virtual void Reload()
+        public void Reload()
         {
             CooldownTimer.ForceStop();
-            CooldownTimer.SetTime(Data.Cooldown);
+            CooldownTimer.SetTime(CommonData.Cooldown);
         }
 
         public void ReActivate()
         {
             if (IsActive)
+            {
                 Deactivate();
+            }
 
             ForceActivate(false);
         }

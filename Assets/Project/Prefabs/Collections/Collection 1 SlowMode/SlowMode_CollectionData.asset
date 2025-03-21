@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 671236fa5b38434d87245f3b24c849dc, type: 3}
   m_Name: SlowMode_CollectionData
   m_EditorClassIdentifier: 
-  <CollectionName>k__BackingField: Slow Mode
+  <CollectionName>k__BackingField: SlowMode
   <Snowflakes>k__BackingField:
   - {fileID: 952377200719329249, guid: 743ee336d74d1404c9014e813aaea9c5, type: 3}
   - {fileID: 952377200719329249, guid: 308bb70584bdf457f83f754f6e767dd5, type: 3}

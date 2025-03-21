@@ -44,9 +44,9 @@ namespace Project.Abilities
         {
             Ability = ability;
 
-            _abilityName.text = ability.Data.AbilityName;
-            _icon.sprite = ability.Data.Icon;
-            _cooldownTime = ability.Data.Cooldown;
+            _abilityName.text = ability.CommonData.Label;
+            _icon.sprite = ability.CommonData.Icon;
+            _cooldownTime = ability.CommonData.Cooldown;
             _keyBindText.text = keyBind != KeyCode.None ? keyBind.ToString() : "";
 
             Ability.CooldownTimer.TimerValueChanged += UpdateCooldownUI;

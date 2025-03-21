@@ -6,20 +6,17 @@ namespace Project.Abilities
     {
         public override bool TryActivate()
         {
-            if (IsReady() == false)
+            if (IsReady == false)
             {
                 Debug.LogWarning($"Ability {GetType().Name} is not ready to activate");
                 return false;
             }
 
-            OnActivate();
-            InvokeOnActivated();
-            Debug.Log("Instant ability activated");
+            ForceActivate();
             return true;
         }
 
         public override void Deactivate() { }
-
-        public override void Reload() { }
+        protected override void OnDeactivate() { }
     }
 }
