@@ -73,7 +73,7 @@ namespace Project.LevelSystem
         {
             if (_progressData.TryIncreaseCurrentLevel())
             {
-                _enemyContainer.ClearActiveEnemies();
+                _enemyContainer.DespawnActiveEnemies();
                 _levelLoader.FetchCurrentLevelSettings();
                 return;
             }
@@ -84,7 +84,7 @@ namespace Project.LevelSystem
 
         public void RestartLevel()
         {
-            _enemyContainer.ClearActiveEnemies();
+            _enemyContainer.DespawnActiveEnemies();
             EventSystem.current.SetSelectedGameObject(null);
 
             InitializeLevel();

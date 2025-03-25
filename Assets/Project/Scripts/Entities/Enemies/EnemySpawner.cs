@@ -146,7 +146,6 @@ namespace Project.Entities.Enemies
             if (enemy is CollectableSnowflake collectable)
                 collectable.Initialize();
 
-            _entityRotator.AddEntity(enemy);
             _enemyContainer.AddEnemy(enemy);
         }
 

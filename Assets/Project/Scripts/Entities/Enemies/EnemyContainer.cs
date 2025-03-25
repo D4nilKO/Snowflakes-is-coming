@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NTC.Global.Pool;
 using Project.Entities.Collectables;
@@ -19,11 +20,14 @@ namespace Project.Entities.Enemies
         private Camera _mainCamera;
         private ScreenResizeHandler _screenResizeHandler;
 
-        private HashSet<EnemyBase> _activeEnemies = new();
+        private IObjectResolver _container;
+
+        public List<EnemyBase> ActiveEnemies { get; private set; } = new();
 
         [Inject]
-        private void Construct(ScreenResizeHandler screenResizeHandler)
+        private void Construct(IObjectResolver container, ScreenResizeHandler screenResizeHandler)
         {
+            _container = container;
             _screenResizeHandler = screenResizeHandler;
         }
 
@@ -32,6 +36,11 @@ namespace Project.Entities.Enemies
             _mainCamera = Camera.main;
             SetPosition();
             _screenResizeHandler.ScreenResized += SetPosition;
+        }
+
+        private void Start()
+        {
+            FindAndAddEnemies();
         }
 
         private void OnDestroy()
@@ -49,7 +58,7 @@ namespace Project.Entities.Enemies
 
         private void RemoveNullEnemies()
         {
-            _activeEnemies.RemoveWhere(enemy => enemy == null);
+            ActiveEnemies.RemoveAll(enemy => enemy == null);
         }
 
         private void SetPosition()
@@ -75,16 +84,29 @@ namespace Project.Entities.Enemies
 
         public void AddEnemy(EnemyBase enemy)
         {
-            _activeEnemies.Add(enemy);
+            ActiveEnemies.Add(enemy);
             enemy.SlowFactor = _slowFactor;
         }
 
-        public void ClearActiveEnemies()
+        private void FindAndAddEnemies()
         {
-            _activeEnemies.AddRange(GetComponentsInChildren<EnemyBase>());
-            _activeEnemies.RemoveWhere(enemy => enemy == null);
+            var enemies = FindObjectsByType<EnemyBase>(FindObjectsSortMode.None)
+                .Where(enemy => enemy.isActiveAndEnabled);
 
-            foreach (var enemy in _activeEnemies)
+            foreach (var enemy in enemies)
+            {
+                _container.Inject(enemy);
+                AddEnemy(enemy);
+                enemy.OnSpawn();
+            }
+        }
+
+        public void DespawnActiveEnemies()
+        {
+            ActiveEnemies.AddRange(GetComponentsInChildren<EnemyBase>());
+            RemoveNullEnemies();
+
+            foreach (var enemy in ActiveEnemies)
             {
                 NightPool.Despawn(enemy);
             }
@@ -93,7 +115,7 @@ namespace Project.Entities.Enemies
         public List<EnemyBase> GetEnemies()
         {
             RemoveNullEnemies();
-            return _activeEnemies.ToList();
+            return ActiveEnemies.ToList();
         }
 
         public void DespawnRandomEnemy(int count)
@@ -104,20 +126,24 @@ namespace Project.Entities.Enemies
                 return;
             }
 
-            var temp = _activeEnemies.ToList();
-            temp.RemoveAll(enemy => enemy is CollectableSnowflake);
+            var temp = ActiveEnemies.Where(enemy => enemy is not CollectableSnowflake).ToList();
 
-            if (temp.Count < count)
-                count = temp.Count;
+            if (temp.Count == 0)
+            {
+                Debug.LogWarning("No valid enemies to despawn.");
+                return;
+            }
+
+            count = Mathf.Min(count, temp.Count);
 
             for (int i = 0; i < count; i++)
             {
-                var index = Random.Range(0, temp.Count);
-                EnemyBase enemy = temp.ElementAt(index);
-                NightPool.Despawn(enemy);
+                int index = 0;
+                EnemyBase enemy = temp[index];
 
-                _activeEnemies.Remove(enemy);
-                temp.Remove(enemy);
+                NightPool.Despawn(enemy);
+                ActiveEnemies.Remove(enemy);
+                temp.RemoveAt(index);
             }
         }
     }
