@@ -11,7 +11,6 @@ namespace Project.Data.Collections
 
         private HashSet<CollectableSnowflake> _snowflakes = new();
 
-        public List<CollectableSnowflake> Snowflakes => _snowflakes.ToList();
         public int CollectedAmount => _snowflakes.Count;
         public int AllCollectedCount => _data.Snowflakes.Count;
         public Ability Ability { get; }

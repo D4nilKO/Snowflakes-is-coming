@@ -16,7 +16,7 @@ namespace YG
         // Ваши сохранения
         public int unlockedLevelNumber = 1;
 
-        public bool IsSawTraining = false;
+        public bool IsSawTraining;
 
         public List<string> UnlockedAbilityNames;
         public List<string> CollectedSnowflakes;

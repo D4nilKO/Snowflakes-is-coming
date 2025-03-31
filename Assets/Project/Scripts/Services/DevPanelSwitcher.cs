@@ -41,7 +41,7 @@ namespace Project.Services
             if (Input.anyKeyDown == false)
                 return;
 
-            foreach (char c in Input.inputString.Where(char.IsLetter))
+            foreach (char c in Input.inputString.Where(c => char.IsLetter(c) || char.IsDigit(c)))
                 AddToInputBuffer(c);
 
             ProcessInputBuffer();

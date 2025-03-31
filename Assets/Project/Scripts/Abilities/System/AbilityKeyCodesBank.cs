@@ -10,7 +10,7 @@ namespace Project.Abilities
         [SerializeField]
         private List<KeyCode> _keycodes = new();
 
-        public KeyCode GetKeycode(int index)
+        public KeyCode Get(int index)
         {
             return index < _keycodes.Count
                 ? _keycodes[index]

@@ -27,7 +27,7 @@ namespace Project.Data.Collections
         {
             if (_collectionModels.ContainsKey(collectionData) == false)
             {
-                Ability ability = _abilityFactory.CreateAbility(collectionData.UnlockableAbilityData);
+                Ability ability = _abilityFactory.Create(collectionData.UnlockableAbilityData);
                 List<string> snowflakesNames = YandexGame.savesData.CollectedSnowflakes;
 
                 collectionData.TryGetSnowflakesByNames(snowflakesNames, out List<CollectableSnowflake> snowflakes);

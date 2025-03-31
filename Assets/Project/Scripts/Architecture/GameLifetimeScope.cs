@@ -98,9 +98,7 @@ namespace Project.Architecture
             RegisterCollections(builder);
             RegisterUI(builder);
             RegisterAbilities(builder);
-
-            builder.Register<CollectionManager>(Lifetime.Singleton);
-            builder.Register<AbilityFactory>(Lifetime.Singleton).As<IAbilityFactory>();
+            RegisterAbilityEnvironment(builder);
 
             var player = Instantiate(_player, _gamePlayParent);
             builder.RegisterComponent(player);
@@ -117,7 +115,7 @@ namespace Project.Architecture
 
             builder.RegisterComponentOnNewGameObject<LevelDataInfoView>(Lifetime.Scoped).UnderTransform(_serviceParent);
 
-            builder.RegisterComponentOnNewGameObject<AbilityInputManager>(Lifetime.Scoped)
+            builder.RegisterComponentOnNewGameObject<AbilityInputRegistry>(Lifetime.Scoped)
                 .UnderTransform(_serviceParent);
 
             builder.RegisterInstance(_devPanelSettings);
@@ -135,6 +133,13 @@ namespace Project.Architecture
 
             builder.Register<LevelLoader>(Lifetime.Scoped);
             builder.Register<RewardAdHandler>(Lifetime.Scoped);
+        }
+
+        private static void RegisterAbilityEnvironment(IContainerBuilder builder)
+        {
+            builder.Register<CollectionManager>(Lifetime.Singleton);
+            builder.Register<AbilityFactory>(Lifetime.Singleton).As<IAbilityFactory>();
+            builder.RegisterEntryPoint<AbilityInputFactory>();
         }
 
         private void RegisterCollections(IContainerBuilder builder)

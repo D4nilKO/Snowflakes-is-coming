@@ -21,15 +21,23 @@ namespace Project.Abilities
 
         private IAbilityFactory _factory;
         private CollectionManager _collectionManager;
+        private AbilityInputRegistry _abilityInputRegistry;
 
         public event Action OnPanelResized;
+
+        [Inject]
+        public void Construct(IAbilityFactory abilityFactory, CollectionManager collectionManager,
+            AbilityInputRegistry abilityInputRegistry)
+        {
+            _factory = abilityFactory;
+            _collectionManager = collectionManager;
+            _abilityInputRegistry = abilityInputRegistry;
+        }
 
         public float GetPanelWidth()
         {
             if (_canvas == null)
-            {
                 _canvas = GetComponent<Canvas>();
-            }
 
             if (_buttonParent.gameObject.activeInHierarchy == false)
                 return 0f;
@@ -37,18 +45,12 @@ namespace Project.Abilities
             return _buttonParent.rect.width * _canvas.scaleFactor;
         }
 
-        [Inject]
-        public void Construct(IAbilityFactory abilityFactory, CollectionManager collectionManager)
-        {
-            _factory = abilityFactory;
-            _collectionManager = collectionManager;
-        }
-
         private void Awake()
         {
             this.ValidateSerializedFields();
 
-            CreateAbilityButtons(_factory.GetUnlockedAbilities());
+            List<Ability> unlockedAbilities = _factory.GetAllUnlocked();
+            CreateAbilityButtons(unlockedAbilities);
 
             _collectionManager.OnCollectionCompleted += CreateAbilityButton;
         }
@@ -98,7 +100,7 @@ namespace Project.Abilities
             ShowPanel();
 
             AbilityView abilityButton = Instantiate(_buttonPrefab, _buttonParent);
-            KeyCode assignedKey = _factory.GetAbilityKey(ability); // Получаем клавишу
+            KeyCode assignedKey = _abilityInputRegistry.GetAbilityKey(ability);
             abilityButton.SetAbility(ability, assignedKey);
             _buttons.Add(abilityButton);
         }

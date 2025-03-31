@@ -5,12 +5,11 @@ namespace Project.Abilities
 {
     public interface IAbilityFactory
     {
-        Ability CreateAbility(AbilityData data);
+        Ability Create(AbilityData data);
 
-        List<Ability> GetAllAbilities();
-        List<Ability> GetUnlockedAbilities();
-        
+        List<Ability> GetAll();
+        List<Ability> GetAllUnlocked();
+
         void Initialize();
-        KeyCode GetAbilityKey(Ability ability);
     }
 }

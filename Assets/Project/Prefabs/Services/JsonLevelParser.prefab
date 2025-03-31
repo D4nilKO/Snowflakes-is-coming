@@ -44,6 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2624d6866e644941b2bb03e38d6e666a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _usePath: 1
+  _usePath: 0
   _path: Assets/Project/Levels/TestLevels/Enemy Test Levels.json
   _levelDataJson: {fileID: 4900000, guid: 448f5eabd2dd4d0e84b5954640b4c10c, type: 3}
