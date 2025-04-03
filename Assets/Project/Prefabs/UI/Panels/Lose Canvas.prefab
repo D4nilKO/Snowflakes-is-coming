@@ -254,6 +254,18 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3396417008240063383, guid: 8809298cc45984688a16eda14dfbcca0, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3396417008240063383, guid: 8809298cc45984688a16eda14dfbcca0, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3396417008240063383, guid: 8809298cc45984688a16eda14dfbcca0, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 126.5101
+      objectReference: {fileID: 0}
     - target: {fileID: 4074739492729872314, guid: 8809298cc45984688a16eda14dfbcca0, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -340,7 +352,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4931210798969451268, guid: 8809298cc45984688a16eda14dfbcca0, type: 3}
       propertyPath: m_fontSize
-      value: 100
+      value: 120.9
       objectReference: {fileID: 0}
     - target: {fileID: 5532747364360972412, guid: 8809298cc45984688a16eda14dfbcca0, type: 3}
       propertyPath: m_ChildScaleWidth
@@ -357,6 +369,10 @@ PrefabInstance:
     - target: {fileID: 5532747364360972412, guid: 8809298cc45984688a16eda14dfbcca0, type: 3}
       propertyPath: m_ChildForceExpandHeight
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5941270914493171698, guid: 8809298cc45984688a16eda14dfbcca0, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 257.7894
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

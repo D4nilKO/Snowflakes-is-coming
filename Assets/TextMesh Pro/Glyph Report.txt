@@ -1,7 +1,7 @@
-Font: Loopiejuice  Style: Regular
-Point Size: 31   Padding: 0   SP/PD Ratio: 0.0%
+Font: BOOZY  Style: Regular
+Point Size: 58   Padding: 1   SP/PD Ratio: 1.7%
 
-Characters included: 177/178
+Characters included: 136/136
 Missing characters: 0
 Excluded characters: 0
 

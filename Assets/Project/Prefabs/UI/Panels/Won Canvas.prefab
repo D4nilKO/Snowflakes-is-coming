@@ -268,7 +268,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: -20}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 764, y: 126}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &3781633001216817153
@@ -301,8 +301,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u041F\u043E\u0431\u0435\u0434\u0430!"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ef28179f80ec44149bc7e8b981e8502b, type: 2}
-  m_sharedMaterial: {fileID: -4508530836514171610, guid: ef28179f80ec44149bc7e8b981e8502b, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 58907b2c736624ec5a1509bb2d79ebef, type: 2}
+  m_sharedMaterial: {fileID: 3713063721384831603, guid: 58907b2c736624ec5a1509bb2d79ebef, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -929,18 +929,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1832974199795293273}
     m_Modifications:
-    - target: {fileID: 1413824567120640549, guid: 8809298cc45984688a16eda14dfbcca0, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 8513699681585032156, guid: 03c5c7673342544d094982b2d2157467, type: 3}
     - target: {fileID: 1985444153840021926, guid: 8809298cc45984688a16eda14dfbcca0, type: 3}
       propertyPath: m_Name
       value: UI Panel
       objectReference: {fileID: 0}
-    - target: {fileID: 2552112177471193521, guid: 8809298cc45984688a16eda14dfbcca0, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: -8823056757382171243, guid: 03c5c7673342544d094982b2d2157467, type: 3}
+    - target: {fileID: 3396417008240063383, guid: 8809298cc45984688a16eda14dfbcca0, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3396417008240063383, guid: 8809298cc45984688a16eda14dfbcca0, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 770.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 3396417008240063383, guid: 8809298cc45984688a16eda14dfbcca0, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 126.4522
+      objectReference: {fileID: 0}
     - target: {fileID: 4074739492729872314, guid: 8809298cc45984688a16eda14dfbcca0, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1020,6 +1024,10 @@ PrefabInstance:
     - target: {fileID: 4074739492729872314, guid: 8809298cc45984688a16eda14dfbcca0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5941270914493171698, guid: 8809298cc45984688a16eda14dfbcca0, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 253.55
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

@@ -23,7 +23,7 @@ PrefabInstance:
     - target: {fileID: 2532456766250073715, guid: f95c14b2eaf3b4cc8b9baaa907953318, type: 3}
       propertyPath: m_SpriteState.m_HighlightedSprite
       value: 
-      objectReference: {fileID: 6406189502320623755, guid: 5ee40d69674bf4188afc6a5471827afa, type: 3}
+      objectReference: {fileID: 21300000, guid: 5ee40d69674bf4188afc6a5471827afa, type: 3}
     - target: {fileID: 2532456766250073715, guid: f95c14b2eaf3b4cc8b9baaa907953318, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 3
@@ -103,7 +103,7 @@ PrefabInstance:
     - target: {fileID: 6544521794731626759, guid: f95c14b2eaf3b4cc8b9baaa907953318, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -7814535901586335685, guid: 01cfec2d318984f8ca831fddf303dba2, type: 3}
+      objectReference: {fileID: 21300000, guid: cce5d739a1c3a4be1aa5984321181b89, type: 3}
     - target: {fileID: 8742646622300237117, guid: f95c14b2eaf3b4cc8b9baaa907953318, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
