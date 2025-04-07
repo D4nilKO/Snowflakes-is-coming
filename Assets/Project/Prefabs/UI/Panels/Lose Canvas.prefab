@@ -588,7 +588,7 @@ PrefabInstance:
     - target: {fileID: 5418214609161351341, guid: 9a6d5d7b4e3e94aa09274d9b7131c056, type: 3}
       propertyPath: m_SpriteState.m_HighlightedSprite
       value: 
-      objectReference: {fileID: 2002449761939175838, guid: 01cfec2d318984f8ca831fddf303dba2, type: 3}
+      objectReference: {fileID: 21300000, guid: 82e2c86babe2a459799ba2266e07425f, type: 3}
     - target: {fileID: 5418214609161351341, guid: 9a6d5d7b4e3e94aa09274d9b7131c056, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1

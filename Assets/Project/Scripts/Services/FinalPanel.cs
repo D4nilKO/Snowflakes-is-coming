@@ -4,7 +4,6 @@ using Project.Menu;
 using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
-using YG;
 
 namespace Project.Services
 {
@@ -60,15 +59,7 @@ namespace Project.Services
         private void OnLastLevelReached()
         {
             gameObject.SetActive(true);
-            ShowRightOnePanel();
-        }
-
-        private void ShowRightOnePanel()
-        {
-            bool reviewCanShow = YandexGame.EnvironmentData.reviewCanShow;
-
-            _reviewPanel.SetActive(reviewCanShow);
-            _outOfLevelsPanel.SetActive(!reviewCanShow);
+            _reviewPanel.SetActive(true);
         }
     }
 }
