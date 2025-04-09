@@ -3,6 +3,7 @@ using Project.Abilities;
 using Project.NewPhysics;
 using UnityEngine;
 using VContainer;
+using YG;
 
 namespace Project.Entities.Character
 {
@@ -15,6 +16,8 @@ namespace Project.Entities.Character
         private ScreenBounds _screenBounds;
         private ScreenResizeHandler _screenResizeHandler;
         private AbilityPanel _abilityPanel;
+
+        private Rect _possibleInputRect;
 
         private Bounds _bounds;
         private float _halfObjectWidth;
@@ -56,17 +59,22 @@ namespace Project.Entities.Character
 
         public void Move()
         {
-            Vector2 mousePosition = Input.mousePosition;
+            Vector2 inputPosition = Input.mousePosition;
 
-            if (IsInViewport(mousePosition, MainCamera))
+            if (YandexGame.EnvironmentData.isMobile)
             {
-                Vector2 worldPosition = MainCamera.ScreenToWorldPoint(mousePosition);
+                if (Input.touchCount > 0)
+                {
+                    Touch primaryTouch = Input.GetTouch(0);
 
-                if (ValidatePosition(worldPosition) == false)
-                    return;
-
-                CheckOutOfBounds(worldPosition);
+                    if (primaryTouch.phase is TouchPhase.Moved or TouchPhase.Stationary)
+                    {
+                        inputPosition = primaryTouch.position;
+                    }
+                }
             }
+
+            HandleInput(inputPosition);
         }
 
         private void SetBounds()
@@ -101,10 +109,9 @@ namespace Project.Entities.Character
             _maxY = edgePoints.Max(p => p.y) - _halfObjectHeight;
         }
 
-        private bool IsInViewport(Vector2 screenPosition, Camera _camera)
+        private bool IsInViewport(Vector2 screenPosition)
         {
-            Rect viewportRect = new(0, 0, _camera.pixelWidth, _camera.pixelHeight);
-            return viewportRect.Contains(screenPosition);
+            return _screenBounds.BoundsRect.Contains(screenPosition);
         }
 
         private bool ValidatePosition(Vector2 position)
@@ -121,6 +128,19 @@ namespace Project.Entities.Character
             newPosition.y = Mathf.Clamp(newPosition.y, _minY, _maxY);
 
             transform.position = Vector2.MoveTowards(transform.position, newPosition, maxDistanceDelta);
+        }
+
+        private void HandleInput(Vector2 inputPosition)
+        {
+            if (IsInViewport(inputPosition) == false)
+                return;
+
+            Vector2 worldPosition = MainCamera.ScreenToWorldPoint(inputPosition);
+
+            if (ValidatePosition(worldPosition) == false)
+                return;
+
+            CheckOutOfBounds(worldPosition);
         }
     }
 }

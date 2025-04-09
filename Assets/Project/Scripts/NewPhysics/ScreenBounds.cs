@@ -1,5 +1,8 @@
-﻿using Project.Abilities;
+﻿using System;
+using Project.Abilities;
+using Sirenix.Utilities;
 using UnityEngine;
+using UnityEngine.Rendering;
 using VContainer;
 
 namespace Project.NewPhysics
@@ -16,6 +19,7 @@ namespace Project.NewPhysics
         private EdgeCollider2D _edge;
 
         public Vector2[] Points => _edge.points;
+        public Rect BoundsRect { get; private set; } = new(Vector2.zero, Vector2.zero);
 
         [Inject]
         public void Construct(ScreenResizeHandler screenResizeHandler, AbilityPanel abilityPanel)
@@ -64,12 +68,17 @@ namespace Project.NewPhysics
             Vector2 screenBottomLeft = _cameraMain.ViewportToWorldPoint(Vector2.zero);
             Vector2 screenTopRight = _cameraMain.ViewportToWorldPoint(Vector2.one);
 
-            var screenSize = new Vector2(_abilityPanel.GetPanelWidth(), 0f);
-            float leftX = _cameraMain.ScreenToWorldPoint(screenSize).x;
+            float panelWidth = _abilityPanel.GetPanelWidth();
 
+            var screenSize = new Vector2(panelWidth, 0f);
+            float leftX = _cameraMain.ScreenToWorldPoint(screenSize).x;
             float rightX = screenTopRight.x;
             float bottomY = screenBottomLeft.y;
             float topY = screenTopRight.y;
+
+            var rectX = _cameraMain.pixelWidth - panelWidth;
+            float rectY = _cameraMain.pixelHeight;
+            BoundsRect = new Rect(new Vector2(panelWidth, 0f), new Vector2(rectX, rectY));
 
             Vector2[] edgePoints = new Vector2[9];
 
