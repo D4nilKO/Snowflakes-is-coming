@@ -1,8 +1,5 @@
-﻿using System;
-using Project.Abilities;
-using Sirenix.Utilities;
+﻿using Project.Abilities;
 using UnityEngine;
-using UnityEngine.Rendering;
 using VContainer;
 
 namespace Project.NewPhysics
@@ -65,6 +62,9 @@ namespace Project.NewPhysics
 
         private void UpdateBounds()
         {
+            if (_cameraMain == null)
+                _cameraMain = Camera.main;
+
             Vector2 screenBottomLeft = _cameraMain.ViewportToWorldPoint(Vector2.zero);
             Vector2 screenTopRight = _cameraMain.ViewportToWorldPoint(Vector2.one);
 

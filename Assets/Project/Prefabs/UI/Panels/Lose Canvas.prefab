@@ -193,7 +193,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _menuButton: {fileID: 7176931774479073823}
   _restartButton: {fileID: 4630816924197935604}
-  <ShowAdButton>k__BackingField: {fileID: 0}
+  <ShowAdButton>k__BackingField: {fileID: 8022321468989588115}
 --- !u!1001 &102272978169132389
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1103,7 +1103,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1634986170181921559, guid: 81448a418a01d40d2b721e7535ffabdc, type: 3}
       propertyPath: m_Name
-      value: Show Ad Button2 (1)
+      value: Show Ad Button
       objectReference: {fileID: 0}
     - target: {fileID: 1668862102669312480, guid: 81448a418a01d40d2b721e7535ffabdc, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -1277,3 +1277,14 @@ MonoBehaviour:
   _endValue: 1.15
   _isPulsating: 1
   _resetScaleOnStop: 1
+--- !u!114 &8022321468989588115 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1668862102669312480, guid: 81448a418a01d40d2b721e7535ffabdc, type: 3}
+  m_PrefabInstance: {fileID: 8682377005748585331}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7984139560688068708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
