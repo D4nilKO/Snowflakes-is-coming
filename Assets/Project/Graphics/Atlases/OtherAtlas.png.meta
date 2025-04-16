@@ -1,0 +1,774 @@
+fileFormatVersion: 2
+guid: 8b087877b65cd496db06c48d839d6fc1
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -1425423255732095570
+    second: OtherAtlas_0
+  - first:
+      213: 8417379652937634101
+    second: OtherAtlas_1
+  - first:
+      213: 1237781794070477366
+    second: OtherAtlas_2
+  - first:
+      213: -4440144506600131995
+    second: OtherAtlas_3
+  - first:
+      213: 2855675757731883745
+    second: OtherAtlas_4
+  - first:
+      213: -5617014669978113787
+    second: OtherAtlas_5
+  - first:
+      213: -8060617842307854509
+    second: OtherAtlas_6
+  - first:
+      213: 7333980289607014727
+    second: OtherAtlas_7
+  - first:
+      213: 1400017111953011187
+    second: OtherAtlas_8
+  - first:
+      213: 5257335406649117299
+    second: OtherAtlas_9
+  - first:
+      213: -5187418202916052135
+    second: OtherAtlas_10
+  - first:
+      213: -676803725022457963
+    second: OtherAtlas_11
+  - first:
+      213: 4575042991290041405
+    second: OtherAtlas_12
+  - first:
+      213: 703132227096343374
+    second: OtherAtlas_13
+  - first:
+      213: 5644920430624232794
+    second: OtherAtlas_14
+  - first:
+      213: -8417850303673853754
+    second: OtherAtlas_15
+  - first:
+      213: -4731819829599331784
+    second: OtherAtlas_16
+  - first:
+      213: -4159841643542763237
+    second: OtherAtlas_17
+  - first:
+      213: 5036244591490676432
+    second: OtherAtlas_18
+  - first:
+      213: 2742194629194689414
+    second: OtherAtlas_19
+  - first:
+      213: 1587989973402044457
+    second: OtherAtlas_20
+  - first:
+      213: 4877609008032776157
+    second: OtherAtlas_21
+  - first:
+      213: -2368416073673026818
+    second: OtherAtlas_22
+  - first:
+      213: -6712286039261130570
+    second: OtherAtlas_23
+  - first:
+      213: 4822385273455020462
+    second: OtherAtlas_24
+  - first:
+      213: 5246839022930081412
+    second: OtherAtlas_25
+  - first:
+      213: -1877748827700791727
+    second: OtherAtlas_26
+  - first:
+      213: 6471761538859666978
+    second: OtherAtlas_27
+  - first:
+      213: -621454543691879561
+    second: OtherAtlas_28
+  - first:
+      213: 3132753374266123211
+    second: OtherAtlas_29
+  - first:
+      213: -7038830585153360201
+    second: OtherAtlas_30
+  - first:
+      213: -5065198851653675057
+    second: OtherAtlas_31
+  - first:
+      213: -3502636527062917785
+    second: OtherAtlas_32
+  - first:
+      213: 4636918191379691122
+    second: OtherAtlas_33
+  - first:
+      213: -2719196791832414579
+    second: OtherAtlas_34
+  - first:
+      213: -483107524107378129
+    second: OtherAtlas_35
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: OtherAtlas_3
+      rect:
+        serializedVersion: 2
+        x: 258
+        y: 473
+        width: 123
+        height: 165
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 366a0423e3ce241fea96a22587da4f3d
+      internalID: 780772663
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OtherAtlas_6
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 413
+        width: 221
+        height: 199
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 04661c020dd3245068cda04fe48b3081
+      internalID: -1366106480
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OtherAtlas_8
+      rect:
+        serializedVersion: 2
+        x: 382
+        y: 474
+        width: 164
+        height: 81
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69a5bda9c75ac49e19db9b1adba1e2e1
+      internalID: -820800814
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OtherAtlas_13
+      rect:
+        serializedVersion: 2
+        x: 257
+        y: 388
+        width: 81
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 99df0a44337cf43a99c6d221335fb19d
+      internalID: -1707804792
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OtherAtlas_14
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 389
+        width: 81
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0e47320d077aa4192ac83b6265e0b3f7
+      internalID: -262516068
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OtherAtlas_15
+      rect:
+        serializedVersion: 2
+        x: 425
+        y: 384
+        width: 81
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cba8b9741565849f8a139a59372915e1
+      internalID: -1347185618
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OtherAtlas_16
+      rect:
+        serializedVersion: 2
+        x: 508
+        y: 386
+        width: 86
+        height: 86
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3add2092729fe4c8c8b4bf87d0823726
+      internalID: -1314024975
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OtherAtlas_17
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 257
+        width: 112
+        height: 126
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eeead0f168ccb4141abc1308f42bb940
+      internalID: -1826822926
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OtherAtlas_18
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 256
+        width: 129
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 51c19841005104f18b21010988237a50
+      internalID: 1220334889
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OtherAtlas_19
+      rect:
+        serializedVersion: 2
+        x: 257
+        y: 258
+        width: 126
+        height: 123
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b421d3cd80f974a8686c6bebc310822a
+      internalID: -1627271867
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OtherAtlas_20
+      rect:
+        serializedVersion: 2
+        x: 385
+        y: 257
+        width: 126
+        height: 126
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8cd78d3a837314bfd90b548faa10dfc5
+      internalID: 875673283
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OtherAtlas_21
+      rect:
+        serializedVersion: 2
+        x: 513
+        y: 300
+        width: 83
+        height: 84
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b52ed4bc3711c40d1a5cf1d8285f04c9
+      internalID: -168385733
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OtherAtlas_22
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 129
+        width: 112
+        height: 127
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 331ce103ba7904534960715ce6913b6d
+      internalID: 805032022
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OtherAtlas_23
+      rect:
+        serializedVersion: 2
+        x: 257
+        y: 129
+        width: 127
+        height: 126
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d0727b1e724bd4db4a9894740269877d
+      internalID: -989232438
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OtherAtlas_24
+      rect:
+        serializedVersion: 2
+        x: 393
+        y: 137
+        width: 116
+        height: 117
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8203b7ac78b264b5fbc76cb05d63d249
+      internalID: -1607365479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OtherAtlas_27
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 172
+        width: 84
+        height: 84
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2aab6fc61f83b431f93e32303000808c
+      internalID: -691911661
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OtherAtlas_29
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 0
+        width: 116
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a29fadd2b6c64313b5f7cc8f1765c2e
+      internalID: 774734476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OtherAtlas_30
+      rect:
+        serializedVersion: 2
+        x: 230
+        y: 44
+        width: 81
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db122197d37ed47368b893293d7eee1f
+      internalID: 1995891193
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OtherAtlas_31
+      rect:
+        serializedVersion: 2
+        x: 313
+        y: 45
+        width: 81
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c562f82b2aae45259a3c2637627ccc2
+      internalID: -410591406
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OtherAtlas_0
+      rect:
+        serializedVersion: 2
+        x: 382
+        y: 560
+        width: 164
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3d7fd06bebd694744a4c3762984aa619
+      internalID: 646746004
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OtherAtlas_1
+      rect:
+        serializedVersion: 2
+        x: 547
+        y: 600
+        width: 41
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0680af9e8848340008b40f81b49ba06f
+      internalID: 1349859683
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OtherAtlas_2
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 128
+        width: 130
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d8b7ffd5a9d5148af97d9a82d4adc87d
+      internalID: 464555173
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OtherAtlas_4
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 28
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8fbd7bf2c7a284fee8c1e375e23fe7c8
+      internalID: -71062148
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OtherAtlas_5
+      rect:
+        serializedVersion: 2
+        x: 395
+        y: 67
+        width: 65
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4a4e574f636e6409e92c0142245690f8
+      internalID: -1149639338
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 0a97590f6f9e840e3b92e79f0068b3cf
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      OtherAtlas_0: 646746004
+      OtherAtlas_1: 1349859683
+      OtherAtlas_10: -1144773567
+      OtherAtlas_11: 777680869
+      OtherAtlas_12: 724301070
+      OtherAtlas_13: -1707804792
+      OtherAtlas_14: -262516068
+      OtherAtlas_15: -1347185618
+      OtherAtlas_16: -1314024975
+      OtherAtlas_17: -1826822926
+      OtherAtlas_18: 1220334889
+      OtherAtlas_19: -1627271867
+      OtherAtlas_2: 464555173
+      OtherAtlas_20: 875673283
+      OtherAtlas_21: -168385733
+      OtherAtlas_22: 805032022
+      OtherAtlas_23: -989232438
+      OtherAtlas_24: -1607365479
+      OtherAtlas_25: 333059564
+      OtherAtlas_26: -1793489908
+      OtherAtlas_27: -691911661
+      OtherAtlas_28: 1230582394
+      OtherAtlas_29: 774734476
+      OtherAtlas_3: 780772663
+      OtherAtlas_30: 1995891193
+      OtherAtlas_31: -410591406
+      OtherAtlas_32: 1849394262
+      OtherAtlas_33: -973652651
+      OtherAtlas_34: -854304194
+      OtherAtlas_4: -71062148
+      OtherAtlas_5: -1149639338
+      OtherAtlas_6: -1366106480
+      OtherAtlas_7: 828968512
+      OtherAtlas_8: -820800814
+      OtherAtlas_9: -899828734
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
