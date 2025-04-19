@@ -103,13 +103,15 @@ namespace Project.Entities.Enemies
 
         public void DespawnActiveEnemies()
         {
-            ActiveEnemies.AddRange(GetComponentsInChildren<EnemyBase>());
+            if (ActiveEnemies.Count == 0)
+                return;
+
             RemoveNullEnemies();
 
             foreach (var enemy in ActiveEnemies)
-            {
                 NightPool.Despawn(enemy);
-            }
+
+            ActiveEnemies.Clear();
         }
 
         public List<EnemyBase> GetEnemies()

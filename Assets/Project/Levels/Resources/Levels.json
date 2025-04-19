@@ -140,7 +140,7 @@
       "EnemyTypesInfo": [
         {
           "EnemyPrefabName": "Enemy 1",
-          "MaxSpawnCount": 3
+          "MaxSpawnCount": 1
         },
         {
           "EnemyPrefabName": "Enemy 2",
@@ -209,7 +209,7 @@
       "EnemyTypesInfo": [
         {
           "EnemyPrefabName": "Enemy 1",
-          "MaxSpawnCount": 5
+          "MaxSpawnCount": 4
         },
         {
           "EnemyPrefabName": "Enemy 2",
@@ -278,7 +278,7 @@
         },
         {
           "EnemyPrefabName": "Enemy 4",
-          "MaxSpawnCount": 1
+          "MaxSpawnCount": 2
         }
       ]
     },
@@ -289,7 +289,7 @@
       "EnemyTypesInfo": [
         {
           "EnemyPrefabName": "Enemy 2",
-          "MaxSpawnCount": 3
+          "MaxSpawnCount": 4
         },
         {
           "EnemyPrefabName": "Enemy 5",
@@ -307,6 +307,10 @@
       "SecondsToWin": 12,
       "EnemyTypesInfo": [
         {
+          "EnemyPrefabName": "Enemy 1",
+          "MaxSpawnCount": 1
+        },
+        {
           "EnemyPrefabName": "Enemy 3",
           "MaxSpawnCount": 3
         },
@@ -323,7 +327,7 @@
       "EnemyTypesInfo": [
         {
           "EnemyPrefabName": "Enemy 2",
-          "MaxSpawnCount": 4
+          "MaxSpawnCount": 5
         },
         {
           "EnemyPrefabName": "Enemy 6",
@@ -342,7 +346,7 @@
       "EnemyTypesInfo": [
         {
           "EnemyPrefabName": "Enemy 3",
-          "MaxSpawnCount": 1
+          "MaxSpawnCount": 2
         },
         {
           "EnemyPrefabName": "Enemy 4",
@@ -399,7 +403,7 @@
       "EnemyTypesInfo": [
         {
           "EnemyPrefabName": "Enemy 6",
-          "MaxSpawnCount": 2
+          "MaxSpawnCount": 3
         },
         {
           "EnemyPrefabName": "Enemy 7",
@@ -407,7 +411,7 @@
         },
         {
           "EnemyPrefabName": "Enemy 2",
-          "MaxSpawnCount": 3
+          "MaxSpawnCount": 4
         }
       ]
     }
