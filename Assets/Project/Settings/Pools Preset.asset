@@ -16,7 +16,7 @@ MonoBehaviour:
   - _name: Bounce Particles
     _enabled: 1
     _prefab: {fileID: 3441239141517077849, guid: 1c49dae1b851c48b2a3f4b3c5bb79652, type: 3}
-    _behaviourOnCapacityReached: 3
+    _behaviourOnCapacityReached: 2
     _despawnType: 2
     _callbacksType: 1
     _capacity: 5

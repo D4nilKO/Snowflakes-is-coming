@@ -133,7 +133,7 @@ namespace Project.Entities.Character
         private void HandleInput(Vector2 inputPosition)
         {
             if (IsInViewport(inputPosition) == false)
-                return;
+                ClampInputPosition(inputPosition);
 
             Vector2 worldPosition = MainCamera.ScreenToWorldPoint(inputPosition);
 
@@ -141,6 +141,13 @@ namespace Project.Entities.Character
                 return;
 
             CheckOutOfBounds(worldPosition);
+        }
+
+        private void ClampInputPosition(Vector2 inputPosition)
+        {
+            _possibleInputRect = new Rect(_minX, _minY, _maxX - _minX, _maxY - _minY);
+            inputPosition.x = Mathf.Clamp(inputPosition.x, _possibleInputRect.xMin, _possibleInputRect.xMax);
+            inputPosition.y = Mathf.Clamp(inputPosition.y, _possibleInputRect.yMin, _possibleInputRect.yMax);
         }
     }
 }

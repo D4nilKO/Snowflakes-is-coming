@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a9a9e7e0355d4e4cbac7b6e06c8773a, type: 3}
   m_Name: AbilityKeyCodesBank
   m_EditorClassIdentifier: 
-  _keycodes: 71000000770000006500000072000000
+  _keycodes: 770000006500000072000000
