@@ -1,9 +1,9 @@
-using NTC.Global.Pool;
 using Project.Data.Collections;
 using Project.Entities.Enemies;
 using Project.Services.MessageSystem;
 using UnityEngine;
 using VContainer;
+using static NTC.Pool.NightPool;
 
 namespace Project.Entities.Collectables
 {
@@ -33,7 +33,7 @@ namespace Project.Entities.Collectables
         public void Collect()
         {
             _collectionManager.AddToCollection(this);
-            NightPool.Despawn(this);
+            Despawn(this);
         }
 
         public override int GetHashCode()

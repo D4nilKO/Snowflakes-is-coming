@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NTC.Global.Pool;
 using Project.Entities.Collectables;
 using Project.LevelSystem.LevelStructure;
 using Project.VisualEffects;
 using UnityEngine;
 using VavilichevGD.Utils.Timing;
 using VContainer;
+using static NTC.Pool.NightPool;
 
 namespace Project.Entities.Enemies
 {
@@ -141,7 +141,7 @@ namespace Project.Entities.Enemies
 
         private void SpawnEnemy(EnemyBase enemyPrefab)
         {
-            EnemyBase enemy = NightPool.Spawn(enemyPrefab, _enemyContainer.transform);
+            EnemyBase enemy = Spawn(enemyPrefab, _enemyContainer.transform);
             enemy.gameObject.name = enemy.gameObject.name.Replace("(Clone)", "");
             _vContainer.Inject(enemy);
             enemy.SnowflakeEffectSpawner = _snowflakeEffectSpawner;

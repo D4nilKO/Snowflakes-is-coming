@@ -44,5 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f53a68e26024020af2d359bbda12a6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _despawnEffect: {fileID: 6957461235071779992, guid: 0f6013359d8064226a969ed3dce157ab, type: 3}
-  _bounceEffect: {fileID: 3441239141517077849, guid: 1c49dae1b851c48b2a3f4b3c5bb79652, type: 3}
+  _despawnEffect: {fileID: 3141182608935050462, guid: 0f6013359d8064226a969ed3dce157ab, type: 3}
+  _bounceEffect: {fileID: 7708535213962264204, guid: 1c49dae1b851c48b2a3f4b3c5bb79652, type: 3}

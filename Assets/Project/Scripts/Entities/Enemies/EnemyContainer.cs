@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using NTC.Global.Pool;
+using NTC.Pool;
 using Project.Entities.Collectables;
 using Project.NewPhysics;
-using Sirenix.Utilities;
 using UnityEngine;
 using VContainer;
 

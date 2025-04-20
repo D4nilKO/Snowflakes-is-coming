@@ -1,19 +1,26 @@
+using System;
 using UnityEngine;
-using static NTC.Global.Pool.NightPool;
+using static NTC.Pool.NightPool;
 
 namespace Project.VisualEffects
 {
     public class SnowflakeEffectSpawner : MonoBehaviour
     {
         [SerializeField]
-        private GameObject _despawnEffect;
+        private ParticleSystem _despawnEffect;
 
         [SerializeField]
-        private GameObject _bounceEffect;
+        private ParticleSystem _bounceEffect;
+
+        private void Awake()
+        {
+            this.ValidateSerializedFields();
+        }
 
         public void DespawnEffect(Vector3 position)
         {
-            Spawn(_despawnEffect, position);
+            ParticleSystem spawnedEffect = Spawn(_despawnEffect, position, Quaternion.identity);
+            Despawn(spawnedEffect, _despawnEffect.main.duration);
         }
 
         public void SpawnBounceEffect(Collision2D collision)
@@ -24,7 +31,8 @@ namespace Project.VisualEffects
 
             float angle = Mathf.Atan2(normal.y, normal.x) * Mathf.Rad2Deg;
 
-            Spawn(_bounceEffect, position, Quaternion.Euler(0, 0, angle + 90f));
+            ParticleSystem spawnedEffect = Spawn(_bounceEffect, position, Quaternion.Euler(0, 0, angle + 90f));
+            Despawn(spawnedEffect, _despawnEffect.main.duration);
         }
     }
 }

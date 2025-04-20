@@ -1,14 +1,14 @@
-﻿using NTC.Global.Pool;
-using Project.Entities.Character;
+﻿using Project.Entities.Character;
 using Project.NewPhysics;
 using Project.VisualEffects;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using NTC.Pool;
 using Random = UnityEngine.Random;
 
 namespace Project.Entities.Enemies
 {
-    public abstract class EnemyBase : Entity, IPoolItem, IRotatable
+    public abstract class EnemyBase : Entity, IPoolable, IRotatable
     {
         [SerializeField, Range(0f, 20f)]
         private float _speed = 5f;
@@ -103,7 +103,7 @@ namespace Project.Entities.Enemies
                 return;
 
             Gizmos.color = Color.red;
-            Gizmos.DrawRay(transform.position, transform.position + (Vector3)Direction * 100f);
+            Gizmos.DrawRay(transform.position, transform.position + (Vector3)Direction * 20f);
         }
 
         protected virtual void OnCollisionEnter2D(Collision2D collision)
@@ -111,7 +111,7 @@ namespace Project.Entities.Enemies
             if (collision.gameObject.TryGetComponent(out ScreenBounds bounds))
             {
                 AfterCollisionEnter2D(collision);
-                
+
                 SnowflakeEffectSpawner.SpawnBounceEffect(collision);
             }
         }
@@ -136,11 +136,15 @@ namespace Project.Entities.Enemies
             {
                 if (remainder < tolerance)
                 {
-                    correctedAlpha += (alpha > 0 ? minDeviation : -minDeviation);
+                    correctedAlpha += (alpha > 0
+                        ? minDeviation
+                        : -minDeviation);
                 }
                 else
                 {
-                    correctedAlpha -= (alpha > 0 ? minDeviation : -minDeviation);
+                    correctedAlpha -= (alpha > 0
+                        ? minDeviation
+                        : -minDeviation);
                 }
 
                 // Дополнительная проверка, не ведет ли новый угол снова в стену
