@@ -17,9 +17,6 @@ namespace Project.Entities.Character
         private ScreenResizeHandler _screenResizeHandler;
         private AbilityPanel _abilityPanel;
 
-        private Rect _possibleInputRect;
-
-        private Bounds _bounds;
         private float _halfObjectWidth;
         private float _halfObjectHeight;
 
@@ -61,16 +58,13 @@ namespace Project.Entities.Character
         {
             Vector2 inputPosition = Input.mousePosition;
 
-            if (YandexGame.EnvironmentData.isMobile)
+            if (YandexGame.EnvironmentData.isMobile && Input.touchCount > 0)
             {
-                if (Input.touchCount > 0)
-                {
-                    Touch primaryTouch = Input.GetTouch(0);
+                Touch primaryTouch = Input.GetTouch(0);
 
-                    if (primaryTouch.phase is TouchPhase.Moved or TouchPhase.Stationary)
-                    {
-                        inputPosition = primaryTouch.position;
-                    }
+                if (primaryTouch.phase is TouchPhase.Moved or TouchPhase.Stationary)
+                {
+                    inputPosition = primaryTouch.position;
                 }
             }
 
@@ -79,19 +73,13 @@ namespace Project.Entities.Character
 
         private void SetBounds()
         {
-            if (_screenBounds == null)
+            if (_screenBounds == null || _screenBounds.Points == null)
             {
-                Debug.LogError("ScreenBounds не установлен!");
+                Debug.LogError("ScreenBounds или точки не установлены!");
                 return;
             }
 
             Vector2[] edgePoints = _screenBounds.Points;
-
-            if (edgePoints == null)
-            {
-                Debug.LogError("EdgePoints не установлены!");
-                return;
-            }
 
             if (edgePoints.Length < 4)
             {
@@ -99,9 +87,9 @@ namespace Project.Entities.Character
                 return;
             }
 
-            _bounds = ObjectCollider.bounds;
-            _halfObjectWidth = _bounds.extents.x;
-            _halfObjectHeight = _bounds.extents.y;
+            Bounds bounds = ObjectCollider.bounds;
+            _halfObjectWidth = bounds.extents.x;
+            _halfObjectHeight = bounds.extents.y;
 
             _minX = edgePoints.Min(p => p.x) + _halfObjectWidth;
             _maxX = edgePoints.Max(p => p.x) - _halfObjectWidth;
@@ -109,17 +97,17 @@ namespace Project.Entities.Character
             _maxY = edgePoints.Max(p => p.y) - _halfObjectHeight;
         }
 
-        private bool IsInViewport(Vector2 screenPosition)
+        private void HandleInput(Vector2 inputPosition)
         {
-            return _screenBounds.BoundsRect.Contains(screenPosition);
-        }
+            if (IsInViewport(inputPosition) == false)
+                ClampInputPosition(ref inputPosition);
 
-        private bool ValidatePosition(Vector2 position)
-        {
-            bool isNaN = float.IsNaN(position.x) || float.IsNaN(position.y);
-            bool isInfinity = float.IsInfinity(position.x) || float.IsInfinity(position.y);
+            Vector2 worldPosition = MainCamera.ScreenToWorldPoint(inputPosition);
 
-            return isNaN == false && isInfinity == false;
+            if (ValidatePosition(worldPosition) == false)
+                return;
+
+            CheckOutOfBounds(worldPosition);
         }
 
         private void CheckOutOfBounds(Vector2 newPosition)
@@ -130,24 +118,21 @@ namespace Project.Entities.Character
             transform.position = Vector2.MoveTowards(transform.position, newPosition, maxDistanceDelta);
         }
 
-        private void HandleInput(Vector2 inputPosition)
+        private void ClampInputPosition(ref Vector2 inputPosition)
         {
-            if (IsInViewport(inputPosition) == false)
-                ClampInputPosition(inputPosition);
-
-            Vector2 worldPosition = MainCamera.ScreenToWorldPoint(inputPosition);
-
-            if (ValidatePosition(worldPosition) == false)
-                return;
-
-            CheckOutOfBounds(worldPosition);
+            inputPosition.x = Mathf.Clamp(inputPosition.x, 0, Screen.width);
+            inputPosition.y = Mathf.Clamp(inputPosition.y, 0, Screen.height);
         }
 
-        private void ClampInputPosition(Vector2 inputPosition)
+        private bool IsInViewport(Vector2 screenPosition)
         {
-            _possibleInputRect = new Rect(_minX, _minY, _maxX - _minX, _maxY - _minY);
-            inputPosition.x = Mathf.Clamp(inputPosition.x, _possibleInputRect.xMin, _possibleInputRect.xMax);
-            inputPosition.y = Mathf.Clamp(inputPosition.y, _possibleInputRect.yMin, _possibleInputRect.yMax);
+            return _screenBounds.BoundsRect.Contains(screenPosition);
+        }
+
+        private bool ValidatePosition(Vector2 position)
+        {
+            return !(float.IsNaN(position.x) || float.IsNaN(position.y) ||
+                float.IsInfinity(position.x) || float.IsInfinity(position.y));
         }
     }
 }
