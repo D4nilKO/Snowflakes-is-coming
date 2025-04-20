@@ -1,6 +1,7 @@
 ﻿using NTC.Global.Pool;
 using Project.Entities.Character;
 using Project.NewPhysics;
+using Project.VisualEffects;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -21,6 +22,8 @@ namespace Project.Entities.Enemies
         private float _slowFactor = 0f;
 
         private Vector2 _direction;
+
+        public SnowflakeEffectSpawner SnowflakeEffectSpawner;
 
         [ShowInInspector]
         public float SlowFactor
@@ -67,6 +70,7 @@ namespace Project.Entities.Enemies
         public virtual void OnDespawn()
         {
             SlowFactor = 0f;
+            SnowflakeEffectSpawner.DespawnEffect(transform.position);
         }
 
         public void Rotate()
@@ -99,15 +103,22 @@ namespace Project.Entities.Enemies
                 return;
 
             Gizmos.color = Color.red;
-            Gizmos.DrawRay(transform.position, transform.position + (Vector3)Direction * 1000f);
+            Gizmos.DrawRay(transform.position, transform.position + (Vector3)Direction * 100f);
         }
 
         protected virtual void OnCollisionEnter2D(Collision2D collision)
         {
             if (collision.gameObject.TryGetComponent(out ScreenBounds bounds))
             {
-                Invoke(nameof(ApplyBounceCorrection), 0f);
+                AfterCollisionEnter2D(collision);
+                
+                SnowflakeEffectSpawner.SpawnBounceEffect(collision);
             }
+        }
+
+        protected virtual void AfterCollisionEnter2D(Collision2D collision)
+        {
+            Invoke(nameof(ApplyBounceCorrection), 0f);
         }
 
         private void ApplyBounceCorrection()

@@ -14,6 +14,7 @@ using Project.Services.MessageSystem;
 using Project.Settings;
 using Project.Timing;
 using Project.UI;
+using Project.VisualEffects;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -72,6 +73,10 @@ namespace Project.Architecture
 
         [SerializeField]
         private ScreenBounds _screenBounds;
+        
+        [Header("Visual Effects")]
+        [SerializeField]
+        private SnowflakeEffectSpawner _snowflakeEffectSpawner;
 
         [Header("Parents")]
         [SerializeField]
@@ -89,7 +94,6 @@ namespace Project.Architecture
         protected override void Awake()
         {
             base.Awake();
-
             this.ValidateSerializedFields();
         }
 
@@ -107,8 +111,7 @@ namespace Project.Architecture
             builder.RegisterComponentInNewPrefab(_enemyContainer, Lifetime.Scoped).UnderTransform(_gamePlayParent);
             builder.RegisterComponentInNewPrefab(_screenBounds, Lifetime.Scoped).UnderTransform(_gamePlayParent);
             builder.RegisterComponentInNewPrefab(_enemySpawner, Lifetime.Scoped);
-
-            builder.RegisterComponentOnNewGameObject<EntityRotator>(Lifetime.Scoped).UnderTransform(_gamePlayParent);
+            builder.RegisterComponentInNewPrefab(_snowflakeEffectSpawner, Lifetime.Scoped);
 
             builder.RegisterComponentOnNewGameObject<ScreenResizeHandler>(Lifetime.Scoped)
                 .UnderTransform(_gamePlayParent);

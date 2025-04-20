@@ -65,10 +65,13 @@ MonoBehaviour:
   _enemyContainer: {fileID: 599588924903093088, guid: dd95a76e994d74968b0a897036f74c22, type: 3}
   _enemySpawner: {fileID: 5795099636840865599, guid: 763180dc009014919a9b7de13fadffa0, type: 3}
   _screenBounds: {fileID: 6511392499447720384, guid: 10e3b4332d61d4dba922c51c11580394, type: 3}
+  _snowflakeEffectSpawner: {fileID: 2838353608245510157, guid: 99f16001bba96483bb3d1b232cd758a3, type: 3}
   _mainCanvas: {fileID: 0}
   _gamePlayParent: {fileID: 0}
+  _serviceParent: {fileID: 0}
   _collections:
   - {fileID: 11400000, guid: b8f6fdd2bbc414e6fb3e009be543c85a, type: 2}
+  - {fileID: 11400000, guid: defb8f5fb363d45999e6f966646a2ef6, type: 2}
 --- !u!114 &3839491378207606209
 MonoBehaviour:
   m_ObjectHideFlags: 0

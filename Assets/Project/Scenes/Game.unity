@@ -884,14 +884,6 @@ PrefabInstance:
       propertyPath: _gamePlayParent
       value: 
       objectReference: {fileID: 1730768456}
-    - target: {fileID: 708010203654193720, guid: 2fefc0f067d224444a7c1fd5ad26d5ba, type: 3}
-      propertyPath: _collections.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 708010203654193720, guid: 2fefc0f067d224444a7c1fd5ad26d5ba, type: 3}
-      propertyPath: '_collections.Array.data[1]'
-      value: 
-      objectReference: {fileID: 11400000, guid: defb8f5fb363d45999e6f966646a2ef6, type: 2}
     - target: {fileID: 4304316193506884242, guid: 2fefc0f067d224444a7c1fd5ad26d5ba, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

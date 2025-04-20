@@ -9,6 +9,7 @@ using Project.Services;
 using Project.Services.MessageSystem;
 using Project.Timing;
 using Project.UI;
+using Project.VisualEffects;
 using UnityEngine;
 using VContainer;
 
@@ -52,6 +53,7 @@ namespace Project.Architecture
             _container.Resolve<GameOutcomeView>();
             _container.Resolve<ScreenBounds>();
             _container.Resolve<ScreenResizeHandler>();
+            _container.Resolve<SnowflakeEffectSpawner>();
         }
     }
 }

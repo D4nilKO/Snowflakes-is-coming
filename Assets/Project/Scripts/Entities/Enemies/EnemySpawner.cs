@@ -4,6 +4,7 @@ using System.Linq;
 using NTC.Global.Pool;
 using Project.Entities.Collectables;
 using Project.LevelSystem.LevelStructure;
+using Project.VisualEffects;
 using UnityEngine;
 using VavilichevGD.Utils.Timing;
 using VContainer;
@@ -17,8 +18,8 @@ namespace Project.Entities.Enemies
         [SerializeField, Min(0.5f)]
         private float _initialSpawnDelay = 1f;
 
-        private EntityRotator _entityRotator;
         private EnemyContainer _enemyContainer;
+        private SnowflakeEffectSpawner _snowflakeEffectSpawner;
 
         private IObjectResolver _vContainer;
 
@@ -34,11 +35,12 @@ namespace Project.Entities.Enemies
         public SyncedTimer Timer { get; private set; }
 
         [Inject]
-        public void Construct(IObjectResolver vContainer, EntityRotator rotator, EnemyContainer container)
+        public void Construct(IObjectResolver vContainer, EnemyContainer container,
+            SnowflakeEffectSpawner effectSpawner)
         {
             _vContainer = vContainer;
-            _entityRotator = rotator;
             _enemyContainer = container;
+            _snowflakeEffectSpawner = effectSpawner;
 
             SetStartTransform();
         }
@@ -142,6 +144,7 @@ namespace Project.Entities.Enemies
             EnemyBase enemy = NightPool.Spawn(enemyPrefab, _enemyContainer.transform);
             enemy.gameObject.name = enemy.gameObject.name.Replace("(Clone)", "");
             _vContainer.Inject(enemy);
+            enemy.SnowflakeEffectSpawner = _snowflakeEffectSpawner;
 
             if (enemy is CollectableSnowflake collectable)
                 collectable.Initialize();
