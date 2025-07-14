@@ -56,19 +56,39 @@ namespace Project.Entities.Character
 
         public void Move()
         {
-            Vector2 inputPosition = Input.mousePosition;
-
-            if (YandexGame.EnvironmentData.isMobile && Input.touchCount > 0)
+            if (YandexGame.EnvironmentData.isMobile)
             {
-                Touch primaryTouch = Input.GetTouch(0);
+                HandleMobileInput();
+            }
+            else
+            {
+                HandlePCInput();
+            }
+        }
 
-                if (primaryTouch.phase is TouchPhase.Moved or TouchPhase.Stationary)
+        private void HandlePCInput()
+        {
+            Vector2 inputPosition = Input.mousePosition;
+            HandleInput(inputPosition);
+        }
+
+        private void HandleMobileInput()
+        {
+            for (int i = 0; i < Input.touchCount; i++)
+            {
+                Touch touch = Input.GetTouch(i);
+
+                if (_abilityPanel.IsTouchOnPanel(touch.position))
                 {
-                    inputPosition = primaryTouch.position;
+                    continue;
+                }
+
+                if (touch.phase is TouchPhase.Moved or TouchPhase.Stationary or TouchPhase.Began)
+                {
+                    HandleInput(touch.position);
+                    break;
                 }
             }
-
-            HandleInput(inputPosition);
         }
 
         private void SetBounds()

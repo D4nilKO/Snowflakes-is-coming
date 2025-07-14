@@ -17,7 +17,9 @@ namespace Project.Abilities
         private RectTransform _buttonParent;
 
         private List<AbilityView> _buttons = new();
+
         private Canvas _canvas;
+        private Camera _cameraCache;
 
         private IAbilityFactory _factory;
         private CollectionManager _collectionManager;
@@ -34,20 +36,11 @@ namespace Project.Abilities
             _abilityInputRegistry = abilityInputRegistry;
         }
 
-        public float GetPanelWidth()
-        {
-            if (_canvas == null)
-                _canvas = GetComponent<Canvas>();
-
-            if (_buttonParent.gameObject.activeInHierarchy == false)
-                return 0f;
-
-            return _buttonParent.rect.width * _canvas.scaleFactor;
-        }
-
         private void Awake()
         {
             this.ValidateSerializedFields();
+
+            _cameraCache = Camera.main;
 
             List<Ability> unlockedAbilities = _factory.GetAllUnlocked();
             CreateAbilityButtons(unlockedAbilities);
@@ -66,6 +59,17 @@ namespace Project.Abilities
             {
                 abilityView.Initialize();
             }
+        }
+
+        public float GetPanelWidth()
+        {
+            if (_canvas == null)
+                _canvas = GetComponent<Canvas>();
+
+            if (_buttonParent.gameObject.activeInHierarchy == false)
+                return 0f;
+
+            return _buttonParent.rect.width * _canvas.scaleFactor;
         }
 
         private void CreateAbilityButtons(List<Ability> abilities)
@@ -126,6 +130,34 @@ namespace Project.Abilities
                 Transform child = _buttonParent.GetChild(i);
                 Destroy(child.gameObject);
             }
+        }
+
+        public bool IsTouchOnPanel(Vector2 screenPosition)
+        {
+            if (!_buttonParent.gameObject.activeInHierarchy)
+                return false;
+
+            // Используем кешированные компоненты
+            if (_cameraCache == null)
+            {
+                _cameraCache = _canvas.renderMode == RenderMode.ScreenSpaceOverlay
+                    ? null
+                    : _canvas.worldCamera;
+            }
+
+            // Проверяем все дочерние кнопки
+            foreach (var button in _buttons)
+            {
+                if (RectTransformUtility.RectangleContainsScreenPoint(
+                        button.GetComponent<RectTransform>(),
+                        screenPosition,
+                        _cameraCache))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

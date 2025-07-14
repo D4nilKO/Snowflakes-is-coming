@@ -86,6 +86,10 @@ namespace Project.Services
                 : "Deactivated";
 
             Debug.Log($"Dev Panel {state}");
+
+            if (isActive == false)
+                return;
+
             MetricaSender.SendWithId(MetricaId.TriggerId, $"Dev Panel {state}");
         }
     }
