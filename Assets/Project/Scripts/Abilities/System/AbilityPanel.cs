@@ -40,7 +40,8 @@ namespace Project.Abilities
         {
             this.ValidateSerializedFields();
 
-            _cameraCache = Camera.main;
+            _canvas = GetComponent<Canvas>();
+            _cameraCache = _canvas.worldCamera;
 
             List<Ability> unlockedAbilities = _factory.GetAllUnlocked();
             CreateAbilityButtons(unlockedAbilities);
@@ -137,27 +138,11 @@ namespace Project.Abilities
             if (!_buttonParent.gameObject.activeInHierarchy)
                 return false;
 
-            // Используем кешированные компоненты
-            if (_cameraCache == null)
-            {
-                _cameraCache = _canvas.renderMode == RenderMode.ScreenSpaceOverlay
-                    ? null
-                    : _canvas.worldCamera;
-            }
-
-            // Проверяем все дочерние кнопки
-            foreach (var button in _buttons)
-            {
-                if (RectTransformUtility.RectangleContainsScreenPoint(
-                        button.GetComponent<RectTransform>(),
-                        screenPosition,
-                        _cameraCache))
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return RectTransformUtility.RectangleContainsScreenPoint(
+                _buttonParent,
+                screenPosition,
+                _cameraCache
+            );
         }
     }
 }
