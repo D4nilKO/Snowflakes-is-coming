@@ -19,7 +19,7 @@ MonoBehaviour:
     _behaviourOnCapacityReached: 2
     _despawnType: 2
     _callbacksType: 1
-    _capacity: 5
+    _capacity: 8
     _preloadSize: 5
     _dontDestroyOnLoad: 0
     _warnings: 1

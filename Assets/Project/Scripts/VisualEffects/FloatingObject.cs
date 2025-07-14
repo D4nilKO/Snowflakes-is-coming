@@ -38,7 +38,9 @@ namespace Project.VisualEffects
 
         private void StartFloating()
         {
-            _tween = _rectTransform.DOAnchorPosY(_jumpHeight, _duration)
+            _tween = _rectTransform
+                .DOLocalMoveY(_jumpHeight, _duration)
+                .SetRelative(true)
                 .SetLoops(-1, LoopType.Yoyo)
                 .SetEase(Ease.InOutQuad)
                 .SetDelay(_delay)

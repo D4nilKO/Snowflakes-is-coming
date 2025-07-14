@@ -33,11 +33,17 @@ namespace Project.VisualEffects
             RectTransform parentRect = _tmpComponent.rectTransform;
             _tmpComponent.enabled = false;
 
+            // Рассчитываем базовые параметры шрифта
+            float fontSize = _tmpComponent.fontSize;
+            float fontScale = fontSize / _tmpComponent.font.faceInfo.pointSize;
+            float baseLineOffset = _tmpComponent.font.faceInfo.baseline * fontScale;
+
             for (int i = 0; i < text.Length; i++)
             {
                 TMP_CharacterInfo charInfo = textInfo.characterInfo[i];
 
-                if (charInfo.isVisible == false)
+                // Пропускаем невидимые символы и пробелы
+                if (!charInfo.isVisible || char.IsWhiteSpace(text[i]))
                     continue;
 
                 char letter = text[i];
@@ -45,9 +51,9 @@ namespace Project.VisualEffects
                 Vector3 charTopRight = charInfo.topRight;
 
                 float positionX = (charBottomLeft.x + charTopRight.x) / 2f;
-                float positionY = (charBottomLeft.y + charTopRight.y) / 2f;
-                Vector2 charPosition = new(positionX, positionY);
+                float positionY = charInfo.baseLine + baseLineOffset; // Ключевое исправление!
 
+                Vector2 charPosition = new(positionX, positionY);
                 float delay = i * _delayBetweenLetters;
 
                 CreateLetterObject(letter, parentRect, charPosition, delay);
@@ -58,8 +64,10 @@ namespace Project.VisualEffects
         {
             GameObject letterObj = new($"{letter}_Letter");
             RectTransform letterRect = letterObj.AddComponent<RectTransform>();
-
             letterRect.SetParent(parent, false);
+
+            // Устанавливаем pivot в верхний центр
+            letterRect.pivot = new Vector2(0.5f, 1f);
             letterRect.localScale = Vector3.one;
 
             TextMeshProUGUI letterTMP = letterObj.AddComponent<TextMeshProUGUI>();
@@ -67,7 +75,7 @@ namespace Project.VisualEffects
             letterTMP.font = _tmpComponent.font;
             letterTMP.fontSize = _tmpComponent.fontSize;
             letterTMP.color = _tmpComponent.color;
-            letterTMP.alignment = TextAlignmentOptions.Top;
+            letterTMP.alignment = TextAlignmentOptions.Top; // Выравнивание по верхнему краю
             letterRect.anchoredPosition = position;
 
             FloatingObject floatingObject = letterObj.AddComponent<FloatingObject>();
