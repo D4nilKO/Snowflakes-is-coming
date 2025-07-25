@@ -1,2 +1,2 @@
-Build path: /Users/danil/Projects/Builds/1.0
-Build number: 30
+Build path: /Users/danil/Projects/Builds/1.02
+Build number: 32

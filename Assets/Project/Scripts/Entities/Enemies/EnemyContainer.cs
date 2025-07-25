@@ -64,6 +64,12 @@ namespace Project.Entities.Enemies
             transform.position = GetNewPosition();
         }
 
+        public void DespawnEnemy(EnemyBase enemy)
+        {
+            ActiveEnemies.Remove(enemy);
+            NightPool.Despawn(enemy);
+        }
+
         public Vector3 GetNewPosition()
         {
             if (_mainCamera == null)
@@ -118,7 +124,7 @@ namespace Project.Entities.Enemies
             return ActiveEnemies.ToList();
         }
 
-        public void DespawnRandomEnemy(int count)
+        public void DespawnEnemiesAbility(int count)
         {
             if (count <= 0)
             {
@@ -141,8 +147,7 @@ namespace Project.Entities.Enemies
                 int index = 0;
                 EnemyBase enemy = temp[index];
 
-                NightPool.Despawn(enemy);
-                ActiveEnemies.Remove(enemy);
+                DespawnEnemy(enemy);
                 temp.RemoveAt(index);
             }
         }

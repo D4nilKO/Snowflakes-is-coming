@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: SlowMode_AbilityData
   m_EditorClassIdentifier: 
   AbilityName: SlowMode
-  Label: Slow Mode
   Icon: {fileID: 21300000, guid: 2673bda64e39a46d0bf52dddf16b353a, type: 3}
+  LabelRu: "\u0417\u0430\u043C\u0435\u0434\u043B\u0435\u043D\u0438\u0435"
+  LabelEn: Slow Mode
+  LabelTr: "Yava\u015Flama"
   <Cooldown>k__BackingField: 9
   <Duration>k__BackingField: 4
   <SlowFactor>k__BackingField: 0.5

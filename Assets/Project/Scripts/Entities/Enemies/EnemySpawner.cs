@@ -139,6 +139,19 @@ namespace Project.Entities.Enemies
             Timer.TimerFinished -= OnTimerFinished;
         }
 
+        public void SpawnEnemy(EnemyBase enemyPrefab, Vector3 position)
+        {
+            EnemyBase enemy = Spawn(enemyPrefab, position, Quaternion.identity, _enemyContainer.transform);
+            enemy.gameObject.name = enemy.gameObject.name.Replace("(Clone)", "");
+            _vContainer.Inject(enemy);
+            enemy.SnowflakeEffectSpawner = _snowflakeEffectSpawner;
+
+            if (enemy is CollectableSnowflake collectable)
+                collectable.Initialize();
+
+            _enemyContainer.AddEnemy(enemy);
+        }
+
         private void SpawnEnemy(EnemyBase enemyPrefab)
         {
             EnemyBase enemy = Spawn(enemyPrefab, _enemyContainer.transform);

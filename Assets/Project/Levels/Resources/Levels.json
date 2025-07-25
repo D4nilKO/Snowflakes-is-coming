@@ -418,6 +418,52 @@
           "MaxSpawnCount": 4
         }
       ]
+    },
+    {
+      "NumberOfLevel": 22,
+      "TimeToSpawn": 1,
+      "SecondsToWin": 13,
+      "EnemyTypesInfo": [
+        {
+          "EnemyPrefabName": "Enemy 6",
+          "MaxSpawnCount": 2
+        },
+        {
+          "EnemyPrefabName": "Enemy 1",
+          "MaxSpawnCount": 2
+        },
+        {
+          "EnemyPrefabName": "Enemy 8",
+          "MaxSpawnCount": 1
+        },
+        {
+          "EnemyPrefabName": "Enemy 7",
+          "MaxSpawnCount": 2
+        }
+      ]
+    },
+    {
+      "NumberOfLevel": 23,
+      "TimeToSpawn": 1,
+      "SecondsToWin": 13,
+      "EnemyTypesInfo": [
+        {
+          "EnemyPrefabName": "Enemy 5",
+          "MaxSpawnCount": 2
+        },
+        {
+          "EnemyPrefabName": "Enemy 3",
+          "MaxSpawnCount": 2
+        },
+        {
+          "EnemyPrefabName": "Enemy 8",
+          "MaxSpawnCount": 2
+        },
+        {
+          "EnemyPrefabName": "Enemy 7",
+          "MaxSpawnCount": 1
+        }
+      ]
     }
   ]
 }

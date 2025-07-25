@@ -21,7 +21,7 @@ namespace Project.Abilities
 
         protected override void OnActivate()
         {
-            _enemyContainer.DespawnRandomEnemy(_data.Count);
+            _enemyContainer.DespawnEnemiesAbility(_data.Count);
         }
     }
 }

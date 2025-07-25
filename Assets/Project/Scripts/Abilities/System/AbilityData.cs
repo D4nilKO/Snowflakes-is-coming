@@ -6,8 +6,11 @@ namespace Project.Abilities
     public class AbilityData : ScriptableObject
     {
         public string AbilityName;
-        public string Label;
         public Sprite Icon;
+
+        public string LabelRu;
+        public string LabelEn;
+        public string LabelTr;
 
         [field: SerializeField, Min(1f)]
         public float Cooldown { get; private set; }

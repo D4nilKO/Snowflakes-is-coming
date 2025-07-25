@@ -3,6 +3,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using VavilichevGD.Utils.Timing;
+using YG;
+using YG.Utils.Lang;
 
 namespace Project.Abilities
 {
@@ -44,7 +46,30 @@ namespace Project.Abilities
         {
             Ability = ability;
 
-            _abilityName.text = ability.CommonData.Label;
+            switch (YandexGame.EnvironmentData.language)
+            {
+                case "ru":
+                    _abilityName.text = ability.CommonData.LabelRu;
+                    _abilityName.font = YandexGame.Instance.infoYG.fontsTMP.defaultFont[0];
+
+                    break;
+
+                case "en":
+                    _abilityName.text = ability.CommonData.LabelEn;
+                    _abilityName.font = YandexGame.Instance.infoYG.fontsTMP.defaultFont[0];
+
+                    break;
+
+                case "tr":
+                    _abilityName.text = ability.CommonData.LabelTr;
+                    _abilityName.font = LangMethods.GetFontTMP(2, YandexGame.Instance.infoYG)[0];
+                    break;
+
+                default:
+                    _abilityName.text = ability.CommonData.AbilityName;
+                    break;
+            }
+
             _icon.sprite = ability.CommonData.Icon;
             _cooldownTime = ability.CommonData.Cooldown;
             _keyBindText.text = keyBind != KeyCode.None ? keyBind.ToString() : "";
